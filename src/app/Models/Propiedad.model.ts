@@ -1,6 +1,6 @@
 export class TipoPropiedad {
     constructor(
-      public Id_TipoPropiedad: number,
+      public Id_TipoPropiedad: number, // cambio remote
       public Clave: string,
       public Descripcion: string,
       public Fecha_Alta: Date,
