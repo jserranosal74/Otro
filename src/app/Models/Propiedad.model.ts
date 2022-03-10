@@ -1,11 +1,11 @@
-export class Propiedad {
+export class TipoPropiedad {
     constructor(
-      public Id_Propiedad: number,
+      public Id_TipoPropiedad: number,
       public Clave: string,
       public Descripcion: string,
-      public Fecha_Alta: string,
-      public Fecha_Modificacion: string,
-      public Id_Usuario: string,
-      public Id_Estatus: string 
+      public Fecha_Alta: Date,
+      public Fecha_Modificacion: Date,
+      public Id_Usuario: number,
+      public Id_Estatus: number 
     ) {}
   }
