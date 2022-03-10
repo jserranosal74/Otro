@@ -69,9 +69,9 @@
       </button>
       <div class="collapse navbar-collapse" id="main_nav">
         <ul class="navbar-nav fade-up">
-          <li class="nav-item" routerLinkActive="active">
+          <!-- <li class="nav-item" routerLinkActive="active">
             <a class="nav-link" routerLink="inicio">Inicio</a>
-          </li>
+          </li> -->
           <li class="nav-item dropdown" routerLinkActive="active">
             <a
               class="nav-link dropdown-toggle"
@@ -138,9 +138,33 @@
           <li class="nav-item" routerLinkActive="active">
             <a class="nav-link" routerLink="ayuda">Ayuda</a>
           </li>
+          
         </ul>
-
+        
         <ul class="navbar-nav ms-auto">
+          <li class="nav-item" routerLinkActive="active">
+            <a class="btn btn-outline-primary" [routerLink]="['micuenta','comprar']">Comprar</a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="btn btn-primary" [routerLink]="['micuenta','publicar']">Publicar</a>
+          </li>
+          <li class="nav-item dropdown" routerLinkActive="active">
+            <a
+              class="nav-link dropdown-toggle"
+              routerLink="desarrollos"
+              data-bs-toggle="dropdown"
+            >
+              Mi Cuenta
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" [routerLink]="['micuenta','anuncios']">Mis Anuncios</a></li>
+              <li><a class="dropdown-item" [routerLink]="['micuenta','mensajes']">Mensajes</a></li>
+              <li><a class="dropdown-item" [routerLink]="['micuenta','alertas']">Alertas de búsquedas</a></li>
+              <li><a class="dropdown-item" [routerLink]="['micuenta','favoritos']">Favoritos</a></li>
+              <li><a class="dropdown-item" [routerLink]="['micuenta','perfil']">Mi perfil</a></li>
+              <li><a class="dropdown-item" [routerLink]="['micuenta','cerrarsesion']">Cerrar sesión</a></li>
+            </ul>
+          </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="login">Ingresar</a>
           </li>
