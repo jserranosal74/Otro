@@ -11,6 +11,8 @@ import { PublicarComponent } from './Components/publicar/publicar.component';
 import { ComprarComponent } from './Components/comprar/comprar.component';
 import { AyudaComponent } from './Components/ayuda/ayuda.component';
 import { DesarrollosComponent } from './Components/desarrollos/desarrollos.component';
+import { FooterComponent } from './Components/footer/footer.component';
+import { NavbarComponent } from './Components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { DesarrollosComponent } from './Components/desarrollos/desarrollos.compo
     PublicarComponent,
     ComprarComponent,
     AyudaComponent,
-    DesarrollosComponent
+    DesarrollosComponent,
+    FooterComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
