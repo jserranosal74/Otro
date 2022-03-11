@@ -1,4 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import Swal from 'sweetalert2';
+import { TipoPropiedad } from '../../Models/Propiedad.model';
 
 @Component({
   selector: 'app-buscar',
@@ -8,7 +11,35 @@ import { Component, Input, OnInit } from '@angular/core';
 export class BuscarComponent implements OnInit {
   @Input() TipoPropiedad = '';
 
-  constructor() {}
+  constructor(private _activatedRoute: ActivatedRoute) {
 
-  ngOnInit(): void {}
+    this._activatedRoute.params.subscribe((routeParams) => {
+      //console.log('entro a constructor: '+this._activatedRoute.snapshot.params['tipo']);
+      Swal.fire({
+        title: '¿Desea guardar los cambios?' + this._activatedRoute.snapshot.params['tipo'],
+        showDenyButton: true,
+        showCloseButton: true,
+        showCancelButton: false,
+        confirmButtonText: 'Si',
+        denyButtonText: `No`,
+        footer: '<a href="">¿Por que estas viendo esta falla?</a>'
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          Swal.fire('Los cambios se guardaron de manera correcta', '', 'success')
+        } else if (result.isDenied) {
+          Swal.fire('La información no ha sido guardada', '', 'info')
+        }
+      })
+    });
+
+  }
+
+  ngOnInit(): void {
+
+    
+
+    
+
+  }
 }
