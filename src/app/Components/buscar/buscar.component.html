@@ -1,1 +1,156 @@
-<p>buscar works! {{TipoPropiedad}}</p>
+<p>buscar works! {{ TipoPropiedad }}</p>
+
+<div class="container">
+  <form class="form-zone" action="">
+    <!--Grid row-->
+    <div class="row">
+      <div class="row col-9 d-flex justify-content-left" style="padding:10px;">
+        <div
+          class="btn-group"
+          role="group"
+          aria-label="Basic radio toggle button group"
+        >
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradio1"
+            autocomplete="off"
+            checked
+          />
+          <label class="btn btn-secondary" for="btnradio1">Rentar</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradio2"
+            autocomplete="off"
+          />
+          <label class="btn btn-secondary" for="btnradio2">Comprar</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            name="btnradio"
+            id="btnradio3"
+            autocomplete="off"
+          />
+          <label class="btn btn-secondary" for="btnradio3">Desarrollos</label>
+        </div>
+      </div>
+      <div class="row">
+        <!--Grid column-->
+        <div class="col-md-3 col-6">
+          <!-- Email input -->
+          <div class="form-outline form-white mb-4">
+            <div class="form-outline">
+              <select class="form-select">
+                <option value="" selected disabled>
+                  Seleccione una opcion
+                </option>
+                <option value="1">Departamento</option>
+                <option value="2">Casa</option>
+                <option value="3">Remate Bancario</option>
+                <option value="4">Terreno</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <!-- Email input -->
+          <div class="form-outline form-white mb-4">
+            <input type="email" id="form5Example21" class="form-control" />
+          </div>
+        </div>
+        <div class="col-md-3 col-6">
+          <!-- Email input -->
+          <div class="form-outline form-white mb-4">
+            <input type="email" id="form5Example21" class="form-control" />
+          </div>
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-3 col-6">
+          <!-- Submit button -->
+          <button
+            type="button"
+            (click)="buscarPropiedades()"
+            class="form-control btn btn-outline-light btn-block"
+          >
+            Buscar
+          </button>
+        </div>
+        <!--Grid column-->
+      </div>
+    </div>
+    <!--Grid row-->
+  </form>
+</div>
+<!-- Section: Form -->
+
+<!-- Section: Text -->
+<section class="mb-4">
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt distinctio
+    earum repellat quaerat voluptatibus placeat nam, commodi optio pariatur est
+    quia magnam eum harum corrupti dicta, aliquam sequi voluptate quas.
+  </p>
+</section>
+<!-- Section: Text -->
+
+<!-- Section: Links -->
+<section class="">
+  <!--Grid row-->
+  <div class="row">
+    <!--Grid column-->
+    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+      <h5 class="text-uppercase">casas</h5>
+
+      <ul class="list-unstyled mb-0">
+        <li>
+          <a href="#!" class="text-white">Enlace 1</a>
+        </li>
+      </ul>
+    </div>
+    <!--Grid column-->
+
+    <!--Grid column-->
+    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+      <h5 class="text-uppercase">departamentos</h5>
+
+      <ul class="list-unstyled mb-0">
+        <li>
+          <a href="#!" class="text-white">Enlace 1</a>
+        </li>
+      </ul>
+    </div>
+    <!--Grid column-->
+
+    <!--Grid column-->
+    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+      <h5 class="text-uppercase">remates bancarios</h5>
+
+      <ul class="list-unstyled mb-0">
+        <li>
+          <a href="#!" class="text-white">Enlace 1</a>
+        </li>
+      </ul>
+    </div>
+    <!--Grid column-->
+
+    <!--Grid column-->
+    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+      <h5 class="text-uppercase">terrenos</h5>
+
+      <ul class="list-unstyled mb-0">
+        <li>
+          <a href="#!" class="text-white">Enlace 1</a>
+        </li>
+      </ul>
+    </div>
+    <!--Grid column-->
+  </div>
+  <!--Grid row-->
+</section>

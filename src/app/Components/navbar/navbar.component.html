@@ -1,174 +1,292 @@
 <script type="text/javascript">
-    window.addEventListener("resize", function () {
-      "use strict";
-      window.location.reload();
-    });
-  
-    document.addEventListener("DOMContentLoaded", function () {
-      /////// Prevent closing from click inside dropdown
-      document.querySelectorAll(".dropdown-menu").forEach(function (element) {
-        element.addEventListener("click", function (e) {
-          e.stopPropagation();
-        });
+  window.addEventListener("resize", function () {
+    "use strict";
+    window.location.reload();
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    /////// Prevent closing from click inside dropdown
+    document.querySelectorAll(".dropdown-menu").forEach(function (element) {
+      element.addEventListener("click", function (e) {
+        e.stopPropagation();
       });
-  
-      // make it as accordion for smaller screens
-      if (window.innerWidth < 992) {
-        // close all inner dropdowns when parent is closed
-        document
-          .querySelectorAll(".navbar .dropdown")
-          .forEach(function (everydropdown) {
-            everydropdown.addEventListener("hidden.bs.dropdown", function () {
-              // after dropdown is hidden, then find all submenus
-              this.querySelectorAll(".megasubmenu").forEach(function (
-                everysubmenu
-              ) {
-                // hide every submenu as well
-                everysubmenu.style.display = "none";
-              });
-            });
-          });
-  
-        document
-          .querySelectorAll(".has-megasubmenu a")
-          .forEach(function (element) {
-            element.addEventListener("click", function (e) {
-              let nextEl = this.nextElementSibling;
-              if (nextEl && nextEl.classList.contains("megasubmenu")) {
-                // prevent opening link if link needs to open dropdown
-                e.preventDefault();
-  
-                if (nextEl.style.display == "block") {
-                  nextEl.style.display = "none";
-                } else {
-                  nextEl.style.display = "block";
-                }
-              }
-            });
-          });
-      }
-      // end if innerWidth
     });
-    // DOMContentLoaded  end
-  </script>
-  
-  
-    <!-- ============= COMPONENT ============== -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
-      <div class="container">
-        <a class="navbar-brand" routerLink="Inicio">Mi Depa App</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#main_nav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="main_nav">
-          <ul class="navbar-nav fade-up">
-            <!-- <li class="nav-item" routerLinkActive="active">
+
+    // make it as accordion for smaller screens
+    if (window.innerWidth < 992) {
+      // close all inner dropdowns when parent is closed
+      document
+        .querySelectorAll(".navbar .dropdown")
+        .forEach(function (everydropdown) {
+          everydropdown.addEventListener("hidden.bs.dropdown", function () {
+            // after dropdown is hidden, then find all submenus
+            this.querySelectorAll(".megasubmenu").forEach(function (
+              everysubmenu
+            ) {
+              // hide every submenu as well
+              everysubmenu.style.display = "none";
+            });
+          });
+        });
+
+      document
+        .querySelectorAll(".has-megasubmenu a")
+        .forEach(function (element) {
+          element.addEventListener("click", function (e) {
+            let nextEl = this.nextElementSibling;
+            if (nextEl && nextEl.classList.contains("megasubmenu")) {
+              // prevent opening link if link needs to open dropdown
+              e.preventDefault();
+
+              if (nextEl.style.display == "block") {
+                nextEl.style.display = "none";
+              } else {
+                nextEl.style.display = "block";
+              }
+            }
+          });
+        });
+    }
+    // end if innerWidth
+  });
+  // DOMContentLoaded  end
+</script>
+
+<!-- ============= COMPONENT ============== -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
+  <div class="container">
+    <a class="navbar-brand" routerLink="Inicio">Mi Depa App</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#main_nav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="main_nav">
+      <ul class="navbar-nav fade-up">
+        <!-- <li class="nav-item" routerLinkActive="active">
               <a class="nav-link" routerLink="inicio">Inicio</a>
             </li> -->
-            <li class="nav-item dropdown" routerLinkActive="active">
+        <li class="nav-item dropdown" routerLinkActive="active">
+          <a
+            class="nav-link dropdown-toggle"
+            routerLink="comprar"
+            data-bs-toggle="dropdown"
+          >
+            Comprar
+          </a>
+          <ul class="dropdown-menu">
+            <li>
               <a
-                class="nav-link dropdown-toggle"
-                routerLink="comprar"
-                data-bs-toggle="dropdown"
+                class="dropdown-item"
+                [routerLink]="['comprar', 'departamento']"
+                >Departamento</a
               >
-                Comprar
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" [routerLink]="['comprar','departamento']">Departamento</a></li>
-                <li><a class="dropdown-item" [routerLink]="['comprar','casa']">Casa</a></li>
-                <li><a class="dropdown-item" [routerLink]="['comprar','rematebancario']">Remates Bancarios</a></li>
-                <li><a class="dropdown-item" [routerLink]="['comprar','terreno']">Terrenos</a></li>
-              </ul>
             </li>
-            <li class="nav-item dropdown" routerLinkActive="active">
+            <li>
+              <a class="dropdown-item" [routerLink]="['comprar', 'casa']"
+                >Casa</a
+              >
+            </li>
+            <li>
               <a
-                class="nav-link dropdown-toggle"
-                routerLink="rentar"
-                data-bs-toggle="dropdown"
+                class="dropdown-item"
+                [routerLink]="['comprar', 'rematebancario']"
+                >Remates Bancarios</a
               >
-                Rentar
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" [routerLink]="['rentar','departamento']">Departamento</a></li>
-                <li><a class="dropdown-item" [routerLink]="['rentar','casa']">Casa</a></li>
-                <li><a class="dropdown-item" [routerLink]="['rentar','cuarto']">Cuarto</a></li>
-                <li><a class="dropdown-item" [routerLink]="['rentar','oficina']">Oficina</a></li>
-                <li><a class="dropdown-item" [routerLink]="['rentar','bodegacomercial']">Bodega Comercial</a></li>
-                <li><a class="dropdown-item" [routerLink]="['rentar','localcomercial']">Local Comercial</a></li>
-                <li><a class="dropdown-item" [routerLink]="['rentar','quinta']">Quinta-Salon</a></li>
-              </ul>
             </li>
-            <li class="nav-item dropdown" routerLinkActive="active">
-              <a
-                class="nav-link dropdown-toggle"
-                routerLink="desarrollos"
-                data-bs-toggle="dropdown"
+            <li>
+              <a class="dropdown-item" [routerLink]="['comprar', 'terreno']"
+                >Terrenos</a
               >
-                Desarrollos
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" [routerLink]="['desarrollos','departamento']">Departamento</a></li>
-                <li><a class="dropdown-item" [routerLink]="['desarrollos','casa']">Casa</a></li>
-              </ul>
             </li>
-            <li class="nav-item dropdown" routerLinkActive="active">
-              <a
-                class="nav-link dropdown-toggle"
-                routerLink="desarrollos"
-                data-bs-toggle="dropdown"
-              >
-                Ayuda para tu hogar
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" [routerLink]="['ayudahogar/pintores']">Pintores</a></li>
-                <li><a class="dropdown-item" [routerLink]="['ayudahogar/electricistas']">Electricistas</a></li>
-                <li><a class="dropdown-item" [routerLink]="['ayudahogar/plomeros']">Plomeros</a></li>
-                <li><a class="dropdown-item" [routerLink]="['ayudahogar/limpieza']">Limpieza</a></li>
-                <li><a class="dropdown-item" [routerLink]="['ayudahogar/jardineros']">Jardinero</a></li>
-                <li><a class="dropdown-item" [routerLink]="['ayudahogar/carpinteros']">Carpintero</a></li>
-              </ul>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-              <a class="nav-link" routerLink="ayuda">Ayuda</a>
-            </li>
-            
           </ul>
-          
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item" routerLinkActive="active">
-              <a class="btn btn-outline-primary" [routerLink]="['micuenta','comprar']">Comprar</a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-              <a class="btn btn-primary" [routerLink]="['micuenta','publicar']">Publicar</a>
-            </li>
-            <li class="nav-item dropdown" routerLinkActive="active">
-              <a
-                class="nav-link dropdown-toggle"
-                routerLink="desarrollos"
-                data-bs-toggle="dropdown"
+        </li>
+        <li class="nav-item dropdown" routerLinkActive="active">
+          <a
+            class="nav-link dropdown-toggle"
+            routerLink="rentar"
+            data-bs-toggle="dropdown"
+          >
+            Rentar
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" [routerLink]="['rentar', 'departamento']"
+                ><i class="fa-solid fa-house-chimney-heart">Departamento</i></a
               >
-                Mi Cuenta
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" [routerLink]="['micuenta','anuncios']">Mis Anuncios</a></li>
-                <li><a class="dropdown-item" [routerLink]="['micuenta','mensajes']">Mensajes</a></li>
-                <li><a class="dropdown-item" [routerLink]="['micuenta','alertas']">Alertas de búsquedas</a></li>
-                <li><a class="dropdown-item" [routerLink]="['micuenta','favoritos']">Favoritos</a></li>
-                <li><a class="dropdown-item" [routerLink]="['micuenta','perfil']">Mi perfil</a></li>
-                <li><a class="dropdown-item" [routerLink]="['micuenta','cerrarsesion']">Cerrar sesión</a></li>
-              </ul>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" routerLink="login">Ingresar</a>
+            <li>
+              <a class="dropdown-item" [routerLink]="['rentar', 'casa']"
+                >Casa</a
+              >
             </li>
-            <!-- <li class="nav-item dropdown">
+            <li>
+              <a class="dropdown-item" [routerLink]="['rentar', 'cuarto']"
+                >Cuarto</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['rentar', 'oficina']"
+                >Oficina</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                [routerLink]="['rentar', 'bodegacomercial']"
+                >Bodega Comercial</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                [routerLink]="['rentar', 'localcomercial']"
+                >Local Comercial</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['rentar', 'quinta']"
+                >Quinta-Salon</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown" routerLinkActive="active">
+          <a
+            class="nav-link dropdown-toggle"
+            routerLink="desarrollos"
+            data-bs-toggle="dropdown"
+          >
+            Desarrollos
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a
+                class="dropdown-item"
+                [routerLink]="['desarrollos', 'departamento']"
+                >Departamento</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['desarrollos', 'casa']"
+                >Casa</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown" routerLinkActive="active">
+          <a
+            class="nav-link dropdown-toggle"
+            routerLink="desarrollos"
+            data-bs-toggle="dropdown"
+          >
+            Ayuda para tu hogar
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" [routerLink]="['ayudahogar/pintores']"
+                >Pintores</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                [routerLink]="['ayudahogar/electricistas']"
+                >Electricistas</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['ayudahogar/plomeros']"
+                >Plomeros</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['ayudahogar/limpieza']"
+                >Limpieza</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['ayudahogar/jardineros']"
+                >Jardinero</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['ayudahogar/carpinteros']"
+                >Carpintero</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="ayuda">Ayuda</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item" routerLinkActive="active">
+          <a
+            class="btn btn-outline-primary"
+            [routerLink]="['micuenta', 'comprar']"
+            >Comprar</a
+          >
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="btn btn-primary" [routerLink]="['micuenta', 'publicar']"
+            >Publicar</a
+          >
+        </li>
+        <li class="nav-item dropdown" routerLinkActive="active">
+          <a
+            class="nav-link dropdown-toggle"
+            routerLink="desarrollos"
+            data-bs-toggle="dropdown"
+          >
+            Mi Cuenta
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" [routerLink]="['micuenta', 'anuncios']"
+                >Mis Anuncios</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['micuenta', 'mensajes']"
+                >Mensajes</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['micuenta', 'alertas']"
+                >Alertas de búsquedas</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['micuenta', 'favoritos']"
+                >Favoritos</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['micuenta', 'perfil']"
+                >Mi perfil</a
+              >
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                [routerLink]="['micuenta', 'cerrarsesion']"
+                >Cerrar sesión</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="login">Ingresar</a>
+        </li>
+        <!-- <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
@@ -181,14 +299,15 @@
                 <li><a class="dropdown-item" href="#"> Submenu item 2 </a></li>
               </ul>
             </li> -->
-          </ul>
-        </div>
-        <!-- navbar-collapse.// -->
-      </div>
-      <!-- container-fluid.// -->
-    </nav>
-  
+      </ul>
+    </div>
+    <!-- navbar-collapse.// -->
+  </div>
+  <!-- container-fluid.// -->
+</nav>
+
+<div class="img">
   <div class="container">
     <router-outlet></router-outlet>
   </div>
-  
+</div>
