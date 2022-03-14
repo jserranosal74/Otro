@@ -9,6 +9,7 @@ import { LoginComponent } from './Components/login/login.component';
 import { PublicarComponent } from './Components/publicar/publicar.component';
 import { AyudaComponent } from './Components/ayuda/ayuda.component';
 import { DesarrollosComponent } from './Components/desarrollos/desarrollos.component';
+import { PUBLICAR_CHILD_ROUTES } from './Components/publicar/publicar.routes';
 
 const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -18,7 +19,11 @@ const routes: Routes = [
   { path: 'ayuda', component: AyudaComponent },
   { path: 'buscar', component: BuscarComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'publicar', component: PublicarComponent },
+  {
+    path: 'publicar',
+    component: PublicarComponent,
+    children: PUBLICAR_CHILD_ROUTES,
+  },
 
   { path: '**', pathMatch: 'full', redirectTo: 'inicio' },
 ];

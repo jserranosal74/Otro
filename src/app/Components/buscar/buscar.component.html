@@ -43,33 +43,29 @@
         <!--Grid column-->
         <div class="col-md-3 col-6">
           <!-- Email input -->
-          <div class="form-outline form-white mb-4">
-            <div class="form-outline">
-              <select class="form-select">
-                <option value="" selected disabled>
-                  Seleccione una opcion
-                </option>
-                <option value="1">Departamento</option>
-                <option value="2">Casa</option>
-                <option value="3">Remate Bancario</option>
-                <option value="4">Terreno</option>
-              </select>
-            </div>
+          <div class="form-floating form-white mb-4">
+            
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  [Seleccione tipo de inmueble]
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                  <li><a class="dropdown-item" href="#">Departamento</a></li>
+                  <li><a class="dropdown-item" href="#">Casa</a></li>
+                  <li><a class="dropdown-item" href="#">Remate Bancario</a></li>
+                  <li><a class="dropdown-item" href="#">Terreno</a></li>
+                </ul>
+              </div>
+
           </div>
         </div>
-        <div class="col-md-3 col-6">
+        <div class="col-md-6 col-6">
           <!-- Email input -->
-          <div class="form-outline form-white mb-4">
-            <input type="email" id="form5Example21" class="form-control" />
+          <div class="form-floating form-white mb-4">
+            <input type="text" id="ubicacionInmueble" aria-label="Ingrese la ubicacion del inmueble" aria-describedby="addon-wrapping" class="form-control" pattern="[a-z,A-Z,' ',0-9]{1,8}" placeholder="."/>
+            <label for="ubicacionInmueble">Ingrese la ubicación del inmueble</label>
           </div>
         </div>
-        <div class="col-md-3 col-6">
-          <!-- Email input -->
-          <div class="form-outline form-white mb-4">
-            <input type="email" id="form5Example21" class="form-control" />
-          </div>
-        </div>
-        <!--Grid column-->
 
         <!--Grid column-->
         <div class="col-md-3 col-6">
@@ -89,68 +85,3 @@
   </form>
 </div>
 <!-- Section: Form -->
-
-<!-- Section: Text -->
-<section class="mb-4">
-  <p>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt distinctio
-    earum repellat quaerat voluptatibus placeat nam, commodi optio pariatur est
-    quia magnam eum harum corrupti dicta, aliquam sequi voluptate quas.
-  </p>
-</section>
-<!-- Section: Text -->
-
-<!-- Section: Links -->
-<section class="">
-  <!--Grid row-->
-  <div class="row">
-    <!--Grid column-->
-    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-      <h5 class="text-uppercase">casas</h5>
-
-      <ul class="list-unstyled mb-0">
-        <li>
-          <a href="#!" class="text-white">Enlace 1</a>
-        </li>
-      </ul>
-    </div>
-    <!--Grid column-->
-
-    <!--Grid column-->
-    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-      <h5 class="text-uppercase">departamentos</h5>
-
-      <ul class="list-unstyled mb-0">
-        <li>
-          <a href="#!" class="text-white">Enlace 1</a>
-        </li>
-      </ul>
-    </div>
-    <!--Grid column-->
-
-    <!--Grid column-->
-    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-      <h5 class="text-uppercase">remates bancarios</h5>
-
-      <ul class="list-unstyled mb-0">
-        <li>
-          <a href="#!" class="text-white">Enlace 1</a>
-        </li>
-      </ul>
-    </div>
-    <!--Grid column-->
-
-    <!--Grid column-->
-    <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-      <h5 class="text-uppercase">terrenos</h5>
-
-      <ul class="list-unstyled mb-0">
-        <li>
-          <a href="#!" class="text-white">Enlace 1</a>
-        </li>
-      </ul>
-    </div>
-    <!--Grid column-->
-  </div>
-  <!--Grid row-->
-</section>

@@ -13,6 +13,11 @@ import { AyudaComponent } from './Components/ayuda/ayuda.component';
 import { DesarrollosComponent } from './Components/desarrollos/desarrollos.component';
 import { FooterComponent } from './Components/footer/footer.component';
 import { NavbarComponent } from './Components/navbar/navbar.component';
+import { DatosgeneralesComponent } from './Components/publicar/datosgenerales/datosgenerales.component';
+import { FotosComponent } from './Components/publicar/fotos/fotos.component';
+import { UbicacionComponent } from './Components/publicar/ubicacion/ubicacion.component';
+import { DetallesComponent } from './Components/publicar/detalles/detalles.component';
+import { ContactoComponent } from './Components/publicar/contacto/contacto.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +31,12 @@ import { NavbarComponent } from './Components/navbar/navbar.component';
     AyudaComponent,
     DesarrollosComponent,
     FooterComponent,
-    NavbarComponent
+    NavbarComponent,
+    DatosgeneralesComponent,
+    FotosComponent,
+    UbicacionComponent,
+    DetallesComponent,
+    ContactoComponent
   ],
   imports: [
     BrowserModule,

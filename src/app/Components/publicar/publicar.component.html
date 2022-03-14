@@ -1,1 +1,21 @@
-<p>publicar works!</p>
+<div class="container" style="background-color: white; padding: 20px;">
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+      <a class="nav-link" routerLinkActive="active" [routerLink]="['datosgenerales']">Información Principal</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLinkActive="active" [routerLink]="['fotos']">Fotos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLinkActive="active" [routerLink]="['ubicacion']">Ubicación</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLinkActive="active" [routerLink]="['detalles']">Detalles</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="['contacto']">Contacto</a>
+      </li>
+  </ul>
+
+  <!-- Se cargan las rutas hijas de la publicación -->
+<router-outlet></router-outlet></div>
