@@ -18,9 +18,8 @@ export class DatosgeneralesComponent implements OnInit {
       icon: 'success',
       title: 'Buscando....',
       text: 'Espere un momento por favor',
-      showCancelButton:true,
-      showDenyButton:false,
-      footer: '<a href="">Why do I have this issue?</a>'
+      showCancelButton:false,
+      showDenyButton:false
     })
 
   }

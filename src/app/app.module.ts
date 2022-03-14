@@ -18,6 +18,11 @@ import { FotosComponent } from './Components/publicar/fotos/fotos.component';
 import { UbicacionComponent } from './Components/publicar/ubicacion/ubicacion.component';
 import { DetallesComponent } from './Components/publicar/detalles/detalles.component';
 import { ContactoComponent } from './Components/publicar/contacto/contacto.component';
+import { MicuentaComponent } from './Components/micuenta/micuenta.component';
+import { MisfavoritosComponent } from './Components/micuenta/misfavoritos/misfavoritos.component';
+import { MiperfilComponent } from './Components/micuenta/miperfil/miperfil.component';
+import { MismensajesComponent } from './Components/micuenta/mismensajes/mismensajes.component';
+import { MisaldoComponent } from './Components/micuenta/misaldo/misaldo.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +41,12 @@ import { ContactoComponent } from './Components/publicar/contacto/contacto.compo
     FotosComponent,
     UbicacionComponent,
     DetallesComponent,
-    ContactoComponent
+    ContactoComponent,
+    MicuentaComponent,
+    MisfavoritosComponent,
+    MiperfilComponent,
+    MismensajesComponent,
+    MisaldoComponent
   ],
   imports: [
     BrowserModule,
