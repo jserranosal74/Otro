@@ -1,1 +1,35 @@
 <p>ubicacion works!</p>
+<br />
+<div class="container">
+  <form>
+    <div class="form-floating mb-3">
+      <input
+        type="email"
+        class="form-control"
+        id="correoElectronico"
+        placeholder="name@example.com"
+      />
+      <label for="correoElectronico" style="color: gray;">Correo Electronico</label>
+    </div>
+    <div class="form-floating">
+      <input
+        type="password"
+        class="form-control"
+        id="contrasena"
+        placeholder="Password"
+      />
+      <label for="contrasena" style="color: gray;">Contraseña</label>
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+      <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <button
+      type="button"
+      (click)="guardarPublicacion()"
+      class="btn btn-primary"
+    >
+      Guardar
+    </button>
+  </form>
+</div>
