@@ -6,3 +6,13 @@
 	.navbar .dropdown-menu.fade-up{ top:180%;  }
 	.navbar .nav-item:hover .dropdown-menu{ transition: .3s; opacity:1; visibility:visible; top:100%; transform: rotateX(0deg); }
 }
+
+.form-zone {
+    border: blue 1px solid transparent;
+    border-radius: 22px;
+    max-width: 1075px;
+    padding: 20px;
+    top: 130px;
+    width: auto;
+    background: rgba(72,69,64,.7);
+  }

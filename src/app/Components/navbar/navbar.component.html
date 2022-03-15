@@ -229,13 +229,6 @@
 
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" routerLinkActive="active">
-          <a
-            class="btn btn-outline-primary"
-            [routerLink]="['micuenta', 'comprar']"
-            >Comprar</a
-          >
-        </li>
-        <li class="nav-item" routerLinkActive="active">
           <a class="btn btn-primary" [routerLink]="['publicar']"
             >Publicar</a
           >
@@ -243,19 +236,19 @@
         <li class="nav-item dropdown" routerLinkActive="active">
           <a
             class="nav-link dropdown-toggle"
-            routerLink="desarrollos"
+            [routerLink]="['micuenta']"
             data-bs-toggle="dropdown"
           >
             Mi Cuenta
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a class="dropdown-item" [routerLink]="['micuenta', 'anuncios']"
+              <a class="dropdown-item" [routerLink]="['micuenta','misanuncios']"
                 >Mis Anuncios</a
               >
             </li>
             <li>
-              <a class="dropdown-item" [routerLink]="['micuenta', 'mensajes']"
+              <a class="dropdown-item" [routerLink]="['micuenta', 'mismensajes']"
                 >Mensajes</a
               >
             </li>
@@ -265,12 +258,12 @@
               >
             </li>
             <li>
-              <a class="dropdown-item" [routerLink]="['micuenta', 'favoritos']"
+              <a class="dropdown-item" [routerLink]="['micuenta', 'misfavoritos']"
                 >Favoritos</a
               >
             </li>
             <li>
-              <a class="dropdown-item" [routerLink]="['micuenta', 'perfil']"
+              <a class="dropdown-item" [routerLink]="['micuenta', 'miperfil']"
                 >Mi perfil</a
               >
             </li>

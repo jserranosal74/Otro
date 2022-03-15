@@ -13,16 +13,9 @@ import { AyudaComponent } from './Components/ayuda/ayuda.component';
 import { DesarrollosComponent } from './Components/desarrollos/desarrollos.component';
 import { FooterComponent } from './Components/footer/footer.component';
 import { NavbarComponent } from './Components/navbar/navbar.component';
-import { DatosgeneralesComponent } from './Components/publicar/datosgenerales/datosgenerales.component';
-import { FotosComponent } from './Components/publicar/fotos/fotos.component';
-import { UbicacionComponent } from './Components/publicar/ubicacion/ubicacion.component';
-import { DetallesComponent } from './Components/publicar/detalles/detalles.component';
-import { ContactoComponent } from './Components/publicar/contacto/contacto.component';
-import { MicuentaComponent } from './Components/micuenta/micuenta.component';
-import { MisfavoritosComponent } from './Components/micuenta/misfavoritos/misfavoritos.component';
-import { MiperfilComponent } from './Components/micuenta/miperfil/miperfil.component';
-import { MismensajesComponent } from './Components/micuenta/mismensajes/mismensajes.component';
-import { MisaldoComponent } from './Components/micuenta/misaldo/misaldo.component';
+
+import { PublicarModule } from './Components/publicar/publicar.module';
+import { MicuentaModule } from './Components/micuenta/micuenta.module';
 
 @NgModule({
   declarations: [
@@ -36,21 +29,13 @@ import { MisaldoComponent } from './Components/micuenta/misaldo/misaldo.componen
     AyudaComponent,
     DesarrollosComponent,
     FooterComponent,
-    NavbarComponent,
-    DatosgeneralesComponent,
-    FotosComponent,
-    UbicacionComponent,
-    DetallesComponent,
-    ContactoComponent,
-    MicuentaComponent,
-    MisfavoritosComponent,
-    MiperfilComponent,
-    MismensajesComponent,
-    MisaldoComponent
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    PublicarModule,
+    MicuentaModule
   ],
   providers: [],
   bootstrap: [AppComponent]

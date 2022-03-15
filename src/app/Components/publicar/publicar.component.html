@@ -1,21 +1,35 @@
-<div class="container" style="background: rgba(72,69,64,.5); padding: 20px;">
-<ul class="nav nav-tabs">
+<div class="container">
+  <ul class="nav nav-tabs">
     <li class="nav-item">
-      <a class="nav-link" routerLinkActive="active" [routerLink]="['datosgenerales']">Información Principal</a>
+      <a
+        class="nav-link"
+        routerLinkActive="active"
+        [routerLink]="['informacionprincipal']"
+        >Información Principal</a
+      >
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLinkActive="active" [routerLink]="['fotos']">Fotos</a>
+      <a class="nav-link" routerLinkActive="active" [routerLink]="['fotos']"
+        >Fotos</a
+      >
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLinkActive="active" [routerLink]="['ubicacion']">Ubicación</a>
+      <a class="nav-link" routerLinkActive="active" [routerLink]="['ubicacion']"
+        >Ubicación</a
+      >
     </li>
     <li class="nav-item">
-      <a class="nav-link" routerLinkActive="active" [routerLink]="['detalles']">Detalles</a>
+      <a class="nav-link" routerLinkActive="active" [routerLink]="['detalles']"
+        >Detalles</a
+      >
     </li>
     <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" [routerLink]="['contacto']">Contacto</a>
-      </li>
+      <a class="nav-link" routerLinkActive="active" [routerLink]="['contacto']"
+        >Contacto</a
+      >
+    </li>
   </ul>
 
   <!-- Se cargan las rutas hijas de la publicación -->
-<router-outlet></router-outlet></div>
+  <router-outlet></router-outlet>
+</div>
