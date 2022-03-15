@@ -18,6 +18,9 @@ import { NavbarComponent } from './Components/navbar/navbar.component';
 import { PublicarModule } from './Components/publicar/publicar.module';
 import { MicuentaModule } from './Components/micuenta/micuenta.module';
 import { SlideprincipalComponent } from './Components/slideprincipal/slideprincipal.component';
+import { RecomendadosparatiComponent } from './Components/recomendadosparati/recomendadosparati.component';
+import { CategoriaspopularesComponent } from './Components/categoriaspopulares/categoriaspopulares.component';
+import { BusquedadetalladaComponent } from './Components/buscar/busquedadetallada/busquedadetallada.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,10 @@ import { SlideprincipalComponent } from './Components/slideprincipal/slideprinci
     DesarrollosComponent,
     FooterComponent,
     NavbarComponent,
-    SlideprincipalComponent
+    SlideprincipalComponent,
+    RecomendadosparatiComponent,
+    CategoriaspopularesComponent,
+    BusquedadetalladaComponent
   ],
   imports: [
     BrowserModule,
