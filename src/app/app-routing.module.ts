@@ -12,12 +12,7 @@ import { DesarrollosComponent } from './Components/desarrollos/desarrollos.compo
 import { MicuentaComponent } from './Components/micuenta/micuenta.component';
 
 import { PUBLICAR_CHILD_ROUTES } from './Components/publicar/publicar.routes';
-import { MICUENTA_CHILD_ROUTES } from './Components/micuenta/micuenta.routes';
-import { MiperfilComponent } from './Components/micuenta/miperfil/miperfil.component';
-import { MisaldoComponent } from './Components/micuenta/misaldo/misaldo.component';
-import { MisanunciosComponent } from './Components/micuenta/misanuncios/misanuncios.component';
-import { MisfavoritosComponent } from './Components/micuenta/misfavoritos/misfavoritos.component';
-import { MismensajesComponent } from './Components/micuenta/mismensajes/mismensajes.component';
+import { MICUENTA_CR } from './Components/micuenta/micuenta.routes';
 
 
 const routes: Routes = [
@@ -35,7 +30,8 @@ const routes: Routes = [
   },
   {
     path: 'micuenta',
-    component: MicuentaComponent
+    component: MicuentaComponent,
+    children: MICUENTA_CR
   },
   { path: '**', pathMatch: 'full', redirectTo: 'inicio' },
 ];

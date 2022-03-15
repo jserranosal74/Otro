@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { FotosComponent } from '../publicar/fotos/fotos.component';
 import { UbicacionComponent } from '../publicar/ubicacion/ubicacion.component';
@@ -16,7 +18,10 @@ import { InformacionprincipalComponent } from '../publicar/informacionprincipal/
     InformacionprincipalComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule
   ],
   exports: [
     FotosComponent,

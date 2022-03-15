@@ -4,19 +4,19 @@
   <form class="form-zone" action="">
     <!--Grid row-->
     <div class="row">
-      <div class="row col-9 d-flex justify-content-left" style="padding:10px;">
+      <div class="row col-md-9 d-flex justify-content-left" style="padding:0px 0px 10px 10px;">
         <div
           class="btn-group"
           role="group"
           aria-label="Basic radio toggle button group"
         >
-          <input
+          <input style="border-radius: 30px solid !important;"
             type="radio"
             class="btn-check"
             name="btnradio"
             id="btnradio1"
             autocomplete="off"
-            checked
+            checked 
           />
           <label class="btn btn-secondary" for="btnradio1">Rentar</label>
 
@@ -70,12 +70,14 @@
         <!--Grid column-->
         <div class="col-md-3 col-12">
           <!-- Submit button -->
+          
           <button
             type="button"
             (click)="buscarPropiedades()"
-            class="form-control btn btn-outline-light btn-block"
+            class="form-control btn text-white" style="border-radius: 20px; background-color: #3a0c3d;"
           >
-            Buscar
+          <i class="fa-solid fa-magnifying-glass"></i>
+            <span>    Buscar</span>
           </button>
         </div>
         <!--Grid column-->
@@ -83,5 +85,6 @@
     </div>
     <!--Grid row-->
   </form>
+  <app-slideprincipal></app-slideprincipal>
 </div>
 <!-- Section: Form -->

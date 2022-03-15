@@ -11,8 +11,9 @@
     border: blue 1px solid transparent;
     border-radius: 22px;
     max-width: 1075px;
-    padding: 20px;
+    padding: 10px;
     top: 130px;
     width: auto;
-    background: rgba(72,69,64,.7);
+    /*background: rgba(72,69,64,1);*/
+    background: rgba(255, 255, 255, 0.9);
   }

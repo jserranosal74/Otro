@@ -117,12 +117,13 @@
           <ul class="dropdown-menu">
             <li>
               <a class="dropdown-item" [routerLink]="['rentar', 'departamento']"
-                ><i class="fa-solid fa-house-chimney-heart">Departamento</i></a
+                ><i class="fa-solid fa-building"></i>
+                <span style="padding: 10px;"> Departamento</span></a
               >
             </li>
             <li>
               <a class="dropdown-item" [routerLink]="['rentar', 'casa']"
-                >Casa</a
+                ><i class="fa-solid fa-house-chimney-window"></i><span style="padding: 10px;">Casa</span></a
               >
             </li>
             <li>
@@ -229,53 +230,17 @@
 
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" routerLinkActive="active">
-          <a class="btn btn-primary" [routerLink]="['publicar']"
+          <a class="btn text-white" style="border-radius: 20px; background-color: #3a0c3d;" [routerLink]="['publicar']"
             >Publicar</a
           >
         </li>
-        <li class="nav-item dropdown" routerLinkActive="active">
+        <li class="nav-item" style="padding-left: 10px;" routerLinkActive="active">
           <a
-            class="nav-link dropdown-toggle"
+            class="btn text-white" style="border-radius: 20px; background-color: #3a0c3d; padding-left: 10px;"
             [routerLink]="['micuenta']"
-            data-bs-toggle="dropdown"
           >
             Mi Cuenta
           </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a class="dropdown-item" [routerLink]="['micuenta','misanuncios']"
-                >Mis Anuncios</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" [routerLink]="['micuenta', 'mismensajes']"
-                >Mensajes</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" [routerLink]="['micuenta', 'alertas']"
-                >Alertas de búsquedas</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" [routerLink]="['micuenta', 'misfavoritos']"
-                >Favoritos</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item" [routerLink]="['micuenta', 'miperfil']"
-                >Mi perfil</a
-              >
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            <li>
-              <a
-                class="dropdown-item"
-                [routerLink]="['micuenta', 'cerrarsesion']"
-                >Cerrar sesión</a
-              >
-            </li>
-          </ul>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="login">Ingresar</a>
