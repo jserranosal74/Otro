@@ -1,2 +1,30 @@
-<p>login works!</p>
-
+<div class="container p-4 form-zone text-center">
+  <form autocomplete="off" >
+    <div class="form-floating mb-3 col-md-6">
+      <input
+        type="text"
+        class="form-control"
+        id="nombreUsuario"
+        placeholder="name@example.com"
+      />
+      <label for="correoElectronico" style="color: gray;">Usuario</label>
+    </div>
+    <div class="form-floating mb-3 col-md-6">
+      <input
+        type="password"
+        class="form-control"
+        id="contrasena"
+        placeholder="Password"
+      />
+      <label for="contrasena" style="color: gray;">Contraseña</label>
+    </div>
+    <div class="form-floating mb-3 col-md-6">
+    <button
+      type="button"
+      (click)="guardarPublicacion()"
+      class="btn btn-primary mb-3" style="border-radius: 20px; background-color: #3a0c3d;"
+    >
+      Iniciar sesión
+    </button></div>
+  </form>
+</div>
