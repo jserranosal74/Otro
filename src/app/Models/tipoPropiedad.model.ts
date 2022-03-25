@@ -1,4 +1,4 @@
-export class TipoPropiedad {
+export class tipoPropiedad {
     constructor(
       public Id_TipoPropiedad: number, // cambio remote
       public Clave: string,

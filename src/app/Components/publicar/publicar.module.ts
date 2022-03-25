@@ -7,7 +7,8 @@ import { FotosComponent } from '../publicar/fotos/fotos.component';
 import { UbicacionComponent } from '../publicar/ubicacion/ubicacion.component';
 import { DetallesComponent } from '../publicar/detalles/detalles.component';
 import { ContactoComponent } from '../publicar/contacto/contacto.component';
-import { InformacionprincipalComponent } from '../publicar/informacionprincipal/informacionprincipal.component'
+import { InformacionprincipalComponent } from '../publicar/informacionprincipal/informacionprincipal.component';
+import { OperaciontipoinmuebleComponent } from './operaciontipoinmueble/operaciontipoinmueble.component'
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { InformacionprincipalComponent } from '../publicar/informacionprincipal/
     UbicacionComponent,
     DetallesComponent,
     ContactoComponent,
-    InformacionprincipalComponent
+    InformacionprincipalComponent,
+    OperaciontipoinmuebleComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { InformacionprincipalComponent } from '../publicar/informacionprincipal/
     UbicacionComponent,
     DetallesComponent,
     ContactoComponent,
-    InformacionprincipalComponent
+    InformacionprincipalComponent,
+    OperaciontipoinmuebleComponent
   ]
 })
 
