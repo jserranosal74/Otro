@@ -63,7 +63,7 @@ export class UbicacionComponent implements OnInit {
   
   obtenerMunicipios(Id_Estado : number){
     console.log(this.loading);
-    this._municipioService.getMunicipios(Id_Estado).subscribe((data) => {
+    this._municipioService.getMunicipios(1).subscribe((data) => {
       this._Municipios = data;
       this._Municipios.unshift(new municipio(0,0,'','Selecccione el Municipio',new Date(),new Date(),1,1));
       this.loading = true;
