@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { tipoPropiedad } from 'src/app/Models/tipoPropiedad.model';
 import { PropiedadesService } from '../../../Services/propiedades.service';
 
-
 @Component({
   selector: 'app-operaciontipoinmueble',
   templateUrl: './operaciontipoinmueble.component.html',
@@ -12,12 +11,17 @@ import { PropiedadesService } from '../../../Services/propiedades.service';
 export class OperaciontipoinmuebleComponent implements OnInit {
 
   _tiposPropiedad: tipoPropiedad[] = [];
-  tipoPropiedadSeleccionada : string = '';
-  valorDefault:boolean=true;
-  
+  tipoPropiedadSeleccionada : number = 0;
+  loading:boolean = false;
+  EsVenta=false;
+  EsRenta=false;
+  VentaSeleccionada=false;
+  RentaSeleccionada=false;
 
   formaOTI = this.fb.group({
     tipoOperacion : [''],
+    EsVenta : [''],
+    EsRenta : [''],
     tipoPropiedad : ['']
   });
 
@@ -25,17 +29,20 @@ export class OperaciontipoinmuebleComponent implements OnInit {
               private fb: FormBuilder) {
     this.crearFormulario();
     this.obtenerTiposPropiedad();
-    this.valorDefault = true;
+    this.tipoPropiedadSeleccionada = 0;
    }
 
   ngOnInit(): void {
   }
 
   obtenerTiposPropiedad(){
+    console.log(this.loading);
     this._tipoPropiedadService.getTiposPropiedad().subscribe((data) => {
       this._tiposPropiedad = data;
-      this._tiposPropiedad.push(new tipoPropiedad(0,'','Selecccione el tipo de propiedad',new Date(),new Date(),1,1));
-      console.log(data);
+      this._tiposPropiedad.unshift(new tipoPropiedad(0,'','Selecccione el tipo de propiedad',new Date(),new Date(),1,1));
+      //console.log(data);
+      this.loading = true;
+      //console.log(this.loading);
       // this.loading = false;
       // // Se ordena la informacion por el COL_KEYCOL
       // this._Colores.sort(function (a, b) {
@@ -63,6 +70,8 @@ export class OperaciontipoinmuebleComponent implements OnInit {
 
     this.formaOTI = this.fb.group({
       tipoOperacion : [''],
+      EsVenta : [''],
+      EsRenta : [''],
       tipoPropiedad : ['']
     });
 
@@ -91,9 +100,16 @@ export class OperaciontipoinmuebleComponent implements OnInit {
       // Reseteo de la información
     this.formaOTI.reset({
       tipoOperacion : '',
+      EsVenta : [''],
+      EsRenta : [''],
       tipoPropiedad : ''
     });
     }
+  }
+
+  somethingChanged(sel:number){
+    console.log('sel:' + sel + ',' + this.formaOTI.controls['tipoPropiedad'].value);
+    //console.log(sel);
   }
 
 }

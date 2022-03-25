@@ -1,35 +1,96 @@
-<p>ubicacion works!</p>
-<br />
-<div class="container">
-  <form>
-    <div class="form-floating mb-3">
-      <input
-        type="email"
-        class="form-control"
-        id="correoElectronico"
-        placeholder="name@example.com"
-      />
-      <label for="correoElectronico" style="color: gray;">Correo Electronico</label>
+<form autocomplete="off" [formGroup]="formaUbicacion" (ngSubmit)="guardarUbicacion()">
+  <div class="container">
+    <div class="form-group row py-3" formGroupName="direccion">
+    <label class="col-2 col-form-label">Dirección</label>
+    <div class="form-row col-10 p-0">
+      <div class="col-md-12 col-10 p-0">
+        <div class="row">
+        <div class="col-md-5">
+          <div class="col-auto">
+            <select class="form-select" aria-label="Default select example" [(ngModel)]="_estadoSeleccionado" name="estado" formControlName="estado" (change)="somethingChanged(3)">
+                <option *ngFor="let estado of _Estados; let i = index" [value]="estado.Id_Estado" >{{estado.Nombre}}</option>
+             </select>
+        </div>
+        </div>
+        <div class="col-md-5 col-form-label px-0">
+          <small *ngIf="estadoNoValido" class="text-danger">
+            Estado invalido
+          </small>
+        </div>
+      </div>
+      </div>
+
+      <div class="col-md-12 col-10 p-0 py-3">
+        <div class="row">
+          <div class="col-md-5">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Ciudad o Municipio"
+          formControlName="municipio"
+          [class.is-invalid]="municipioNoValido"
+        />
+          </div>
+        <div class="col-md-4 col-10 px-0">
+          <small *ngIf="municipioNoValido" class="text-danger">
+            Municipio invalido
+          </small>
+        </div>
+      </div>
+      </div>
+
+      <div class="col-md-12 col-10 p-0 py-0">
+        <div class="row">
+          <div class="col-md-5">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Colonia o Asentamiento"
+          formControlName="asentamiento"
+          [class.is-invalid]="asentamientoNoValido"
+        />
+          </div>
+        <div class="col-md-4 col-10 px-0">
+          <small *ngIf="asentamientoNoValido" class="text-danger">
+            Asentamiento/Colonia invalida
+          </small>
+        </div>
+      </div>
+      </div>
+
+      <div class="col-md-12 col-10 p-0 py-3">
+        <div class="row">
+          <div class="col-md-5">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Calle y número"
+          formControlName="calleynumero"
+          [class.is-invalid]="calleynumeroNoValido"
+        />
+          </div>
+        <div class="col-md-4 col-10 px-0">
+          <small *ngIf="calleynumeroNoValido" class="text-danger">
+            Calle requerida
+          </small>
+        </div>
+      </div>
+      </div>
+
     </div>
-    <div class="form-floating">
-      <input
-        type="password"
-        class="form-control"
-        id="contrasena"
-        placeholder="Password"
-      />
-      <label for="contrasena" style="color: gray;">Contraseña</label>
-    </div>
-    <div class="mb-3 form-check">
-      <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-      <label class="form-check-label" for="exampleCheck1">Check me out</label>
-    </div>
-    <button
-      type="button"
-      (click)="guardarPublicacion()"
-      class="btn btn-primary"
-    >
-      Guardar
-    </button>
-  </form>
+  </div>
+
+  <div class="form-group row">
+    <label class="col-md-2 col-form-label">&nbsp;</label>
+    <div class="row">
+      <div class="col-md-8"></div>
+      <div class="col-auto">
+          <button type="submit" class="btn btn-primary align-items-right">Guardar</button>
+      </div>
+      <div class="col-auto">
+          <button type="button" class="btn btn-primary align-items-right">Continuar</button>
+      </div>
+  </div>
+  </div>
 </div>
+</form>
