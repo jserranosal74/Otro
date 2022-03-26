@@ -53,22 +53,22 @@ export class UbicacionComponent implements OnInit {
     console.log('obtenerEstados' + this.loading);
     this._estadoService.getEstados(1).subscribe((data) => {
       this._Estados = data;
-      this._Estados.unshift(new estado(0,0,'','Selecccione el Estado',new Date(),new Date(),1,1));
+      //this._Estados.unshift(new estado(0,0,'','Selecccione el Estado',new Date(),new Date(),1,1));
       this.loading = true;
-      this.obtenerMunicipios(0);
+      this._Municipios = [];
       return 0;
     });
     
   }
   
   obtenerMunicipios(Id_Estado : number){
-    console.log(this.loading);
-    this._municipioService.getMunicipios(1).subscribe((data) => {
+    console.log('cargando municipios: ' + Id_Estado);
+    this._municipioService.getMunicipios(Id_Estado).subscribe((data) => {
       this._Municipios = data;
-      this._Municipios.unshift(new municipio(0,0,'','Selecccione el Municipio',new Date(),new Date(),1,1));
-      this.loading = true;
-      this.obtenerAsentamientos(0,0);
-      return 0;
+      //this._Municipios.unshift(new municipio(0,0,'','Selecccione el Municipio',new Date(),new Date(),1,1));
+      //this.loading = true;
+      this._Asentamientos = [];
+      //return 0;
     });
     
   }
@@ -77,7 +77,7 @@ export class UbicacionComponent implements OnInit {
     console.log(this.loading);
     this._asentamientoService.getAsentamientos(Id_Estado, Id_Municipio).subscribe((data) => {
       this._Asentamientos = data;
-      this._Asentamientos.unshift(new asentamiento(0,0,0,0,'Selecccione el Asentamiento','',0,0,new Date(),new Date(),1,1));
+      //this._Asentamientos.unshift(new asentamiento(0,0,0,0,'Selecccione el Asentamiento','',0,0,new Date(),new Date(),1,1));
       this.loading = true;
         return 0;
       });
@@ -145,8 +145,23 @@ export class UbicacionComponent implements OnInit {
     }
   }
 
-  somethingChanged(sel:number){
-    console.log('sel:' + sel + ',' + this.formaUbicacion.controls['tipoPropiedad'].value);
+  estadoSeleccionado(sel:number){
+    //debugger;
+    console.log('sel:' + sel + ',' + this.formaUbicacion.controls['direccion'].value.estado);
+    //console.log(sel);
+    this.obtenerMunicipios(this.formaUbicacion.controls['direccion'].value.estado);
+  }
+
+  municipioSeleccionado(sel:number){
+    //debugger;
+    console.log('sel:' + sel + ',' + this.formaUbicacion.controls['direccion'].value.municipio);
+    //console.log(sel);
+    this.obtenerAsentamientos(this.formaUbicacion.controls['direccion'].value.estado, this.formaUbicacion.controls['direccion'].value.municipio);
+  }
+
+  asentamientoSeleccionado(){
+    //debugger;
+    console.log('asentamientoSeleccionado: ' + this.formaUbicacion.controls['direccion'].value.asentamiento);
     //console.log(sel);
   }
 

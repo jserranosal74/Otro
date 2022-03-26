@@ -10,14 +10,14 @@ import { municipio } from '../Models/municipio.model';
 })
 
 export class MunicipiosService {
-  public urlMunicipios: string;
+  public urlBusquedasMunicipio: string;
 
   constructor(private http: HttpClient) { 
-    this.urlMunicipios = URL_APIS.urlMunicipios;
+    this.urlBusquedasMunicipio = URL_APIS.urlBusquedasMunicipio;
   }
 
   public getMunicipios(Id_Estado : number): Observable<municipio[]> {
-    return this.http.get<municipio[]>(this.urlMunicipios  + '/' + Id_Estado);
+    return this.http.get<municipio[]>(this.urlBusquedasMunicipio + Id_Estado);
   }
 
 }

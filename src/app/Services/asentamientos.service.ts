@@ -10,14 +10,14 @@ import { asentamiento } from '../Models/asentamiento.model';
 })
 
 export class AsentamientosService {
-  public urlAsentamientos: string;
+  public urlBusquedasAsentamiento: string;
 
   constructor(private http: HttpClient) { 
-    this.urlAsentamientos = URL_APIS.urlAsentamientos;
+    this.urlBusquedasAsentamiento = URL_APIS.urlBusquedasAsentamiento;
   }
 
   public getAsentamientos(Id_Estado : number, Id_Municipio : number): Observable<asentamiento[]> {
-    return this.http.get<asentamiento[]>(this.urlAsentamientos + Id_Estado + '/' + Id_Municipio);
+    return this.http.get<asentamiento[]>(this.urlBusquedasAsentamiento + Id_Estado + '/' + Id_Municipio);
   }
 
 }
