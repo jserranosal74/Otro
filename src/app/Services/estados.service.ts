@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { URL_APIS } from './global';
-import { estado } from '../Models/estado.model';
+import { estado } from '../Models/catalogos/estado.model';
 
 @Injectable({
   providedIn: 'root'

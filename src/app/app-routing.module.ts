@@ -12,6 +12,7 @@ import { DesarrollosComponent } from './Components/desarrollos/desarrollos.compo
 import { MicuentaComponent } from './Components/micuenta/micuenta.component';
 
 import { PUBLICAR_CHILD_ROUTES } from './Components/publicar/publicar.routes';
+import { CATALOGOS_CHILD_ROUTES } from './Components/catalogos/catalogos.routes';
 import { MICUENTA_CR } from './Components/micuenta/micuenta.routes';
 
 
@@ -27,6 +28,10 @@ const routes: Routes = [
     path: 'publicar',
     component: PublicarComponent,
     children: PUBLICAR_CHILD_ROUTES,
+  },
+  {
+    path: 'catalogos',
+    children: CATALOGOS_CHILD_ROUTES,
   },
   {
     path: 'micuenta',

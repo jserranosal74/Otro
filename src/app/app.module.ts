@@ -16,6 +16,7 @@ import { FooterComponent } from './Components/footer/footer.component';
 import { NavbarComponent } from './Components/navbar/navbar.component';
 
 import { PublicarModule } from './Components/publicar/publicar.module';
+import { CatalogosModule } from './Components/catalogos/catalogos.module';
 import { MicuentaModule } from './Components/micuenta/micuenta.module';
 import { SlideprincipalComponent } from './Components/slideprincipal/slideprincipal.component';
 import { RecomendadosparatiComponent } from './Components/recomendadosparati/recomendadosparati.component';
@@ -44,6 +45,7 @@ import { BusquedadetalladaComponent } from './Components/buscar/busquedadetallad
     BrowserModule,
     AppRoutingModule,
     PublicarModule,
+    CatalogosModule,
     MicuentaModule,
     HttpClientModule
   ],

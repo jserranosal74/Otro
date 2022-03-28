@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import Swal from 'sweetalert2';
-import { tipoPropiedad } from '../../Models/tipoPropiedad.model';
+import { tipoPropiedad } from '../../Models/catalogos/tipoPropiedad.model';
 
 @Component({
   selector: 'app-buscar',

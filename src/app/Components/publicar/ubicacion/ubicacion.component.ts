@@ -6,9 +6,9 @@ import { EstadosService } from '../../../Services/estados.service';
 import { AsentamientosService } from '../../../Services/asentamientos.service';
 import { MunicipiosService } from '../../../Services/municipios.service';
 
-import { estado } from '../../../Models/estado.model';
-import { municipio } from '../../../Models/municipio.model';
-import { asentamiento } from '../../../Models/asentamiento.model';
+import { estado } from '../../../Models/catalogos/estado.model';
+import { municipio } from '../../../Models/catalogos/municipio.model';
+import { asentamiento } from '../../../Models/catalogos/asentamiento.model';
 
 @Component({
   selector: 'app-ubicacion',

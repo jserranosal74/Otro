@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { tipoPropiedad } from 'src/app/Models/tipoPropiedad.model';
+import { tipoPropiedad } from '../../../Models/catalogos/tipoPropiedad.model';
 import { PropiedadesService } from '../../../Services/propiedades.service';
 
 @Component({

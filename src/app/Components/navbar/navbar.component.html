@@ -223,6 +223,29 @@
             </li>
           </ul>
         </li>
+        <li class="nav-item dropdown" routerLinkActive="active">
+          <a
+            class="nav-link dropdown-toggle"
+            routerLink="rentar"
+            data-bs-toggle="dropdown"
+          >
+            Administración
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" [routerLink]="['catalogos', 'medioscontacto']"
+                ><i class="fa-solid fa-building"></i>
+                <span style="padding: 10px;"> Medios de contacto</span></a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" [routerLink]="['catalogos', 'tiposasentamiento']"
+                ><i class="fa-solid fa-house-chimney-window"></i>
+                <span style="padding: 10px;">Tipos de asentamiento</span></a
+              >
+            </li>
+          </ul>
+        </li>
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="ayuda">Ayuda</a>
         </li>
@@ -260,6 +283,7 @@
             </li> -->
       </ul>
     </div>
+    
     <!-- navbar-collapse.// -->
   </div>
   <!-- container-fluid.// -->

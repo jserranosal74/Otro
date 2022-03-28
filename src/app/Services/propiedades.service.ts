@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { tipoPropiedad } from '../Models/tipoPropiedad.model';
+import { tipoPropiedad } from '../Models/catalogos/tipoPropiedad.model';
 import { URL_APIS } from './global';
 
 @Injectable({
