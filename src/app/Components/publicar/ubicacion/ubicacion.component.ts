@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-import { EstadosService } from '../../../Services/estados.service';
-import { AsentamientosService } from '../../../Services/asentamientos.service';
-import { MunicipiosService } from '../../../Services/municipios.service';
+import { EstadosService } from '../../../Services/Catalogos/estados.service';
+import { AsentamientosService } from '../../../Services/Catalogos/asentamientos.service';
+import { MunicipiosService } from '../../../Services/Catalogos/municipios.service';
 
 import { estado } from '../../../Models/catalogos/estado.model';
 import { municipio } from '../../../Models/catalogos/municipio.model';

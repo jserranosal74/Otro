@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { URL_APIS } from './global';
-import { asentamiento } from '../Models/catalogos/asentamiento.model';
+import { URL_APIS } from '../global';
+import { asentamiento } from '../../Models/catalogos/asentamiento.model';
 
 @Injectable({
   providedIn: 'root'

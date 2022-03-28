@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { tipoPropiedad } from '../Models/catalogos/tipoPropiedad.model';
-import { URL_APIS } from './global';
+import { tipoPropiedad } from '../../Models/catalogos/tipoPropiedad.model';
+import { URL_APIS } from '../global';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PropiedadesService {
+export class TiposPropiedadService {
   public urlTiposPropiedad: string;
 
   constructor(private http: HttpClient) { 

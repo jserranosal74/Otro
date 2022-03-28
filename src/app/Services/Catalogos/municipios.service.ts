@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { URL_APIS } from './global';
-import { municipio } from '../Models/catalogos/municipio.model';
+import { URL_APIS } from '../global';
+import { municipio } from '../../Models/catalogos/municipio.model';
 
 @Injectable({
   providedIn: 'root'

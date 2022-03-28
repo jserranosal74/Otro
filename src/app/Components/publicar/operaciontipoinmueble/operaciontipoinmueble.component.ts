@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { tipoPropiedad } from '../../../Models/catalogos/tipoPropiedad.model';
-import { PropiedadesService } from '../../../Services/propiedades.service';
+import { TiposPropiedadService } from '../../../Services/Catalogos/tiposPropiedades.service';
 
 @Component({
   selector: 'app-operaciontipoinmueble',
@@ -25,7 +25,7 @@ export class OperaciontipoinmuebleComponent implements OnInit {
     tipoPropiedad : ['']
   });
 
-  constructor(private _tipoPropiedadService: PropiedadesService,
+  constructor(private _tipoPropiedadService: TiposPropiedadService,
               private fb: FormBuilder) {
     this.crearFormulario();
     this.obtenerTiposPropiedad();

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { URL_APIS } from './global';
-import { estado } from '../Models/catalogos/estado.model';
+import { URL_APIS } from '../global';
+import { estado } from '../../Models/catalogos/estado.model';
 
 @Injectable({
   providedIn: 'root'
