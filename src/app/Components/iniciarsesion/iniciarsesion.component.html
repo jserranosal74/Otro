@@ -1,0 +1,45 @@
+<form autocomplete="off" [formGroup]="formIniciarsesion" (ngSubmit)="iniciarSesion()">
+    <div class="form-group row py-3">
+        <label class="col-md-2 col-form-label">Correo electrónico</label>
+        <div class="col-md-4 col-10 p-0">
+        <input
+          class="form-control"
+          type="email"
+          placeholder="Correo electrónico"
+          formControlName="correo"
+          [class.is-invalid]="correoNoValido"
+        />
+      </div>
+      <div class="col-md-4 col-form-label">
+        <small *ngIf="correoNoValido" class="text-danger">
+          Ingrese el correo
+        </small>
+      </div>
+    </div>
+  
+    <div class="form-group row py-3">
+      <label class="col-md-2 col-form-label">Contraseña</label>
+      <div class="col-md-4 col-10 p-0">
+        <input
+          type="password"
+          class="form-control"
+          placeholder="Contraseña"
+          formControlName="password1"
+          [class.is-invalid]="password1NoValido"
+        />
+      </div>
+      <div class="col-md-4 col-form-label">
+        <small *ngIf="password1NoValido" class="text-danger">
+          Ingrese la contraseña
+        </small>
+      </div>
+    </div>
+  
+    <div class="form-group row py-3">
+      <label class="col-md-2 col-form-label">&nbsp;</label>
+      <div class="col-4 d-grid gap-2 mix-auto">
+        <button type="submit" class="btn btn-primary btn-lg">Iniciar sesión</button>
+      </div>
+    </div>
+  </form>
+  
