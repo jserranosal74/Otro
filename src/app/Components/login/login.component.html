@@ -1,30 +1,66 @@
-<div class="container p-4 form-zone text-center">
-  <form autocomplete="off" >
-    <div class="form-floating mb-3 col-md-6">
+<form autocomplete="off" [formGroup]="formLogin" (ngSubmit)="guardarRegistro()">
+  <div class="form-group row py-3">
+      <label class="col-md-2 col-form-label">Correo electrónico</label>
+      <div class="col-md-4 col-10 p-0">
       <input
-        type="text"
         class="form-control"
-        id="nombreUsuario"
-        placeholder="name@example.com"
+        type="email"
+        placeholder="Correo electrónico"
+        formControlName="correo"
+        [class.is-invalid]="correoNoValido"
       />
-      <label for="correoElectronico" style="color: gray;">Usuario</label>
     </div>
-    <div class="form-floating mb-3 col-md-6">
+    <div class="col-md-4 col-form-label">
+      <small *ngIf="correoNoValido" class="text-danger">
+        Ingrese el correo
+      </small>
+    </div>
+  </div>
+
+  <div class="form-group row py-3">
+    <label class="col-md-2 col-form-label">Contraseña</label>
+    <div class="col-md-4 col-10 p-0">
       <input
         type="password"
         class="form-control"
-        id="contrasena"
-        placeholder="Password"
+        placeholder="Contraseña"
+        formControlName="password1"
+        [class.is-invalid]="password1NoValido"
       />
-      <label for="contrasena" style="color: gray;">Contraseña</label>
     </div>
-    <div class="form-floating mb-3 col-md-6">
-    <button
-      type="button"
-      (click)="guardarPublicacion()"
-      class="btn btn-primary mb-3" style="border-radius: 20px; background-color: #3a0c3d;"
-    >
-      Iniciar sesión
-    </button></div>
-  </form>
-</div>
+    <div class="col-md-4 col-form-label">
+      <small *ngIf="password1NoValido" class="text-danger">
+        Ingrese la contraseña
+      </small>
+    </div>
+  </div>
+
+  <div class="form-group row py-3">
+    <label class="col-md-2 col-form-label">Repita contraseña</label>
+    <div class="col-md-4 col-10 p-0">
+      <input
+        type="password"
+        class="form-control"
+        placeholder="Repita contraseña"
+        formControlName="password2"
+        [class.is-invalid]="password2NoValido"
+      />
+    </div>
+    <div class="col-md-4 col-form-label">
+      <small *ngIf="password2NoValido" class="text-danger">
+        La contraseña no coincide
+      </small>
+    </div>
+  </div>
+
+  <div class="form-group row py-3">
+    <label class="col-md-2 col-form-label">&nbsp;</label>
+    <div class="col-4 d-grid gap-2 mix-auto">
+      <button type="submit" class="btn btn-primary btn-lg">Registrarme</button>
+    </div>
+  </div>
+
+  <div class="text-center p-3">
+    <a class="text-black" href="iniciarsesion">Ya tengo una cuenta</a>
+  </div>
+</form>

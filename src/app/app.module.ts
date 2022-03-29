@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { InicioComponent } from './Components/inicio/inicio.component';
 import { RentarComponent } from './Components/rentar/rentar.component';
@@ -22,6 +23,7 @@ import { SlideprincipalComponent } from './Components/slideprincipal/slideprinci
 import { RecomendadosparatiComponent } from './Components/recomendadosparati/recomendadosparati.component';
 import { CategoriaspopularesComponent } from './Components/categoriaspopulares/categoriaspopulares.component';
 import { BusquedadetalladaComponent } from './Components/buscar/busquedadetallada/busquedadetallada.component';
+import { IniciarsesionComponent } from './Components/iniciarsesion/iniciarsesion.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { BusquedadetalladaComponent } from './Components/buscar/busquedadetallad
     SlideprincipalComponent,
     RecomendadosparatiComponent,
     CategoriaspopularesComponent,
-    BusquedadetalladaComponent
+    BusquedadetalladaComponent,
+    IniciarsesionComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,9 @@ import { BusquedadetalladaComponent } from './Components/buscar/busquedadetallad
     PublicarModule,
     CatalogosModule,
     MicuentaModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

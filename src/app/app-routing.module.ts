@@ -10,6 +10,8 @@ import { PublicarComponent } from './Components/publicar/publicar.component';
 import { AyudaComponent } from './Components/ayuda/ayuda.component';
 import { DesarrollosComponent } from './Components/desarrollos/desarrollos.component';
 import { MicuentaComponent } from './Components/micuenta/micuenta.component';
+import { IniciarsesionComponent } from './Components/iniciarsesion/iniciarsesion.component';
+
 
 import { PUBLICAR_CHILD_ROUTES } from './Components/publicar/publicar.routes';
 import { CATALOGOS_CHILD_ROUTES } from './Components/catalogos/catalogos.routes';
@@ -24,6 +26,7 @@ const routes: Routes = [
   { path: 'ayuda', component: AyudaComponent },
   { path: 'buscar', component: BuscarComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'iniciarsesion', component: IniciarsesionComponent },
   {
     path: 'publicar',
     component: PublicarComponent,

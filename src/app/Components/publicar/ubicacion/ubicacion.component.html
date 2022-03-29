@@ -11,6 +11,17 @@
               <option value="0" selected>-- Seleccione un Estado --</option>
               <option *ngFor="let estado of _Estados; let i = index" [value]="estado.Id_Estado" >{{estado.Nombre}}</option>
             </select>
+            <input type="text" class="form-control" list="miLista" id="exampleDataList" placeholder="Seleccione el Estado...">
+            <datalist id="miLista">
+              <label for="elemento">Selecciona un elemento de la lista:</label>
+              <select id="elementos" name="elementos">
+                <option>Opción 1</option>
+                <option>Opción 2</option>
+                <option>Opción 3</option>
+                <option>Opción 4</option>
+                <option>Opción N</option>   
+              </select>     
+            </datalist>
         </div>
         </div>
         <div class="col-md-5 col-form-label px-0">
