@@ -24,15 +24,15 @@ export class AmenidadesService {
     return this.http.get<amenidad[]>(this.urlAmenidades);
   }
 
-  public putAmenidades(objAmenidad: amenidad): Observable<amenidad> {
+  public putAmenidad(objAmenidad: amenidad): Observable<amenidad> {
     return this.http.put<amenidad>(this.urlAmenidades + objAmenidad.Id_Amenidad, objAmenidad);
   }
 
-  public postAmenidades(objAmenidad: amenidad): Observable<amenidad> {
-    return this.http.post<amenidad>(this.urlAmenidades, amenidad);
+  public postAmenidad(objAmenidad: amenidad): Observable<amenidad> {
+    return this.http.post<amenidad>(this.urlAmenidades, objAmenidad);
   }
 
-  public postDelete(Id_Amenidad : number): Observable<amenidad> {
+  public deleteAmenidad(Id_Amenidad : number): Observable<amenidad> {
     return this.http.delete<amenidad>(this.urlAmenidades + Id_Amenidad);
   }
 

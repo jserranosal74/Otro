@@ -2,6 +2,7 @@ export const URL_APIS = {
     //Catalogos
     urlAmenidades: '/api/Amenidades/',
     urlAsentamientos: '/api/Asentamientos/',
+    urlClientes: '/api/Clientes/',
     urlClienteMedioContacto: '/api/ClienteMedioContacto/',
     urlEstados: '/api/Estados/',
     urlMediosContacto: '/api/MediosContacto/',
