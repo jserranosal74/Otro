@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from 'src/app/guards/auth.guard';
 
 
 import { AmenidadesComponent } from './amenidades/amenidades.component';
@@ -8,9 +9,9 @@ import { TiposasentaientoComponent } from './tiposasentamiento/tiposasentaiento.
 
 
 export const CATALOGOS_CHILD_ROUTES: Routes = [
-  { path: 'amenidades', component: AmenidadesComponent },
-  { path: 'municipios', component: MunicipiosComponent },
-  { path: 'medioscontacto', component: MedioscontactoComponent },
-  { path: 'tiposasentamiento', component: TiposasentaientoComponent },
+  { path: 'amenidades', component: AmenidadesComponent, canActivate: [AuthGuard] },
+  { path: 'municipios', component: MunicipiosComponent, canActivate: [AuthGuard] },
+  { path: 'medioscontacto', component: MedioscontactoComponent, canActivate: [AuthGuard] },
+  { path: 'tiposasentamiento', component: TiposasentaientoComponent, canActivate: [AuthGuard] },
   { path: '**', pathMatch: 'full', redirectTo: 'medioscontacto'},
 ]

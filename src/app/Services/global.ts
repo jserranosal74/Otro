@@ -26,4 +26,7 @@ export const URL_APIS = {
     urlFotosPublicacion: '/api/FotosPublicacion/',
     urlMensajesPublicacion: '/api/MensajesPublicacion/',
     urlPlanesCliente: '/api/PlanesCliente/',
+
+    // Auxiliares
+    urlLogin: '/api/login/authenticate/'
   };

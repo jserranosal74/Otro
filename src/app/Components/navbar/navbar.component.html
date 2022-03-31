@@ -223,6 +223,7 @@
             </li>
           </ul>
         </li>
+        <div *ngIf="usuarioAutenticado" >
         <li class="nav-item dropdown" routerLinkActive="active">
           <a
             class="nav-link dropdown-toggle"
@@ -246,6 +247,7 @@
             </li>
           </ul>
         </li>
+      </div>
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="ayuda">Ayuda</a>
         </li>
@@ -265,9 +267,16 @@
             Mi Cuenta
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="login">Ingresar</a>
-        </li>
+        <div *ngIf="!usuarioAutenticado; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="login">Ingresar</a>
+          </li></ng-template>
+        <ng-template #elseBlock>
+          <li class="nav-item">
+            <a class="btn" (click)="cerrarSesion()">Salir</a>
+          </li>
+        </ng-template>
         <!-- <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
