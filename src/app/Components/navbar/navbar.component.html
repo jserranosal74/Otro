@@ -53,7 +53,7 @@
 </script>
 
 <!-- ============= COMPONENT ============== -->
-<nav class="navbar navbar-fixed-top navbar-expand-lg navbar-dark bg-secondary fixed-top">
+<nav class="navbar navbar-fixed-top navbar-expand-lg navbar-dark fixed-top" style="background:#c3365e;">
   <div class="container-fluid" style="padding: 0px 10px;">
     <a class="navbar-brand" routerLink="Inicio">Mi Depa App</a>
     <button
@@ -223,7 +223,7 @@
             </li>
           </ul>
         </li>
-        <div *ngIf="usuarioAutenticado" >
+        <div *ngIf="usuarioAutenticado && usuarioRol == 'Administrador'" >
         <li class="nav-item dropdown" routerLinkActive="active">
           <a
             class="nav-link dropdown-toggle"
@@ -254,27 +254,29 @@
       </ul>
 
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item" routerLinkActive="active">
-          <a class="btn text-white" style="border-radius: 20px; background-color: #3a0c3d;" [routerLink]="['publicar']"
-            >Publicar</a
+        <li class="nav-item px-2" routerLinkActive="active">
+          <a class="btn text-white" style="border-radius: 10px; background-color: #d986ad;" [routerLink]="['publicar']"
+            >Publicar gratis</a
           >
         </li>
-        <li class="nav-item" style="padding-left: 10px;" routerLinkActive="active">
+        <div *ngIf="usuarioAutenticado && (usuarioRol == 'Administrador' || usuarioRol == 'Cliente')">
+        <li class="nav-item" style="padding-right: 10px;" routerLinkActive="active">
           <a
-            class="btn text-white" style="border-radius: 20px; background-color: #3a0c3d; padding-left: 10px;"
+            class="btn text-white" style="border-radius: 10px; background-color: #d986ad; padding-left: 10px;"
             [routerLink]="['micuenta']"
           >
             Mi Cuenta
           </a>
         </li>
+      </div>
         <div *ngIf="!usuarioAutenticado; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
           <li class="nav-item">
-            <a class="nav-link" routerLink="login">Ingresar</a>
+            <a class="btn text-white" style="border-radius: 10px; background-color: #d986ad;" routerLink="iniciarsesion">Ingresar</a>
           </li></ng-template>
         <ng-template #elseBlock>
           <li class="nav-item">
-            <a class="btn" (click)="cerrarSesion()">Salir</a>
+            <a class="btn text-white" style="border-radius: 10px; background-color: #d986ad;" (click)="cerrarSesion()">Salir</a>
           </li>
         </ng-template>
         <!-- <li class="nav-item dropdown">

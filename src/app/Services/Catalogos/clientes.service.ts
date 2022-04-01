@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { URL_APIS } from '../global';
-import { amenidad } from '../../Models/catalogos/amenidades.model';
 import { cliente } from 'src/app/Models/catalogos/cliente.model';
 
 @Injectable({

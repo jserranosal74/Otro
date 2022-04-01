@@ -6,13 +6,14 @@ import { FotosComponent } from './fotos/fotos.component';
 import { InformacionprincipalComponent } from './informacionprincipal/informacionprincipal.component';
 import { OperaciontipoinmuebleComponent } from './operaciontipoinmueble/operaciontipoinmueble.component';
 import { UbicacionComponent } from './ubicacion/ubicacion.component';
+import { AuthGuard } from '../../guards/auth.guard';
 
 export const PUBLICAR_CHILD_ROUTES: Routes = [
-  { path: 'informacionprincipal', component: InformacionprincipalComponent },
-  { path: 'operaciontipoinmueble', component: OperaciontipoinmuebleComponent },
-  { path: 'fotos', component: FotosComponent },
-  { path: 'ubicacion', component: UbicacionComponent },
-  { path: 'detalles', component: DetallesComponent },
-  { path: 'contacto', component: ContactoComponent },
+  { path: 'informacionprincipal', component: InformacionprincipalComponent, canActivate : [AuthGuard] },
+  { path: 'operaciontipoinmueble', component: OperaciontipoinmuebleComponent, canActivate : [AuthGuard] },
+  { path: 'fotos', component: FotosComponent, canActivate : [AuthGuard] },
+  { path: 'ubicacion', component: UbicacionComponent, canActivate : [AuthGuard] },
+  { path: 'detalles', component: DetallesComponent, canActivate : [AuthGuard] },
+  { path: 'contacto', component: ContactoComponent, canActivate : [AuthGuard] },
   { path: '**', pathMatch: 'full', redirectTo: 'informacionprincipal'},
 ]

@@ -72,15 +72,21 @@ export class IniciarsesionComponent implements OnInit {
           //debugger;
           console.log('datos: ', data);
 
-          localStorage.setItem('token', data);
+          localStorage.setItem('usuario', JSON.stringify(data));
+          
+          console.log(localStorage.getItem('usuario'));
+          console.log(JSON.parse(localStorage.getItem('usuario')!));
+          //JSON.parse(localStorage.getItem('usuario'))['Token']
 
-          this._router.navigate(['/inicio']);
+          //this._router.navigateByUrl('/inicio');
+
+          window.location.href = '/inicio';
 
           this.limpiarFormulario();
         },
         (error: HttpErrorResponse) => {
           //Error callback
-          console.log('Error del servicio: ', error.error['Descripcion']);
+          console.log('Error del servicio: ', error);
 
           switch (error.status) {
             case 401:

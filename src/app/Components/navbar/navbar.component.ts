@@ -10,20 +10,23 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
   usuarioAutenticado : boolean = false;
+  usuarioRol : string = '';
 
-  constructor( private _login : LoginService,
+  constructor( private _loginService : LoginService,
                private _router : Router) {
-    console.log('this.usuarioAutenticado', this.usuarioAutenticado);
-    this.usuarioAutenticado = this._login.estaAutenticado();
-    console.log('this.usuarioAutenticado', this.usuarioAutenticado);
+    // console.log('this.usuarioAutenticado', this.usuarioAutenticado);
+    this.usuarioAutenticado = this._loginService.estaAutenticado();
+    this.usuarioRol = this._loginService.obtenerRolUsuario();
+    // console.log('this.usuarioAutenticado', this.usuarioAutenticado);
    }
 
   ngOnInit(): void {
   }
 
   cerrarSesion(){
-    this._login.cerarSesion();
-    this._router.navigate(['/inicio'])
+    this._loginService.cerarSesion();
+    //this._router.navigate(['/inicio'])
+    window.location.href = '/inicio';
   }
 
 }

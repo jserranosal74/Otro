@@ -16,6 +16,7 @@ import { IniciarsesionComponent } from './Components/iniciarsesion/iniciarsesion
 import { PUBLICAR_CHILD_ROUTES } from './Components/publicar/publicar.routes';
 import { CATALOGOS_CHILD_ROUTES } from './Components/catalogos/catalogos.routes';
 import { MICUENTA_CR } from './Components/micuenta/micuenta.routes';
+import { RecuperarpasswordComponent } from './Components/recuperarpassword/recuperarpassword.component';
 
 
 const routes: Routes = [
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'buscar', component: BuscarComponent },
   { path: 'login', component: LoginComponent },
   { path: 'iniciarsesion', component: IniciarsesionComponent },
+  { path: 'recuperarpassword', component: RecuperarpasswordComponent },
   {
     path: 'publicar',
     component: PublicarComponent,

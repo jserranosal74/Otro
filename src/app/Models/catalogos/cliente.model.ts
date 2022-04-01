@@ -2,6 +2,7 @@ export class cliente {
     constructor(
       public Id_Cliente: number,
       public Id_TipoPersona: number,
+      public Id_Rol: number,
       public Email: string,
       public Password: string,
       public Nombre: string,

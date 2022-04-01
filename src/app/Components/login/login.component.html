@@ -4,7 +4,6 @@
   <form
     autocomplete="off"
     [formGroup]="formLogin"
-    (ngSubmit)="guardarRegistro()"
   >
     <div class="form-group row py-3">
       <label class="col-md-6 col-form-label text-center"
@@ -68,17 +67,23 @@
 
     <div class="form-group row py-3">
       <label class="col-md-2 col-form-label">&nbsp;</label>
-      <div class="col-4 d-grid gap-2 mix-auto">
-        <button type="submit" class="btn btn-primary btn-lg">
-          Crear cuenta
+      <div class="col-2 d-grid gap-2 mix-auto">
+        <button type="button" (click)="guardarRegistro(2)" class="form-control btn btn-primary btn-lg" >
+          SOY Dueño
+        </button>
+      </div>
+      <div class="col-2 d-grid gap-2 mix-auto">
+        <button type="button" (click)="guardarRegistro(3)" class="form-control btn btn-primary btn-lg" >
+          SOY Agente Inmobiliario
         </button>
       </div>
     </div>
 
     <div class="text-center p-3">
-      <a class="text-black" routerLink="/iniciarsesion"
-        >¿Ya tienes una cuenta? / Ingresar</a
-      >
+      <a class="text-success" routerLink="/iniciarsesion">¿Ya tienes una cuenta? / Ingresar</a>
+    </div>
+    <div class="text-center p-3">
+      <a class="text-success" routerLink="/recuperarpassword">¿Olvidaste tu contraseña? / Recuperar contraseña</a>
     </div>
   </form>
 </div>

@@ -24,6 +24,7 @@ import { RecomendadosparatiComponent } from './Components/recomendadosparati/rec
 import { CategoriaspopularesComponent } from './Components/categoriaspopulares/categoriaspopulares.component';
 import { BusquedadetalladaComponent } from './Components/buscar/busquedadetallada/busquedadetallada.component';
 import { IniciarsesionComponent } from './Components/iniciarsesion/iniciarsesion.component';
+import { RecuperarpasswordComponent } from './Components/recuperarpassword/recuperarpassword.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { IniciarsesionComponent } from './Components/iniciarsesion/iniciarsesion
     RecomendadosparatiComponent,
     CategoriaspopularesComponent,
     BusquedadetalladaComponent,
-    IniciarsesionComponent
+    IniciarsesionComponent,
+    RecuperarpasswordComponent
   ],
   imports: [
     BrowserModule,

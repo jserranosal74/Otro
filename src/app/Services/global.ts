@@ -28,5 +28,6 @@ export const URL_APIS = {
     urlPlanesCliente: '/api/PlanesCliente/',
 
     // Auxiliares
-    urlLogin: '/api/login/authenticate/'
+    urlLogin: '/api/login/authenticate/',
+    urlRecuperarPassword: '/api/login/recuperarPassword/'
   };

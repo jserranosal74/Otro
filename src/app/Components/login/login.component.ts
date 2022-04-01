@@ -1,16 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormArray,
-  FormControl,
-} from '@angular/forms';
-import { cliente } from 'src/app/Models/catalogos/cliente.model';
+import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 import { ClientesService } from '../../Services/Catalogos/clientes.service';
+import { cliente } from 'src/app/Models/catalogos/cliente.model';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +12,9 @@ import { ClientesService } from '../../Services/Catalogos/clientes.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
+  soypropietario = '';
+  soyagente = '';
+
   formLogin = this.fb.group({
     correo: [
       '',
@@ -27,7 +24,7 @@ export class LoginComponent implements OnInit {
       ],
     ],
     password1: ['', Validators.required],
-    password2: ['', Validators.required],
+    password2: ['', Validators.required]
   });
 
   constructor(
@@ -49,12 +46,12 @@ export class LoginComponent implements OnInit {
         ],
       ],
       password1: ['', Validators.required],
-      password2: ['', Validators.required],
+      password2: ['', Validators.required]
     });
   }
 
-  guardarRegistro() {
-
+  guardarRegistro(tipoCliente : number) {
+  //debugger;
     if (this.formLogin.invalid) {
       return Object.values(this.formLogin.controls).forEach((control) => {
         if (control instanceof FormGroup) {
@@ -71,6 +68,7 @@ export class LoginComponent implements OnInit {
       let _cliente = new cliente(
         0,
         1,
+        tipoCliente,
         this.formLogin.get('correo')?.value,
         this.formLogin.get('password1')?.value,
         '',
@@ -87,7 +85,7 @@ export class LoginComponent implements OnInit {
         1
       );
   
-      console.log(this.formLogin);
+      //console.log(this.formLogin);
 
       this._clienteService.postCliente(_cliente).subscribe(
         (data) => {
@@ -106,24 +104,32 @@ export class LoginComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           //Error callback
-          console.log('Error del servicio: ', error.error['Descripcion']);
+          //console.log('Error del servicio: ', error.error['Descripcion']);
+
+          Swal.fire({
+            icon: 'error',
+            title: error.error['Descripcion'],
+            text: '',
+            showCancelButton: false,
+            showDenyButton: false,
+          });
           
           switch (error.status) {
             case 401:
                 //this.router.navigateByUrl("/login");
-                console.log('error 401');
+                //console.log('error 401');
                 break;
             case 403:
                 //this.router.navigateByUrl("/unauthorized");
-                console.log('error 403');
+                //console.log('error 403');
                 break;
             case 404:
                 //this.router.navigateByUrl("/unauthorized");
-                console.log('error 404');
+                //console.log('error 404');
                 break;
             case 409:
                 //this.router.navigateByUrl("/unauthorized");
-                console.log('error 409');
+                //console.log('error 409');
                 break;
         }
 
@@ -141,7 +147,7 @@ export class LoginComponent implements OnInit {
     this.formLogin.reset({
       correo: '',
       password1: '',
-      password2: '',
+      password2: ''
     });
   }
 
@@ -165,4 +171,12 @@ export class LoginComponent implements OnInit {
       this.formLogin.get('password2')?.touched
     );
   }
+
+  get passwordsDiferentes() {
+    return (
+      this.formLogin.get('password1')?.value !=
+      this.formLogin.get('password2')?.value
+    );
+  }
+
 }
