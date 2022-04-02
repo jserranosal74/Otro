@@ -55,7 +55,7 @@
 <!-- ============= COMPONENT ============== -->
 <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-dark fixed-top" style="background:#c3365e;">
   <div class="container-fluid" style="padding: 0px 10px;">
-    <a class="navbar-brand" routerLink="Inicio">Mi Depa App</a>
+    <a class="navbar-brand" routerLink="Inicio">Inmuebles Yuca</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -255,14 +255,14 @@
 
       <ul class="navbar-nav ms-auto">
         <li class="nav-item px-2" routerLinkActive="active">
-          <a class="btn text-white" style="border-radius: 10px; background-color: #d986ad;" [routerLink]="['publicar']"
+          <a class="btn text-white btn-secondary" style="border-radius: 10px;" [routerLink]="['publicar']"
             >Publicar gratis</a
           >
         </li>
         <div *ngIf="usuarioAutenticado && (usuarioRol == 'Administrador' || usuarioRol == 'Cliente')">
         <li class="nav-item" style="padding-right: 10px;" routerLinkActive="active">
           <a
-            class="btn text-white" style="border-radius: 10px; background-color: #d986ad; padding-left: 10px;"
+            class="btn text-white btn-secondary" style="border-radius: 10px; padding-left: 10px;"
             [routerLink]="['micuenta']"
           >
             Mi Cuenta
@@ -272,11 +272,11 @@
         <div *ngIf="!usuarioAutenticado; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
           <li class="nav-item">
-            <a class="btn text-white" style="border-radius: 10px; background-color: #d986ad;" routerLink="iniciarsesion">Ingresar</a>
+            <a class="btn text-white btn-secondary" style="border-radius: 10px;" routerLink="iniciarsesion">Ingresar</a>
           </li></ng-template>
         <ng-template #elseBlock>
           <li class="nav-item">
-            <a class="btn text-white" style="border-radius: 10px; background-color: #d986ad;" (click)="cerrarSesion()">Salir</a>
+            <a class="btn text-white btn-secondary" style="border-radius: 10px;" (click)="cerrarSesion()">Salir</a>
           </li>
         </ng-template>
         <!-- <li class="nav-item dropdown">

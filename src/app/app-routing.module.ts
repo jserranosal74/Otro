@@ -15,8 +15,12 @@ import { IniciarsesionComponent } from './Components/iniciarsesion/iniciarsesion
 
 import { PUBLICAR_CHILD_ROUTES } from './Components/publicar/publicar.routes';
 import { CATALOGOS_CHILD_ROUTES } from './Components/catalogos/catalogos.routes';
-import { MICUENTA_CR } from './Components/micuenta/micuenta.routes';
+import { LEGAL_CHILD_ROUTES } from './Components/legal/legal.routes';
+import { MICUENTA_CHILD_ROUTES } from './Components/micuenta/micuenta.routes';
+import { AYUDA_CHILD_ROUTES } from './Components/ayuda/ayuda.routes';
+
 import { RecuperarpasswordComponent } from './Components/recuperarpassword/recuperarpassword.component';
+import { LegalComponent } from './Components/legal/legal.component';
 
 
 const routes: Routes = [
@@ -24,11 +28,11 @@ const routes: Routes = [
   { path: 'comprar/:tipo', component: ComprarComponent },
   { path: 'rentar/:tipo', component: RentarComponent },
   { path: 'desarrollos/:tipo', component: DesarrollosComponent },
-  { path: 'ayuda', component: AyudaComponent },
   { path: 'buscar', component: BuscarComponent },
   { path: 'login', component: LoginComponent },
   { path: 'iniciarsesion', component: IniciarsesionComponent },
   { path: 'recuperarpassword', component: RecuperarpasswordComponent },
+  { path: 'ayuda', component: AyudaComponent, children: AYUDA_CHILD_ROUTES },
   {
     path: 'publicar',
     component: PublicarComponent,
@@ -41,7 +45,12 @@ const routes: Routes = [
   {
     path: 'micuenta',
     component: MicuentaComponent,
-    children: MICUENTA_CR
+    children: MICUENTA_CHILD_ROUTES
+  },
+  {
+    path: 'legal',
+    component: LegalComponent,
+    children: LEGAL_CHILD_ROUTES
   },
   { path: '**', pathMatch: 'full', redirectTo: 'inicio' },
 ];

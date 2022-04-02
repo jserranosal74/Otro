@@ -26,6 +26,9 @@ import { BusquedadetalladaComponent } from './Components/buscar/busquedadetallad
 import { IniciarsesionComponent } from './Components/iniciarsesion/iniciarsesion.component';
 import { RecuperarpasswordComponent } from './Components/recuperarpassword/recuperarpassword.component';
 
+import { LegalComponent } from './Components/legal/legal.component';
+import { AyudaModule } from './Components/ayuda/ayuda.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,12 +47,14 @@ import { RecuperarpasswordComponent } from './Components/recuperarpassword/recup
     CategoriaspopularesComponent,
     BusquedadetalladaComponent,
     IniciarsesionComponent,
-    RecuperarpasswordComponent
+    RecuperarpasswordComponent,
+    LegalComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     PublicarModule,
+    AyudaModule,
     CatalogosModule,
     MicuentaModule,
     HttpClientModule,

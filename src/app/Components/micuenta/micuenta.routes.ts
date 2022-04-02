@@ -9,7 +9,7 @@ import { MismensajesComponent } from './mismensajes/mismensajes.component';
 import { SalirComponent } from './salir/salir.component';
 import { AuthGuard } from '../../guards/auth.guard';
 
-export const MICUENTA_CR: Routes = [
+export const MICUENTA_CHILD_ROUTES: Routes = [
   { path: 'miperfil', component: MiperfilComponent, canActivate: [AuthGuard] },
   { path: 'misaldo', component: MisaldoComponent, canActivate: [AuthGuard]  },
   { path: 'misanuncios', component: MisanunciosComponent, canActivate: [AuthGuard]  },

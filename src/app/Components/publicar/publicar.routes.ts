@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { ContactoComponent } from './contacto/contacto.component';
 import { DetallesComponent } from './detalles/detalles.component';
 import { FotosComponent } from './fotos/fotos.component';
 import { InformacionprincipalComponent } from './informacionprincipal/informacionprincipal.component';
@@ -14,6 +13,5 @@ export const PUBLICAR_CHILD_ROUTES: Routes = [
   { path: 'fotos', component: FotosComponent, canActivate : [AuthGuard] },
   { path: 'ubicacion', component: UbicacionComponent, canActivate : [AuthGuard] },
   { path: 'detalles', component: DetallesComponent, canActivate : [AuthGuard] },
-  { path: 'contacto', component: ContactoComponent, canActivate : [AuthGuard] },
   { path: '**', pathMatch: 'full', redirectTo: 'informacionprincipal'},
 ]
