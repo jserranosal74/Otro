@@ -53,11 +53,25 @@ export class RecuperarpasswordComponent implements OnInit {
         }
       );
     } else {
+
+      let _login = new login(
+        this.formRP.get('correo')?.value,
+        this.formRP.get('password1')?.value,
+      );
+
       //Envio de la informacion al servidor
-      this._loginService.recuperarPassword(this.formRP.get('correo')?.value).subscribe(
+      this._loginService.recuperarPassword(_login).subscribe(
         (data) => {
           //debugger;
           console.log('datos: ', data);
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Se envio un correo a su cuenta.',
+            text: 'Revise las instrucciones para reestablecer su password.',
+            showCancelButton: false,
+            showDenyButton: false,
+          });
 
           //localStorage.setItem('usuario', JSON.stringify(data));
           
@@ -85,22 +99,32 @@ export class RecuperarpasswordComponent implements OnInit {
               console.log('error 403');
               break;
             case 404:
-              //this.router.navigateByUrl("/unauthorized");
+
+              Swal.fire({
+                icon: 'error',
+                title: 'Al parecer la cuenta de correo proporcionada no existe en nuestro sistema',
+                text: '',
+                showCancelButton: false,
+                showDenyButton: false,
+              });
+    
               console.log('error 404');
               break;
             case 409:
-              //this.router.navigateByUrl("/unauthorized");
+              
+              Swal.fire({
+                icon: 'error',
+                title: 'Ocurrio un error al intentar enviar el correo',
+                text: 'Intentelo mas tarde',
+                showCancelButton: false,
+                showDenyButton: false,
+              });
+
               console.log('error 409');
               break;
           }
 
-          Swal.fire({
-            icon: 'error',
-            title: 'Ocurrio un error al intentar autenticar el usuario',
-            text: 'Correo y/o contraseña incorrectos.',
-            showCancelButton: false,
-            showDenyButton: false,
-          });
+          
 
           //throw error;   //You can also throw the error to a global error handler
         }

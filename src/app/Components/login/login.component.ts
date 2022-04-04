@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup,  FormBuilder,  Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 import { ClientesService } from '../../Services/Catalogos/clientes.service';
@@ -12,6 +12,7 @@ import { cliente } from 'src/app/Models/catalogos/cliente.model';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
+  obtenerTipo = 'password';
   soypropietario = '';
   soyagente = '';
 
@@ -178,6 +179,16 @@ export class LoginComponent implements OnInit {
       this.formLogin.get('password1')?.value !=
       this.formLogin.get('password2')?.value
     );
+  }
+
+  cambiarTipo(){
+    if (this.obtenerTipo === 'password'){
+      this.obtenerTipo = 'text';
+    }
+    else{
+      this.obtenerTipo = 'password';
+    }
+    
   }
 
 }

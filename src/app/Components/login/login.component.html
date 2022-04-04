@@ -12,7 +12,7 @@
     </div>
 
     <div class="form-group row py-3">
-      <label class="col-md-2 col-form-label">Correo electrónico</label>
+      <label class="col-md-2 col-form-label text-primary">Correo electrónico</label>
       <div class="col-md-4 col-10 p-0">
         <input
           class="form-control"
@@ -30,15 +30,25 @@
     </div>
 
     <div class="form-group row py-3">
-      <label class="col-md-2 col-form-label">Contraseña</label>
+      <label class="col-md-2 col-form-label text-primary">Contraseña</label>
       <div class="col-md-4 col-10 p-0">
         <input
-          type="password"
+          [type]="obtenerTipo"
           class="form-control"
           placeholder="Contraseña"
           formControlName="password1"
           [class.is-invalid]="password1NoValido"
         />
+      </div>
+      <div class="col-auto px-0">
+        <button class="btn btn-primary px-1" (click)="cambiarTipo()"><span class="col-md-1 col-md-offset-2 text-center">
+          <div *ngIf="obtenerTipo=='text'">
+            <i class="fa fa-eye"></i>
+          </div>
+          <div *ngIf="obtenerTipo=='password'">
+            <i class="fa fa-eye-slash"></i>
+          </div>
+        </span></button>
       </div>
       <div class="col-md-4 col-form-label">
         <small *ngIf="password1NoValido" class="text-danger">
@@ -48,15 +58,25 @@
     </div>
 
     <div class="form-group row py-3">
-      <label class="col-md-2 col-form-label">Repita contraseña</label>
+      <label class="col-md-2 col-form-label text-primary">Repita contraseña</label>
       <div class="col-md-4 col-10 p-0">
         <input
-          type="password"
+          [type]="obtenerTipo"
           class="form-control"
           placeholder="Repita contraseña"
           formControlName="password2"
           [class.is-invalid]="password2NoValido"
         />
+      </div>
+      <div class="col-auto px-0">
+        <button class="btn btn-primary px-1" (click)="cambiarTipo()"><span class="col-md-1 col-md-offset-2 text-center">
+          <div *ngIf="obtenerTipo=='text'">
+            <i class="fa fa-eye"></i>
+          </div>
+          <div *ngIf="obtenerTipo=='password'">
+            <i class="fa fa-eye-slash"></i>
+          </div>
+        </span></button>
       </div>
       <div class="col-md-4 col-form-label">
         <small *ngIf="password2NoValido" class="text-danger">

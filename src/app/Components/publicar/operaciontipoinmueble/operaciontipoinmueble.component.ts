@@ -13,16 +13,14 @@ export class OperaciontipoinmuebleComponent implements OnInit {
   _tiposPropiedad: tipoPropiedad[] = [];
   tipoPropiedadSeleccionada : number = 0;
   loading:boolean = false;
-  EsVenta=false;
-  EsRenta=false;
+  // EsVenta=false;
+  // EsRenta=false;
   VentaSeleccionada=false;
   RentaSeleccionada=false;
 
   formaOTI = this.fb.group({
-    tipoOperacion : [''],
-    EsVenta : [''],
-    EsRenta : [''],
-    tipoPropiedad : ['']
+    tipoOperacion : ['', [Validators.required] ],
+    tipoPropiedad : ['', [Validators.required] ],
   });
 
   constructor(private _tipoPropiedadService: TiposPropiedadService,
@@ -69,16 +67,15 @@ export class OperaciontipoinmuebleComponent implements OnInit {
     crearFormulario() {
 
     this.formaOTI = this.fb.group({
-      tipoOperacion : [''],
-      EsVenta : [''],
-      EsRenta : [''],
-      tipoPropiedad : ['']
+    tipoOperacion : ['', [Validators.required] ],
+    tipoPropiedad : ['', [Validators.required] ],
     });
 
   }
 
   guardarOTI() {
-    console.log( this.formaOTI );
+    console.log(this.formaOTI.get('tipoOperacion')?.value);
+    console.log(this.formaOTI.get('tipoPropiedad')?.value);
 
     if ( this.formaOTI.invalid ) {
 
@@ -98,14 +95,18 @@ export class OperaciontipoinmuebleComponent implements OnInit {
       //Envio de la informacion al servidor
 
       // Reseteo de la información
-    this.formaOTI.reset({
-      tipoOperacion : '',
-      EsVenta : [''],
-      EsRenta : [''],
-      tipoPropiedad : ''
-    });
-    }
+      //this.limpiarFormulario();
+    
   }
+}
+
+limpiarFormulario(){
+  this.formaOTI.reset({
+    tipoOperacion : '',
+    tipoPropiedad : ''
+  });
+  
+}
 
   somethingChanged(sel:number){
     console.log('sel:' + sel + ',' + this.formaOTI.controls['tipoPropiedad'].value);

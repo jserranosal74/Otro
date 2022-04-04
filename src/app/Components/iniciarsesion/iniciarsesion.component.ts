@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./iniciarsesion.component.css'],
 })
 export class IniciarsesionComponent implements OnInit {
+  obtenerTipo = 'password';
   formIniciarsesion = this.fb.group({
     correo: [
       '',
@@ -142,4 +143,15 @@ export class IniciarsesionComponent implements OnInit {
       this.formIniciarsesion.get('password1')?.touched
     );
   }
+  
+  cambiarTipo(){
+    if (this.obtenerTipo === 'password'){
+      this.obtenerTipo = 'text';
+    }
+    else{
+      this.obtenerTipo = 'password';
+    }
+    
+  }
+
 }

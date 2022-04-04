@@ -30,8 +30,8 @@ export class LoginService {
     this._router.navigate(['/inicio']);
   }
 
-  public recuperarPassword(str_Correo: string): Observable<string> {
-    return this.http.post<string>(this.urlRecuperarPassword, str_Correo);
+  public recuperarPassword(objLogin: login): Observable<string> {
+    return this.http.post<string>(this.urlRecuperarPassword, objLogin);
   }
 
   public estaAutenticado(): boolean {

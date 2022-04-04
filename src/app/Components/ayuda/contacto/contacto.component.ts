@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
-import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import Swal from 'sweetalert2';
+import { HttpErrorResponse } from '@angular/common/http';
+
+import { contacto } from 'src/app/Models/ayuda/contacto/contacto.model';
+import { ContactoService } from 'src/app/Services/Procesos/contacto.service';
 
 @Component({
   selector: 'app-contacto',
@@ -17,7 +21,8 @@ export class ContactoComponent implements OnInit {
     mensaje   : ['', Validators.required ]
   });
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+              private _contactoService: ContactoService) {
     this.crearFormulario();
    }
 
@@ -55,6 +60,71 @@ export class ContactoComponent implements OnInit {
     }
     else{
       //Envio de la informacion al servidor
+
+      let _contacto = new contacto(
+        0,
+        this.formaContacto.get('nombre')?.value,
+        this.formaContacto.get('correo')?.value,
+        this.formaContacto.get('telefono')?.value,
+        this.formaContacto.get('asunto')?.value,
+        this.formaContacto.get('mensaje')?.value,
+        new Date(),
+        new Date(),
+        1,
+        1
+      );
+  
+      //console.log(this.formLogin);
+
+      this._contactoService.postContacto(_contacto).subscribe(
+        (data) => {
+          //Next callback
+          console.log('datos: ',data);
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Gracias por mensaje',
+            text: 'Se revisara el mensaje y si es necesario nos pondremos en contacto con usted.',
+            showCancelButton: false,
+            showDenyButton: false,
+          });
+
+          this.limpiarFormulario();
+        },
+        (error: HttpErrorResponse) => {
+          //Error callback
+          //console.log('Error del servicio: ', error.error['Descripcion']);
+
+          Swal.fire({
+            icon: 'error',
+            title: error.error['Descripcion'],
+            text: 'Ha ocurrio un error, intentelo de nuevo por favor.',
+            showCancelButton: false,
+            showDenyButton: false,
+          });
+          
+          switch (error.status) {
+            case 401:
+                //this.router.navigateByUrl("/login");
+                //console.log('error 401');
+                break;
+            case 403:
+                //this.router.navigateByUrl("/unauthorized");
+                //console.log('error 403');
+                break;
+            case 404:
+                //this.router.navigateByUrl("/unauthorized");
+                //console.log('error 404');
+                break;
+            case 409:
+                //this.router.navigateByUrl("/unauthorized");
+                //console.log('error 409');
+                break;
+        }
+
+          //throw error;   //You can also throw the error to a global error handler
+        }
+      );
 
       // Reseteo de la información
       this.limpiarFormulario();

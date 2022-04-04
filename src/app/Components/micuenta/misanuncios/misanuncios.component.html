@@ -1,1 +1,47 @@
-<p>misanuncios works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <form class="form-horizontal" [formGroup]="formaAnuncios">
+                    <fieldset>
+                        <legend class="text-center text-primary mb-3"><h1 class="display-4">Mis Anuncios</h1></legend>
+                        <div class="form-group row mb-3">
+                            <table class="table table-primary table-striped table-bordered border-primary">
+                                <thead>
+                                  <tr>
+                                    <th class="text-primary" scope="col">#</th>
+                                    <th class="text-primary" scope="col">Id Plan</th>
+                                    <th class="text-primary" scope="col">Descripción</th>
+                                    <th class="text-primary" scope="col">Pagados</th>
+                                    <th class="text-primary" scope="col">Utilizados</th>
+                                    <th class="text-primary" scope="col">Restantes</th>
+                                    <th class="text-primary" scope="col">Fecha de pago</th>
+                                    <th class="text-primary" scope="col">Ver detalle</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <th class="text-primary text-center" scope="row">1</th>
+                                    <td class="text-primary text-center">1</td>
+                                    <td class="text-primary">Destacado</td>
+                                    <td class="text-primary text-center">3</td>
+                                    <td class="text-primary text-center">1</td>
+                                    <td class="text-primary text-center">2</td>
+                                    <td class="text-primary text-center">2/12/20022</td>
+                                    <td>
+                                        <div class="col-auto d-grid gap-2 mix-auto px-0">
+                                            <a class="btn btn-primary px-1 btn-sm"><span class="col-md-1 col-md-offset-2 text-center">
+                                                <i class="fa fa-eye"></i>
+                                            </span></a>
+                                          </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
