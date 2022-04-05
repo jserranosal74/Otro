@@ -27,7 +27,8 @@ export class LoginService {
 
   public cerarSesion(){
     localStorage.removeItem('usuario');
-    this._router.navigate(['/inicio']);
+    //this._router.navigate(['/inicio']);
+    window.location.href = '/inicio';
   }
 
   public recuperarPassword(objLogin: login): Observable<string> {
@@ -50,6 +51,16 @@ export class LoginService {
     if (localStorage.getItem('usuario'))
     {
       return JSON.parse(localStorage.getItem('usuario')!)['Rol'];
+    }
+    else{
+      return '';
+    }
+  }
+
+  public obtenerToken(): string {
+    if (localStorage.getItem('usuario'))
+    {
+      return JSON.parse(localStorage.getItem('usuario')!)['Token'];
     }
     else{
       return '';

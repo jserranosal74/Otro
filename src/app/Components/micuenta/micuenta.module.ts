@@ -4,22 +4,26 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MiperfilComponent } from '../micuenta/miperfil/miperfil.component';
-import { MisaldoComponent } from '../micuenta/misaldo/misaldo.component';
+import { MisplanesComponent } from './misplanes/miplan.component';
 import { MisfavoritosComponent } from '../micuenta/misfavoritos/misfavoritos.component';
 import { MismensajesComponent } from '../micuenta/mismensajes/mismensajes.component';
 import { MisanunciosComponent } from '../micuenta/misanuncios/misanuncios.component';
 import { MisalertasComponent } from './misalertas/misalertas.component';
 import { SalirComponent } from './salir/salir.component';
+import { MisfacturasComponent } from './misfacturas/misfacturas.component';
+import { DatosfiscalesComponent } from './datosfiscales/datosfiscales.component';
 
 @NgModule({
   declarations: [
     MiperfilComponent,
-    MisaldoComponent,
+    MisplanesComponent,
     MisfavoritosComponent,
     MismensajesComponent,
     MisanunciosComponent,
     MisalertasComponent,
-    SalirComponent
+    SalirComponent,
+    MisfacturasComponent,
+    DatosfiscalesComponent
   ],
   imports: [
     CommonModule,
@@ -29,12 +33,14 @@ import { SalirComponent } from './salir/salir.component';
   ],
   exports: [
     MiperfilComponent,
-    MisaldoComponent,
+    MisplanesComponent,
     MisfavoritosComponent,
     MismensajesComponent,
     MisanunciosComponent,
     MisalertasComponent,
-    SalirComponent
+    SalirComponent,
+    MisfacturasComponent,
+    DatosfiscalesComponent
   ]
 })
 

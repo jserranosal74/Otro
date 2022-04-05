@@ -3,6 +3,8 @@ export const URL_APIS = {
     urlAmenidades: '/api/Amenidades/',
     urlAsentamientos: '/api/Asentamientos/',
     urlClientes: '/api/Clientes/',
+    urlInmobiliarias: '/api/Inmobiliarias/',
+    urlInmobiliariasCliente: '/api/Inmobiliarias/obtenerporcliente/',
     urlClienteMedioContacto: '/api/ClienteMedioContacto/',
     urlEstados: '/api/Estados/',
     urlMediosContacto: '/api/MediosContacto/',
@@ -25,8 +27,11 @@ export const URL_APIS = {
     urlFavoritosCliente: '/api/FavoritosCliente/',
     urlFotosPublicacion: '/api/FotosPublicacion/',
     urlMensajesPublicacion: '/api/MensajesPublicacion/',
-    urlPlanesCliente: '/api/PlanesCliente/',
+    // urlPlanesCliente: '/api/PlanesCliente/',
     urlContacto: '/api/Contacto/',
+
+    // Mi cuenta
+    urlPlanesCliente: '/api/PlanesCliente/obtenerporcliente',
 
     // Auxiliares
     urlLogin: '/api/login/authenticate/',

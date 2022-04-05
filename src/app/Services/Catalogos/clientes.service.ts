@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { URL_APIS } from '../global';
 import { cliente } from 'src/app/Models/catalogos/cliente.model';
+import { LoginService } from './login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,28 +13,34 @@ import { cliente } from 'src/app/Models/catalogos/cliente.model';
 export class ClientesService {
   public urlClientes: string;
 
-  constructor(private http: HttpClient) { 
+  httpOptions = {
+    headers: new HttpHeaders({
+      Authorization: `Bearer ` + this._loginService.obtenerToken(),
+    })
+  };
+
+  constructor(private http: HttpClient, private _loginService: LoginService) { 
     this.urlClientes = URL_APIS.urlClientes;
   }
 
   public getCliente(Id_Cliente : number): Observable<cliente> {
-    return this.http.get<cliente>(this.urlClientes + Id_Cliente);
+    return this.http.get<cliente>(this.urlClientes + Id_Cliente, this.httpOptions);
   }
 
   public getClientes(): Observable<cliente[]> {
-    return this.http.get<cliente[]>(this.urlClientes);
+    return this.http.get<cliente[]>(this.urlClientes, this.httpOptions);
   }
 
   public putCliente(objCliente: cliente): Observable<cliente> {
-    return this.http.put<cliente>(this.urlClientes + objCliente.Id_Cliente, objCliente);
+    return this.http.put<cliente>(this.urlClientes + objCliente.Id_Cliente, objCliente, this.httpOptions);
   }
 
   public postCliente(objCliente: cliente): Observable<cliente> {
-    return this.http.post<cliente>(this.urlClientes, objCliente);
+    return this.http.post<cliente>(this.urlClientes, objCliente, this.httpOptions);
   }
 
   public deleteCliente(Id_Cliente : number): Observable<cliente> {
-    return this.http.delete<cliente>(this.urlClientes + Id_Cliente);
+    return this.http.delete<cliente>(this.urlClientes + Id_Cliente, this.httpOptions);
   }
 
 }

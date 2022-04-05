@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
   cerrarSesion(){
     this._loginService.cerarSesion();
     //this._router.navigate(['/inicio'])
-    window.location.href = '/inicio';
+    //window.location.href = '/inicio';
   }
 
 }
