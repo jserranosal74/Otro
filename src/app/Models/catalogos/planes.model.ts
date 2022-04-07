@@ -5,6 +5,7 @@ export class plan {
       public Precio: number,
       public Cantidad: number,
       public VigenciaXUnidad : number,
+      public UrlImagen : string,
       public FechaAlta: Date,
       public FechaModificacion: Date,
       public Id_Usuario: number,

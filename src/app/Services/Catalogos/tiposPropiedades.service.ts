@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { tipoPropiedad } from '../../Models/catalogos/tipoPropiedad.model';
 import { URL_APIS } from '../global';
+import { LoginService } from './login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +12,34 @@ import { URL_APIS } from '../global';
 export class TiposPropiedadService {
   public urlTiposPropiedad: string;
 
-  constructor(private http: HttpClient) { 
+  httpOptions = {
+    headers: new HttpHeaders({
+      Authorization: `Bearer ` + this._loginService.obtenerToken(),
+    })
+  };
+
+  constructor(private http: HttpClient, private _loginService: LoginService) { 
     this.urlTiposPropiedad = URL_APIS.urlTipoPropiedad;
   }
 
-  public getTiposPropiedad(): Observable<tipoPropiedad[]> {
+  public getTipoPropiedad(Id_TipoPropiedad : number): Observable<tipoPropiedad> {
+    return this.http.get<tipoPropiedad>(this.urlTiposPropiedad + Id_TipoPropiedad);
+  }
+
+  public getTiposPropiedades(): Observable<tipoPropiedad[]> {
     return this.http.get<tipoPropiedad[]>(this.urlTiposPropiedad);
+  }
+
+  public putTipoPropiedad(objTipoPropiedad: tipoPropiedad): Observable<tipoPropiedad> {
+    return this.http.put<tipoPropiedad>(this.urlTiposPropiedad + objTipoPropiedad.Id_TipoPropiedad, objTipoPropiedad, this.httpOptions);
+  }
+
+  public postTipoPropiedad(objTipoPropiedad: tipoPropiedad): Observable<tipoPropiedad> {
+    return this.http.post<tipoPropiedad>(this.urlTiposPropiedad, objTipoPropiedad, this.httpOptions);
+  }
+
+  public deleteTipoPropiedad(Id_Amenidad : number): Observable<tipoPropiedad> {
+    return this.http.delete<tipoPropiedad>(this.urlTiposPropiedad + Id_Amenidad, this.httpOptions);
   }
 
 }

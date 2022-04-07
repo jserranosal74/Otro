@@ -118,19 +118,15 @@ export class LoginComponent implements OnInit {
           
           switch (error.status) {
             case 401:
-                //this.router.navigateByUrl("/login");
                 //console.log('error 401');
                 break;
             case 403:
-                //this.router.navigateByUrl("/unauthorized");
                 //console.log('error 403');
                 break;
             case 404:
-                //this.router.navigateByUrl("/unauthorized");
                 //console.log('error 404');
                 break;
             case 409:
-                //this.router.navigateByUrl("/unauthorized");
                 //console.log('error 409');
                 break;
         }

@@ -1,13 +1,13 @@
-<form autocomplete="off" [formGroup]="formaOTI" (ngSubmit)="guardarOTI()">
-  <div class="container">
-    <div class="form-group row py-3">
+<form autocomplete="off" [formGroup]="formaOTI" class="py-3">
+  <div class="container border-primary" style="border-radius: 20px 20px 0 20px; background: rgba(223, 126, 137, 0.15);">
+    <div class="form-group row py-5">
       <div class="col-md-2">
-        <label>Tipo de operación</label>
+        <label class="text-primary">Tipo de operación</label>
       </div>
-      <div class="col-md-10">
-        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+      <div class="col-md-10 px-0">
+        <div class="btn-group btn-group-lg"  role="group" aria-label="Basic radio toggle button group">
           <input type="radio" class="btn-check" id="v1" name="tipoOperacion" value="1" formControlName="tipoOperacion"/>
-          <label class="btn btn-outline-primary" for="v1">Venta</label>
+          <label class="btn btn-outline-primary" style="border-radius: 15px solid!important;" for="v1">Venta</label>
 
           <input type="radio" class="btn-check" id="r1" name="tipoOperacion" value="2"  formControlName="tipoOperacion"/>
           <label class="btn btn-outline-primary" for="r1">Renta</label>
@@ -19,24 +19,21 @@
     </div>
     <div class="form-group row">
       <div class="col-md-2 py-4">
-        <label>Tipo de inmueble</label>  
+        <label class="text-primary">Tipo de inmueble</label>  
       </div>
-      <div class="col-md-10 py-4">
+      <div class="col-md-10 py-4 px-0">
           <div class="row">
             <div class="col-auto" *ngIf="_tiposPropiedad.length > 0">
-                <select class="form-select" aria-label="Default select example" [(ngModel)]="tipoPropiedadSeleccionada" name="tipoPropiedad" formControlName="tipoPropiedad" (change)="somethingChanged(3)">
+                <select class="form-select form-select-lg mb-3 text-primary" style="border-radius: 0.8em;" aria-label="Default select example" [(ngModel)]="tipoPropiedadSeleccionada" name="tipoPropiedad" formControlName="tipoPropiedad" (change)="somethingChanged(3)">
                     <option *ngFor="let tipopropiedad of _tiposPropiedad; let i = index" [value]="tipopropiedad.Id_TipoPropiedad" >{{tipopropiedad.Descripcion}}</option>
                  </select>
             </div>
-            <div class="col-auto">
-                <label>Subtipo de inmueble</label>  
+            <div class="col-auto px-0">
+                <label class="text-primary">Subtipo de inmueble</label>  
               </div>
             <div class="col-auto">
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Seleccione el tipo de inmueble</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                <select class="form-select form-select-lg mb-3 text-primary" style="border-radius: 0.8em;" aria-label="Default select example">
+                  <option *ngFor="let tipopropiedad of _tiposPropiedad; let i = index" [value]="tipopropiedad.Id_TipoPropiedad" >{{tipopropiedad.Descripcion}}</option>
                 </select>
             </div>
       </div>
@@ -44,15 +41,15 @@
     </div>
   </div>
 
-  <div class="form-group row">
+  <div class="form-group row" >
     
-        <div class="row">
-            <div class="col-md-8"></div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary align-items-right">Guardar</button>
+        <div class="row px-0" >
+            <div class="col-md-6"></div>
+            <div class="col-md-3 d-grid py-3" style="border-width:0px 0px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0 0 0 20px; background: rgba(223, 126, 137, 0.15);">
+                <button type="button" style="border-radius: 0.8em;" (click)="guardarOTI()" class="btn btn-primary btn-lg align-items-right">Guardar</button>
             </div>
-            <div class="col-auto">
-                <button type="button" class="btn btn-primary align-items-right">Continuar</button>
+            <div class="col-md-3 d-grid py-3" style="border-width:0px 1px 5px 0px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0 0 20px 0; background: rgba(223, 126, 137, 0.15);">
+                <button type="button" style="border-radius: 0.8em;" (click)="guardarOTI()" class="btn btn-primary btn-lg align-items-right">Guardar y Continuar</button>
             </div>
         </div>
   </div>

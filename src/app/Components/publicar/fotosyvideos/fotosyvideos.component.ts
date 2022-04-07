@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-fotos',
-  templateUrl: './fotos.component.html',
-  styleUrls: ['./fotos.component.css']
+  selector: 'app-fotosyvideos',
+  templateUrl: './fotosyvideos.component.html',
+  styleUrls: ['./fotosyvideos.component.css']
 })
-export class FotosComponent implements OnInit {
+export class FotosyvideosComponent implements OnInit {
 
   constructor() { }
 

@@ -1,11 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 import { PlanesclienteService } from '../../../Services/Procesos/planesCliente.service';
 import { plancliente } from '../../../Models/procesos/plancliente.model';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
+import { plan } from 'src/app/Models/catalogos/planes.model';
+import { PlanesService } from 'src/app/Services/Catalogos/planes.service';
 
 @Component({
   selector: 'app-miplan',
@@ -13,56 +15,44 @@ import { LoginService } from 'src/app/Services/Catalogos/login.service';
   styleUrls: ['./miplan.component.css'],
 })
 export class MisplanesComponent implements OnInit {
-_planesCliente : plancliente[] = [];
 
-  // formaPlanes = this.fb.group({
-  //   nombre: ['', Validators.required],
-  //   correo: [
-  //     '',
-  //     [
-  //       Validators.required,
-  //       Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
-  //     ],
-  //   ],
-  //   rfc: ['', Validators.required],
-  //   telefono: ['', Validators.required],
-  // });
+  _Planes : plan[] = [];
+  _planesCliente : plancliente[] = [];
+  _planCliente : plancliente = new plancliente(0,0,0,'',0,0,0,null,null,null,0,0);
+  _planSeleccionado : number = 0;
+
+  @ViewChild('myModalClose') modalClose : any;
+  // @ViewChild('verformaInmobiliaria') formaInmobiliaria : any;
+
+  formaAgregarPlan = this.fb.group({
+    plan: ['', Validators.required]
+  });
 
   constructor(
     private fb: FormBuilder,
-    private _planClienteervice: PlanesclienteService,
-    private _loginService : LoginService
+    private _planClienteService: PlanesclienteService,
+    private _loginService : LoginService,
+    private _planService : PlanesService
   ) {
-    // this.crearFormulario();
+    this.crearFormulario();
     this.obtenerMisPlanes();
+    this.obtenerPlanesDisponibles();
   }
 
   ngOnInit(): void {}
 
-  // crearFormulario() {
-  //   this.formaPlanes = this.fb.group({
-  //     nombre: ['', Validators.required],
-  //     correo: [
-  //       '',
-  //       [
-  //         Validators.required,
-  //         Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
-  //       ],
-  //     ],
-  //     rfc: ['', Validators.required],
-  //     telefono: ['', Validators.required],
-  //   });
-  // }
+  crearFormulario() {
+    this.formaAgregarPlan = this.fb.group({
+      plan: ['', Validators.required]
+    });
+  }
 
-  // limpiarFormulario(){
-  //   // Reseteo de la información
-  //   this.formaPlanes.reset({
-  //     nombre: ['', Validators.required ],
-  //     correo: ['', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$') ], ],
-  //     rfc: ['', Validators.required ],
-  //     telefono: ['', Validators.required ]
-  //   });
-  // }
+  limpiarFormulario(){
+    // Reseteo de la información
+    this.formaAgregarPlan.reset({
+      plan: ''
+    });
+  }
 
   obtenerDetallePlan(objPlanCliente: plancliente) {
     Swal.fire({
@@ -76,26 +66,54 @@ _planesCliente : plancliente[] = [];
 
   obtenerMisPlanes() {
     let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
-
-    this._planClienteervice.getPlanesCliente(Id_Usuario).subscribe(
+    this._planClienteService.getPlanesCliente(Id_Usuario).subscribe(
       (data) => {
-        console.log('datos: ', data);
+        //console.log('----datos---: ', data);
 
         this._planesCliente = data;
-
-        // Swal.fire({
-        //   icon: 'success',
-        //   title: 'Gracias por registrarse!!!!',
-        //   text: 'Revise su correo por favor para activar su cuenta.',
-        //   showCancelButton: false,
-        //   showDenyButton: false,
-        // });
 
         //this.limpiarFormulario();
       },
       (error: HttpErrorResponse) => {
         //Error callback
         //console.log('Error del servicio: ', error.error['Descripcion']);
+
+        switch (error.status) {
+          case 401:
+            Swal.fire({
+              icon: 'error',
+              title: 'Acceso no autorizado',
+              text: 'debera autenticarse',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            this._loginService.cerarSesion();
+            break;
+          case 403:
+            //console.log('error 403');
+            break;
+          case 404:
+            //console.log('error 404');
+            break;
+          case 409:
+            //console.log('error 409');
+            break;
+        }
+      }
+    );
+  }
+
+  obtenerPlanesDisponibles() {
+    let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    this._planService.getPlanes().subscribe(
+      (data) => {
+
+        this._Planes = data;
+
+        //this.limpiarFormulario();
+      },
+      (error: HttpErrorResponse) => {
+        //Error callback
 
         switch (error.status) {
           case 401:
@@ -122,6 +140,81 @@ _planesCliente : plancliente[] = [];
             break;
         }
       }
+    );
+  }
+
+  guardarPlanCliente(){
+
+    if (this.formaAgregarPlan.invalid) {
+      return Object.values(this.formaAgregarPlan.controls).forEach((control) => {
+        if (control instanceof FormGroup) {
+          Object.values(control.controls).forEach((control) =>
+            control.markAsTouched()
+          );
+        } else {
+          control.markAsTouched();
+        }
+      });
+    } else {
+      //Envio de la informacion al servidor
+
+      this._planCliente.Id_Cliente = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+      this._planCliente.Id_Plan = this.formaAgregarPlan.get('plan')?.value;
+      this._planCliente.Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+
+      this._planClienteService.postPlanesCliente(this._planCliente).subscribe(
+        (data) => {
+          //console.log('datos: ',data);
+
+          this.modalClose.nativeElement.click();
+
+          this.obtenerMisPlanes();
+
+          this.limpiarFormulario();
+        },
+        (error: HttpErrorResponse) => {
+          //Error callback
+          //console.log('Error del servicio: ', error.error['Descripcion']);
+
+          Swal.fire({
+            icon: 'error',
+            title: error.error['Descripcion'],
+            text: '',
+            showCancelButton: false,
+            showDenyButton: false,
+          });
+
+          switch (error.status) {
+            case 401:
+              //console.log('error 401');
+              break;
+            case 403:
+              //console.log('error 403');
+              break;
+            case 404:
+              //console.log('error 404');
+              break;
+            case 409:
+              //console.log('error 409');
+              break;
+          }
+
+        }
+      );
+    }
+  }
+
+  planSeleccionado(plan:plan){
+    // debugger;
+    console.log('sel:' + plan.Descripcion);
+    //console.log(sel);
+    // this.obtenerMunicipios(this.formaUbicacion.controls['direccion'].value.estado);
+  }
+
+  get planNoValido() {
+    return (
+      this.formaAgregarPlan.get('plan')?.invalid &&
+      this.formaAgregarPlan.get('plan')?.touched
     );
   }
 

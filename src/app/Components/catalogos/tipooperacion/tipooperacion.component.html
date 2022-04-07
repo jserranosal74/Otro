@@ -1,1 +1,42 @@
-<p>tipooperacion works!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <legend class="text-center text-primary mb-3"><h1 class="display-4">Tipos de Operación</h1></legend>
+                        <div class="form-group row mb-3">
+                            <div class="col-md-10 p-0">
+                            </div>
+                            <div class="col-md-2 p-0 align-items-end">
+                                <td class="align-items-end">
+                                  <span class="text-primary">Total de registros: {{_tiposOperacion.length}}</span>
+                                </td>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <table class="table table-primary table-striped table-bordered border-primary">
+                                <thead>
+                                  <tr>
+                                    <th class="text-primary text-center" scope="col">#</th>
+                                    <th class="text-primary text-center" scope="col">Descripción</th>
+                                    <th class="text-primary text-center" scope="col">Fecha de Alta</th>
+                                    <th width="auto" class="text-primary text-center" scope="col">Fecha de Modificación</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let tipooperacion of _tiposOperacion; let i = index;">
+                                    <th class="text-primary text-center" scope="row">{{tipooperacion.Id_TipoOperacion}}</th>
+                                    <td class="text-primary">{{tipooperacion.Descripcion}}</td>
+                                    <td width="190px" class="text-primary text-center">{{tipooperacion.FechaAlta | date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td width="190px" class="text-primary text-center">{{tipooperacion.FechaModificacion | date:'yyyy-MM-dd HH:mm'}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

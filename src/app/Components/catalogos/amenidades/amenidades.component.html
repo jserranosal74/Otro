@@ -1,1 +1,133 @@
-<p>amenidades works!</p>
+<script>
+  $(document).ready(function(){
+      $("#gridAgregarAmenidad").on('shown.bs.modal', function(){
+          $('#descripcionid').trigger('focus');
+      });
+      alert('mostrar');
+  });
+  </script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <legend class="text-center text-primary mb-3"><h1 class="display-4">Amenidades</h1></legend>
+                        <div class="form-group row mb-3">
+                            <div class="col-md-10 p-0">
+                                <a class="btn btn-primary px-1 btn-sm" (click)="limpiarFormulario()" data-bs-toggle="modal" data-bs-target="#gridAgregarAmenidad" >
+                                    <span class="col-md-1 col-md-offset-2 text-center">
+                                    <i class="fa fa-add bigicon" aria-hidden="true"></i>Agregar
+                                </span></a>
+                            </div>
+                            <div class="col-md-2 p-0 align-items-end">
+                                <td class="align-items-end">
+                                  <span class="text-primary">Total de registros: {{_amenidades.length}}</span>
+                                </td>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <table class="table table-primary table-striped table-bordered border-primary">
+                                <thead>
+                                  <tr>
+                                    <th class="text-primary text-center" scope="col">#</th>
+                                    <!-- <th class="text-primary" scope="col">Id Cliente</th> -->
+                                    <th class="text-primary text-center" scope="col">Descripción</th>
+                                    <th width="50px" class="text-primary text-center" scope="col">Orden</th>
+                                    <th width="190px" class="text-primary text-center" scope="col">Fecha de Alta</th>
+                                    <th width="190px" class="text-primary text-center" scope="col">Fecha de Modificación</th>
+                                    <th class="text-primary text-center" scope="col">Modificar</th>
+                                    <th class="text-primary text-center" scope="col">Eliminar</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let amenidad of _amenidades; let i = index;">
+                                    <th class="text-primary text-center" scope="row">{{amenidad.Id_Amenidad}}</th>
+                                    <!-- <td class="text-primary text-center">{{inmobiliaria.Id_Cliente}}</td> -->
+                                    <td class="text-primary">{{amenidad.Descripcion}}</td>
+                                    <td class="text-primary text-center">{{amenidad.Orden}}</td>
+                                    <td width="150px" class="text-primary text-center">{{amenidad.FechaAlta | date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td width="150px" class="text-primary text-center">{{amenidad.FechaModificacion | date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td width="90px" class="p-1">
+                                        <div class="col-auto d-grid p-0 m-0" heigth="auto">
+                                            <a class="btn btn-primary" heigth="auto" (click)="obtenerAmenidad(amenidad);" data-bs-toggle="modal" data-bs-target="#gridAgregarAmenidad"><span class="col-md-1 col-md-offset-2 text-center">
+                                                <i class="fa fa-pencil"></i>
+                                            </span></a>
+                                        </div>
+                                    </td>
+                                    <td width="90px" class="p-1">
+                                    <div class="col-auto d-grid p-0 m-0">
+                                        <a class="btn btn-primary" heigth="auto" (click)="eliminarAmenidad(amenidad);" ><span class="col-md-1 col-md-offset-2 text-center">
+                                            <i class="fa fa-trash-can"></i>
+                                        </span></a>
+                                    </div></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="gridAgregarAmenidad" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} Amenidad</h5>
+          <button type="button" class="btn-close" (click)="limpiarFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid bd-example-row">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="well well-sm">
+                        <form class="form-horizontal" [formGroup]="formaAmenidad">
+                            <fieldset>
+                                <!-- <legend class="text-center text-primary mb-3"><h1 class="display-4">Mi perfil</h1></legend> -->
+                                <div class="form-group row mb-3">
+                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <div class="col-md-8">
+                                        <input autofocus id="descripcionid" name="descripcionid" formControlName="descripcion" 
+                                               type="text" placeholder="Descripción" 
+                                               [class.is-invalid]="descripcionNoValido" class="form-control">
+                                    </div>
+                                    <div class="col-md-3 px-0">
+                                        <small *ngIf="descripcionNoValido" class="text-danger">
+                                          Descripción no valida
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o"></i></span>
+                                    <div class="col-md-8">
+                                        <input formControlName="orden" 
+                                               type="number"
+                                               [class.is-invalid]="ordenNoValido"
+                                               placeholder="Orden" class="form-control">
+                                    </div>
+                                    <div class="col-md-3 px-0">
+                                        <small *ngIf="ordenNoValido" class="text-danger">
+                                          Orden no valido
+                                        </small>
+                                    </div>
+                                </div>
+        
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #myModalClose (click)="limpiarFormulario()" class="btn btn-secondary" data-bs-dismiss="modal" >Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="guardarAmenidad();">{{_textoAccion}}</button>
+        </div>
+      </div>
+    </div>
+  </div>

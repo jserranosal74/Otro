@@ -23,8 +23,17 @@ export class PlanesclienteService {
   }
 
   public getPlanesCliente(Id_Cliente: number): Observable<plancliente[]> {
+    //debugger;
     return this.http.get<plancliente[]>(
-      this.urlPlanesCliente + '?id=' + Id_Cliente, this.httpOptions
+      this.urlPlanesCliente + 'obtenerporcliente?id=' + Id_Cliente, this.httpOptions
     );
   }
+
+  public postPlanesCliente(objPlanCliente: plancliente): Observable<plancliente[]> {
+    return this.http.post<plancliente[]>(
+      this.urlPlanesCliente, objPlanCliente, this.httpOptions
+    );
+  }
+
+
 }

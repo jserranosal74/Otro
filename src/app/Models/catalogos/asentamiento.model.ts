@@ -8,8 +8,8 @@ export class asentamiento {
       public CodigoPostal: string,
       public Latitud: number,
       public Longitud: number,
-      public Fecha_Alta: Date,
-      public Fecha_Modificacion: Date,
+      public FechaAlta: Date,
+      public FechaModificacion: Date,
       public Id_Usuario: number,
       public Id_Estatus: number 
     ) {}

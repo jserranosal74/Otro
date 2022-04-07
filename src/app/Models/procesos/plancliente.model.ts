@@ -7,6 +7,10 @@ export class plancliente {
       public Pagados: number,
       public Utilizados: number,
       public Restantes: number,
-      public FechaDePago: Date,
+      public FechaDePago: Date | null,
+      public FechaAlta: Date | null,
+      public FechaModificacion: Date | null,
+      public Id_Usuario: number,
+      public Id_Estatus: number,
     ) {}
   }

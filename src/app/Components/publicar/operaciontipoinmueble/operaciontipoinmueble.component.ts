@@ -35,9 +35,9 @@ export class OperaciontipoinmuebleComponent implements OnInit {
 
   obtenerTiposPropiedad(){
     console.log(this.loading);
-    this._tipoPropiedadService.getTiposPropiedad().subscribe((data) => {
+    this._tipoPropiedadService.getTiposPropiedades().subscribe((data) => {
       this._tiposPropiedad = data;
-      this._tiposPropiedad.unshift(new tipoPropiedad(0,'','Selecccione el tipo de propiedad',new Date(),new Date(),1,1));
+      this._tiposPropiedad.unshift(new tipoPropiedad(0,'','--Selecccione el tipo de inmueble--',new Date(),new Date(),1,1));
       //console.log(data);
       this.loading = true;
       //console.log(this.loading);

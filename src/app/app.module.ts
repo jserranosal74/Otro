@@ -30,6 +30,10 @@ import { CatalogosModule } from './Components/catalogos/catalogos.module';
 import { PublicarModule } from './Components/publicar/publicar.module';
 import { AyudaModule } from './Components/ayuda/ayuda.module';
 
+// import { MaterialModule } from './material.module';
+// import { CoreModule } from './core/core.module';
+// import { SharedModule } from './shared/shared.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,6 +66,9 @@ import { AyudaModule } from './Components/ayuda/ayuda.module';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    // MaterialModule,
+    // CoreModule,
+    // SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

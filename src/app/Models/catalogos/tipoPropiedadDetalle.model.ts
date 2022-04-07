@@ -1,6 +1,7 @@
-export class tipoAsentamiento {
+export class tipoPropiedadDetalle {
     constructor(
-      public Id_TipoAsentamiento: number,
+      public Id_TipoPropiedadDetalle: number, // cambio remote
+      public Id_TipoPropiedad: number, // cambio remote
       public Clave: string,
       public Descripcion: string,
       public FechaAlta: Date,

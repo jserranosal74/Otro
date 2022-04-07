@@ -3,11 +3,11 @@ import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@ang
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @Component({
-  selector: 'app-detalles',
-  templateUrl: './detalles.component.html',
-  styleUrls: ['./detalles.component.css']
+  selector: 'app-caracteristicas',
+  templateUrl: './caracteristicas.component.html',
+  styleUrls: ['./caracteristicas.component.css']
 })
-export class DetallesComponent implements OnInit {
+export class CaracteristicasComponent implements OnInit {
 
   formDetalle = this.fb.group({
     nombre  : ['', [ Validators.required, Validators.minLength(5) ]  ],

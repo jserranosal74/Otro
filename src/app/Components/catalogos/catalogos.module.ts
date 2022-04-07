@@ -39,7 +39,17 @@ import { TipofotoComponent } from './tipofoto/tipofoto.component';
   ],
   exports: [
     MedioscontactoComponent,
-    TiposasentaientoComponent
+    TiposasentaientoComponent,
+    AmenidadesComponent,
+    MunicipiosComponent,
+    EstadosComponent,
+    AsentamientosComponent,
+    PlanesComponent,
+    ClientesComponent,
+    TipooperacionComponent,
+    TipopersonaComponent,
+    TipopropiedadComponent,
+    TipofotoComponent
   ]
 })
 

@@ -3,17 +3,17 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { FotosComponent } from '../publicar/fotos/fotos.component';
+import { FotosyvideosComponent } from './fotosyvideos/fotosyvideos.component';
 import { UbicacionComponent } from '../publicar/ubicacion/ubicacion.component';
-import { DetallesComponent } from '../publicar/detalles/detalles.component';
 import { InformacionprincipalComponent } from '../publicar/informacionprincipal/informacionprincipal.component';
 import { OperaciontipoinmuebleComponent } from '../publicar/operaciontipoinmueble/operaciontipoinmueble.component'
+import { CaracteristicasComponent } from './caracteristicas/caracteristicas.component';
 
 @NgModule({
   declarations: [
-    FotosComponent,
+    FotosyvideosComponent,
     UbicacionComponent,
-    DetallesComponent,
+    CaracteristicasComponent,
     InformacionprincipalComponent,
     OperaciontipoinmuebleComponent
   ],
@@ -24,9 +24,9 @@ import { OperaciontipoinmuebleComponent } from '../publicar/operaciontipoinmuebl
     HttpClientModule
   ],
   exports: [
-    FotosComponent,
+    FotosyvideosComponent,
     UbicacionComponent,
-    DetallesComponent,
+    CaracteristicasComponent,
     InformacionprincipalComponent,
     OperaciontipoinmuebleComponent
   ]
