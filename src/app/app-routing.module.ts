@@ -21,6 +21,7 @@ import { AYUDA_CHILD_ROUTES } from './Components/ayuda/ayuda.routes';
 
 import { RecuperarpasswordComponent } from './Components/recuperarpassword/recuperarpassword.component';
 import { LegalComponent } from './Components/legal/legal.component';
+import { ActivarclienteComponent } from './Components/activarcliente/activarcliente.component';
 
 
 const routes: Routes = [
@@ -32,6 +33,12 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'iniciarsesion', component: IniciarsesionComponent },
   { path: 'recuperarpassword', component: RecuperarpasswordComponent },
+  { path: 'cliente', component: ActivarclienteComponent, children: [
+    {
+      path: 'activar',
+      component: ActivarclienteComponent
+    }] 
+  },
   { path: 'ayuda', component: AyudaComponent, children: AYUDA_CHILD_ROUTES },
   {
     path: 'publicar',

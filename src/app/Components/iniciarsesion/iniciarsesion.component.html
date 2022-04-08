@@ -35,7 +35,7 @@
         />
       </div>
       <div class="col-auto px-0">
-        <button class="btn btn-primary px-1" (click)="cambiarTipo()"><span class="col-md-1 col-md-offset-2 text-center">
+        <button type="button" class="btn btn-primary px-1" (click)="cambiarTipo()"><span class="col-md-1 col-md-offset-2 text-center">
           <div *ngIf="obtenerTipo=='text'">
             <i class="fa fa-eye"></i>
           </div>
@@ -54,7 +54,7 @@
     <div class="form-group row py-3">
       <label class="col-md-2 col-form-label">&nbsp;</label>
       <div class="col-4 d-grid gap-2 mix-auto">
-        <button type="button" (click)="iniciarSesion()" class="btn btn-primary btn-lg">Iniciar sesión</button>
+        <button type="submit" (click)="iniciarSesion()" class="btn btn-primary btn-lg">Iniciar sesión</button>
       </div>
     </div>
 

@@ -13,6 +13,7 @@ export const URL_APIS = {
     urlTipoOperacion: '/api/TipoOperacion/',
     urlTipoPersona: '/api/TipoPersona/',
     urlTipoPropiedad: '/api/TipoPropiedad/',
+    urlTipoPropiedadDetalle: '/api/TipoPropiedadDetalle/',
     urlTiposAsentamiento: '/api/TiposAsentamiento/',
     urlTiposFoto: '/api/TiposFoto/',
     

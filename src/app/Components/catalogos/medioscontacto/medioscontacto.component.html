@@ -1,1 +1,127 @@
-<h1>Medios de Contacto</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <legend class="text-center text-primary mb-3"><h1 class="display-4">Medios de contacto</h1></legend>
+                        <div class="form-group row mb-3">
+                            <div class="col-md-10 p-0">
+                                <a class="btn btn-primary px-1 btn-sm"  (click)="limpiarFormulario()" data-bs-toggle="modal" data-bs-target="#gridAgregarAmenidad" >
+                                    <span class="col-md-1 col-md-offset-2 text-center">
+                                    <i class="fa fa-add bigicon" aria-hidden="true"></i>Agregar
+                                </span></a>
+                            </div>
+                            <div class="col-md-2 p-0">
+                                <td class="text-end">
+                                  <span class="text-primary">Total de registros: {{_mediosContacto.length}}</span>
+                                </td>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <table class="table table-primary table-striped table-bordered border-primary">
+                                <thead>
+                                  <tr>
+                                    <th width="50px" class="text-primary text-center" scope="col">#</th>
+                                    <!-- <th class="text-primary" scope="col">Id Cliente</th> -->
+                                    <th width="100px" class="text-primary text-center" scope="col">Clave</th>
+                                    <th class="text-primary text-center"  scope="col">Descripción</th>
+                                    <th width="150px" class="text-primary text-center" scope="col">Fecha de Alta</th>
+                                    <th width="150px" class="text-primary text-center" scope="col">Fecha de Modificación</th>
+                                    <th class="text-primary text-center" scope="col">Modificar</th>
+                                    <th class="text-primary text-center" scope="col">Eliminar</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let medioContacto of _mediosContacto; let i = index;">
+                                    <th class="text-primary text-center" scope="row">{{medioContacto.Id_MedioContacto}}</th>
+                                    <!-- <td class="text-primary text-center">{{inmobiliaria.Id_Cliente}}</td> -->
+                                    <td class="text-primary text-end">{{medioContacto.Clave}}</td>
+                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{medioContacto.Descripcion}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{medioContacto.Descripcion}}</td>
+                                    <td class="text-primary text-center">{{medioContacto.FechaAlta | date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td class="text-primary text-center">{{medioContacto.FechaModificacion | date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td width="90px" class="p-1">
+                                        <div class="col-auto d-grid p-0 m-0" heigth="auto">
+                                            <a class="btn btn-primary" heigth="auto" (click)="obtenerMedioContacto(medioContacto);" data-bs-toggle="modal" data-bs-target="#gridAgregarAmenidad"><span class="col-md-1 col-md-offset-2 text-center">
+                                                <i class="fa fa-pencil"></i>
+                                            </span></a>
+                                        </div>
+                                    </td>
+                                    <td width="90px" class="p-1">
+                                    <div class="col-auto d-grid p-0 m-0">
+                                        <a class="btn btn-primary" heigth="auto" (click)="eliminarMedioContacto(medioContacto);" ><span class="col-md-1 col-md-offset-2 text-center">
+                                            <i class="fa fa-trash-can"></i>
+                                        </span></a>
+                                    </div></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="gridAgregarAmenidad" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} Medio de contacto</h5>
+          <button type="button" class="btn-close" (click)="limpiarFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid bd-example-row">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="well well-sm">
+                        <form class="form-horizontal" [formGroup]="formaMedioContacto">
+                            <fieldset>
+                                <div class="form-group row mb-3">
+                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o"></i></span>
+                                    <div class="col-md-8">
+                                        <input formControlName="clave" 
+                                               type="text"
+                                               [class.is-invalid]="claveNoValido"
+                                               placeholder="Clave" 
+                                               maxlength="10"
+                                               class="form-control">
+                                    </div>
+                                    <div class="col-md-3 px-0">
+                                        <small *ngIf="claveNoValido" class="text-danger">
+                                          Clave no valida
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <div class="col-md-8">
+                                        <input autofocus formControlName="descripcion" 
+                                               type="text" placeholder="Descripción" 
+                                               [class.is-invalid]="descripcionNoValido" class="form-control">
+                                    </div>
+                                    <div class="col-md-3 px-0">
+                                        <small *ngIf="descripcionNoValido" class="text-danger">
+                                          Descripción no valida
+                                        </small>
+                                    </div>
+                                </div>
+
+                                
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #myModalClose (click)="limpiarFormulario()" class="btn btn-outline-secondary" data-bs-dismiss="modal" >Cancelar</button>
+          <button type="button" class="btn btn-outline-primary" (click)="guardarMedioContacto();">{{_textoAccion}}</button>
+        </div>
+      </div>
+    </div>
+  </div>  

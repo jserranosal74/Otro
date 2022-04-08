@@ -29,6 +29,7 @@ import { MicuentaModule } from './Components/micuenta/micuenta.module';
 import { CatalogosModule } from './Components/catalogos/catalogos.module';
 import { PublicarModule } from './Components/publicar/publicar.module';
 import { AyudaModule } from './Components/ayuda/ayuda.module';
+import { ActivarclienteComponent } from './Components/activarcliente/activarcliente.component';
 
 // import { MaterialModule } from './material.module';
 // import { CoreModule } from './core/core.module';
@@ -54,7 +55,8 @@ import { AyudaModule } from './Components/ayuda/ayuda.module';
     IniciarsesionComponent,
     RecuperarpasswordComponent,
     LegalComponent,
-    MicuentaComponent
+    MicuentaComponent,
+    ActivarclienteComponent
   ],
   imports: [
     BrowserModule,

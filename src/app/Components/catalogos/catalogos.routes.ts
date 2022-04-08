@@ -3,6 +3,7 @@ import { AuthGuard } from 'src/app/guards/auth.guard';
 
 
 import { AmenidadesComponent } from './amenidades/amenidades.component';
+import { AsentamientosComponent } from './asentamientos/asentamientos.component';
 import { MedioscontactoComponent } from './medioscontacto/medioscontacto.component';
 import { MunicipiosComponent } from './municipios/municipios.component';
 import { PlanesComponent } from './planes/planes.component';
@@ -11,6 +12,7 @@ import { TipopropiedadComponent } from './tipopropiedad/tipopropiedad.component'
 import { TiposasentaientoComponent } from './tiposasentamiento/tiposasentaiento.component';
 
 export const CATALOGOS_CHILD_ROUTES: Routes = [
+  { path: 'asentamientos', component: AsentamientosComponent, canActivate: [AuthGuard] },
   { path: 'amenidades', component: AmenidadesComponent, canActivate: [AuthGuard] },
   { path: 'municipios', component: MunicipiosComponent, canActivate: [AuthGuard] },
   { path: 'medioscontacto', component: MedioscontactoComponent, canActivate: [AuthGuard] },

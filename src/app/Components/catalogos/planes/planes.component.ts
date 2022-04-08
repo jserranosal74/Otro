@@ -315,7 +315,7 @@ export class PlanesComponent implements OnInit {
 
     Swal.fire({
       icon: 'warning',
-      title: '¿Está seguro de que desea eliminar los datos fiscales de inmobiliaria: "' + objPlan.Descripcion + '"?',
+      title: '¿Está seguro de que desea eliminar el plan: "' + objPlan.Descripcion + '"?',
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: 'Si, eliminar',

@@ -57,6 +57,26 @@ export class LoginService {
     }
   }
 
+  public obtenerIdUsuario(): string {
+    if (localStorage.getItem('usuario'))
+    {
+      return JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    }
+    else{
+      return '';
+    }
+  }
+
+  public obtenerNombreUsuario(): string {
+    if (localStorage.getItem('usuario'))
+    {
+      return JSON.parse(localStorage.getItem('usuario')!)['NombreUsuario'];
+    }
+    else{
+      return '';
+    }
+  }
+
   public obtenerToken(): string {
     if (localStorage.getItem('usuario'))
     {

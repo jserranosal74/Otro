@@ -152,7 +152,7 @@ export class TipopropiedadComponent implements OnInit {
     );
   }
 
-  guardarPlan(){
+  guardarTipoPropiedad(){
 
     if (this.formaTipoPropiedad.invalid) {
       return Object.values(this.formaTipoPropiedad.controls).forEach((control) => {
@@ -173,7 +173,7 @@ export class TipopropiedadComponent implements OnInit {
         this._esNuevo = true;
       }
 
-      this._tipoPropiedad.Clave = this.formaTipoPropiedad.get('precio')?.value;
+      this._tipoPropiedad.Clave = this.formaTipoPropiedad.get('clave')?.value;
       this._tipoPropiedad.Descripcion = this.formaTipoPropiedad.get('descripcion')?.value;
       this._tipoPropiedad.FechaAlta = new Date();
       this._tipoPropiedad.FechaModificacion = new Date();
@@ -189,7 +189,7 @@ export class TipopropiedadComponent implements OnInit {
 
             Swal.fire({
               icon: 'success',
-              title: 'El plan se agrego de manera correcta.',
+              title: 'El tipo de propiedad se agrego de manera correcta.',
               showConfirmButton: false,
               timer: 1000
             })
@@ -245,7 +245,7 @@ export class TipopropiedadComponent implements OnInit {
 
             Swal.fire({
               icon: 'success',
-              title: 'El plan se modifico de manera correcta.',
+              title: 'El tipo de propiedad se modificó de manera correcta.',
               showConfirmButton: false,
               timer: 1000
             })

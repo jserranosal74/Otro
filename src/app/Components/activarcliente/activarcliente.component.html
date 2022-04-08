@@ -1,0 +1,9 @@
+<div *ngIf="ExisteRespuesta; then thenBlock"></div>
+
+<ng-template #thenBlock>
+    <br><br><br><br><br><br>
+  <div class="container text-center display-4 text-primary">
+    <legend class="text-center text-primary mb-3"><h1 class="display-4">{{ mensaje }}</h1></legend>
+  </div>
+  <br><br><br><br><br><br>
+</ng-template>

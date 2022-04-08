@@ -87,7 +87,7 @@ export class LoginComponent implements OnInit {
         1
       );
   
-      //console.log(this.formLogin);
+      debugger;
 
       this._clienteService.postCliente(_cliente).subscribe(
         (data) => {
@@ -110,7 +110,7 @@ export class LoginComponent implements OnInit {
 
           Swal.fire({
             icon: 'error',
-            title: error.error['Descripcion'],
+            title: error.error,
             text: '',
             showCancelButton: false,
             showDenyButton: false,
