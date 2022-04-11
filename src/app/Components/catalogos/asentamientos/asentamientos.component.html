@@ -1,1 +1,242 @@
-<p>asentamientos works!</p>
+<form [formGroup]="formaBusqueda">
+  <div class="container">
+    <legend class="text-center text-primary mb-3"><h1 class="display-4">Asentamientos</h1></legend>
+    <div class="form-group row">
+      <div class="col-md-10 p-0">
+          <a class="btn btn-primary btn-sm" style="border-radius:25px;" (click)="limpiarFormularioAsentamiento()" data-bs-toggle="modal" data-bs-target="#gridAsentamiento" >
+              <span class="col-md-1 col-md-offset-2 text-center">
+              <i class="fa fa-add bigicon" aria-hidden="true"></i>
+          </span></a>
+      </div>
+      <div class="col-md-2 p-0 align-items-end">
+          <td class="align-items-end">
+            <span class="text-primary">Total de registros: {{_paginadoDetalle.TotalRegistros}}</span>
+          </td>
+      </div>
+  </div>
+    <div class="form-row row">
+        <div class="col-md-1">
+          <label class="text-primary">Estado:</label>
+        </div>
+        <div class="col-md-3">
+          <select
+            class="form-select form-select-lg mb-3 text-primary"
+            style="border-radius: 0.8em"
+            aria-label="Default select example"
+            name="estado"
+            formControlName="estado"
+            [class.is-invalid]="estadoNoValido" 
+            (change)="obtenerMunicipios()">
+            <option
+              *ngFor="let estado of _estados; let i = index"
+              [value]="estado.Id_Estado"
+            >
+              {{ estado.Nombre }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-1 px-0">
+          <small *ngIf="estadoNoValido" class="text-danger">
+            Seleccione el estado
+          </small>
+        </div>
+        <div class="col-md-1">
+          <label class="text-primary">Municipio:</label>
+        </div>
+        <div class="col-md-3">
+          <select
+            class="form-select form-select-lg mb-3 text-primary"
+            style="border-radius: 0.8em"
+            aria-label="Default select example"
+            name="municipio"
+            formControlName="municipio"
+            [class.is-invalid]="estadoNoValido" 
+            (change)="limpiarAsentamientos()"
+          >
+            <option
+              *ngFor="let municipio of _municipios; let i = index"
+              [value]="municipio.Id_Municipio"
+            >
+              {{ municipio.Municipio }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-1 px-0">
+          <small *ngIf="municipioNoValido" class="text-danger">
+            Seleccione el municipio
+          </small>
+        </div>
+        <div class="col-auto">
+          <button
+            class="btn btn-lg btn-primary"
+            style="border-radius: 1em"
+            type="button" (click)="buscarAsentamientos();" 
+          >
+            Buscar
+          </button>
+        </div>
+    </div>
+    <div class="form-row row">
+        <table class="table table-primary table-striped">
+            <thead>
+              <tr>
+                <th width="50px" class="text-primary text-center" scope="col">#</th>
+                <!-- <th class="text-primary" scope="col">Id Cliente</th> -->
+                <th width="190px" class="text-primary text-center" scope="col">Descripción</th>
+                <th width="140px" class="text-primary text-center" scope="col">Codigo Postal</th>
+                <th width="140px" class="text-primary text-center" scope="col">Latitud</th>
+                <th width="140px" class="text-primary text-center" scope="col">Longitud</th>
+                <th width="190px" class="text-primary text-center" scope="col">Fecha de Alta</th>
+                <th width="190px" class="text-primary text-center" scope="col">Fecha de Modificación</th>
+                <th class="text-primary text-center" scope="col">Modificar</th>
+                <th class="text-primary text-center" scope="col">Eliminar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let asentamiento of _asentamientos; let i = index;">
+                <td class="text-primary text-center" scope="row">{{asentamiento.Id_Asentamiento}}</td>
+                <td class="text-primary">{{asentamiento.Asentamiento}}</td>
+                <td class="text-primary text-center">{{asentamiento.CodigoPostal}}</td>
+                <td class="text-primary text-center">{{asentamiento.Latitud}}</td>
+                <td class="text-primary text-center">{{asentamiento.Longitud}}</td>
+                <td width="190px" class="text-primary text-center">{{asentamiento.FechaAlta | date:'yyyy-MM-dd HH:mm'}}</td>
+                <td width="150px" class="text-primary text-center">{{asentamiento.FechaModificacion | date:'yyyy-MM-dd HH:mm'}}</td>
+                <td width="90px" class="p-1">
+                    <div class="col-auto d-grid p-0 m-0" heigth="auto">
+                        <a class="btn btn-primary" heigth="auto" (click)="obtenerAsentamiento(asentamiento);" data-bs-toggle="modal" data-bs-target="#gridAsentamiento"><span class="col-md-1 col-md-offset-2 text-center">
+                            <i class="fa fa-pencil"></i>
+                        </span></a>
+                    </div>
+                </td>
+                <td width="90px" class="p-1">
+                <div class="col-auto d-grid p-0 m-0">
+                    <a class="btn btn-primary" heigth="auto" (click)="eliminarAsentamiento(asentamiento);" ><span class="col-md-1 col-md-offset-2 text-center">
+                        <i class="fa fa-trash-can"></i>
+                    </span></a>
+                </div></td>
+              </tr>
+            </tbody>
+            <tfoot colsp>
+              <tr>
+                <td colspan="9">
+                  <div *ngIf="_seRealizaBusqueda" class="d-flex justify-content-center">
+                    <nav aria-label="Page navigation py-0 m-0">
+                        <ul class="pagination pagination-lg">
+                          <li class="page-item" [ngStyle]="{'display': _mostrarPaginaAnterior ? 'block' : 'none'}" >
+                            <button class="page-link" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
+                              <span aria-hidden="true">&laquo;</span>
+                              <span class="sr-only">Previous</span>
+                            </button>
+                          </li>
+                          <li *ngFor="let item of _paginas" class="page-item" [class.disabled]="false">
+                            <button class="page-link" style="border-radius: 30px;" (click)="obtenerPagina(item)">{{item+1}}</button>
+                          </li>
+                          <li class="page-item" [ngStyle]="{'display': _mostrarPaginaSiguiente ? 'block' : 'none'}" >
+                            <button class="page-link" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                              <span class="sr-only">Next</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+    </div>
+  </div>
+</form>
+
+<div class="modal fade" id="gridAsentamiento" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} Asentamiento</h5>
+        <button type="button" class="btn-close" (click)="limpiarFormularioAsentamiento()" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid bd-example-row">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="well well-sm">
+                      <form class="form-horizontal" [formGroup]="formaAsentamiento">
+                          <fieldset>
+                              <!-- <legend class="text-center text-primary mb-3"><h1 class="display-4">Mi perfil</h1></legend> -->
+                              <div class="form-group row mb-3">
+                                  <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
+                                  <div class="col-md-8">
+                                      <input formControlName="asentamiento" 
+                                             type="text" placeholder="Descripcion" 
+                                             [class.is-invalid]="asentamientoNoValido" 
+                                             class="form-control">
+                                  </div>
+                                  <div class="col-md-3 px-0">
+                                      <small *ngIf="asentamientoNoValido" class="text-danger">
+                                        Asentamiento no valida
+                                      </small>
+                                  </div>
+                              </div>
+
+                              <div class="form-group row mb-3">
+                                  <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o"></i></span>
+                                  <div class="col-md-8">
+                                      <input formControlName="codigopostal" 
+                                             type="number"
+                                             [class.is-invalid]="codigopostalNoValido"
+                                             placeholder="Codigo Postal" 
+                                             class="form-control">
+                                  </div>
+                                  <div class="col-md-3 px-0">
+                                      <small *ngIf="codigopostalNoValido" class="text-danger">
+                                        Codigo postal no valido
+                                      </small>
+                                  </div>
+                              </div>
+
+                              <div class="form-group row mb-3">
+                                <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o"></i></span>
+                                <div class="col-md-8">
+                                    <input formControlName="latitud" 
+                                           type="number"
+                                           [class.is-invalid]="latitudNoValido"
+                                           placeholder="Latitud" 
+                                           class="form-control">
+                                </div>
+                                <div class="col-md-3 px-0">
+                                    <small *ngIf="latitudNoValido" class="text-danger">
+                                      Latitud no valido
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mb-3">
+                              <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o"></i></span>
+                              <div class="col-md-8">
+                                  <input formControlName="longitud" 
+                                         type="number"
+                                         [class.is-invalid]="longitudNoValido"
+                                         placeholder="Longitud" 
+                                         class="form-control">
+                              </div>
+                              <div class="col-md-3 px-0">
+                                  <small *ngIf="longitudNoValido" class="text-danger">
+                                    Longitud no valido
+                                  </small>
+                              </div>
+                          </div>
+      
+                          </fieldset>
+                      </form>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" #myModalClose (click)="limpiarFormularioAsentamiento()" class="btn btn-secondary" data-bs-dismiss="modal" >Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="guardarAsentamiento();">{{_textoAccion}}</button>
+      </div>
+    </div>
+  </div>
+</div>

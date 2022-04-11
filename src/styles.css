@@ -35,3 +35,15 @@
 #containerMain.Dark {
   background-color: black;
 }
+
+.header {
+  color: #bf4080;
+  font-size: 27px;
+  padding: 10px;
+}
+
+.bigicon {
+  font-size: 35px;
+  color: #bf4080;
+  text-shadow: -1px -1px 1px rgb(200, 200, 200), 1px 1px 1px rgb(200, 200, 200), -1px 1px 1px rgb(200, 200, 200), 1px -1px 1px rgb(200, 200, 200);
+}

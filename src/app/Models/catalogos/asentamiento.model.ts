@@ -14,3 +14,10 @@ export class asentamiento {
       public Id_Estatus: number 
     ) {}
   }
+
+  export class paginadoDetalle {
+    constructor(
+      public TotalPaginas: number,
+      public TotalRegistros: number
+    ) {}
+  }

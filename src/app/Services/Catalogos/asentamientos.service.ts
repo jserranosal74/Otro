@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { URL_APIS } from '../global';
-import { asentamiento } from '../../Models/catalogos/asentamiento.model';
+import { asentamiento, paginadoDetalle } from '../../Models/catalogos/asentamiento.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,19 +22,27 @@ export class AsentamientosService {
     return this.http.get<asentamiento[]>(this.urlBusquedasAsentamiento + Id_Estado + '/' + Id_Municipio);
   }
 
-  public getAsentamiento(Id_Asentamiento : number): Observable<asentamiento[]> {
-    return this.http.get<asentamiento[]>(this.urlAsentamientos + Id_Asentamiento);
+  public getAsentamientosPaginado(Id_Estado : number, Id_Municipio : number, NumPagina : number, NumRenglones : number): Observable<asentamiento[]> {
+    return this.http.get<asentamiento[]>(this.urlAsentamientos + '/Paginado/' + Id_Estado + '/' + Id_Municipio + '/' + NumPagina + '/' + NumRenglones);
   }
 
-  public putAmenidades(objAsentamiento: asentamiento): Observable<asentamiento> {
+  public getAsentamientosPaginadoDet(Id_Estado : number, Id_Municipio : number, NumRenglones : number): Observable<paginadoDetalle> {
+    return this.http.get<paginadoDetalle>(this.urlAsentamientos + '/Paginado/' + Id_Estado + '/' + Id_Municipio + '/' + NumRenglones);
+  }
+
+  public getAsentamiento(Id_Asentamiento : number): Observable<asentamiento> {
+    return this.http.get<asentamiento>(this.urlAsentamientos + Id_Asentamiento);
+  }
+
+  public putAsentamiento(objAsentamiento: asentamiento): Observable<asentamiento> {
     return this.http.put<asentamiento>(this.urlAsentamientos + objAsentamiento.Id_Asentamiento, objAsentamiento);
   }
 
-  public postAmenidades(objAsentamiento: asentamiento): Observable<asentamiento> {
+  public postAsentamiento(objAsentamiento: asentamiento): Observable<asentamiento> {
     return this.http.post<asentamiento>(this.urlAsentamientos, objAsentamiento);
   }
 
-  public postDelete(Id_Asentamiento : number): Observable<asentamiento> {
+  public deleteAsentamiento(Id_Asentamiento : number): Observable<asentamiento> {
     return this.http.delete<asentamiento>(this.urlAsentamientos + Id_Asentamiento);
   }
 
