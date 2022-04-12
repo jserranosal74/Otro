@@ -27,10 +27,10 @@
             formControlName="estado"
             [class.is-invalid]="estadoNoValido" 
             (change)="obtenerMunicipios()">
+            <option value="" selected disabled>Seleccione...</option>
             <option
               *ngFor="let estado of _estados; let i = index"
-              [value]="estado.Id_Estado"
-            >
+              [value]="estado.Id_Estado">
               {{ estado.Nombre }}
             </option>
           </select>
@@ -50,9 +50,9 @@
             aria-label="Default select example"
             name="municipio"
             formControlName="municipio"
-            [class.is-invalid]="estadoNoValido" 
-            (change)="limpiarAsentamientos()"
-          >
+            [class.is-invalid]="municipioNoValido" 
+            (change)="limpiarAsentamientos()">
+          <option value="" selected disabled>Seleccione...</option>
             <option
               *ngFor="let municipio of _municipios; let i = index"
               [value]="municipio.Id_Municipio"
@@ -95,7 +95,7 @@
             <tbody>
               <tr *ngFor="let asentamiento of _asentamientos; let i = index;">
                 <td class="text-primary text-center" scope="row">{{asentamiento.Id_Asentamiento}}</td>
-                <td class="text-primary">{{asentamiento.Asentamiento}}</td>
+                <td style="max-width: 150px;" class="text-primary text-truncate">{{asentamiento.Asentamiento}}</td>
                 <td class="text-primary text-center">{{asentamiento.CodigoPostal}}</td>
                 <td class="text-primary text-center">{{asentamiento.Latitud}}</td>
                 <td class="text-primary text-center">{{asentamiento.Longitud}}</td>
@@ -116,25 +116,23 @@
                 </div></td>
               </tr>
             </tbody>
-            <tfoot colsp>
+            <tfoot>
               <tr>
                 <td colspan="9">
                   <div *ngIf="_seRealizaBusqueda" class="d-flex justify-content-center">
                     <nav aria-label="Page navigation py-0 m-0">
                         <ul class="pagination pagination-lg">
-                          <li class="page-item" [ngStyle]="{'display': _mostrarPaginaAnterior ? 'block' : 'none'}" >
+                          <li class="page-item" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none'}" >
                             <button class="page-link" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
-                              <span aria-hidden="true">&laquo;</span>
-                              <span class="sr-only">Previous</span>
+                              <span>&larr;</span>
                             </button>
                           </li>
-                          <li *ngFor="let item of _paginas" class="page-item" [class.disabled]="false">
-                            <button class="page-link" style="border-radius: 30px;" (click)="obtenerPagina(item)">{{item+1}}</button>
+                          <li *ngFor="let pagina of _paginas" class="page-item mx-1" [class.disabled]="pagina.Activa">
+                            <button class="page-link" style="border-radius: 30px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : ''}" (click)="obtenerPagina(pagina.Pagina)">{{pagina.Pagina+1}}</button>
                           </li>
-                          <li class="page-item" [ngStyle]="{'display': _mostrarPaginaSiguiente ? 'block' : 'none'}" >
+                          <li class="page-item" [ngStyle]="{'pointer-events': _mostrarPaginaSiguiente ? 'auto' : 'none'}" >
                             <button class="page-link" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
-                              <span aria-hidden="true">&raquo;</span>
-                              <span class="sr-only">Next</span>
+                              <span>&rarr;</span>
                             </button>
                           </li>
                         </ul>
@@ -162,26 +160,67 @@
                   <div class="well well-sm">
                       <form class="form-horizontal" [formGroup]="formaAsentamiento">
                           <fieldset>
-                              <!-- <legend class="text-center text-primary mb-3"><h1 class="display-4">Mi perfil</h1></legend> -->
+                              <div class="form-group row mb-3">
+                                <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
+                                <div class="col-md-4">
+                                  <select class="form-select form-select-lg mb-3 text-primary"
+                                          style="border-radius: 0.8em"
+                                          aria-label="Default select example"
+                                          formControlName="estadomodal"
+                                          [class.is-invalid]="estadomodalNoValido" 
+                                          placeholder="Estado"
+                                          (change)="obtenerMunicipiosModal()">
+                                          <option value="" selected disabled>Seleccione...</option>
+                                          <option *ngFor="let estado of _estadosModal; let i = index" [value]="estado.Id_Estado">
+                                            {{ estado.Nombre }}
+                                          </option>
+                                  </select>
+                                </div>
+                                <div class="col-md-1 px-0">
+                                  <small *ngIf="estadomodalNoValido" class="text-danger">
+                                    *
+                                  </small>
+                                </div>
+                                <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
+                                <div class="col-md-4">
+                                  <select class="form-select form-select-lg mb-3 text-primary"
+                                          style="border-radius: 0.8em"
+                                          aria-label="Default select example"
+                                          formControlName="municipiomodal"
+                                          [class.is-invalid]="municipiomodalNoValido" >
+                                          <option value="" selected disabled>Seleccione...</option>
+                                          <option *ngFor="let municipio of _municipiosModal; let i = index" [value]="municipio.Id_Municipio">
+                                            {{ municipio.Municipio }}
+                                          </option>
+                                  </select>
+                                </div>
+                                <div class="col-md-1 px-0">
+                                  <small *ngIf="municipiomodalNoValido" class="text-danger">
+                                    *
+                                  </small>
+                                </div>
+                              </div>
+
                               <div class="form-group row mb-3">
                                   <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
                                   <div class="col-md-8">
                                       <input formControlName="asentamiento" 
-                                             type="text" placeholder="Descripcion" 
+                                             type="text" 
+                                             placeholder="Descripcion" 
                                              [class.is-invalid]="asentamientoNoValido" 
                                              class="form-control">
                                   </div>
                                   <div class="col-md-3 px-0">
                                       <small *ngIf="asentamientoNoValido" class="text-danger">
-                                        Asentamiento no valida
+                                        Asentamiento no valido
                                       </small>
                                   </div>
                               </div>
 
                               <div class="form-group row mb-3">
-                                  <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o"></i></span>
+                                  <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
                                   <div class="col-md-8">
-                                      <input formControlName="codigopostal" 
+                                    <input formControlName="codigopostal"
                                              type="number"
                                              [class.is-invalid]="codigopostalNoValido"
                                              placeholder="Codigo Postal" 
@@ -195,7 +234,7 @@
                               </div>
 
                               <div class="form-group row mb-3">
-                                <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o"></i></span>
+                                <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
                                 <div class="col-md-8">
                                     <input formControlName="latitud" 
                                            type="number"
@@ -208,10 +247,10 @@
                                       Latitud no valido
                                     </small>
                                 </div>
-                            </div>
+                              </div>
 
-                            <div class="form-group row mb-3">
-                              <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o"></i></span>
+                              <div class="form-group row mb-3">
+                              <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
                               <div class="col-md-8">
                                   <input formControlName="longitud" 
                                          type="number"
@@ -224,7 +263,7 @@
                                     Longitud no valido
                                   </small>
                               </div>
-                          </div>
+                              </div>
       
                           </fieldset>
                       </form>
@@ -235,7 +274,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" #myModalClose (click)="limpiarFormularioAsentamiento()" class="btn btn-secondary" data-bs-dismiss="modal" >Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="guardarAsentamiento();">{{_textoAccion}}</button>
+        <button type="button" class="btn btn-primary" (click)="guardarAsentamiento()">{{_textoAccion}}</button>
       </div>
     </div>
   </div>

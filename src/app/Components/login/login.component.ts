@@ -25,7 +25,8 @@ export class LoginComponent implements OnInit {
       ],
     ],
     password1: ['', Validators.required],
-    password2: ['', Validators.required]
+    password2: ['', Validators.required],
+    soyagente: [false]
   });
 
   constructor(
@@ -47,12 +48,20 @@ export class LoginComponent implements OnInit {
         ],
       ],
       password1: ['', Validators.required],
-      password2: ['', Validators.required]
+      password2: ['', Validators.required],
+      soyagente: [false]
     });
   }
 
-  guardarRegistro(tipoCliente : number) {
-  //debugger;
+  guardarRegistro() {
+  debugger;
+
+  let tipoCliente = 2;
+
+  if (!this.formLogin.get('soyagente')?.value){
+    tipoCliente = 3;
+  }
+
     if (this.formLogin.invalid) {
       return Object.values(this.formLogin.controls).forEach((control) => {
         if (control instanceof FormGroup) {
@@ -145,36 +154,25 @@ export class LoginComponent implements OnInit {
     this.formLogin.reset({
       correo: '',
       password1: '',
-      password2: ''
+      password2: '',
+      soyagente: false
     });
   }
 
   get correoNoValido() {
-    return (
-      this.formLogin.get('correo')?.invalid &&
-      this.formLogin.get('correo')?.touched
-    );
+    return (this.formLogin.get('correo')?.invalid && this.formLogin.get('correo')?.touched);
   }
 
   get password1NoValido() {
-    return (
-      this.formLogin.get('password1')?.invalid &&
-      this.formLogin.get('password1')?.touched
-    );
+    return (this.formLogin.get('password1')?.invalid && this.formLogin.get('password1')?.touched);
   }
 
   get password2NoValido() {
-    return (
-      this.formLogin.get('password2')?.invalid &&
-      this.formLogin.get('password2')?.touched
-    );
+    return (this.formLogin.get('password2')?.invalid && this.formLogin.get('password2')?.touched);
   }
 
   get passwordsDiferentes() {
-    return (
-      this.formLogin.get('password1')?.value !=
-      this.formLogin.get('password2')?.value
-    );
+    return (this.formLogin.get('password1')?.value != this.formLogin.get('password2')?.value);
   }
 
   cambiarTipo(){

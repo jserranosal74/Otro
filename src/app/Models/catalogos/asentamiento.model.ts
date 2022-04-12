@@ -21,3 +21,10 @@ export class asentamiento {
       public TotalRegistros: number
     ) {}
   }
+
+  export class pagina {
+    constructor(
+      public Activa: boolean,
+      public Pagina: number
+    ) {}
+  }  

@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { URL_APIS } from '../global';
 import { asentamiento, paginadoDetalle } from '../../Models/catalogos/asentamiento.model';
+import { LoginService } from './login.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,13 @@ export class AsentamientosService {
   public urlBusquedasAsentamiento: string;
   public urlAsentamientos: string;
 
-  constructor(private http: HttpClient) { 
+  httpOptions = {
+    headers: new HttpHeaders({
+      Authorization: `Bearer ` + this._loginService.obtenerToken(),
+    })
+  };
+
+  constructor(private http: HttpClient, private _loginService: LoginService) { 
     this.urlBusquedasAsentamiento = URL_APIS.urlBusquedasAsentamiento;
     this.urlAsentamientos = URL_APIS.urlAsentamientos;
   }
@@ -35,15 +42,15 @@ export class AsentamientosService {
   }
 
   public putAsentamiento(objAsentamiento: asentamiento): Observable<asentamiento> {
-    return this.http.put<asentamiento>(this.urlAsentamientos + objAsentamiento.Id_Asentamiento, objAsentamiento);
+    return this.http.put<asentamiento>(this.urlAsentamientos + objAsentamiento.Id_Asentamiento, objAsentamiento, this.httpOptions);
   }
 
   public postAsentamiento(objAsentamiento: asentamiento): Observable<asentamiento> {
-    return this.http.post<asentamiento>(this.urlAsentamientos, objAsentamiento);
+    return this.http.post<asentamiento>(this.urlAsentamientos, objAsentamiento, this.httpOptions);
   }
 
   public deleteAsentamiento(Id_Asentamiento : number): Observable<asentamiento> {
-    return this.http.delete<asentamiento>(this.urlAsentamientos + Id_Asentamiento);
+    return this.http.delete<asentamiento>(this.urlAsentamientos + Id_Asentamiento, this.httpOptions);
   }
 
 }

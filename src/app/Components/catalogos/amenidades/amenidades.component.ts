@@ -153,7 +153,7 @@ export class AmenidadesComponent implements OnInit {
   }
 
   guardarAmenidad(){
-
+debugger;
     if (this.formaAmenidad.invalid) {
       return Object.values(this.formaAmenidad.controls).forEach((control) => {
         if (control instanceof FormGroup) {

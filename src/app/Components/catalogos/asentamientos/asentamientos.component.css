@@ -1,0 +1,4 @@
+.page-item.disabled .page-link{
+    color: #bf4080;
+    font-weight: bold;
+}
