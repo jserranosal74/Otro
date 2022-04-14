@@ -13,5 +13,5 @@ export const PUBLICAR_CHILD_ROUTES: Routes = [
   { path: 'fotosyvideos', component: FotosyvideosComponent, canActivate : [AuthGuard] },
   { path: 'ubicacion', component: UbicacionComponent, canActivate : [AuthGuard] },
   { path: 'caracteristicas', component: CaracteristicasComponent, canActivate : [AuthGuard] },
-  { path: '**', pathMatch: 'full', redirectTo: 'informacionprincipal'},
+  { path: '**', pathMatch: 'full', redirectTo: 'operaciontipoinmueble'},
 ]

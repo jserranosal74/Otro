@@ -1,3 +1,7 @@
+<!-- <div>
+  <iframe width="853" height="480" src="https://www.youtube.com/embed/jU4y56oeavs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div> -->
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -7,14 +11,14 @@
                         <legend class="text-center text-primary mb-3 animate__animated animate__fadeInLeft"><h1 class="display-4">Tipos de asentamiento</h1></legend>
                         <div class="form-group row mb-3">
                             <div class="col-md-10 p-0">
-                                <a class="btn btn-primary px-1 btn-sm" (click)="limpiarFormulario()" data-bs-toggle="modal" data-bs-target="#gridAgregarTipoPropiedad" >
+                                <a class="btn btn-primary btn-sm" style="border-radius:25px;" (click)="limpiarFormulario()" data-bs-toggle="modal" data-bs-target="#gridAgregarTipoAsentamiento" >
                                     <span class="col-md-1 col-md-offset-2 text-center">
-                                    <i class="fa fa-add bigicon" aria-hidden="true"></i>Agregar
+                                    <i class="fa fa-add bigicon" aria-hidden="true"></i>
                                 </span></a>
                             </div>
                             <div class="col-md-2 p-0 align-items-end">
                                 <td class="align-items-end">
-                                  <span class="text-primary">Total de registros: {{_tiposAsentamiento.length}}</span>
+                                  <span class="text-primary">Total de registros: <strong>{{_tiposAsentamiento.length}}</strong></span>
                                 </td>
                             </div>
                         </div>
@@ -24,8 +28,8 @@
                                   <tr>
                                     <th width="50px" class="text-primary text-center" scope="col">#</th>
                                     <!-- <th class="text-primary" scope="col">Id Cliente</th> -->
-                                    <th class="text-primary text-center" scope="col">Clave</th>
-                                    <th width="190px" class="text-primary text-center" scope="col">Descripción</th>
+                                    <th width="70px" class="text-primary text-center" scope="col">Clave</th>
+                                    <th width="350px" class="text-primary text-center" scope="col">Descripción</th>
                                     <th width="190px" class="text-primary text-center" scope="col">Fecha de Alta</th>
                                     <th width="190px" class="text-primary text-center" scope="col">Fecha de Modificación</th>
                                     <th class="text-primary text-center" scope="col">Modificar</th>
@@ -41,7 +45,7 @@
                                     <td width="150px" class="text-primary text-center">{{tipoAsentamiento.FechaModificacion | date:'yyyy-MM-dd HH:mm'}}</td>
                                     <td width="90px" class="p-1">
                                         <div class="col-auto d-grid p-0 m-0" heigth="auto">
-                                            <a class="btn btn-primary" heigth="auto" (click)="obtenerTipoAsentamiento(tipoAsentamiento);" data-bs-toggle="modal" data-bs-target="#gridAgregarTipoPropiedad"><span class="col-md-1 col-md-offset-2 text-center">
+                                            <a class="btn btn-primary" heigth="auto" (click)="obtenerTipoAsentamiento(tipoAsentamiento);" data-bs-toggle="modal" data-bs-target="#gridAgregarTipoAsentamiento"><span class="col-md-1 col-md-offset-2 text-center">
                                                 <i class="fa fa-pencil"></i>
                                             </span></a>
                                         </div>
@@ -63,11 +67,11 @@
     </div>
 </div>
 
-<div class="modal fade" id="gridAgregarTipoPropiedad" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+<div class="modal fade" id="gridAgregarTipoAsentamiento" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} Tipo de Propiedad</h5>
+          <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} tipo de asentamiento</h5>
           <button type="button" class="btn-close" (click)="limpiarFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -79,7 +83,7 @@
                             <fieldset>
 
                               <div class="form-group row mb-3">
-                                <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o"></i></span>
+                                <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
                                 <div class="col-md-8">
                                     <input formControlName="clave" 
                                            type="text"

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-caracteristicas',
@@ -8,6 +9,7 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
   styleUrls: ['./caracteristicas.component.css']
 })
 export class CaracteristicasComponent implements OnInit {
+  _numeroPaso = 1;
 
   formDetalle = this.fb.group({
     nombre  : ['', [ Validators.required, Validators.minLength(5) ]  ],
@@ -24,7 +26,8 @@ export class CaracteristicasComponent implements OnInit {
     pasatiempos: this.fb.array([])
   });
 
-  constructor(private fb: FormBuilder) {
+  constructor( private fb: FormBuilder,
+               private router: Router) {
     this.crearFormulario();
    }
 
@@ -75,7 +78,20 @@ export class CaracteristicasComponent implements OnInit {
 
   }
 
-  guardarDetalles() {
+  regresar(){
+    this._numeroPaso = 2;
+
+    setTimeout( () => { this.router.navigateByUrl('/publicar/fotosyvideos'); }, 700 );
+  }
+
+  guardarCaracteristicas() {
+
+    this._numeroPaso = 2;
+
+    setTimeout( () => { this.router.navigateByUrl('/publicar/operaciontipoinmueble'); }, 700 );
+
+    return;
+
     console.log( this.formDetalle );
 
     if ( this.formDetalle.invalid ) {

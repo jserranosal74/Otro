@@ -3,37 +3,39 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
-import { InmobiliariasService } from '../../../Services/Catalogos/inmobiliaria.service';
-import { inmobiliaria } from '../../../Models/catalogos/inmobiliaria.model';
+import { LoginService } from 'src/app/Services/Catalogos/login.service';
+import { TiposAsentamientoService } from '../../../Services/Catalogos/tiposAsentamiento.service';
+import { tipoAsentamiento } from '../../../Models/catalogos/tipoAsentamiento.model';
 
 @Component({
-  selector: 'app-datosfiscales',
-  templateUrl: './datosfiscales.component.html',
-  styleUrls: ['./datosfiscales.component.css']
+  selector: 'app-tiposasentamiento',
+  templateUrl: './tiposasentamiento.component.html',
+  styleUrls: ['./tiposasentamiento.component.css']
 })
-export class DatosfiscalesComponent implements OnInit {
-  _inmobiliarias : inmobiliaria[] = [];
-  _inmobiliaria : inmobiliaria = new inmobiliaria(0,0,'','','','',new Date(),new Date(), 0,0);
+export class TiposasentaientoComponent implements OnInit {
+  _tiposAsentamiento : tipoAsentamiento[] = [];
+  _tipoAsentamiento : tipoAsentamiento = new tipoAsentamiento(0,'','',new Date(),new Date(),0,0);
   _textoAccion ='';
 
   _esNuevo : boolean = false;
   @ViewChild('myModalClose') modalClose : any;
-  @ViewChild('verformaInmobiliaria') formaInmobiliaria : any;
+  // @ViewChild('descripcion') modaldescripcion : any;
+  // @ViewChild('verformaAmenidad') modalformaAmenidad : any;
 
-  formaDatosFiscales = this.fb.group({
-    nombre: ['', Validators.required],
-    domiciliofiscal: ['', Validators.required],
-    rfc: ['', Validators.required],
-    email: ['', Validators.required]
+  formaTipoAsentamiento = this.fb.group({
+    clave: ['', Validators.required],
+    descripcion: ['', Validators.required]
   });
 
   constructor(
     private fb: FormBuilder,
-    private _inmobiliariaService: InmobiliariasService
+    private _tiposAsentamientoService: TiposAsentamientoService,
+    private _loginService : LoginService,
   ) {
+
     this.crearFormulario();
     this.limpiarFormulario();
-    this.obtenerInmobiliarias();
+    this.obtenerTiposAsentamiento();
   }
 
   ngOnInit(): void {
@@ -41,35 +43,31 @@ export class DatosfiscalesComponent implements OnInit {
   }
 
   crearFormulario() {
-    this.formaDatosFiscales = this.fb.group({
-      nombre: ['', Validators.required],
-      domiciliofiscal: ['', Validators.required],
-      rfc: ['', Validators.required],
-      email: ['', Validators.required]
+    this.formaTipoAsentamiento = this.fb.group({
+      clave: ['', Validators.required],
+      descripcion: ['', Validators.required]
     });
-    this._inmobiliaria = new inmobiliaria(0,0,'','','','',new Date(),new Date(), 0,0);
+    this._tipoAsentamiento = new tipoAsentamiento(0,'','',new Date(),new Date(),0,0);
   }
 
   limpiarFormulario() {
-    this.formaDatosFiscales.reset({
-      nombre: '',
-      domiciliofiscal: '',
-      rfc: '',
-      email: ''
+    this._textoAccion = 'Agregar';
+    this.formaTipoAsentamiento.reset({
+      clave: '',
+      descripcion: ''
     });
-    this._inmobiliaria = new inmobiliaria(0,0,'','','','',new Date(),new Date(), 0,0);
-    this._textoAccion = 'Agregar'
+    this._tipoAsentamiento = new tipoAsentamiento(0,'','',new Date(),new Date(),0,0);
   }
 
-  obtenerInmobiliarias() {
+  obtenerTiposAsentamiento() {
     let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
 
-    this._inmobiliariaService.getInmobiliarias(Id_Usuario).subscribe(
+    this._tiposAsentamientoService.getTiposAsentamientos().subscribe(
       (data) => {
         //Next callback
-        console.log('datos: ', data);
+        //console.log('datos: ', data);
 
-        this._inmobiliarias = data;
+        this._tiposAsentamiento = data;
 
         // this.limpiarFormulario();
       },
@@ -104,22 +102,20 @@ export class DatosfiscalesComponent implements OnInit {
     );
   }
 
-  obtenerInmobiliaria(objInmobiliaria : inmobiliaria) {
+  obtenerTipoAsentamiento(objTipoAsentamiento : tipoAsentamiento) {
     this._textoAccion = 'Modificar';
-    this._inmobiliaria = objInmobiliaria;
+    this._tipoAsentamiento = objTipoAsentamiento;
 
     //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
 
-    this._inmobiliariaService.getInmobiliaria(objInmobiliaria.Id_Inmobiliaria).subscribe(
+    this._tiposAsentamientoService.getTipoAsentamiento(objTipoAsentamiento.Id_TipoAsentamiento).subscribe(
       (data) => {
         //Next callback
         console.log('datos: ', data);
 
-        this.formaDatosFiscales.setValue({
-          nombre: data.Nombre,
-          domiciliofiscal: data.DomicilioFiscal,
-          rfc: data.RFC,
-          email: data.Email,
+        this.formaTipoAsentamiento.setValue({
+          clave: data.Clave,
+          descripcion: data.Descripcion
         });
 
         // this.limpiarFormulario();
@@ -156,10 +152,10 @@ export class DatosfiscalesComponent implements OnInit {
     );
   }
 
-  guardarDatosFiscales(){
+  guardarTipoAsentamiento(){
 
-    if (this.formaDatosFiscales.invalid) {
-      return Object.values(this.formaDatosFiscales.controls).forEach((control) => {
+    if (this.formaTipoAsentamiento.invalid) {
+      return Object.values(this.formaTipoAsentamiento.controls).forEach((control) => {
         if (control instanceof FormGroup) {
           Object.values(control.controls).forEach((control) =>
             control.markAsTouched()
@@ -171,32 +167,36 @@ export class DatosfiscalesComponent implements OnInit {
     } else {
       //Envio de la informacion al servidor
 
-      if (this._inmobiliaria.Id_Inmobiliaria != 0){
+      if (this._tipoAsentamiento.Id_TipoAsentamiento != 0){
         this._esNuevo = false;
       }else{
         this._esNuevo = true;
       }
 
-      this._inmobiliaria.Id_Cliente = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
-      this._inmobiliaria.Nombre = this.formaDatosFiscales.get('nombre')?.value;
-      this._inmobiliaria.DomicilioFiscal = this.formaDatosFiscales.get('domiciliofiscal')?.value;
-      this._inmobiliaria.RFC = this.formaDatosFiscales.get('rfc')?.value;
-      this._inmobiliaria.Email = this.formaDatosFiscales.get('email')?.value;
-      this._inmobiliaria.FechaAlta = new Date();
-      this._inmobiliaria.FechaModificacion = new Date();
-      this._inmobiliaria.Id_Usuario = 1;
-      this._inmobiliaria.Id_Estatus = 1;
+      this._tipoAsentamiento.Clave = this.formaTipoAsentamiento.get('clave')?.value;
+      this._tipoAsentamiento.Descripcion = this.formaTipoAsentamiento.get('descripcion')?.value;
+      this._tipoAsentamiento.FechaAlta = new Date();
+      this._tipoAsentamiento.FechaModificacion = new Date();
+      this._tipoAsentamiento.Id_Usuario = 1;
+      this._tipoAsentamiento.Id_Estatus = 1;
 
       if (this._esNuevo){
-        this._inmobiliaria.Id_Inmobiliaria = 0;
-        this._inmobiliariaService.postInmobiliaria(this._inmobiliaria).subscribe(
+        this._tipoAsentamiento.Id_TipoAsentamiento = 0;
+        this._tiposAsentamientoService.postTipoAsentamiento(this._tipoAsentamiento).subscribe(
           (data) => {
             //Next callback
             //console.log('datos: ',data);
+
+            Swal.fire({
+              icon: 'success',
+              title: 'El tipo de asentamiento se agrego de manera correcta.',
+              showConfirmButton: false,
+              timer: 1000
+            })
   
             this.modalClose.nativeElement.click();
   
-            this.obtenerInmobiliarias();
+            this.obtenerTiposAsentamiento();
   
             this.limpiarFormulario();
           },
@@ -214,7 +214,14 @@ export class DatosfiscalesComponent implements OnInit {
   
             switch (error.status) {
               case 401:
-                //console.log('error 401');
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Acceso no autorizado',
+                  text: 'debera autenticarse',
+                  showCancelButton: false,
+                  showDenyButton: false,
+                });
+                this._loginService.cerarSesion();
                 break;
               case 403:
                 //console.log('error 403');
@@ -231,15 +238,19 @@ export class DatosfiscalesComponent implements OnInit {
         );
       }
       else{
-        this._inmobiliariaService.putInmobiliaria(this._inmobiliaria).subscribe(
+        this._tiposAsentamientoService.putTipoAsentamiento(this._tipoAsentamiento).subscribe(
           (data) => {
-            //Next callback
-            //console.log('datos: ',data);
-            debugger;
   
             this.modalClose.nativeElement.click();
+
+            Swal.fire({
+              icon: 'success',
+              title: 'El tipo de asentamiento se modificó de manera correcta.',
+              showConfirmButton: false,
+              timer: 1000
+            })
   
-            this.obtenerInmobiliarias();
+            this.obtenerTiposAsentamiento();
   
             this.limpiarFormulario();
           },
@@ -257,7 +268,14 @@ export class DatosfiscalesComponent implements OnInit {
   
             switch (error.status) {
               case 401:
-                //console.log('error 401');
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Acceso no autorizado',
+                  text: 'debera autenticarse',
+                  showCancelButton: false,
+                  showDenyButton: false,
+                });
+                this._loginService.cerarSesion();
                 break;
               case 403:
                 //console.log('error 403');
@@ -276,13 +294,13 @@ export class DatosfiscalesComponent implements OnInit {
     }
   }
 
-  eliminarDatosFiscales(objInmobiliaria : inmobiliaria) {
-    this._textoAccion = 'Eliminar';
-    this._inmobiliaria = objInmobiliaria;
+  eliminarTipoAsentamiento(objTipoAsentamiento : tipoAsentamiento) {
+    // this._textoAccion = 'Eliminar';
+    this._tipoAsentamiento = objTipoAsentamiento;
 
     Swal.fire({
       icon: 'warning',
-      title: '¿Está seguro de que desea eliminar los datos fiscales de inmobiliaria: "' + objInmobiliaria.Nombre + '"?',
+      title: '¿Está seguro de que desea eliminar el tipo de asentamiento: "' + objTipoAsentamiento.Descripcion + '"?',
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: 'Si, eliminar',
@@ -301,7 +319,7 @@ export class DatosfiscalesComponent implements OnInit {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
 
-        this._inmobiliariaService.deleteInmobiliaria(objInmobiliaria.Id_Inmobiliaria).subscribe(
+        this._tiposAsentamientoService.deleteTipoAsentamiento(objTipoAsentamiento.Id_TipoAsentamiento).subscribe(
           (data) => {
             //Next callback
             
@@ -309,12 +327,12 @@ export class DatosfiscalesComponent implements OnInit {
 
             Swal.fire({
               icon: 'success',
-              title: 'Los datos fiscales fueron eliminados',
+              title: 'El tipo de asentamiento fue eliminado.',
               showConfirmButton: false,
               timer: 1500
             })
     
-            this.obtenerInmobiliarias();
+            this.obtenerTiposAsentamiento();
     
           },
           (error: HttpErrorResponse) => {
@@ -330,7 +348,14 @@ export class DatosfiscalesComponent implements OnInit {
     
             switch (error.status) {
               case 401:
-                //console.log('error 401');
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Acceso no autorizado',
+                  text: 'debera autenticarse',
+                  showCancelButton: false,
+                  showDenyButton: false,
+                });
+                this._loginService.cerarSesion();
                 break;
               case 403:
                 //console.log('error 403');
@@ -352,52 +377,15 @@ export class DatosfiscalesComponent implements OnInit {
         // Swal.fire('Changes are not saved', '', 'info')
       }
     })
-
-    // Swal.fire({
-    //   icon: 'warning',
-    //   title: '¿Está seguro de que desea eliminar los datos fiscales de inmobiliaria?',
-    //   text: '',
-    //   showCancelButton: false,
-    //   showDenyButton: false,
-    //   showConfirmButton: true,
-    // });
-
     
   }
 
-  get nombreNoValido() {
-    return (
-      this.formaDatosFiscales.get('nombre')?.invalid &&
-      this.formaDatosFiscales.get('nombre')?.touched
-    );
+  get descripcionNoValido() {
+    return ( this.formaTipoAsentamiento.get('descripcion')?.invalid && this.formaTipoAsentamiento.get('descripcion')?.touched );
   }
-  
-  get domiciliofiscalNoValido() {
-    return (
-      this.formaDatosFiscales.get('domiciliofiscal')?.invalid &&
-      this.formaDatosFiscales.get('domiciliofiscal')?.touched
-    );
-  }
-  
-  get rfcNoValido() {
-    return (
-      this.formaDatosFiscales.get('rfc')?.invalid &&
-      this.formaDatosFiscales.get('rfc')?.touched
-      );
-    }
-
-    get correoNoValido() {
-      return (
-        this.formaDatosFiscales.get('email')?.invalid &&
-        this.formaDatosFiscales.get('email')?.touched
-      );
-    }
-    
-    get telefonoNoValido() {
-    return (
-      this.formaDatosFiscales.get('telefono')?.invalid &&
-      this.formaDatosFiscales.get('telefono')?.touched
-    );
+      
+  get claveNoValido() {
+    return ( this.formaTipoAsentamiento.get('clave')?.invalid && this.formaTipoAsentamiento.get('clave')?.touched );
   }
 
 }

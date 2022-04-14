@@ -9,6 +9,7 @@ import { MunicipiosService } from '../../../Services/Catalogos/municipios.servic
 import { estado } from '../../../Models/catalogos/estado.model';
 import { municipio } from '../../../Models/catalogos/municipio.model';
 import { asentamiento } from '../../../Models/catalogos/asentamiento.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ubicacion',
@@ -16,13 +17,13 @@ import { asentamiento } from '../../../Models/catalogos/asentamiento.model';
   styleUrls: ['./ubicacion.component.css']
 })
 export class UbicacionComponent implements OnInit {
-
   _Estados: estado[] = [];
   _Municipios : municipio[] = [];
   _Asentamientos : asentamiento[] = [];
   _estadoSeleccionado : number = 0;
   _municipioSeleccionado : number = 0;
   _asentamientoSeleccionado : number = 0;
+  _numeroPaso = 1;
 
   loading : boolean = false;
 
@@ -38,6 +39,7 @@ export class UbicacionComponent implements OnInit {
   constructor(private _estadoService: EstadosService,
               private _municipioService: MunicipiosService,
               private _asentamientoService: AsentamientosService,
+              private router: Router,
               private fb: FormBuilder) {
     this.crearFormulario();
     this.obtenerEstados();
@@ -113,8 +115,18 @@ export class UbicacionComponent implements OnInit {
 
   }
 
+  regresar(){
+    this._numeroPaso = 2;
+
+    setTimeout( () => { this.router.navigateByUrl('/publicar/operaciontipoinmueble'); }, 700 );
+  }
+
   guardarUbicacion() {
     console.log( this.formaUbicacion );
+
+    this._numeroPaso = 2;
+
+    setTimeout( () => { this.router.navigateByUrl('/publicar/fotosyvideos'); }, 700 );
 
     if ( this.formaUbicacion.invalid ) {
 

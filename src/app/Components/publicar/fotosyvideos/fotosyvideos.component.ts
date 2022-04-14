@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -7,8 +8,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./fotosyvideos.component.css']
 })
 export class FotosyvideosComponent implements OnInit {
+  _numeroPaso = 1;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -21,6 +23,18 @@ export class FotosyvideosComponent implements OnInit {
       showCancelButton: false,
       showDenyButton: false,
     });
+  }
+
+  regresar(){
+    this._numeroPaso = 2;
+
+    setTimeout( () => { this.router.navigateByUrl('/publicar/ubicacion'); }, 700 );
+  }
+
+  guardarFotosyVideos() {
+    this._numeroPaso = 2;
+
+    setTimeout( () => { this.router.navigateByUrl('/publicar/caracteristicas'); }, 700 );
   }
 
 }

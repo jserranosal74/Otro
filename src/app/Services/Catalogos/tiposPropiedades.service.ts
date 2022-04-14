@@ -5,14 +5,14 @@ import { Observable } from 'rxjs';
 import { tipoPropiedad } from '../../Models/catalogos/tipoPropiedad.model';
 import { URL_APIS } from '../global';
 import { LoginService } from './login.service';
-import { tipoPropiedadDetalle } from 'src/app/Models/catalogos/tipoPropiedadDetalle.model';
+import { subtipoPropiedad } from '../../Models/catalogos/tipoPropiedadDetalle.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TiposPropiedadService {
   public urlTiposPropiedad: string;
-  public urlTiposPropiedadDetalle: string;
+  public urlSubTipoPropiedad: string;
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -22,7 +22,7 @@ export class TiposPropiedadService {
 
   constructor(private http: HttpClient, private _loginService: LoginService) { 
     this.urlTiposPropiedad = URL_APIS.urlTipoPropiedad;
-    this.urlTiposPropiedadDetalle = URL_APIS.urlTipoPropiedadDetalle;
+    this.urlSubTipoPropiedad = URL_APIS.urlSubTipoPropiedad;
   }
 
   public getTipoPropiedad(Id_TipoPropiedad : number): Observable<tipoPropiedad> {
@@ -46,24 +46,24 @@ export class TiposPropiedadService {
   }
 
   // Propiedad Detalle
-  public getTipoPropiedadDetalle(Id_TipoPropiedadDetalle : number): Observable<tipoPropiedadDetalle> {
-    return this.http.get<tipoPropiedadDetalle>(this.urlTiposPropiedadDetalle + Id_TipoPropiedadDetalle);
+  public getSubTipoPropiedad(Id_SubtipoPropiedad : number): Observable<subtipoPropiedad> {
+    return this.http.get<subtipoPropiedad>(this.urlSubTipoPropiedad + Id_SubtipoPropiedad);
   }
 
-  public getTiposPropiedadesDetalle(): Observable<tipoPropiedadDetalle[]> {
-    return this.http.get<tipoPropiedadDetalle[]>(this.urlTiposPropiedadDetalle);
+  public getSubTiposPropiedad(Id_TipoPropiedad : number): Observable<subtipoPropiedad[]> {
+    return this.http.get<subtipoPropiedad[]>(this.urlSubTipoPropiedad + 'TipoPropiedad/' + Id_TipoPropiedad);
   }
 
-  public putTipoPropiedadDetalle(objTipoPropiedadDetalle: tipoPropiedadDetalle): Observable<tipoPropiedadDetalle> {
-    return this.http.put<tipoPropiedadDetalle>(this.urlTiposPropiedadDetalle + objTipoPropiedadDetalle.Id_TipoPropiedadDetalle, objTipoPropiedadDetalle, this.httpOptions);
+  public putSubTipoPropiedad(objTipoPropiedadDetalle: subtipoPropiedad): Observable<subtipoPropiedad> {
+    return this.http.put<subtipoPropiedad>(this.urlSubTipoPropiedad + objTipoPropiedadDetalle.Id_SubtipoPropiedad, objTipoPropiedadDetalle, this.httpOptions);
   }
 
-  public postTipoPropiedadDetalle(objTipoPropiedadDetalle: tipoPropiedadDetalle): Observable<tipoPropiedad> {
-    return this.http.post<tipoPropiedad>(this.urlTiposPropiedadDetalle, objTipoPropiedadDetalle, this.httpOptions);
+  public postSubTipoPropiedad(objTipoPropiedadDetalle: subtipoPropiedad): Observable<tipoPropiedad> {
+    return this.http.post<tipoPropiedad>(this.urlSubTipoPropiedad, objTipoPropiedadDetalle, this.httpOptions);
   }
 
-  public deleteTipoPropiedadDetalle(Id_TipoPropiedadDetalle : number): Observable<tipoPropiedadDetalle> {
-    return this.http.delete<tipoPropiedadDetalle>(this.urlTiposPropiedadDetalle + Id_TipoPropiedadDetalle, this.httpOptions);
+  public deleteSubTipoPropiedad(Id_TipoPropiedadDetalle : number): Observable<subtipoPropiedad> {
+    return this.http.delete<subtipoPropiedad>(this.urlSubTipoPropiedad + Id_TipoPropiedadDetalle, this.httpOptions);
   }
 
 }

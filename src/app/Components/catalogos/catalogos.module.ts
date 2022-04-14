@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MedioscontactoComponent } from './medioscontacto/medioscontacto.component';
-import { TiposasentaientoComponent } from './tiposasentamiento/tiposasentaiento.component';
+import { TiposasentaientoComponent } from './tiposasentamiento/tiposasentamiento.component';
 import { AmenidadesComponent } from './amenidades/amenidades.component';
 import { MunicipiosComponent } from './municipios/municipios.component';
 import { EstadosComponent } from './estados/estados.component';
@@ -15,6 +15,7 @@ import { TipooperacionComponent } from './tipooperacion/tipooperacion.component'
 import { TipopersonaComponent } from './tipopersona/tipopersona.component';
 import { TipopropiedadComponent } from './tipopropiedad/tipopropiedad.component';
 import { TipofotoComponent } from './tipofoto/tipofoto.component';
+import { SubtipospropiedadComponent } from './subtipospropiedad/subtipospropiedad.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { TipofotoComponent } from './tipofoto/tipofoto.component';
     TipooperacionComponent,
     TipopersonaComponent,
     TipopropiedadComponent,
-    TipofotoComponent
+    TipofotoComponent,
+    SubtipospropiedadComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +51,8 @@ import { TipofotoComponent } from './tipofoto/tipofoto.component';
     TipooperacionComponent,
     TipopersonaComponent,
     TipopropiedadComponent,
-    TipofotoComponent
+    TipofotoComponent,
+    SubtipospropiedadComponent
   ]
 })
 

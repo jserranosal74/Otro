@@ -1,7 +1,7 @@
 <form [formGroup]="formaBusqueda">
   <div class="container">
     <legend class="text-center text-primary mb-3"><h1 class="display-4">Asentamientos</h1></legend>
-    <div class="form-group row">
+    <div class="form-group row mb-3">
       <div class="col-md-10 p-0">
           <a class="btn btn-primary btn-sm" style="border-radius:25px;" (click)="limpiarFormularioAsentamiento()" data-bs-toggle="modal" data-bs-target="#gridAsentamiento" >
               <span class="col-md-1 col-md-offset-2 text-center">
@@ -13,7 +13,7 @@
             <span class="text-primary">Total de registros: {{_paginadoDetalle.TotalRegistros}}</span>
           </td>
       </div>
-  </div>
+    </div>
     <div class="form-row row">
         <div class="col-md-1">
           <label class="text-primary">Estado:</label>
@@ -28,10 +28,7 @@
             [class.is-invalid]="estadoNoValido" 
             (change)="obtenerMunicipios()">
             <option value="" selected disabled>Seleccione...</option>
-            <option
-              *ngFor="let estado of _estados; let i = index"
-              [value]="estado.Id_Estado">
-              {{ estado.Nombre }}
+            <option *ngFor="let estado of _estados; let i = index" [value]="estado.Id_Estado">{{ estado.Nombre }}
             </option>
           </select>
         </div>
@@ -53,11 +50,7 @@
             [class.is-invalid]="municipioNoValido" 
             (change)="limpiarAsentamientos()">
           <option value="" selected disabled>Seleccione...</option>
-            <option
-              *ngFor="let municipio of _municipios; let i = index"
-              [value]="municipio.Id_Municipio"
-            >
-              {{ municipio.Municipio }}
+            <option *ngFor="let municipio of _municipios; let i = index" [value]="municipio.Id_Municipio">{{ municipio.Municipio }}
             </option>
           </select>
         </div>
@@ -66,13 +59,12 @@
             Seleccione el municipio
           </small>
         </div>
-        <div class="col-auto">
+        <div class="col-md-2">
           <button
-            class="btn btn-lg btn-primary"
-            style="border-radius: 1em"
-            type="button" (click)="buscarAsentamientos();" 
-          >
-            Buscar
+            class="btn btn-primary"
+            style="border-radius: 30px;"
+            type="button" (click)="buscarAsentamientos();" >
+            <i class="fa fa-magnifying-glass"></i><span class="px-3">Buscar</span>
           </button>
         </div>
     </div>
@@ -170,7 +162,7 @@
                                           [class.is-invalid]="estadomodalNoValido" 
                                           placeholder="Estado"
                                           (change)="obtenerMunicipiosModal()">
-                                          <option value="" selected disabled>Seleccione...</option>
+                                          <option value="" selected disabled>Estado...</option>
                                           <option *ngFor="let estado of _estadosModal; let i = index" [value]="estado.Id_Estado">
                                             {{ estado.Nombre }}
                                           </option>
@@ -188,7 +180,7 @@
                                           aria-label="Default select example"
                                           formControlName="municipiomodal"
                                           [class.is-invalid]="municipiomodalNoValido" >
-                                          <option value="" selected disabled>Seleccione...</option>
+                                          <option value="" selected disabled>Municipio...</option>
                                           <option *ngFor="let municipio of _municipiosModal; let i = index" [value]="municipio.Id_Municipio">
                                             {{ municipio.Municipio }}
                                           </option>
@@ -208,7 +200,7 @@
                                              type="text" 
                                              placeholder="Descripcion" 
                                              [class.is-invalid]="asentamientoNoValido" 
-                                             class="form-control">
+                                             class="form-control text-primary">
                                   </div>
                                   <div class="col-md-3 px-0">
                                       <small *ngIf="asentamientoNoValido" class="text-danger">
@@ -224,7 +216,7 @@
                                              type="number"
                                              [class.is-invalid]="codigopostalNoValido"
                                              placeholder="Codigo Postal" 
-                                             class="form-control">
+                                             class="form-control text-primary">
                                   </div>
                                   <div class="col-md-3 px-0">
                                       <small *ngIf="codigopostalNoValido" class="text-danger">
@@ -240,7 +232,7 @@
                                            type="number"
                                            [class.is-invalid]="latitudNoValido"
                                            placeholder="Latitud" 
-                                           class="form-control">
+                                           class="form-control text-primary">
                                 </div>
                                 <div class="col-md-3 px-0">
                                     <small *ngIf="latitudNoValido" class="text-danger">
@@ -256,7 +248,7 @@
                                          type="number"
                                          [class.is-invalid]="longitudNoValido"
                                          placeholder="Longitud" 
-                                         class="form-control">
+                                         class="form-control text-primary">
                               </div>
                               <div class="col-md-3 px-0">
                                   <small *ngIf="longitudNoValido" class="text-danger">

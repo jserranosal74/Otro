@@ -1,144 +1,141 @@
-<form autocomplete="off" [formGroup]="formDetalle" (ngSubmit)="guardarDetalles()">
-  <div>
-    <div class="form-group row py-3">
-      <label class="col-2 col-form-label justify-content-flex-end">Nombre</label>
-      <div class="col-md-4 col-10 p-0">
-        <input
-          class="form-control"
-          type="text"
-          placeholder="Nombre"
-          formControlName="nombre"
-          [class.is-invalid]="nombreNoValido"
-        />
-      </div>
-      <div class="col-md-4 col-10 col-form-label">
-        <small *ngIf="nombreNoValido" class="text-danger"
-          >Ingrese 5 letras
-        </small>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label class="col-2 col-form-label">Apellido</label>
-      <div class="col-md-4 col-10 p-0">
-        <input
-          class="form-control"
-          type="text"
-          placeholder="Apellido"
-          formControlName="apellido"
-          [class.is-invalid]="apellidoNoValido"
-        />
-      </div>
-      <div class="col-md-4 col-10 col-form-label">
-        <small *ngIf="apellidoNoValido" class="text-danger">
-          Ingrese el apellido
-        </small>
-      </div>
-    </div>
-  </div>
-
-  <div class="form-group row py-3">
-    <label class="col-md-2 col-form-label">Correo</label>
-    <div class="col-md-4 col-10 p-0">
-      <input
-        class="form-control"
-        type="email"
-        placeholder="Correo electrónico"
-        formControlName="correo"
-        [class.is-invalid]="correoNoValido"
-      />
-    </div>
-    <div class="col-md-4 col-form-label">
-      <small *ngIf="correoNoValido" class="text-danger">
-        Ingrese el correo
-      </small>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <label class="col-2 col-form-label">Usuario</label>
-    <div class="col-md-4 col-10 p-0">
-      <input
-        class="form-control"
-        type="email"
-        placeholder="Nombre de usuario"
-        formControlName="usuario"
-        [class.is-invalid]="usuarioNoValido"
-      />
-      <div class="col-md-4 col-10">
-        <small *ngIf="usuarioNoValido" class="text-danger">
-          Ese nombre de usuario ya fue tomado.
-        </small>
-      </div>
-    </div>
-  </div>
-
-  <div class="form-group row py-3" formGroupName="direccion">
-    <label class="col-2 col-form-label">Direccion</label>
-    <div class="form-row col-10 p-0">
-      <div class="col-md-12 col-10 p-0">
-        <div class="row">
-        <div class="col-md-5">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="[Seleccione el Estado]"
-            formControlName="estado"
-            [class.is-invalid]="distritoNoValido"
-          />
-        </div>
-        <div class="col-md-5 col-form-label px-0">
-          <small *ngIf="distritoNoValido" class="text-danger">
-            Estado invalido
-          </small>
-        </div>
-      </div>
-      </div>
-
-      <div class="col-md-12 col-10 p-0 py-3">
-        <div class="row">
-          <div class="col-md-5">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Ciudad"
-          formControlName="ciudad"
-          [class.is-invalid]="ciudadNoValido"
-        />
+<!-- <div class="container animate__animated" [ngClass]="{' animate__backInRight': _numeroPaso === 1, ' animate__backOutLeft': _numeroPaso === 2}"></div> -->
+<div class="container animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}">
+  <form autocomplete="off" [formGroup]="formDetalle">
+    <fieldset>
+      <legend class="text-center text-primary mb-3 "><h1 class="display-4">Caracteristicas</h1></legend>
+      <div class="container border-primary" style="border-radius: 20px 20px 0 0px; background: rgba(223, 126, 137, 0.15);">
+        <div class="form-group row py-3">
+          <label class="col-2 col-form-label justify-content-flex-end">Nombre</label>
+          <div class="col-md-4 col-10 p-0">
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Nombre"
+              formControlName="nombre"
+              [class.is-invalid]="nombreNoValido"
+            />
           </div>
-        <div class="col-md-4 col-10 px-0">
-          <small *ngIf="ciudadNoValido" class="text-danger">
-            Ciudad invalida
-          </small>
-        </div>
-      </div>
-      </div>
-
-      <div class="col-md-12 col-10 p-0 py-0">
-        <div class="row">
-          <div class="col-md-5">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Calle"
-          formControlName="calle"
-          [class.is-invalid]="ciudadNoValido"
-        />
+          <div class="col-md-4 col-10 col-form-label">
+            <small *ngIf="nombreNoValido" class="text-danger"
+              >Ingrese 5 letras
+            </small>
           </div>
-        <div class="col-md-4 col-10 px-0">
-          <small *ngIf="calleNoValido" class="text-danger">
-            Calle invalida
-          </small>
+        </div>
+        <div class="form-group row">
+          <label class="col-2 col-form-label">Apellido</label>
+          <div class="col-md-4 col-10 p-0">
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Apellido"
+              formControlName="apellido"
+              [class.is-invalid]="apellidoNoValido"
+            />
+          </div>
+          <div class="col-md-4 col-10 col-form-label">
+            <small *ngIf="apellidoNoValido" class="text-danger">
+              Ingrese el apellido
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group row py-3">
+          <label class="col-md-2 col-form-label">Correo</label>
+          <div class="col-md-4 col-10 p-0">
+            <input
+              class="form-control"
+              type="email"
+              placeholder="Correo electrónico"
+              formControlName="correo"
+              [class.is-invalid]="correoNoValido"
+            />
+          </div>
+          <div class="col-md-4 col-form-label">
+            <small *ngIf="correoNoValido" class="text-danger">
+              Ingrese el correo
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group row py-3" formGroupName="direccion">
+          <label class="col-2 col-form-label">Direccion</label>
+          <div class="form-row col-10 p-0">
+            <div class="col-md-12 col-10 p-0">
+              <div class="row">
+              <div class="col-md-5">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="[Seleccione el Estado]"
+                  formControlName="estado"
+                  [class.is-invalid]="distritoNoValido"
+                />
+              </div>
+              <div class="col-md-5 col-form-label px-0">
+                <small *ngIf="distritoNoValido" class="text-danger">
+                  Estado invalido
+                </small>
+              </div>
+            </div>
+            </div>
+
+            <div class="col-md-12 col-10 p-0 py-3">
+              <div class="row">
+                <div class="col-md-5">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Ciudad"
+                formControlName="ciudad"
+                [class.is-invalid]="ciudadNoValido"
+              />
+                </div>
+              <div class="col-md-4 col-10 px-0">
+                <small *ngIf="ciudadNoValido" class="text-danger">
+                  Ciudad invalida
+                </small>
+              </div>
+            </div>
+            </div>
+
+            <div class="col-md-12 col-10 p-0 py-0">
+              <div class="row">
+                <div class="col-md-5">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Calle"
+                formControlName="calle"
+                [class.is-invalid]="ciudadNoValido"
+              />
+                </div>
+              <div class="col-md-4 col-10 px-0">
+                <small *ngIf="calleNoValido" class="text-danger">
+                  Calle invalida
+                </small>
+              </div>
+            </div>
+            </div>
+
+          </div>
         </div>
       </div>
+      
+      <div class="container" >
+        <div class="row px-0" >
+          <div class="col-md-2 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0 0 20px 20px; background: rgba(223, 126, 137, 0.15);">
+            <button type="button" style="border-radius: 0.8em;" (click)="regresar()" class="btn btn-primary btn-lg align-items-right">Atras</button>
+          </div>
+          <div class="col-md-4"></div>
+            <div class="col-md-3 d-grid py-3" style="border-width:0px 0px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0 0 0 20px; background: rgba(223, 126, 137, 0.15);">
+                <button type="button" style="border-radius: 0.8em;" (click)="guardarCaracteristicas()" class="btn btn-primary btn-lg align-items-right">Guardar</button>
+            </div>
+            <div class="col-md-3 d-grid py-3" style="border-width:0px 1px 5px 0px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0 0 20px 0; background: rgba(223, 126, 137, 0.15);">
+                <button type="button" style="border-radius: 0.8em;" (click)="guardarCaracteristicas()" class="btn btn-primary btn-lg align-items-right">Guardar y Continuar</button>
+            </div>
+        </div>
       </div>
 
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <label class="col-md-2 col-form-label">&nbsp;</label>
-    <div class="col-md-4">
-      <button type="submit" class="btn btn-primary btn-block">Guardar</button>
-    </div>
-  </div>
-</form>
+    </fieldset>
+  </form>
+</div>
