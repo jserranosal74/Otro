@@ -9,7 +9,8 @@ import { MunicipiosService } from '../../../Services/Catalogos/municipios.servic
 import { estado } from '../../../Models/catalogos/estado.model';
 import { municipio } from '../../../Models/catalogos/municipio.model';
 import { asentamiento } from '../../../Models/catalogos/asentamiento.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { publicacion } from 'src/app/Models/procesos/publicacion.model';
 
 @Component({
   selector: 'app-ubicacion',
@@ -24,6 +25,8 @@ export class UbicacionComponent implements OnInit {
   _municipioSeleccionado : number = 0;
   _asentamientoSeleccionado : number = 0;
   _numeroPaso = 1;
+  _publicacion: publicacion = new publicacion(0,0,null,0,0,null,null,'','','',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,'',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, null, null, new Date(), new Date(),0,0);
+  _id_publicacion : number = 0;
 
   loading : boolean = false;
 
@@ -36,11 +39,21 @@ export class UbicacionComponent implements OnInit {
     })
   });
 
-  constructor(private _estadoService: EstadosService,
-              private _municipioService: MunicipiosService,
-              private _asentamientoService: AsentamientosService,
-              private router: Router,
-              private fb: FormBuilder) {
+  constructor( private _activatedRoute: ActivatedRoute,
+               private _estadoService: EstadosService,
+               private _municipioService: MunicipiosService,
+               private _asentamientoService: AsentamientosService,
+               private router: Router,
+               private fb: FormBuilder) {
+
+    this._activatedRoute.queryParams.subscribe(params => {
+      this._id_publicacion = params['id_Publicacion'];
+      if (this._id_publicacion === undefined){
+        this._id_publicacion = 0;
+        setTimeout( () => { this.router.navigateByUrl('/publicar/operaciontipoinmueble'); }, 700 );
+      }
+    });
+
     this.crearFormulario();
     this.obtenerEstados();
     this._estadoSeleccionado = 0;
@@ -118,7 +131,13 @@ export class UbicacionComponent implements OnInit {
   regresar(){
     this._numeroPaso = 2;
 
-    setTimeout( () => { this.router.navigateByUrl('/publicar/operaciontipoinmueble'); }, 700 );
+    //setTimeout( () => { this.router.navigateByUrl('/publicar/operaciontipoinmueble'); }, 700 );
+    setTimeout( () => { this.router.navigate(['/publicar/operaciontipoinmueble'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+  }
+
+  pantallaSiguiente(){
+    this._numeroPaso = 2;
+    setTimeout( () => { this.router.navigate(['/publicar/caracteristicas'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
   }
 
   guardarUbicacion() {
@@ -126,7 +145,7 @@ export class UbicacionComponent implements OnInit {
 
     this._numeroPaso = 2;
 
-    setTimeout( () => { this.router.navigateByUrl('/publicar/fotosyvideos'); }, 700 );
+    setTimeout( () => { this.router.navigate(['/publicar/caracteristicas'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
 
     if ( this.formaUbicacion.invalid ) {
 

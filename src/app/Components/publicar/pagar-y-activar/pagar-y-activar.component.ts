@@ -5,12 +5,13 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { publicacion } from 'src/app/Models/procesos/publicacion.model';
 
+
 @Component({
-  selector: 'app-caracteristicas',
-  templateUrl: './caracteristicas.component.html',
-  styleUrls: ['./caracteristicas.component.css']
+  selector: 'app-pagar-y-activar',
+  templateUrl: './pagar-y-activar.component.html',
+  styleUrls: ['./pagar-y-activar.component.css']
 })
-export class CaracteristicasComponent implements OnInit {
+export class PagarYActivarComponent implements OnInit {
   _numeroPaso = 1;
   _publicacion: publicacion = new publicacion(0,0,null,0,0,null,null,'','','',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,'',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, null, null, new Date(), new Date(),0,0);
   _id_publicacion : number = 0;
@@ -96,12 +97,12 @@ export class CaracteristicasComponent implements OnInit {
     this._numeroPaso = 2;
 
     //setTimeout( () => { this.router.navigateByUrl('/publicar/fotosyvideos'); }, 700 );
-    setTimeout( () => { this.router.navigate(['/publicar/operaciontipoinmueble'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+    setTimeout( () => { this.router.navigate(['/publicar/fotosyvideos'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
   }
 
   pantallaSiguiente(){
     this._numeroPaso = 2;
-    setTimeout( () => { this.router.navigate(['/publicar/fotosyvideos'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+    setTimeout( () => { this.router.navigate(['/publicar/operaciontipoinmueble'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
   }
 
   guardarCaracteristicas() {
@@ -109,7 +110,7 @@ export class CaracteristicasComponent implements OnInit {
     this._numeroPaso = 2;
 
     //setTimeout( () => { this.router.navigateByUrl('/publicar/operaciontipoinmueble'); }, 700 );
-    setTimeout( () => { this.router.navigate(['/publicar/fotosyvideos'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+    setTimeout( () => { this.router.navigate(['/publicar/operaciontipoinmueble'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
 
     return;
 

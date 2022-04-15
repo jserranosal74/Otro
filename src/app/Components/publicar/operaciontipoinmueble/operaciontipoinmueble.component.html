@@ -2,19 +2,29 @@
 <div class="container animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}">
 <form autocomplete="off" [formGroup]="formaOTI" class="py-3">
   <fieldset>
-    <legend class="text-center text-primary mb-3 "><h1 class="display-4">Operación y tipo de inmueble</h1></legend>
-      <div class="container border-primary" style="border-radius: 20px 20px 0 0px; background: rgba(223, 126, 137, 0.15);">
+    <div class="container" >
+      <div class="row px-0" >
+          <div class="col-md-10" >
+            <legend class="text-center text-primary mb-3 "><h1 class="display-4">Operación y tipo de inmueble</h1></legend>
+          </div>
+          <div *ngIf="_id_publicacion != 0" class="col-md-2 d-grid py-3" style="border-width:1px 1px 0px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 20px 20px 0px 0px; background: rgba(223, 126, 137, 0.15);">
+              <button type="button" style="border-radius: 0.8em;" (click)="pantallaSiguiente()" class="btn btn-primary btn-lg align-items-right">Siguiente</button>
+          </div>
+      </div>
+    </div>
+
+      <div class="container" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0 20px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
         <div class="form-group row py-5">
           <div class="col-md-2">
             <label class="text-primary">Tipo de operación</label>
           </div>
           <div class="col-md-2 px-0">
             <div class="btn-group btn-group-lg"  role="group" aria-label="Basic radio toggle button group">
-              <input type="radio" class="btn-check" id="v1" name="tipoOperacion" value="1" formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido"/>
-              <label class="btn btn-outline-primary" style="border-radius: 15px solid!important;" for="v1">Venta</label>
+              <input type="radio" class="btn-check" id="v1" name="tipoOperacion" value="1" formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()"/>
+              <label class="btn btn-outline-primary" [ngClass]="{'active' : _rentaventa == 1, 'inactive' : _rentaventa == 2}" for="v1">Venta</label>
 
-              <input type="radio" class="btn-check" id="r1" name="tipoOperacion" value="2"  formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido"/>
-              <label class="btn btn-outline-primary" for="r1">Renta</label>
+              <input type="radio" class="btn-check" id="r1" name="tipoOperacion" value="2"  formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()"/>
+              <label class="btn btn-outline-primary" [ngClass]="{'active' : _rentaventa == 2, 'inactive' : _rentaventa == 1}" for="r1">Renta</label>
 
               <!-- <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
                 <label class="btn btn-outline-primary" for="btnradio3">Radio 3</label> -->
@@ -36,7 +46,6 @@
                     <select class="form-select form-select-lg mb-3 text-primary" 
                             style="border-radius: 0.8em;" 
                             aria-label="Default select example" 
-                            name="tipoPropiedad" 
                             formControlName="tipoPropiedad"
                             [class.is-invalid]="tipoPropiedadValido"
                             (change)="obtenerSubTiposPropiedad()">
@@ -55,11 +64,10 @@
                 <div class="col-auto">
                     <select class="form-select form-select-lg mb-3 text-primary" 
                             style="border-radius: 0.8em;"
-                            name="subtipoPropiedad" 
                             formControlName="subtipoPropiedad" 
                             aria-label="Default select example">
                             <option value="" selected disabled>Seleccione...</option>
-                      <option *ngFor="let subtipopropiedad of _subtiposPropiedad; let i = index" [value]="subtipopropiedad.Id_SubtipoPropiedad" >{{subtipopropiedad.Descripcion}}</option>
+                      <option *ngFor="let item of _subtiposPropiedad; let i = index" [value]="item.Id_SubtipoPropiedad" >{{item.Descripcion}}</option>
                     </select>
                 </div>
           </div>
@@ -70,14 +78,14 @@
       <div class="container" >
         
             <div class="row px-0" >
-                <div class="col-md-2 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0 0 20px 20px; background: rgba(223, 126, 137, 0.15);">
-                  <button type="button" style="border-radius: 0.8em;" (click)="regresar()" class="btn btn-primary btn-lg align-items-right">Atras</button>
+                <div class="col-md-2 d-grid py-3" >
+                  <!-- <button type="button" style="border-radius: 0.8em;" (click)="regresar()" class="btn btn-primary btn-lg align-items-right">Atras</button> -->
                 </div>
                 <div class="col-md-4"></div>
-                <div class="col-md-3 d-grid py-3" style="border-width:0px 0px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0 0 0 20px; background: rgba(223, 126, 137, 0.15);">
-                    <button type="button" style="border-radius: 0.8em;" (click)="guardarOTI()" class="btn btn-primary btn-lg align-items-right">Guardar</button>
+                <div class="col-md-3 d-grid py-3" >
+                    <!-- <button type="button" style="border-radius: 0.8em;" (click)="guardarOTI()" class="btn btn-primary btn-lg align-items-right">Guardar</button> -->
                 </div>
-                <div class="col-md-3 d-grid py-3" style="border-width:0px 1px 5px 0px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0 0 20px 0; background: rgba(223, 126, 137, 0.15);">
+                <div class="col-md-3 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0px 0px 20px 20px; background: rgba(223, 126, 137, 0.15);">
                     <button type="button" style="border-radius: 0.8em;" (click)="guardarOTI()" class="btn btn-primary btn-lg align-items-right">Guardar y Continuar</button>
                 </div>
             </div>

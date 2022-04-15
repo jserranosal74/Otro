@@ -8,6 +8,7 @@ import { UbicacionComponent } from '../publicar/ubicacion/ubicacion.component';
 import { InformacionprincipalComponent } from '../publicar/informacionprincipal/informacionprincipal.component';
 import { OperaciontipoinmuebleComponent } from '../publicar/operaciontipoinmueble/operaciontipoinmueble.component'
 import { CaracteristicasComponent } from './caracteristicas/caracteristicas.component';
+import { PagarYActivarComponent } from './pagar-y-activar/pagar-y-activar.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { CaracteristicasComponent } from './caracteristicas/caracteristicas.comp
     UbicacionComponent,
     CaracteristicasComponent,
     InformacionprincipalComponent,
-    OperaciontipoinmuebleComponent
+    OperaciontipoinmuebleComponent,
+    PagarYActivarComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +30,8 @@ import { CaracteristicasComponent } from './caracteristicas/caracteristicas.comp
     UbicacionComponent,
     CaracteristicasComponent,
     InformacionprincipalComponent,
-    OperaciontipoinmuebleComponent
+    OperaciontipoinmuebleComponent,
+    PagarYActivarComponent
   ]
 })
 

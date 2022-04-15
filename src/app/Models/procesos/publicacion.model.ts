@@ -1,10 +1,12 @@
 export class publicacion {
     constructor(
       public Id_Publicacion: number,
-      public Id_PlanCliente: number,
+      public Id_Cliente: number,
+      public Id_PlanCliente: number | null,
       public Id_TipoOperacion: number,
       public Id_TipoPropiedad: number,
-      public Id_Asentamiento: number,
+      public Id_SubTipoPropiedad: number | null,
+      public Id_Asentamiento: number | null,
       public TituloPublicacion: string,      
       public Descripcion: string,
       public Direccion: string,

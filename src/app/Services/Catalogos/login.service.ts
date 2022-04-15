@@ -57,13 +57,13 @@ export class LoginService {
     }
   }
 
-  public obtenerIdUsuario(): string {
+  public obtenerIdUsuario(): number {
     if (localStorage.getItem('usuario'))
     {
       return JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
     }
     else{
-      return '';
+      return 0;
     }
   }
 

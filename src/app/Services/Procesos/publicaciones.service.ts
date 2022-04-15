@@ -23,16 +23,16 @@ export class PublicacionesService {
     this.urlPublicaciones = URL_APIS.urlPublicaciones;
   }
 
-  public getPublicacion(Id_Publicacion : number): Observable<publicacion> {
-    return this.http.get<publicacion>(this.urlPublicaciones);
+  public getPublicacion(Id_Publicacion : number, Id_Cliente : number): Observable<publicacion> {
+    return this.http.get<publicacion>(this.urlPublicaciones + Id_Publicacion + '/' + Id_Cliente, this.httpOptions);
   }
 
   public getPublicaciones(Id_Cliente : number): Observable<publicacion[]> {
-    return this.http.get<publicacion[]>(this.urlPublicaciones);
+    return this.http.get<publicacion[]>(this.urlPublicaciones + 'Id_Cliente=' + Id_Cliente, this.httpOptions);
   }
 
   public putPublicacion(objPublicacion: publicacion): Observable<publicacion> {
-    return this.http.put<publicacion>(this.urlPublicaciones + objPublicacion.Id_TipoPropiedad, objPublicacion, this.httpOptions);
+    return this.http.put<publicacion>(this.urlPublicaciones + objPublicacion.Id_Publicacion, objPublicacion, this.httpOptions);
   }
 
   public postPublicacion(objPublicacion: publicacion): Observable<publicacion> {

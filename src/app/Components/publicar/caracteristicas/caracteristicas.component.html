@@ -1,63 +1,216 @@
 <!-- <div class="container animate__animated" [ngClass]="{' animate__backInRight': _numeroPaso === 1, ' animate__backOutLeft': _numeroPaso === 2}"></div> -->
 <div class="container animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}">
-  <form autocomplete="off" [formGroup]="formDetalle">
+  <form autocomplete="off" [formGroup]="formCaracteristicas">
     <fieldset>
-      <legend class="text-center text-primary mb-3 "><h1 class="display-4">Caracteristicas</h1></legend>
-      <div class="container border-primary" style="border-radius: 20px 20px 0 0px; background: rgba(223, 126, 137, 0.15);">
-        <div class="form-group row py-3">
-          <label class="col-2 col-form-label justify-content-flex-end">Nombre</label>
-          <div class="col-md-4 col-10 p-0">
-            <input
-              class="form-control"
-              type="text"
-              placeholder="Nombre"
-              formControlName="nombre"
-              [class.is-invalid]="nombreNoValido"
-            />
-          </div>
-          <div class="col-md-4 col-10 col-form-label">
-            <small *ngIf="nombreNoValido" class="text-danger"
-              >Ingrese 5 letras
-            </small>
-          </div>
+
+      <div class="container" >
+        <div class="row px-0" >
+            <div class="col-md-10" >
+              <legend class="text-center text-primary mb-3 "><h1 class="display-4">Características</h1></legend>
+            </div>
+            <div class="col-md-2 d-grid py-3" style="border-width:1px 1px 0px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 20px 20px 0px 0px; background: rgba(223, 126, 137, 0.15);">
+                <button type="button" style="border-radius: 0.8em;" (click)="pantallaSiguiente()" class="btn btn-primary btn-lg align-items-right">Siguiente</button>
+            </div>
         </div>
+      </div>
+
+      <div class="container py-5" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
         <div class="form-group row">
-          <label class="col-2 col-form-label">Apellido</label>
-          <div class="col-md-4 col-10 p-0">
-            <input
-              class="form-control"
-              type="text"
-              placeholder="Apellido"
-              formControlName="apellido"
-              [class.is-invalid]="apellidoNoValido"
-            />
+          <legend class="text-center text-primary mt-3"><h3>Principales</h3></legend>
+        </div>
+        <div class="form-group row py-0">
+          <div class="col-md-2"></div>
+          <div class="col-md-2">
+            <label class="col-md-12 col-form-label text-primary">Recámaras(opcional)</label>
+            <div class="col-md-12 p-0">
+              <input
+                class="form-control"
+                type="number"
+                min="0" 
+                max="99"
+                formControlName="recamaras"
+              />
+            </div>
           </div>
-          <div class="col-md-4 col-10 col-form-label">
-            <small *ngIf="apellidoNoValido" class="text-danger">
-              Ingrese el apellido
-            </small>
+          <div class="col-md-2">
+            <label class="col-md-12 col-form-label text-primary">Baños(opcional)</label>
+            <div class="col-md-12 p-0">
+              <input
+                class="form-control"
+                type="number"
+                min="0" 
+                max="99"
+                formControlName="banios"
+              />
+            </div>
+          </div>
+          <div class="col-auto">
+            <label class="col-md-12 col-form-label text-primary">Medios baños(opcional)</label>
+            <div class="col-md-12 p-0">
+              <input
+                class="form-control"
+                type="number"
+                min="0" 
+                max="99"
+                formControlName="mediosbanios"
+              />
+            </div>
+          </div>
+          <div class="col-auto">
+            <label class="col-md-12 col-form-label text-primary">Estacionamientos(opcional)</label>
+            <div class="col-md-12 p-0">
+              <input
+                class="form-control"
+                type="number"
+                min="0" 
+                max="99"
+                formControlName="estacionamientos"
+              />
+            </div>
           </div>
         </div>
 
-        <div class="form-group row py-3">
-          <label class="col-md-2 col-form-label">Correo</label>
-          <div class="col-md-4 col-10 p-0">
-            <input
-              class="form-control"
-              type="email"
-              placeholder="Correo electrónico"
-              formControlName="correo"
-              [class.is-invalid]="correoNoValido"
-            />
+        <div class="form-group row mt-5">
+          <legend class="text-center text-primary mt-3"><h3>Superficie</h3></legend>
+        </div>
+
+        <div class="form-group row py-0">
+          <div class="col-md-2"></div>
+          <div class="col-md-2">
+            <label class="col-md-12 col-form-label text-primary">Superfice construida</label>
+            <div class="col-md-12 p-0">
+              <input
+                class="form-control"
+                type="number"
+                min="0" 
+                max="999999"
+                formControlName="superficeconstriuida"
+              />
+            </div>
           </div>
-          <div class="col-md-4 col-form-label">
-            <small *ngIf="correoNoValido" class="text-danger">
-              Ingrese el correo
-            </small>
+          <div class="col-md-2">
+            <label class="col-md-12 col-form-label text-primary">Superficie terreno</label>
+            <div class="col-md-12 p-0">
+              <input
+                class="form-control"
+                type="number"
+                min="0" 
+                max="999999"
+                formControlName="superficeterreno"
+              />
+            </div>
+          </div>
+          <div class="col-md-2">
+            <label class="col-md-12 col-form-label text-primary">en metros cuadrados</label>
+          </div>
+          
+        </div>
+
+        <div class="form-group row mt-5">
+          <legend class="text-center text-primary mt-3"><h3>Antiguedad</h3></legend>
+        </div>
+
+        <div class="form-group row py-0">
+          <div class="col-md-4"></div>
+          <div class="col-md-2">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+              <label class="form-check-label text-primary" for="flexRadioDefault1">
+                Nueva
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+              <label class="form-check-label text-primary" for="flexRadioDefault2">
+                En construcción
+              </label>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+              <label class="form-check-label text-primary" for="flexRadioDefault1">
+                Años de antiguedad
+              </label>
+            </div>
+            <div class="col-md-5">
+              <div class="col-md-12 p-0">
+                <input
+                  class="form-control"
+                  type="number"
+                  formControlName="aniosantiguedad"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="form-group row py-3" formGroupName="direccion">
+        <div class="form-group row mt-5">
+          <legend class="text-center text-primary mt-3"><h3>Precio</h3></legend>
+        </div>
+
+        <div class="form-group row py-0">
+          <div class="col-md-2"></div>
+          <div class="col-md-2">
+            <label class="col-md-12 col-form-label text-primary">Precio del inmueble</label>
+            <div class="col-md-12 p-0">
+              <input
+                class="form-control"
+                type="number"
+                min="0" 
+                max="999999"
+                formControlName="precioinmueble"
+              />
+            </div>
+          </div>
+          <div class="col-md-2">
+            <label class="col-md-12 col-form-label text-primary">Mantenimiento</label>
+            <div class="col-md-12 p-0">
+              <input
+                class="form-control"
+                type="number"
+                min="0" 
+                max="999999"
+                formControlName="mantenimiento"
+              />
+            </div>
+          </div>
+          
+        </div>
+
+        <div class="form-group row mt-5">
+          <legend class="text-center text-primary mt-3"><h3>Descripción del inmueble</h3></legend>
+        </div>
+
+        <div class="form-group row ">
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            <label class="col-md-12 col-form-label text-primary">Titulo</label>
+            <div class="col-md-12 p-0">
+              <input
+                class="form-control"
+                type="text"
+                formControlName="titulo"
+              />
+            </div>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-2"></div>
+          <div class="col-md-8">
+            <label class="col-md-12 col-form-label text-primary">Descripción</label>
+            <div class="col-md-12 p-0">
+              <textarea class="form-control"
+                        type="textarea"
+                        placeholder="Escribe un mínimo de 100 caracteres"
+                        maxlength="1000"
+                        minlength="100"
+                        formControlName="mantenimiento"></textarea>
+            </div>
+          </div>
+          
+        </div>
+
+        <!-- <div class="form-group row py-3" formGroupName="direccion">
           <label class="col-2 col-form-label">Direccion</label>
           <div class="form-row col-10 p-0">
             <div class="col-md-12 col-10 p-0">
@@ -118,7 +271,7 @@
             </div>
 
           </div>
-        </div>
+        </div> -->
       </div>
       
       <div class="container" >
@@ -127,10 +280,10 @@
             <button type="button" style="border-radius: 0.8em;" (click)="regresar()" class="btn btn-primary btn-lg align-items-right">Atras</button>
           </div>
           <div class="col-md-4"></div>
-            <div class="col-md-3 d-grid py-3" style="border-width:0px 0px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0 0 0 20px; background: rgba(223, 126, 137, 0.15);">
-                <button type="button" style="border-radius: 0.8em;" (click)="guardarCaracteristicas()" class="btn btn-primary btn-lg align-items-right">Guardar</button>
+            <div class="col-md-3 d-grid py-3" >
+                <!-- <button type="button" style="border-radius: 0.8em;" (click)="guardarCaracteristicas()" class="btn btn-primary btn-lg align-items-right">Guardar</button> -->
             </div>
-            <div class="col-md-3 d-grid py-3" style="border-width:0px 1px 5px 0px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0 0 20px 0; background: rgba(223, 126, 137, 0.15);">
+            <div class="col-md-3 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0px 0px 20px 20px; background: rgba(223, 126, 137, 0.15);">
                 <button type="button" style="border-radius: 0.8em;" (click)="guardarCaracteristicas()" class="btn btn-primary btn-lg align-items-right">Guardar y Continuar</button>
             </div>
         </div>

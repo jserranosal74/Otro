@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 import { tipoPropiedad } from '../../../Models/catalogos/tipoPropiedad.model';
@@ -18,15 +18,16 @@ import { subtipoPropiedad } from 'src/app/Models/catalogos/tipoPropiedadDetalle.
 })
 export class OperaciontipoinmuebleComponent implements OnInit {
   _tiposPropiedad : tipoPropiedad[] = [];
-  _publicacion: publicacion = new publicacion(0,0,0,0,0,'','','',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,'',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, null, null, new Date(), new Date(),0,0);
-  //tipoPropiedadSeleccionada : number = 0;
+  _publicacion: publicacion = new publicacion(0,0,null,0,0,null,null,'','','',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,'',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, null, null, new Date(), new Date(),0,0);
+  _id_publicacion : number = 0;
   loading : boolean = false;
   _subtiposPropiedad : subtipoPropiedad[] = [];
   _numeroPaso : number = 1;
   _esNuevo : boolean = true;
-  // EsRenta=false;
-  // VentaSeleccionada = false;
-  // RentaSeleccionada = false;
+  _rentaventa : number = 0;
+
+  // @ViewChild('v1') venta1! : any;
+  // @ViewChild('r1') renta1! : any;
 
   formaOTI = this.fb.group({
     tipoOperacion : ['', [Validators.required] ],
@@ -34,22 +35,31 @@ export class OperaciontipoinmuebleComponent implements OnInit {
     subtipoPropiedad : [''],
   });
 
-  constructor( private _tipoPropiedadService: TiposPropiedadService,
+  constructor( private _activatedRoute: ActivatedRoute,
+               private _tipoPropiedadService: TiposPropiedadService,
                private _publicacionesService: PublicacionesService,
                private _tiposPropiedadService: TiposPropiedadService,
                private _loginService: LoginService,
                private fb: FormBuilder,
                private router: Router ) {
+
+    this._activatedRoute.queryParams.subscribe(params => {
+      this._id_publicacion = params['id_Publicacion'];
+      if (this._id_publicacion === undefined){
+        this._id_publicacion = 0;
+      }
+    });
+
     this.crearFormulario();
     this.obtenerTiposPropiedad();
-    // this.tipoPropiedadSeleccionada = 0;
+    this.CargarPublicacion();
    }
 
   ngOnInit(): void {
   }
 
   obtenerTiposPropiedad(){
-    console.log(this.loading);
+    // console.log(this.loading);
     this._tipoPropiedadService.getTiposPropiedades().subscribe((data) => {
       this._tiposPropiedad = data;
       //this._tiposPropiedad.unshift(new tipoPropiedad(0,'','--Selecccione el tipo de inmueble--',new Date(),new Date(),1,1));
@@ -57,6 +67,77 @@ export class OperaciontipoinmuebleComponent implements OnInit {
         return 0;
       });
 
+  }
+
+  seleccionarOperacion(){
+    //console.log("this.formaOTI.controls['tipoOperacion'].value", this.formaOTI.controls['tipoOperacion'].value);
+    this._rentaventa = this.formaOTI.controls['tipoOperacion'].value;
+  }
+
+  CargarPublicacion(){
+  // console.log('this._id_publicacion', this._id_publicacion);
+    if (this._id_publicacion != 0) {
+        this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdUsuario()).subscribe(
+          (data) => {
+            //Next callback
+            console.log(data);
+            this._publicacion = data;
+
+            this._rentaventa = data.Id_TipoOperacion;
+
+            this.formaOTI.setValue({
+              tipoOperacion : data.Id_TipoOperacion,
+              tipoPropiedad : data.Id_TipoPropiedad,
+              subtipoPropiedad : data.Id_SubTipoPropiedad == null ? '' : data.Id_SubTipoPropiedad
+            });
+            //console.log(this.formaOTI.controls);
+            this.obtenerSubTiposPropiedad()
+            //console.log('1');
+            setTimeout(()=> {this.formaOTI.setValue({
+              tipoOperacion : data.Id_TipoOperacion,
+              tipoPropiedad : data.Id_TipoPropiedad,
+              subtipoPropiedad : data.Id_SubTipoPropiedad == null ? '' : data.Id_SubTipoPropiedad
+            });},10000);
+            //console.log('2');
+            // this.formaOTI.setValue({
+            //   tipoOperacion : data.Id_TipoOperacion,
+            //   tipoPropiedad : data.Id_TipoPropiedad,
+            //   subtipoPropiedad : data.Id_SubTipoPropiedad == null ? '' : data.Id_SubTipoPropiedad
+            // });
+
+          },
+          (error: HttpErrorResponse) => {
+            //Error callback
+
+            this._id_publicacion = 0;
+            this.router.navigateByUrl('/publicar/operaciontipoinmueble');
+
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: error.error['Descripcion'],
+            //   text: 'Error al cargar las tipos de propiedad',
+            //   showCancelButton: false,
+            //   showDenyButton: false,
+            // });
+
+            switch (error.status) {
+              case 401:
+                //console.log('error 401');
+                break;
+              case 403:
+                //console.log('error 403');
+                break;
+              case 404:
+                //console.log('error 404');
+                break;
+              case 409:
+                //console.log('error 409');
+                break;
+            }
+
+          }
+        );
+      }
   }
 
   get tipoOperacionNoValido() {
@@ -67,12 +148,12 @@ export class OperaciontipoinmuebleComponent implements OnInit {
     return this.formaOTI.get('tipoPropiedad')?.invalid && this.formaOTI.get('tipoPropiedad')?.touched
   }
 
-    crearFormulario() {
-      this.formaOTI = this.fb.group({
+  crearFormulario() {
+    this.formaOTI = this.fb.group({
       tipoOperacion : ['', [Validators.required] ],
       tipoPropiedad : ['', [Validators.required] ],
       subtipoPropiedad : [''],
-      });
+    });
   }
 
   regresar(){
@@ -82,7 +163,7 @@ export class OperaciontipoinmuebleComponent implements OnInit {
   }
 
   guardarOTI() {
-debugger;
+
     if ( this.formaOTI.invalid ) {
       return Object.values( this.formaOTI.controls ).forEach( control => {
         if ( control instanceof FormGroup ) {
@@ -101,9 +182,12 @@ debugger;
         this._esNuevo = true;
       }
 
+      this._publicacion.Id_Cliente = this._loginService.obtenerIdUsuario();
       this._publicacion.Id_TipoOperacion = this.formaOTI.get('tipoOperacion')?.value;
       this._publicacion.Id_TipoPropiedad = this.formaOTI.get('tipoPropiedad')?.value;
-      // this._publicacion.subTipoPropiedad = this.formaOTI.get('subTipoPropiedad')?.value;
+      this._publicacion.Id_SubTipoPropiedad = this.formaOTI.get('subtipoPropiedad')?.value;
+      this._publicacion.Id_PlanCliente = null;
+      this._publicacion.Id_Asentamiento = null;
       this._publicacion.FechaAlta = new Date();
       this._publicacion.FechaModificacion = new Date();
       this._publicacion.Id_Usuario = 1;
@@ -114,10 +198,12 @@ debugger;
         this._publicacionesService.postPublicacion(this._publicacion).subscribe(
           (data) => {
             //Next callback
-            console.log('datos: ',data);
+            //console.log('datos: ',data);
+
+            this._id_publicacion = data.Id_Publicacion;
 
             this._numeroPaso = 2;
-            setTimeout( () => { this.router.navigate(['/publicar/ubicacion']); }, 500 );
+            setTimeout( () => { this.router.navigate(['/publicar/ubicacion'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
 
             Swal.fire({
               icon: 'success',
@@ -170,21 +256,21 @@ debugger;
         );
       }
       else{
+        // console.log('this._publicacion', this._publicacion);
         this._publicacionesService.putPublicacion(this._publicacion).subscribe(
           (data) => {
   
-            // this.modalClose.nativeElement.click();
-
             Swal.fire({
               icon: 'success',
-              title: 'El plan se modifico de manera correcta.',
+              title: 'Se actualizaron los cambios',
               showConfirmButton: false,
-              timer: 1000
+              timer: 500
             })
+
+            this._numeroPaso = 2;
+            setTimeout( () => { this.router.navigate(['/publicar/ubicacion'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
   
-            // this.obtenerPlanes();
-  
-            this.limpiarFormulario();
+            //this.limpiarFormulario();
           },
           (error: HttpErrorResponse) => {
             //Error callback
@@ -230,68 +316,54 @@ debugger;
 limpiarFormulario(){
   this.formaOTI.reset({
     tipoOperacion : '',
-    tipoPropiedad : ''
+    tipoPropiedad : '',
+    subtipoPropiedad : ''
   });
   
 }
 
-// obtenerSubtiposPropiedad(){
-//     //console.log('sel:' + sel + ',' + this.formaOTI.controls['tipoPropiedad'].value);
-//     //console.log(sel);
+pantallaSiguiente(){
+  this._numeroPaso = 2;
+  setTimeout( () => { this.router.navigate(['/publicar/ubicacion'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
 
-//   }
+}
 
   obtenerSubTiposPropiedad() {
+    console.log("this.formaOTI.controls['tipoPropiedad'].value",this.formaOTI.controls['tipoPropiedad'].value);
+    this._tiposPropiedadService.getSubTiposPropiedad(this.formaOTI.controls['tipoPropiedad'].value).subscribe(
+      (data) => {
+        //Next callback
+        console.log('data',data);
+        this._subtiposPropiedad = data;
 
-    if (this.formaOTI.invalid) {
-      return Object.values(this.formaOTI.controls).forEach((control) => {
-        if (control instanceof FormGroup) {
-          Object.values(control.controls).forEach((control) =>
-            control.markAsTouched()
-          );
-        } else {
-          control.markAsTouched();
+      },
+      (error: HttpErrorResponse) => {
+        //Error callback
+
+        Swal.fire({
+          icon: 'error',
+          title: error.error['Descripcion'],
+          text: 'Error al cargar las tipos de propiedad',
+          showCancelButton: false,
+          showDenyButton: false,
+        });
+
+        switch (error.status) {
+          case 401:
+            //console.log('error 401');
+            break;
+          case 403:
+            //console.log('error 403');
+            break;
+          case 404:
+            //console.log('error 404');
+            break;
+          case 409:
+            //console.log('error 409');
+            break;
         }
-      });
-    }
-    else {
-      this._tiposPropiedadService.getSubTiposPropiedad(this.formaOTI.controls['tipoPropiedad'].value).subscribe(
-        (data) => {
-          //Next callback
-  
-          this._subtiposPropiedad = data;
-  
-        },
-        (error: HttpErrorResponse) => {
-          //Error callback
-  
-          Swal.fire({
-            icon: 'error',
-            title: error.error['Descripcion'],
-            text: 'Error al cargar las tipos de propiedad',
-            showCancelButton: false,
-            showDenyButton: false,
-          });
-  
-          switch (error.status) {
-            case 401:
-              //console.log('error 401');
-              break;
-            case 403:
-              //console.log('error 403');
-              break;
-            case 404:
-              //console.log('error 404');
-              break;
-            case 409:
-              //console.log('error 409');
-              break;
-          }
-  
-        }
-      );
-    }
-    
+
+      }
+    );
   }
-
 }
