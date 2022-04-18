@@ -184,7 +184,7 @@ export class AsentamientosComponent implements OnInit {
   }
 
   obtenerMunicipiosModal() {
-    debugger;
+
     this._municipiosService.getMunicipios(parseInt(this.formaAsentamiento.controls['estadomodal'].value)).subscribe(
       (data) => {
         //Next callback
@@ -323,8 +323,6 @@ export class AsentamientosComponent implements OnInit {
   CargarPaginador(paginaActual : number){
     // this._paginadoDetalle;
     this._paginas = [];
-
-    // debugger;
 
     if ( this._paginadoDetalle.TotalPaginas <= this._numeroPaginasMostrar ){
       for (let index = 0; index < this._paginadoDetalle.TotalPaginas; index++) {
@@ -467,8 +465,7 @@ export class AsentamientosComponent implements OnInit {
   obtenerAsentamiento(objAsentamiento : asentamiento){
     this._textoAccion = 'Modificar';
     this._asentamiento = objAsentamiento;
-    debugger;
-    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Cliente'];
 
     this.formaAsentamiento.setValue({
       estadomodal : objAsentamiento.Id_Estado,
@@ -539,7 +536,6 @@ export class AsentamientosComponent implements OnInit {
   }
 
   guardarAsentamiento(){
-    debugger;
     if (this.formaAsentamiento.invalid) {
       return Object.values(this.formaAsentamiento.controls).forEach((control) => {
         if (control instanceof FormGroup) {

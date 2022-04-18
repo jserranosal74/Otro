@@ -12,6 +12,7 @@ import { MisalertasComponent } from './misalertas/misalertas.component';
 import { SalirComponent } from './salir/salir.component';
 import { MisfacturasComponent } from './misfacturas/misfacturas.component';
 import { DatosfiscalesComponent } from './datosfiscales/datosfiscales.component';
+import { AnunciosModule } from '../../Components/anuncios/anuncios.module'
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { DatosfiscalesComponent } from './datosfiscales/datosfiscales.component'
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AnunciosModule
   ],
   exports: [
     MiperfilComponent,

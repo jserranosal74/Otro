@@ -72,7 +72,7 @@ export class SubtipospropiedadComponent implements OnInit {
   }
 
   obtenerTiposPropiedad() {
-    // let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    // let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Cliente'];
 
     this._tiposPropiedadService.getTiposPropiedades().subscribe(
       (data) => {
@@ -168,7 +168,7 @@ export class SubtipospropiedadComponent implements OnInit {
     this._textoAccion = 'Modificar';
     this._subtipoPropiedad = objSubTipoPropiedad;
 
-    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Cliente'];
 
     this._tiposPropiedadService.getSubTipoPropiedad(objSubTipoPropiedad.Id_SubtipoPropiedad).subscribe(
       (data) => {

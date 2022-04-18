@@ -60,7 +60,7 @@ export class AmenidadesComponent implements OnInit {
   }
 
   obtenerAmenidades() {
-    let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Cliente'];
 
     this._amenidadService.getAmenidades().subscribe(
       (data) => {
@@ -106,7 +106,7 @@ export class AmenidadesComponent implements OnInit {
     this._textoAccion = 'Modificar';
     this._amenidad = objAmenidad;
 
-    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Cliente'];
 
     this._amenidadService.getAmenidad(objAmenidad.Id_Amenidad).subscribe(
       (data) => {

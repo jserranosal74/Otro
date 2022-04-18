@@ -1,0 +1,249 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <legend class="text-center text-primary mb-3"><h1 class="display-4">Empresa</h1></legend>
+                        <div class="form-group row mb-3">
+                            <div class="col-md-10 p-0">
+                                <a class="btn btn-primary btn-sm" style="border-radius:25px;" (click)="limpiarFormulario()" data-bs-toggle="modal" data-bs-target="#gridAgregarEmpresa" >
+                                    <span class="col-md-1 col-md-offset-2 text-center">
+                                    <i class="fa fa-add bigicon" aria-hidden="true"></i>
+                                </span></a>
+                            </div>
+                            <div class="col-md-2 p-0">
+                                <td class="text-end">
+                                  <span class="text-primary">Total de registros: <strong>{{_empresas.length}}</strong></span>
+                                </td>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <table class="table table-primary table-striped table-bordered border-primary">
+                                <thead>
+                                  <tr>
+                                    <th width="50px" class="text-primary text-center" scope="col">#</th>
+                                    <!-- <th class="text-primary" scope="col">Id Cliente</th> -->
+                                    <th width="100px" class="text-primary text-center" scope="col">Nombre</th>
+                                    <th width="200px" class="text-primary text-center" scope="col">Descripción</th>
+                                    <th width="100px" class="text-primary text-center" scope="col">Tipo de empresa</th>
+                                    <th width="150px" class="text-primary text-center" scope="col">Fecha de Alta</th>
+                                    <th width="150px" class="text-primary text-center" scope="col">Fecha de Modificación</th>
+                                    <th class="text-primary text-center" scope="col">Modificar</th>
+                                    <th class="text-primary text-center" scope="col">Eliminar</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let empresa of _empresas; let i = index;">
+                                    <th class="text-primary text-center" scope="row">{{empresa.Id_Empresa}}</th>
+                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresa.Nombre}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{empresa.Nombre}}</td>
+                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresa.Descripcion}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{empresa.Descripcion}}</td>
+                                    <td class="text-primary" >{{empresa.TipoEmpresa}}</td>
+                                    <td class="text-primary text-center">{{empresa.FechaAlta | date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td class="text-primary text-center">{{empresa.FechaModificacion | date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td width="90px" class="p-1">
+                                        <div class="col-auto d-grid p-0 m-0" heigth="auto">
+                                            <a class="btn btn-primary" heigth="auto" (click)="obtenerEmpresa(empresa);" data-bs-toggle="modal" data-bs-target="#gridAgregarEmpresa"><span class="col-md-1 col-md-offset-2 text-center">
+                                                <i class="fa fa-pencil"></i>
+                                            </span></a>
+                                        </div>
+                                    </td>
+                                    <td width="90px" class="p-1">
+                                    <div class="col-auto d-grid p-0 m-0">
+                                        <a class="btn btn-primary" heigth="auto" (click)="eliminarEmpresa(empresa);" ><span class="col-md-1 col-md-offset-2 text-center">
+                                            <i class="fa fa-trash-can"></i>
+                                        </span></a>
+                                    </div></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="gridAgregarEmpresa" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} Empresa</h5>
+          <button type="button" class="btn-close" (click)="limpiarFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid bd-example-row">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="well well-sm">
+                        <form class="form-horizontal" [formGroup]="formaEmpresa">
+                            <fieldset>
+                                <!-- <legend class="text-center text-primary mb-3"><h1 class="display-4">Mi perfil</h1></legend> -->
+
+                                <div class="form-group row">
+                                  <div class="col">
+                                    <div class="row">
+                                      <span class="col-md-2 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
+                                      <div class="col-md-9">
+                                        <select class="form-select form-select-md mb-3 text-primary"
+                                                style="border-radius: 0.8em"
+                                                aria-label="Default select example"
+                                                name="estado"
+                                                formControlName="estado"
+                                                [class.is-invalid]="estadoNoValido" 
+                                                (change)="obtenerMunicipios(0)">
+                                          <option value="" selected disabled>Seleccione...</option>
+                                          <option *ngFor="let estado of _estados; let i = index" [value]="estado.Id_Estado">{{ estado.Nombre }}
+                                          </option>
+                                        </select>
+                                      </div>
+                                      <div class="col-md-1 px-0">
+                                        <small *ngIf="estadoNoValido" class="text-danger">
+                                          *
+                                        </small>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="col">
+                                    <div class="row">
+                                      <span class="col-md-2 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
+                                      <div class="col-md-9">
+                                        <select class="form-select form-select-md mb-3 text-primary"
+                                                style="border-radius: 0.8em"
+                                                aria-label="Default select example"
+                                                name="municipio"
+                                                formControlName="municipio"
+                                                [class.is-invalid]="municipioNoValido">
+                                        <option value="" selected disabled>Seleccione...</option>
+                                          <option *ngFor="let municipio of _municipios; let i = index" [value]="municipio.Id_Municipio">{{ municipio.Municipio }}
+                                          </option>
+                                        </select>
+                                      </div>
+                                      <div class="col-md-1 px-0">
+                                        <small *ngIf="municipioNoValido" class="text-danger">
+                                          *
+                                        </small>
+                                      </div>
+                                  </div>
+                                  </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <div class="col">
+                                      <div class="col">
+                                        <div class="col">
+                                          <div class="row">
+                                            <span class="col-md-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
+                                            <div class="col-md-9 ml-5 mb-3">
+                                                <input formControlName="nombreEmpresa" 
+                                                      type="text" 
+                                                      placeholder="Nombre de la empresa" 
+                                                      [class.is-invalid]="nombreNoValido" 
+                                                      class="form-control">
+                                            </div>
+                                            <div class="col-md-1 px-0">
+                                                <small *ngIf="nombreNoValido" class="text-danger">
+                                                  *
+                                                </small>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="col">
+                                          <div class="row">
+                                            <span class="col-md-2 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
+                                            <div class="col-md-9">
+                                                <select id="tipoEmpresa"
+                                                        class="form-select form-select-md text-primary" 
+                                                        style="border-radius: 0.8em"
+                                                        name="tipoEmpresa"
+                                                        formControlName="tipoEmpresa">
+                                                        <option value="Inmobiliaria">Inmobiliaria</option> 
+                                                        <option value="Desarrollador">Desarrollador</option> 
+                                                </select>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col">
+                                      <div class="row">
+                                        <span class="col-md-2 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
+                                        <div class="col-md-9">
+                                            <textarea formControlName="descripcionEmpresa" 
+                                                      type="text" rows="4"
+                                                      placeholder="Descripción de la empresa"
+                                                      [class.is-invalid]="descripcionNoValido" 
+                                                      class="form-control"></textarea>
+                                        </div>
+                                        <div class="col-md-1 px-0">
+                                            <small *ngIf="descripcionNoValido" class="text-danger">
+                                              *
+                                            </small>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+                                
+                                      <table class="table">
+                                        <thead class="thead-dark">
+                                          <tr>
+                                            <th>ID</th>
+                                            <th>Medio de Contacto</th>
+                                            <th>Descripción</th>
+                                            <th>Borrar</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody formArrayName="listaMediosContacto">
+                                          <tr class="py-5" [formGroupName]="i" *ngFor="let control of mediosContacto.controls; let i = index">
+                                                <td> {{ i + 1 }} </td>
+                                                <td>
+                                                  <select class="form-select form-select-md text-primary" 
+                                                          style="border-radius: 0.8em"
+                                                          name="medioContacto"
+                                                          formControlName="Id_MedioContacto">
+                                                          <option *ngFor="let mediocontacto of _mediosContacto; let i = index" [value]="mediocontacto.Id_MedioContacto">{{ mediocontacto.Descripcion }}
+                                                  </select>
+                                                </td>
+                                                <td>
+                                                  <input class="form-control"
+                                                         type="text"
+                                                         maxlength="50"
+                                                         formControlName="Descripcion">
+                                                </td>
+                                                <td width="90px" >
+                                                  <button class="btn d-grid mix-auto btn-danger" heigth="auto" width="auto"
+                                                          (click)="borrarMedioContactoEmpresa(i)">
+                                                          <span _ngcontent-hso-c67="" class="col-md-1 col-md-offset-2 text-center"><i _ngcontent-hso-c67="" class="fa fa-trash-can" aria-hidden="true"></i></span>
+                                                  </button>
+                                                </td>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                      
+                                      <button class="btn btn-primary mt-3 mb-5 btn-block"
+                                              type="button"
+                                              (click)="agregarMedioContactoEmpresa()">
+                                        Agregar Medio de Contacto
+                                      </button>
+                                
+                                    </div>
+                                  </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #myModalClose (click)="limpiarFormulario()" class="btn btn-outline-secondary" data-bs-dismiss="modal" >Cancelar</button>
+          <button type="button" class="btn btn-outline-primary" (click)="guardarEmpresa();">{{_textoAccion}}</button>
+        </div>
+      </div>
+    </div>
+  </div>  

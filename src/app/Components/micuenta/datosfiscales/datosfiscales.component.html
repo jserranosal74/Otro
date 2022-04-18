@@ -29,24 +29,24 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr *ngFor="let inmobiliaria of _inmobiliarias; let i = index;">
-                                    <th class="text-primary text-center" scope="row">{{inmobiliaria.Id_Inmobiliaria}}</th>
-                                    <!-- <td class="text-primary text-center">{{inmobiliaria.Id_Cliente}}</td> -->
-                                    <td class="text-primary">{{inmobiliaria.Nombre}}</td>
-                                    <td class="text-primary text-center">{{inmobiliaria.DomicilioFiscal}}</td>
-                                    <td class="text-primary text-center">{{inmobiliaria.RFC}}</td>
-                                    <td class="text-primary text-center">{{inmobiliaria.Email}}</td>
-                                    <td width="150px" class="text-primary text-center">{{inmobiliaria.FechaAlta | date:'yyyy-MM-dd HH:mm'}}</td>
+                                  <tr *ngFor="let datofiscal of _datosFiscales; let i = index;">
+                                    <th class="text-primary text-center" scope="row">{{datofiscal.Id_DatosFiscales}}</th>
+                                    <!-- <td class="text-primary text-center">{{datofiscal.Id_Cliente}}</td> -->
+                                    <td class="text-primary">{{datofiscal.NombreRazonSocial}}</td>
+                                    <td class="text-primary text-center">{{datofiscal.DomicilioFiscal}}</td>
+                                    <td class="text-primary text-center">{{datofiscal.RFC}}</td>
+                                    <td class="text-primary text-center">{{datofiscal.Email}}</td>
+                                    <td width="150px" class="text-primary text-center">{{datofiscal.FechaAlta | date:'yyyy-MM-dd HH:mm'}}</td>
                                     <td width="90px" class="p-1">
                                         <div class="col-auto d-grid p-0 m-0" heigth="auto">
-                                            <a class="btn btn-primary" heigth="auto" (click)="obtenerInmobiliaria(inmobiliaria);" data-bs-toggle="modal" data-bs-target="#gridAgregarInmobiliaria"><span class="col-md-1 col-md-offset-2 text-center">
+                                            <a class="btn btn-primary" heigth="auto" (click)="obtenerDatoFiscal(datofiscal);" data-bs-toggle="modal" data-bs-target="#gridAgregarInmobiliaria"><span class="col-md-1 col-md-offset-2 text-center">
                                                 <i class="fa fa-pencil"></i>
                                             </span></a>
                                         </div>
                                     </td>
                                     <td width="90px" class="p-1">
                                     <div class="col-auto d-grid p-0 m-0">
-                                        <a class="btn btn-primary" heigth="auto" (click)="eliminarDatosFiscales(inmobiliaria);" ><span class="col-md-1 col-md-offset-2 text-center">
+                                        <a class="btn btn-primary" heigth="auto" (click)="eliminarDatosFiscales(datofiscal);" ><span class="col-md-1 col-md-offset-2 text-center">
                                             <i class="fa fa-trash-can"></i>
                                         </span></a>
                                     </div></td>
@@ -65,7 +65,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} datos fiscales de inmobiliaria</h5>
+          <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} dato fiscal</h5>
           <button type="button" class="btn-close" (click)="limpiarFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -76,28 +76,55 @@
                         <form class="form-horizontal" [formGroup]="formaDatosFiscales">
                             <fieldset>
                                 <!-- <legend class="text-center text-primary mb-3"><h1 class="display-4">Mi perfil</h1></legend> -->
+
+                                <div class="form-group row mb-3">
+                                  <div class="col-md-1">
+                                    <label class="text-primary">Tipo de persona:</label>
+                                  </div>
+                                  <div class="col-md-5">
+                                    <select class="form-select form-select-lg mb-3 text-primary"
+                                      style="border-radius: 0.8em"
+                                      aria-label="Default select example"
+                                      name="tipopersona"
+                                      formControlName="tipopersona"
+                                      [class.is-invalid]="tipopersonaNoValido">
+                                      <option value="" selected disabled>Seleccione...</option>
+                                      <option *ngFor="let tipopersona of _tiposPersonas" [value]="tipopersona.Id_TipoPersona">{{ tipopersona.Descripcion }}
+                                      </option>
+                                    </select>
+                                  </div>
+                                  <div class="col-auto px-0">
+                                    <small *ngIf="tipopersonaNoValido" class="text-danger">
+                                      Seleccione el tipo de persona
+                                    </small>
+                                  </div>
+                                </div>
+
                                 <div class="form-group row mb-3">
                                     <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
-                                    <div class="col-md-8">
-                                        <input autofocus formControlName="nombre" 
-                                               type="text" placeholder="Nombre" 
-                                               [class.is-invalid]="nombreNoValido" class="form-control">
+                                    <div class="col-md-7">
+                                        <input autofocus 
+                                               formControlName="nombrerazonsocial" 
+                                               type="text" 
+                                               placeholder="Nombre o razón social" 
+                                               [class.is-invalid]="nombreNoValido" 
+                                               class="form-control">
                                     </div>
-                                    <div class="col-md-3 px-0">
+                                    <div class="col-auto px-0">
                                         <small *ngIf="nombreNoValido" class="text-danger">
-                                          Nombre no valido
+                                          Nombre/Razón Social no valida
                                         </small>
                                     </div>
                                 </div>
 
                                 <div class="form-group row mb-3">
                                     <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
-                                    <div class="col-md-8">
+                                    <div class="col-md-7">
                                         <input formControlName="domiciliofiscal" 
                                                type="text" placeholder="Domicilio fiscal" 
                                                [class.is-invalid]="domiciliofiscalNoValido" class="form-control">
                                     </div>
-                                    <div class="col-md-3 px-0">
+                                    <div class="col-auto px-0">
                                         <small *ngIf="domiciliofiscalNoValido" class="text-danger">
                                           Nombre no valido
                                         </small>
@@ -106,12 +133,13 @@
         
                                 <div class="form-group row mb-3">
                                     <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-envelope-o bigicon"></i></span>
-                                    <div class="col-md-8">
-                                        <input formControlName="email" type="text" 
+                                    <div class="col-md-7">
+                                        <input formControlName="email" 
+                                               type="text" 
                                                [class.is-invalid]="correoNoValido"
                                                placeholder="Correo electrónico" class="form-control">
                                     </div>
-                                    <div class="col-md-3 px-0">
+                                    <div class="col-auto px-0">
                                         <small *ngIf="correoNoValido" class="text-danger">
                                           Correo no valido
                                         </small>
@@ -120,32 +148,18 @@
         
                                 <div class="form-group row mb-3">
                                     <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
-                                    <div class="col-md-8">
+                                    <div class="col-md-7">
                                         <input formControlName="rfc" 
                                                 type="text" 
                                                [class.is-invalid]="rfcNoValido"
                                                placeholder="RFC" class="form-control">
                                     </div>
-                                    <div class="col-md-3 px-0">
+                                    <div class="col-auto px-0">
                                         <small *ngIf="rfcNoValido" class="text-danger">
                                           RFC no valido
                                         </small>
                                     </div>
                                 </div>
-        
-                                <!-- <div class="form-group row mb-3">
-                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-phone-square bigicon"></i></span>
-                                    <div class="col-md-8">
-                                        <input formControlName="telefono" type="text" 
-                                               [class.is-invalid]="telefonoNoValido"
-                                               placeholder="Telefono" class="form-control">
-                                    </div>
-                                    <div class="col-md-3 px-0">
-                                        <small *ngIf="telefonoNoValido" class="text-danger">
-                                          Telefono no valido
-                                        </small>
-                                    </div>
-                                </div> -->
         
                             </fieldset>
                         </form>

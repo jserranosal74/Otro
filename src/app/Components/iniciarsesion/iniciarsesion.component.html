@@ -1,19 +1,19 @@
-<form [formGroup]="formIniciarsesion">
+<form [formGroup]="formIniciarsesion" autocomplete="on">
+  <fieldset>
   <div class="form-group row py-3">
-    <label class="col-md-12 col-form-label text-center"><h1 class="display-4 text-primary">Acceder</h1></label>
+    <label class="col-md-12 col-form-label text-center"><h1 class="display-4 text-primary">Ingresar</h1></label>
   </div>
 
     <div class="form-group row py-3">
-        <label class="col-md-2 col-form-label text-primary">Correo electrónico</label>
-        <div class="col-md-4 col-10 p-0">
-        <input
-          class="form-control"
-          type="email"
-          email
-          placeholder="Correo electrónico"
-          formControlName="correo"
-          [class.is-invalid]="correoNoValido"
-        />
+      <label class="col-md-2 col-form-label text-primary">Correo electrónico</label>
+      <div class="col-md-4 col-10 p-0">
+        <input autocomplete="on"
+              class="form-control"
+              type="email"
+              email
+              placeholder="Correo electrónico"
+              formControlName="correo"
+              [class.is-invalid]="correoNoValido"/>
       </div>
       
       <div class="col-md-4 col-form-label">
@@ -35,7 +35,7 @@
         />
       </div>
       <div class="col-auto px-0">
-        <button type="button" class="btn btn-primary px-1" (click)="cambiarTipo()"><span class="col-md-1 col-md-offset-2 text-center">
+        <button type="button" tabindex="-1" class="btn btn-primary px-1" (click)="cambiarTipo()"><span class="col-md-1 col-md-offset-2 text-center">
           <div *ngIf="obtenerTipo=='text'">
             <i class="fa fa-eye"></i>
           </div>
@@ -66,6 +66,8 @@
     </div>
     <!-- <div class="text-center p-3">
       <a jscontroller="A2m8uc" jsaction="rcuQ6b:npT2md; click:mAWTmb;" href="https://accounts.google.com/Login?continue=https%3A%2F%2Fdocs.google.com%2Fforms%2Fd%2Fe%2F1FAIpQLSfknVR7_h0iDs6t_aGzfNGbEY8YDb3CJkNZk5ErtJYZVv9vCQ%2Fviewform%3Fentry.1940758168%26entry.1121817233%26entry.26508712%26fbzx%3D-5234508198463660143%26emailAddress" aria-describedby="SMMuxb">Iniciar sesión en Google</a>
+  
     </div> -->
+  </fieldset>
   </form>
   

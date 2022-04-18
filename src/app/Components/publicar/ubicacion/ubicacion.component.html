@@ -13,18 +13,101 @@
         </div>
       </div>
 
-      <div class="container" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
-          <div class="form-group row py-3" formGroupName="direccion">
+      <div class="container py-3" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
+
+        <div class="form-row row py-3">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <label class="text-primary">Estado:</label>
+          </div>
+          <div class="col-md-3">
+            <select
+              class="form-select form-select-lg mb-3 text-primary"
+              style="border-radius: 0.8em"
+              aria-label="Default select example"
+              name="estado"
+              formControlName="estado"
+              [class.is-invalid]="estadoNoValido" 
+              (change)="obtenerMunicipios(0,0)">
+              <option value="" selected disabled>Seleccione...</option>
+              <option *ngFor="let estado of _estados; let i = index" [value]="estado.Id_Estado">{{ estado.Nombre }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-1 px-0">
+            <small *ngIf="estadoNoValido" class="text-danger">
+              Seleccione el estado
+            </small>
+          </div>
+          <div class="col-md-2">
+            <label class="text-primary">Ciudad o municipio:</label>
+          </div>
+          <div class="col-md-3">
+            <select
+              class="form-select form-select-lg mb-3 text-primary"
+              style="border-radius: 0.8em"
+              aria-label="Default select example"
+              name="municipio"
+              formControlName="municipio"
+              [class.is-invalid]="municipioNoValido" 
+              (change)="obtenerAsentamientos(0,0)">
+            <option value="" selected disabled>Seleccione...</option>
+              <option *ngFor="let municipio of _municipios; let i = index" [value]="municipio.Id_Municipio">{{ municipio.Municipio }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-1">
+            <small *ngIf="municipioNoValido" class="text-danger">
+              Seleccione el municipio
+            </small>
+          </div>
+          <div class="col-md-1"></div>
+        </div>
+
+        <div class="form-row row py-3">
+          <div class="col-md-1"></div>
+          <div class="col-md-1">
+            <label class="text-primary">Colonia:</label>
+          </div>
+          <div class="col-md-3">
+            <select
+              class="form-select form-select-lg mb-3 text-primary"
+              style="border-radius: 0.8em"
+              aria-label="Default select example"
+              name="asentamiento"
+              formControlName="asentamiento"
+              [class.is-invalid]="asentamientoNoValido">
+              <option value="" selected disabled>Seleccione...</option>
+              <option *ngFor="let asentamiento of _asentamientos; let i = index" [value]="asentamiento.Id_Asentamiento">{{ asentamiento.Asentamiento }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-1 px-0">
+            <small *ngIf="asentamientoNoValido" class="text-danger">
+              Seleccione el asentamiento
+            </small>
+          </div>
+          <div class="col-md-2">
+            <label class="text-primary">Calle y número:</label>
+          </div>
+          <div class="col-md-3 lg mb-3 text-primary">
+            <input type="text"
+                   class="form-control"
+                   maxlength="50"
+                   placeholder="Calle y número"
+                   formControlName="calleynumero"/>
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-2"></div>
+        </div>
+
+          <div class="form-group row py-3" >
           <label class="col-2 col-form-label">Dirección</label>
           <div class="form-row col-10 p-0">
             <div class="col-md-12 col-10 p-0">
               <div class="row">
               <div class="col-md-5">
                 <div class="col-auto">
-                  <select [class.is-invalid]="estadoNoValido" class="form-select" aria-label="Default select example" [(ngModel)]="_estadoSeleccionado" name="estado" formControlName="estado" (change)="estadoSeleccionado(3)">
-                    <option value="0" selected>-- Seleccione un Estado --</option>
-                    <option *ngFor="let estado of _Estados; let i = index" [value]="estado.Id_Estado" >{{estado.Nombre}}</option>
-                  </select>
                   <input type="text" class="form-control" list="miLista" id="exampleDataList" placeholder="Seleccione el Estado...">
                   <datalist id="miLista">
                     <label for="elemento">Selecciona un elemento de la lista:</label>
@@ -38,65 +121,9 @@
                   </datalist>
               </div>
               </div>
-              <div class="col-md-5 col-form-label px-0">
-                <small *ngIf="estadoNoValido" class="text-danger">
-                  Estado invalido
-                </small>
-              </div>
+              
             </div>
             </div>
-
-            <div class="col-md-12 col-10 p-0 py-3">
-              <div class="row">
-                <div class="col-md-5">
-                  <select [class.is-invalid]="municipioNoValido" class="form-select" aria-label="Default select example" [(ngModel)]="_municipioSeleccionado" name="municipio" formControlName="municipio" (change)="municipioSeleccionado(3)">
-                    <option value="0" selected>-- Seleccione un Municipio --</option>
-                    <option *ngFor="let municipio of _Municipios; let i = index" [value]="municipio.Id_Municipio" >{{municipio.Municipio}}</option>
-                  </select>
-                </div>
-              <div class="col-md-4 col-10 px-0">
-                <small *ngIf="municipioNoValido" class="text-danger">
-                  Municipio invalido
-                </small>
-              </div>
-            </div>
-            </div>
-
-            <div class="col-md-12 col-10 p-0 py-0">
-              <div class="row">
-                <div class="col-md-5">
-                  <select [class.is-invalid]="asentamientoNoValido" class="form-select" aria-label="Default select example" [(ngModel)]="_asentamientoSeleccionado" name="asentamiento" formControlName="asentamiento" (change)="asentamientoSeleccionado()">
-                    <option value="0" selected>-- Seleccione un Asentamiento --</option>
-                    <option *ngFor="let asentamiento of _Asentamientos; let i = index" [value]="asentamiento.Id_Asentamiento" >{{asentamiento.Asentamiento}}</option>
-                  </select>
-                </div>
-              <div class="col-md-4 col-10 px-0">
-                <small *ngIf="asentamientoNoValido" class="text-danger">
-                  Asentamiento/Colonia invalida
-                </small>
-              </div>
-            </div>
-            </div>
-
-            <div class="col-md-12 col-10 p-0 py-3">
-              <div class="row">
-                <div class="col-md-5">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Calle y número"
-                formControlName="calleynumero"
-                [class.is-invalid]="calleynumeroNoValido"
-              />
-                </div>
-              <div class="col-md-4 col-10 px-0">
-                <small *ngIf="calleynumeroNoValido" class="text-danger">
-                  Calle requerida
-                </small>
-              </div>
-            </div>
-            </div>
-
           </div>
           </div>
         </div>

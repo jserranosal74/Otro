@@ -4,6 +4,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { publicacion } from 'src/app/Models/procesos/publicacion.model';
+import { HttpErrorResponse } from '@angular/common/http';
+import { PublicacionesService } from 'src/app/Services/Procesos/publicaciones.service';
+import { LoginService } from 'src/app/Services/Catalogos/login.service';
 
 
 @Component({
@@ -13,7 +16,7 @@ import { publicacion } from 'src/app/Models/procesos/publicacion.model';
 })
 export class PagarYActivarComponent implements OnInit {
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,0,0,null,null,'','','',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,'',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, null, null, new Date(), new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null, null, null, new Date(), new Date(),0,0);
   _id_publicacion : number = 0;
 
   formCaracteristicas = this.fb.group({
@@ -31,9 +34,11 @@ export class PagarYActivarComponent implements OnInit {
     pasatiempos: this.fb.array([])
   });
 
-  constructor( private _activatedRoute: ActivatedRoute,
-               private fb: FormBuilder,
-               private router: Router) {
+  constructor(  private _activatedRoute: ActivatedRoute,
+                private _publicacionesService: PublicacionesService,
+                private _loginService: LoginService,
+                private fb: FormBuilder,
+                private router: Router) {
 
     this._activatedRoute.queryParams.subscribe(params => {
       this._id_publicacion = params['id_Publicacion'];
@@ -44,6 +49,7 @@ export class PagarYActivarComponent implements OnInit {
     });
 
     this.crearFormulario();
+    this.CargarPublicacion();
    }
 
   ngOnInit(): void {
@@ -103,6 +109,35 @@ export class PagarYActivarComponent implements OnInit {
   pantallaSiguiente(){
     this._numeroPaso = 2;
     setTimeout( () => { this.router.navigate(['/publicar/operaciontipoinmueble'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+  }
+
+  CargarPublicacion(){
+    if (this._id_publicacion != 0) {
+        this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
+          (data) => {
+            //console.log(data);
+            this._publicacion = data;
+
+          },
+          (error: HttpErrorResponse) => {
+
+            this._id_publicacion = 0;
+            this.router.navigateByUrl('/publicar/operaciontipoinmueble');
+
+            switch (error.status) {
+              case 401:
+                break;
+              case 403:
+                break;
+              case 404:
+                break;
+              case 409:
+                break;
+            }
+
+          }
+        );
+      }
   }
 
   guardarCaracteristicas() {

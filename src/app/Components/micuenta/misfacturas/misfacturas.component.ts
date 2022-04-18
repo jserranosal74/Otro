@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 
 import { ClientesService } from 'src/app/Services/Catalogos/clientes.service';
 import { plancliente } from '../../../Models/procesos/plancliente.model';
+import { LoginService } from '../../../Services/Catalogos/login.service';
 
 @Component({
   selector: 'app-misfacturas',
@@ -13,13 +14,14 @@ import { plancliente } from '../../../Models/procesos/plancliente.model';
 export class MisfacturasComponent implements OnInit {
   _facturasCliente : plancliente[] = [];
 
-  constructor(private _clienteService: ClientesService) { }
+  constructor( private _clienteService: ClientesService,
+               private _loginService : LoginService ) { }
 
   ngOnInit(): void {
   }
 
   obtenerDetalleFactura(objfacturaCliente : plancliente) {
-    let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    let Id_Usuario = this._loginService.obtenerIdCliente();
 
     this._clienteService.getCliente(Id_Usuario).subscribe(
       (data) => {

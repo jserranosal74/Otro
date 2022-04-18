@@ -18,13 +18,13 @@ import { subtipoPropiedad } from 'src/app/Models/catalogos/tipoPropiedadDetalle.
 })
 export class OperaciontipoinmuebleComponent implements OnInit {
   _tiposPropiedad : tipoPropiedad[] = [];
-  _publicacion: publicacion = new publicacion(0,0,null,0,0,null,null,'','','',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,'',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, null, null, new Date(), new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null, null, null, new Date(), new Date(),0,0);
   _id_publicacion : number = 0;
   loading : boolean = false;
   _subtiposPropiedad : subtipoPropiedad[] = [];
   _numeroPaso : number = 1;
   _esNuevo : boolean = true;
-  _rentaventa : number = 0;
+  _rentaventa : number | null = 0;
 
   // @ViewChild('v1') venta1! : any;
   // @ViewChild('r1') renta1! : any;
@@ -53,9 +53,31 @@ export class OperaciontipoinmuebleComponent implements OnInit {
     this.crearFormulario();
     this.obtenerTiposPropiedad();
     this.CargarPublicacion();
+    this.probarAutenticacion();
    }
 
   ngOnInit(): void {
+  }
+
+  probarAutenticacion(){
+    this._loginService.sesionValida().subscribe((data)=> { 
+
+    },(error : HttpErrorResponse) => {
+    console.log('error',error);
+        switch (error.status) {
+          case 401:
+            this._loginService.cerarSesion();
+            this.router.navigateByUrl('/login');
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+      }
+    );
   }
 
   obtenerTiposPropiedad(){
@@ -63,8 +85,8 @@ export class OperaciontipoinmuebleComponent implements OnInit {
     this._tipoPropiedadService.getTiposPropiedades().subscribe((data) => {
       this._tiposPropiedad = data;
       //this._tiposPropiedad.unshift(new tipoPropiedad(0,'','--Selecccione el tipo de inmueble--',new Date(),new Date(),1,1));
-      this.loading = true;
-        return 0;
+      //this.loading = true;
+       // return 0;
       });
 
   }
@@ -75,9 +97,8 @@ export class OperaciontipoinmuebleComponent implements OnInit {
   }
 
   CargarPublicacion(){
-  // console.log('this._id_publicacion', this._id_publicacion);
     if (this._id_publicacion != 0) {
-        this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdUsuario()).subscribe(
+        this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
           (data) => {
             //Next callback
             console.log(data);
@@ -85,25 +106,13 @@ export class OperaciontipoinmuebleComponent implements OnInit {
 
             this._rentaventa = data.Id_TipoOperacion;
 
+            this.obtenerSubTiposPropiedad(data.Id_TipoPropiedad!)
+
             this.formaOTI.setValue({
               tipoOperacion : data.Id_TipoOperacion,
               tipoPropiedad : data.Id_TipoPropiedad,
-              subtipoPropiedad : data.Id_SubTipoPropiedad == null ? '' : data.Id_SubTipoPropiedad
+              subtipoPropiedad : data.Id_SubtipoPropiedad
             });
-            //console.log(this.formaOTI.controls);
-            this.obtenerSubTiposPropiedad()
-            //console.log('1');
-            setTimeout(()=> {this.formaOTI.setValue({
-              tipoOperacion : data.Id_TipoOperacion,
-              tipoPropiedad : data.Id_TipoPropiedad,
-              subtipoPropiedad : data.Id_SubTipoPropiedad == null ? '' : data.Id_SubTipoPropiedad
-            });},10000);
-            //console.log('2');
-            // this.formaOTI.setValue({
-            //   tipoOperacion : data.Id_TipoOperacion,
-            //   tipoPropiedad : data.Id_TipoPropiedad,
-            //   subtipoPropiedad : data.Id_SubTipoPropiedad == null ? '' : data.Id_SubTipoPropiedad
-            // });
 
           },
           (error: HttpErrorResponse) => {
@@ -182,16 +191,14 @@ export class OperaciontipoinmuebleComponent implements OnInit {
         this._esNuevo = true;
       }
 
-      this._publicacion.Id_Cliente = this._loginService.obtenerIdUsuario();
+      this._publicacion.Id_Cliente = this._loginService.obtenerIdCliente();
       this._publicacion.Id_TipoOperacion = this.formaOTI.get('tipoOperacion')?.value;
       this._publicacion.Id_TipoPropiedad = this.formaOTI.get('tipoPropiedad')?.value;
-      this._publicacion.Id_SubTipoPropiedad = this.formaOTI.get('subtipoPropiedad')?.value;
-      this._publicacion.Id_PlanCliente = null;
-      this._publicacion.Id_Asentamiento = null;
+      this._publicacion.Id_SubtipoPropiedad = this.formaOTI.get('subtipoPropiedad')?.value;
       this._publicacion.FechaAlta = new Date();
       this._publicacion.FechaModificacion = new Date();
       this._publicacion.Id_Usuario = 1;
-      this._publicacion.Id_Estatus = 1;
+      this._publicacion.Id_Estatus = 8;
 
       if (this._esNuevo){
         this._publicacion.Id_Publicacion = 0;
@@ -328,12 +335,17 @@ pantallaSiguiente(){
 
 }
 
-  obtenerSubTiposPropiedad() {
-    console.log("this.formaOTI.controls['tipoPropiedad'].value",this.formaOTI.controls['tipoPropiedad'].value);
-    this._tiposPropiedadService.getSubTiposPropiedad(this.formaOTI.controls['tipoPropiedad'].value).subscribe(
+  obtenerSubTiposPropiedad(Id_TipoPropiedad : number) {
+    let id_TP = 0;
+    if (Id_TipoPropiedad == 0){
+      id_TP = this.formaOTI.controls['tipoPropiedad'].value;
+    }else{
+      id_TP = Id_TipoPropiedad!;
+    }
+    // debugger;
+    this._tiposPropiedadService.getSubTiposPropiedad(id_TP).subscribe(
       (data) => {
         //Next callback
-        console.log('data',data);
         this._subtiposPropiedad = data;
 
       },

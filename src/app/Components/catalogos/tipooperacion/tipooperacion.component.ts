@@ -26,7 +26,7 @@ export class TipooperacionComponent implements OnInit {
   }
 
   obtenerAmenidades() {
-    let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    let Id_Usuario = this._loginService.obtenerIdCliente();
 
     this._tiposOperacionService.getTiposOperacion().subscribe(
       (data) => {

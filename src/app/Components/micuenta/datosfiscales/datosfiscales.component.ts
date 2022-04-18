@@ -3,8 +3,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
-import { InmobiliariasService } from '../../../Services/Catalogos/inmobiliaria.service';
-import { inmobiliaria } from '../../../Models/catalogos/inmobiliaria.model';
+import { LoginService } from 'src/app/Services/Catalogos/login.service';
+import { DatosFiscalesService } from '../../../Services/Procesos/datosFiscales.service';
+import { datoFiscal } from '../../../Models/procesos/datosFiscales.model';
+import { tipoPersona } from '../../../Models/catalogos/tipoPersona.model';
+import { TiposPersonaService } from 'src/app/Services/Catalogos/tiposPersonas.service';
 
 @Component({
   selector: 'app-datosfiscales',
@@ -12,28 +15,32 @@ import { inmobiliaria } from '../../../Models/catalogos/inmobiliaria.model';
   styleUrls: ['./datosfiscales.component.css']
 })
 export class DatosfiscalesComponent implements OnInit {
-  _inmobiliarias : inmobiliaria[] = [];
-  _inmobiliaria : inmobiliaria = new inmobiliaria(0,0,'','','','',new Date(),new Date(), 0,0);
+  _datosFiscales : datoFiscal[] = [];
+  _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','',new Date(),new Date(), 0,0);
+  _tiposPersonas : tipoPersona[] = [];
+  _tipoPersona : tipoPersona = new tipoPersona(0,'',new Date(), new Date(), 0,0,);
   _textoAccion ='';
 
   _esNuevo : boolean = false;
   @ViewChild('myModalClose') modalClose : any;
-  @ViewChild('verformaInmobiliaria') formaInmobiliaria : any;
 
   formaDatosFiscales = this.fb.group({
-    nombre: ['', Validators.required],
-    domiciliofiscal: ['', Validators.required],
-    rfc: ['', Validators.required],
-    email: ['', Validators.required]
+      tipopersona : ['', Validators.required],
+      nombrerazonsocial : ['', Validators.required],
+      domiciliofiscal : ['', Validators.required],
+      rfc : ['', Validators.required],
+      email : ['', Validators.required]
   });
 
-  constructor(
-    private fb: FormBuilder,
-    private _inmobiliariaService: InmobiliariasService
+  constructor( private fb: FormBuilder,
+               private _loginService : LoginService,
+               private _datosfiscalesService : DatosFiscalesService,
+               private _tiposPersonaService : TiposPersonaService
   ) {
     this.crearFormulario();
     this.limpiarFormulario();
-    this.obtenerInmobiliarias();
+    this.obtenerDatosFiscales();
+    this.obtenerTiposPersonas();
   }
 
   ngOnInit(): void {
@@ -42,36 +49,33 @@ export class DatosfiscalesComponent implements OnInit {
 
   crearFormulario() {
     this.formaDatosFiscales = this.fb.group({
-      nombre: ['', Validators.required],
-      domiciliofiscal: ['', Validators.required],
-      rfc: ['', Validators.required],
-      email: ['', Validators.required]
+      tipopersona : ['', Validators.required],
+      nombrerazonsocial : ['', Validators.required],
+      domiciliofiscal : ['', Validators.required],
+      rfc : ['', Validators.required],
+      email : ['', Validators.required]
     });
-    this._inmobiliaria = new inmobiliaria(0,0,'','','','',new Date(),new Date(), 0,0);
+    this._datoFiscal = new datoFiscal(0,0,0,'','','','',new Date(),new Date(), 0,0);
   }
 
   limpiarFormulario() {
     this.formaDatosFiscales.reset({
-      nombre: '',
-      domiciliofiscal: '',
-      rfc: '',
-      email: ''
+      tipopersona : '',
+      nombrerazonsocial : '',
+      domiciliofiscal : '',
+      rfc : '',
+      email : ''
     });
-    this._inmobiliaria = new inmobiliaria(0,0,'','','','',new Date(),new Date(), 0,0);
+    this._datoFiscal = new datoFiscal(0,0,0,'','','','',new Date(),new Date(), 0,0);
     this._textoAccion = 'Agregar'
   }
 
-  obtenerInmobiliarias() {
-    let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+  obtenerTiposPersonas() {
 
-    this._inmobiliariaService.getInmobiliarias(Id_Usuario).subscribe(
+    this._tiposPersonaService.getTiposPersonas().subscribe(
       (data) => {
         //Next callback
-        console.log('datos: ', data);
-
-        this._inmobiliarias = data;
-
-        // this.limpiarFormulario();
+        this._tiposPersonas = data;
       },
       (error: HttpErrorResponse) => {
         //Error callback
@@ -80,7 +84,7 @@ export class DatosfiscalesComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: error.error['Descripcion'],
-          text: 'Error al cargar las inmobiliarias',
+          text: 'Error al cargar los tipos de persona',
           showCancelButton: false,
           showDenyButton: false,
         });
@@ -104,22 +108,63 @@ export class DatosfiscalesComponent implements OnInit {
     );
   }
 
-  obtenerInmobiliaria(objInmobiliaria : inmobiliaria) {
-    this._textoAccion = 'Modificar';
-    this._inmobiliaria = objInmobiliaria;
+  obtenerDatosFiscales() {
 
-    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
-
-    this._inmobiliariaService.getInmobiliaria(objInmobiliaria.Id_Inmobiliaria).subscribe(
+    this._datosfiscalesService.getDatosFiscalesCliente(this._loginService.obtenerIdCliente()).subscribe(
       (data) => {
         //Next callback
-        console.log('datos: ', data);
+        //console.log('datos: ', data);
+
+        this._datosFiscales = data;
+
+        // this.limpiarFormulario();
+      },
+      (error: HttpErrorResponse) => {
+        //Error callback
+        //console.log('Error del servicio: ', error.error['Descripcion']);
+
+        Swal.fire({
+          icon: 'error',
+          title: error.error['Descripcion'],
+          text: 'Error al cargar los datos fiscales del cliente',
+          showCancelButton: false,
+          showDenyButton: false,
+        });
+
+        switch (error.status) {
+          case 401:
+            //console.log('error 401');
+            break;
+          case 403:
+            //console.log('error 403');
+            break;
+          case 404:
+            //console.log('error 404');
+            break;
+          case 409:
+            //console.log('error 409');
+            break;
+        }
+
+      }
+    );
+  }
+
+  obtenerDatoFiscal(objDatoFiscal : datoFiscal) {
+    this._textoAccion = 'Modificar';
+    this._datoFiscal = objDatoFiscal;
+
+        this._datosfiscalesService.getDatoFiscalCliente(objDatoFiscal.Id_Cliente, objDatoFiscal.Id_DatosFiscales).subscribe(
+      (data) => {
+        //Next callback
+        // console.log('datos: ', data);
 
         this.formaDatosFiscales.setValue({
-          nombre: data.Nombre,
-          domiciliofiscal: data.DomicilioFiscal,
-          rfc: data.RFC,
-          email: data.Email,
+          tipopersona : data.Id_TipoPersona,
+          nombrerazonsocial : data.NombreRazonSocial,
+          domiciliofiscal : data.DomicilioFiscal,
+          rfc : data.RFC,
+          email : data.Email,
         });
 
         // this.limpiarFormulario();
@@ -171,32 +216,33 @@ export class DatosfiscalesComponent implements OnInit {
     } else {
       //Envio de la informacion al servidor
 
-      if (this._inmobiliaria.Id_Inmobiliaria != 0){
+      if (this._datoFiscal.Id_DatosFiscales != 0){
         this._esNuevo = false;
       }else{
         this._esNuevo = true;
       }
 
-      this._inmobiliaria.Id_Cliente = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
-      this._inmobiliaria.Nombre = this.formaDatosFiscales.get('nombre')?.value;
-      this._inmobiliaria.DomicilioFiscal = this.formaDatosFiscales.get('domiciliofiscal')?.value;
-      this._inmobiliaria.RFC = this.formaDatosFiscales.get('rfc')?.value;
-      this._inmobiliaria.Email = this.formaDatosFiscales.get('email')?.value;
-      this._inmobiliaria.FechaAlta = new Date();
-      this._inmobiliaria.FechaModificacion = new Date();
-      this._inmobiliaria.Id_Usuario = 1;
-      this._inmobiliaria.Id_Estatus = 1;
+      this._datoFiscal.Id_Cliente = this._loginService.obtenerIdCliente();
+      this._datoFiscal.Id_TipoPersona = this.formaDatosFiscales.get('tipopersona')?.value;
+      this._datoFiscal.NombreRazonSocial = this.formaDatosFiscales.get('nombrerazonsocial')?.value;
+      this._datoFiscal.DomicilioFiscal = this.formaDatosFiscales.get('domiciliofiscal')?.value;
+      this._datoFiscal.RFC = this.formaDatosFiscales.get('rfc')?.value;
+      this._datoFiscal.Email = this.formaDatosFiscales.get('email')?.value;
+      this._datoFiscal.FechaAlta = new Date();
+      this._datoFiscal.FechaModificacion = new Date();
+      this._datoFiscal.Id_Usuario = 1;
+      this._datoFiscal.Id_Estatus = 1;
 
       if (this._esNuevo){
-        this._inmobiliaria.Id_Inmobiliaria = 0;
-        this._inmobiliariaService.postInmobiliaria(this._inmobiliaria).subscribe(
+        this._datoFiscal.Id_DatosFiscales = 0;
+        this._datosfiscalesService.postDatosFiscales(this._datoFiscal).subscribe(
           (data) => {
             //Next callback
             //console.log('datos: ',data);
   
             this.modalClose.nativeElement.click();
   
-            this.obtenerInmobiliarias();
+            this.obtenerDatosFiscales();
   
             this.limpiarFormulario();
           },
@@ -231,15 +277,14 @@ export class DatosfiscalesComponent implements OnInit {
         );
       }
       else{
-        this._inmobiliariaService.putInmobiliaria(this._inmobiliaria).subscribe(
+        this._datosfiscalesService.putDatosFiscales(this._datoFiscal).subscribe(
           (data) => {
             //Next callback
             //console.log('datos: ',data);
-            debugger;
   
             this.modalClose.nativeElement.click();
   
-            this.obtenerInmobiliarias();
+            this.obtenerDatosFiscales();
   
             this.limpiarFormulario();
           },
@@ -276,13 +321,13 @@ export class DatosfiscalesComponent implements OnInit {
     }
   }
 
-  eliminarDatosFiscales(objInmobiliaria : inmobiliaria) {
+  eliminarDatosFiscales(objDatoFiscal : datoFiscal) {
     this._textoAccion = 'Eliminar';
-    this._inmobiliaria = objInmobiliaria;
+    this._datoFiscal = objDatoFiscal;
 
     Swal.fire({
       icon: 'warning',
-      title: '¿Está seguro de que desea eliminar los datos fiscales de inmobiliaria: "' + objInmobiliaria.Nombre + '"?',
+      title: '¿Está seguro de que desea eliminar el dato fiscal: "' + objDatoFiscal.NombreRazonSocial + '"?',
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: 'Si, eliminar',
@@ -301,7 +346,7 @@ export class DatosfiscalesComponent implements OnInit {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
 
-        this._inmobiliariaService.deleteInmobiliaria(objInmobiliaria.Id_Inmobiliaria).subscribe(
+        this._datosfiscalesService.deleteDatosFiscales(this._loginService.obtenerIdCliente(), objDatoFiscal.Id_DatosFiscales).subscribe(
           (data) => {
             //Next callback
             
@@ -314,7 +359,7 @@ export class DatosfiscalesComponent implements OnInit {
               timer: 1500
             })
     
-            this.obtenerInmobiliarias();
+            this.obtenerDatosFiscales();
     
           },
           (error: HttpErrorResponse) => {
@@ -353,51 +398,30 @@ export class DatosfiscalesComponent implements OnInit {
       }
     })
 
-    // Swal.fire({
-    //   icon: 'warning',
-    //   title: '¿Está seguro de que desea eliminar los datos fiscales de inmobiliaria?',
-    //   text: '',
-    //   showCancelButton: false,
-    //   showDenyButton: false,
-    //   showConfirmButton: true,
-    // });
-
-    
   }
 
   get nombreNoValido() {
-    return (
-      this.formaDatosFiscales.get('nombre')?.invalid &&
-      this.formaDatosFiscales.get('nombre')?.touched
-    );
+    return ( this.formaDatosFiscales.get('nombrerazonsocial')?.invalid && this.formaDatosFiscales.get('nombrerazonsocial')?.touched );
   }
   
   get domiciliofiscalNoValido() {
-    return (
-      this.formaDatosFiscales.get('domiciliofiscal')?.invalid &&
-      this.formaDatosFiscales.get('domiciliofiscal')?.touched
-    );
+    return ( this.formaDatosFiscales.get('domiciliofiscal')?.invalid && this.formaDatosFiscales.get('domiciliofiscal')?.touched );
   }
   
   get rfcNoValido() {
-    return (
-      this.formaDatosFiscales.get('rfc')?.invalid &&
-      this.formaDatosFiscales.get('rfc')?.touched
-      );
+    return ( this.formaDatosFiscales.get('rfc')?.invalid && this.formaDatosFiscales.get('rfc')?.touched );
     }
 
-    get correoNoValido() {
-      return (
-        this.formaDatosFiscales.get('email')?.invalid &&
-        this.formaDatosFiscales.get('email')?.touched
-      );
+  get correoNoValido() {
+      return ( this.formaDatosFiscales.get('email')?.invalid && this.formaDatosFiscales.get('email')?.touched );
     }
     
-    get telefonoNoValido() {
-    return (
-      this.formaDatosFiscales.get('telefono')?.invalid &&
-      this.formaDatosFiscales.get('telefono')?.touched
-    );
+  get telefonoNoValido() {
+    return ( this.formaDatosFiscales.get('telefono')?.invalid && this.formaDatosFiscales.get('telefono')?.touched );
+  }
+
+  get tipopersonaNoValido() {
+    return ( this.formaDatosFiscales.get('tipopersona')?.invalid && this.formaDatosFiscales.get('tipopersona')?.touched );
   }
 
 }

@@ -3,6 +3,7 @@ export class cliente {
       public Id_Cliente: number,
       public Id_TipoPersona: number,
       public Id_Rol: number,
+      public Id_Empresa: number | null,
       public Email: string,
       public Password: string,
       public Nombre: string,
@@ -18,5 +19,16 @@ export class cliente {
       public FechaModificacion: Date,
       public Id_Usuario: number,
       public Id_Estatus: number 
+    ) {}
+  }
+  export class clienteMedioContacto {
+    constructor(
+        public Id_Empresa : number,
+        public Id_MedioContacto : number,
+        public Descripcion : string,
+        public FechaAlta : Date,
+        public FechaModificacion : Date,
+        public Id_Usuario : number,
+        public Id_Estatus : number,
     ) {}
   }

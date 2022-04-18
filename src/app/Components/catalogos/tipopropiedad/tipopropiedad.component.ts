@@ -60,7 +60,7 @@ export class TipopropiedadComponent implements OnInit {
   }
 
   obtenerTiposPropiedad() {
-    let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    let Id_Usuario = this._loginService.obtenerIdCliente();
 
     this._tiposPropiedadService.getTiposPropiedades().subscribe(
       (data) => {
@@ -106,7 +106,7 @@ export class TipopropiedadComponent implements OnInit {
     this._textoAccion = 'Modificar';
     this._tipoPropiedad = objTipoPropiedad;
 
-    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Cliente'];
 
     this._tiposPropiedadService.getTipoPropiedad(objTipoPropiedad.Id_TipoPropiedad).subscribe(
       (data) => {

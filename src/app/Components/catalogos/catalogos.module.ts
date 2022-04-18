@@ -16,6 +16,7 @@ import { TipopersonaComponent } from './tipopersona/tipopersona.component';
 import { TipopropiedadComponent } from './tipopropiedad/tipopropiedad.component';
 import { TipofotoComponent } from './tipofoto/tipofoto.component';
 import { SubtipospropiedadComponent } from './subtipospropiedad/subtipospropiedad.component';
+import { EmpresasComponent } from './empresas/empresas.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { SubtipospropiedadComponent } from './subtipospropiedad/subtipospropieda
     TipopersonaComponent,
     TipopropiedadComponent,
     TipofotoComponent,
-    SubtipospropiedadComponent
+    SubtipospropiedadComponent,
+    EmpresasComponent
   ],
   imports: [
     CommonModule,
@@ -52,7 +54,8 @@ import { SubtipospropiedadComponent } from './subtipospropiedad/subtipospropieda
     TipopersonaComponent,
     TipopropiedadComponent,
     TipofotoComponent,
-    SubtipospropiedadComponent
+    SubtipospropiedadComponent,
+    EmpresasComponent
   ]
 })
 

@@ -14,19 +14,19 @@
           </td>
       </div>
     </div>
+
     <div class="form-row row">
         <div class="col-md-1">
           <label class="text-primary">Estado:</label>
         </div>
         <div class="col-md-3">
-          <select
-            class="form-select form-select-lg mb-3 text-primary"
-            style="border-radius: 0.8em"
-            aria-label="Default select example"
-            name="estado"
-            formControlName="estado"
-            [class.is-invalid]="estadoNoValido" 
-            (change)="obtenerMunicipios()">
+          <select class="form-select form-select-lg mb-3 text-primary"
+                  style="border-radius: 0.8em"
+                  aria-label="Default select example"
+                  name="estado"
+                  formControlName="estado"
+                  [class.is-invalid]="estadoNoValido" 
+                  (change)="obtenerMunicipios()">
             <option value="" selected disabled>Seleccione...</option>
             <option *ngFor="let estado of _estados; let i = index" [value]="estado.Id_Estado">{{ estado.Nombre }}
             </option>
@@ -41,14 +41,13 @@
           <label class="text-primary">Municipio:</label>
         </div>
         <div class="col-md-3">
-          <select
-            class="form-select form-select-lg mb-3 text-primary"
-            style="border-radius: 0.8em"
-            aria-label="Default select example"
-            name="municipio"
-            formControlName="municipio"
-            [class.is-invalid]="municipioNoValido" 
-            (change)="limpiarAsentamientos()">
+          <select class="form-select form-select-lg mb-3 text-primary"
+                  style="border-radius: 0.8em"
+                  aria-label="Default select example"
+                  name="municipio"
+                  formControlName="municipio"
+                  [class.is-invalid]="municipioNoValido" 
+                  (change)="limpiarAsentamientos()">
           <option value="" selected disabled>Seleccione...</option>
             <option *ngFor="let municipio of _municipios; let i = index" [value]="municipio.Id_Municipio">{{ municipio.Municipio }}
             </option>
@@ -68,6 +67,7 @@
           </button>
         </div>
     </div>
+    
     <div class="form-row row">
         <table class="table table-primary table-striped">
             <thead>

@@ -60,7 +60,7 @@ export class TiposasentaientoComponent implements OnInit {
   }
 
   obtenerTiposAsentamiento() {
-    let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    let Id_Usuario = this._loginService.obtenerIdCliente();
 
     this._tiposAsentamientoService.getTiposAsentamientos().subscribe(
       (data) => {
@@ -106,7 +106,7 @@ export class TiposasentaientoComponent implements OnInit {
     this._textoAccion = 'Modificar';
     this._tipoAsentamiento = objTipoAsentamiento;
 
-    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Cliente'];
 
     this._tiposAsentamientoService.getTipoAsentamiento(objTipoAsentamiento.Id_TipoAsentamiento).subscribe(
       (data) => {

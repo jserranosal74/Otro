@@ -3,6 +3,7 @@ export const URL_APIS = {
     urlAmenidades: '/api/Amenidades/',
     urlAsentamientos: '/api/Asentamientos/',
     urlClientes: '/api/Clientes/',
+    urlEmpresas: '/api/Empresas/',
     urlInmobiliarias: '/api/Inmobiliarias/',
     urlInmobiliariasCliente: '/api/Inmobiliarias/obtenerporcliente/',
     urlClienteMedioContacto: '/api/ClienteMedioContacto/',
@@ -16,13 +17,15 @@ export const URL_APIS = {
     urlSubTipoPropiedad: '/api/SubtipoPropiedad/',
     urlTiposAsentamiento: '/api/TiposAsentamiento/',
     urlTiposFoto: '/api/TiposFoto/',
+    urlEstatus: '/api/Estatus/',
     
     //Busquedas especiales
     urlBusquedasEstado: '/api/Estados/Municipio/',
     urlBusquedasMunicipio: '/api/Municipios/Estado/',
     urlBusquedasAsentamiento: '/api/Asentamientos/Estado/Municipio/',
-
+    
     // Procesos
+    urlDatosFiscales: '/api/DatosFiscales/',
     urlPublicaciones: '/api/Publicaciones/',
     urlAmenidadesPublicacion: '/api/AmenidadesPublicacion/',
     urlFavoritosCliente: '/api/FavoritosCliente/',
@@ -35,6 +38,5 @@ export const URL_APIS = {
     // urlPlanesCliente: '/api/PlanesCliente/obtenerporcliente',
 
     // Auxiliares
-    urlLogin: '/api/login/authenticate/',
-    urlRecuperarPassword: '/api/login/recuperarPassword/'
+    urlLogin: '/api/login/'
   };

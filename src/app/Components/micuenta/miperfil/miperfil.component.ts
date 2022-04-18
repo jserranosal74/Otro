@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 
 import { ClientesService } from 'src/app/Services/Catalogos/clientes.service';
 import { cliente } from 'src/app/Models/catalogos/cliente.model';
+import { LoginService } from 'src/app/Services/Catalogos/login.service';
 
 @Component({
   selector: 'app-miperfil',
@@ -26,9 +27,9 @@ export class MiperfilComponent implements OnInit {
     telefono: ['', Validators.required],
   });
 
-  constructor(
-    private fb: FormBuilder,
-    private _clienteService: ClientesService
+  constructor(  private _loginService : LoginService,
+                private fb: FormBuilder,
+                private _clienteService: ClientesService
   ) {
     this.crearFormulario();
     this.obtenerDatosPerfil();
@@ -88,6 +89,7 @@ export class MiperfilComponent implements OnInit {
         0,
         1,
         2, //Rol
+        null,
         this.formaPerfil.get('correo')?.value,
         this.formaPerfil.get('password1')?.value,
         '',
@@ -154,7 +156,7 @@ export class MiperfilComponent implements OnInit {
   }
 
   obtenerDatosPerfil() {
-    let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    let Id_Usuario = this._loginService.obtenerIdCliente();
 
     this._clienteService.getCliente(Id_Usuario).subscribe(
       (data) => {

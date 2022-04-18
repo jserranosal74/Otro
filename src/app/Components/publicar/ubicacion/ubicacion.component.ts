@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import Swal from 'sweetalert2';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 import { EstadosService } from '../../../Services/Catalogos/estados.service';
 import { AsentamientosService } from '../../../Services/Catalogos/asentamientos.service';
@@ -9,8 +11,9 @@ import { MunicipiosService } from '../../../Services/Catalogos/municipios.servic
 import { estado } from '../../../Models/catalogos/estado.model';
 import { municipio } from '../../../Models/catalogos/municipio.model';
 import { asentamiento } from '../../../Models/catalogos/asentamiento.model';
-import { ActivatedRoute, Router } from '@angular/router';
 import { publicacion } from 'src/app/Models/procesos/publicacion.model';
+import { PublicacionesService } from '../../../Services/Procesos/publicaciones.service';
+import { LoginService } from 'src/app/Services/Catalogos/login.service';
 
 @Component({
   selector: 'app-ubicacion',
@@ -18,31 +21,32 @@ import { publicacion } from 'src/app/Models/procesos/publicacion.model';
   styleUrls: ['./ubicacion.component.css']
 })
 export class UbicacionComponent implements OnInit {
-  _Estados: estado[] = [];
-  _Municipios : municipio[] = [];
-  _Asentamientos : asentamiento[] = [];
+  _estados: estado[] = [];
+  _municipios : municipio[] = [];
+  _asentamientos : asentamiento[] = [];
+  _asentamiento : asentamiento = new asentamiento(0,0,0,0,'','',0,0,new Date(), new Date(), 0, 0);
   _estadoSeleccionado : number = 0;
   _municipioSeleccionado : number = 0;
   _asentamientoSeleccionado : number = 0;
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,0,0,null,null,'','','',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,'',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, null, null, new Date(), new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null, null, null, new Date(), new Date(),0,0);
   _id_publicacion : number = 0;
 
   loading : boolean = false;
 
   formaUbicacion = this.fb.group({
-    direccion: this.fb.group({
-      estado : ['', Validators.required ],
-      municipio : ['', Validators.required ],
-      asentamiento : ['', Validators.required ],
-      calleynumero : ['', Validators.required ]
-    })
+    estado : ['', Validators.required ],
+    municipio : ['', Validators.required ],
+    asentamiento : ['', Validators.required ],
+    calleynumero : ['' ]
   });
 
   constructor( private _activatedRoute: ActivatedRoute,
                private _estadoService: EstadosService,
                private _municipioService: MunicipiosService,
-               private _asentamientoService: AsentamientosService,
+               private _asentamientosService: AsentamientosService,
+               private _publicacionesService: PublicacionesService,
+               private _loginService: LoginService,
                private router: Router,
                private fb: FormBuilder) {
 
@@ -59,43 +63,78 @@ export class UbicacionComponent implements OnInit {
     this._estadoSeleccionado = 0;
     this._municipioSeleccionado = 0;
     this._asentamientoSeleccionado = 0;
+    this.CargarPublicacion();
    }
 
   ngOnInit(): void {
   }
 
   obtenerEstados(){
-    console.log('obtenerEstados' + this.loading);
+    //console.log('obtenerEstados' + this.loading);
     this._estadoService.getEstados(1).subscribe((data) => {
-      this._Estados = data;
-      //this._Estados.unshift(new estado(0,0,'','Selecccione el Estado',new Date(),new Date(),1,1));
+      this._estados = data;
       this.loading = true;
-      this._Municipios = [];
-      return 0;
+      this._municipios = [];
+      // return 0;
     });
     
   }
   
-  obtenerMunicipios(Id_Estado : number){
-    console.log('cargando municipios: ' + Id_Estado);
-    this._municipioService.getMunicipios(Id_Estado).subscribe((data) => {
-      this._Municipios = data;
-      //this._Municipios.unshift(new municipio(0,0,'','Selecccione el Municipio',new Date(),new Date(),1,1));
-      //this.loading = true;
-      this._Asentamientos = [];
-      //return 0;
-    });
-    
+  obtenerMunicipios(Id_Estado : number, Id_Municipio : number){
+    // console.log('cargando municipios: ' + Id_Estado);
+
+    if (Id_Estado == 0){
+      this._municipioService.getMunicipios(this.formaUbicacion.controls['estado'].value).subscribe((data) => {
+        this._municipios = data;
+        this._asentamientos = [];
+      });
+    }
+    else{
+      this._municipioService.getMunicipios(Id_Estado).subscribe((data) => {
+        this._municipios = data;
+        this.obtenerAsentamientos(Id_Estado, Id_Municipio);
+
+      });
+    }
   }
 
   obtenerAsentamientos(Id_Estado : number, Id_Municipio : number){
-    console.log(this.loading);
-    this._asentamientoService.getAsentamientos(Id_Estado, Id_Municipio).subscribe((data) => {
-      this._Asentamientos = data;
-      //this._Asentamientos.unshift(new asentamiento(0,0,0,0,'Selecccione el Asentamiento','',0,0,new Date(),new Date(),1,1));
-      this.loading = true;
-        return 0;
+    //console.log(this.loading);
+    if (Id_Municipio == 0){
+      this._asentamientosService.getAsentamientos(this.formaUbicacion.controls['estado'].value, this.formaUbicacion.controls['municipio'].value).subscribe((data) => {
+        this._asentamientos = data;
+        //this._Asentamientos.unshift(new asentamiento(0,0,0,0,'Selecccione el Asentamiento','',0,0,new Date(),new Date(),1,1));
+        //this.loading = true;
+        //return 0;
       });
+    }
+    else{
+      this._asentamientosService.getAsentamientos(Id_Estado, Id_Municipio).subscribe((data) => {
+        this._asentamientos = data;
+        //this._Asentamientos.unshift(new asentamiento(0,0,0,0,'Selecccione el Asentamiento','',0,0,new Date(),new Date(),1,1));
+        //this.loading = true;
+        //return 0;
+      });
+    }
+
+  }
+
+  obtenerAsentamiento(objPublicacion : publicacion){
+    //console.log(this.loading);
+
+    this._asentamientosService.getAsentamiento(objPublicacion.Id_Asentamiento!).subscribe((data) => {
+      this._asentamiento = data;
+
+      this.estadoSeleccionado(data.Id_Estado, data.Id_Municipio);
+      
+      this.formaUbicacion.setValue({
+        estado : data.Id_Estado,
+        municipio : data.Id_Municipio,
+        asentamiento : data.Id_Asentamiento,
+        calleynumero : objPublicacion.Direccion
+      })
+      
+    });
 
   }
 
@@ -115,17 +154,14 @@ export class UbicacionComponent implements OnInit {
     return this.formaUbicacion.get('calleynumero')?.invalid && this.formaUbicacion.get('calleynumero')?.touched
   }
 
-    crearFormulario() {
+crearFormulario() {
 
     this.formaUbicacion = this.fb.group({
-      direccion: this.fb.group({
         estado : ['', Validators.required ],
         municipio : ['', Validators.required ],
         asentamiento : ['', Validators.required ],
-        calleynumero : ['', Validators.required ]
-      })
+        calleynumero : ['' ]
     });
-
   }
 
   regresar(){
@@ -141,12 +177,8 @@ export class UbicacionComponent implements OnInit {
   }
 
   guardarUbicacion() {
-    console.log( this.formaUbicacion );
-
-    this._numeroPaso = 2;
-
-    setTimeout( () => { this.router.navigate(['/publicar/caracteristicas'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
-
+    //console.log( this.formaUbicacion );
+    // debugger;
     if ( this.formaUbicacion.invalid ) {
 
       return Object.values( this.formaUbicacion.controls ).forEach( control => {
@@ -156,44 +188,177 @@ export class UbicacionComponent implements OnInit {
         } else {
           control.markAsTouched();
         }
-        
-        
       });
      
     }
     else{
       //Envio de la informacion al servidor
+      //debugger;
+      this._publicacion.Id_Publicacion = this._id_publicacion;
+      this._publicacion.Id_Cliente = this._loginService.obtenerIdCliente();
+      this._publicacion.Id_Asentamiento = this.formaUbicacion.get('asentamiento')?.value;
+      this._publicacion.Direccion = this.formaUbicacion.get('calleynumero')?.value;
+      this._publicacion.FechaModificacion = new Date();
 
-      // Reseteo de la información
-    this.formaUbicacion.reset({
-      direccion: this.fb.group({
-        estado : ['', Validators.required ],
-        municipio : ['', Validators.required ],
-        asentamiento : ['', Validators.required ],
-        calleynumero : ['', Validators.required ]
-      })
-    });
+      this._publicacionesService.putPublicacion(this._publicacion).subscribe(
+        (data) => {
+
+          this._numeroPaso = 2;
+          setTimeout( () => { this.router.navigate(['/publicar/caracteristicas'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Se actualizaron los cambios',
+            showConfirmButton: false,
+            timer: 500
+          })
+
+        },
+        (error: HttpErrorResponse) => {
+          //Error callback
+          //console.log('Error del servicio: ', error.error['Descripcion']);
+
+          Swal.fire({
+            icon: 'error',
+            title: 'ERROR',
+            text: '',
+            showCancelButton: false,
+            showDenyButton: false,
+          });
+
+          switch (error.status) {
+            case 401:
+              Swal.fire({
+                icon: 'error',
+                title: 'Acceso no autorizado',
+                text: 'debera autenticarse',
+                showCancelButton: false,
+                showDenyButton: false,
+              });
+              this._loginService.cerarSesion();
+              break;
+            case 403:
+              //console.log('error 403');
+              break;
+            case 404:
+              //console.log('error 404');
+              break;
+            case 409:
+              //console.log('error 409');
+              break;
+          }
+
+        }
+      );
+
     }
   }
 
-  estadoSeleccionado(sel:number){
+  CargarPublicacion(){
+      if (this._id_publicacion != 0) {
+          this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
+            (data) => {
+              //Next callback
+              //console.log(data);
+
+              this._publicacion = data;
+
+              this.obtenerAsentamiento(data);
+  
+            },
+            (error: HttpErrorResponse) => {
+              //Error callback
+  
+              this._id_publicacion = 0;
+              this.router.navigateByUrl('/publicar/operaciontipoinmueble');
+  
+              switch (error.status) {
+                case 401:
+                  break;
+                case 403:
+                  break;
+                case 404:
+                  break;
+                case 409:
+                  break;
+              }
+  
+            }
+          );
+        }
+    }
+
+  estadoSeleccionado(Id_Estado : number, Id_Municipio : number){
     //debugger;
-    console.log('sel:' + sel + ',' + this.formaUbicacion.controls['direccion'].value.estado);
-    //console.log(sel);
-    this.obtenerMunicipios(this.formaUbicacion.controls['direccion'].value.estado);
+    this.obtenerMunicipios(Id_Estado, Id_Municipio);
   }
 
-  municipioSeleccionado(sel:number){
-    //debugger;
-    console.log('sel:' + sel + ',' + this.formaUbicacion.controls['direccion'].value.municipio);
-    //console.log(sel);
-    this.obtenerAsentamientos(this.formaUbicacion.controls['direccion'].value.estado, this.formaUbicacion.controls['direccion'].value.municipio);
+  municipioSeleccionado(){
+    //console.log('sel:' + sel + ',' + this.formaUbicacion.controls['direccion'].value.municipio);
+    this.obtenerAsentamientos(0,0);
   }
 
   asentamientoSeleccionado(){
     //debugger;
-    console.log('asentamientoSeleccionado: ' + this.formaUbicacion.controls['direccion'].value.asentamiento);
+    console.log('asentamientoSeleccionado: ' + this.formaUbicacion.controls['asentamiento'].value);
     //console.log(sel);
+  }
+
+  limpiarAsentamientos(){
+    this._asentamientos = [];
+  }
+
+  buscarAsentamientos(){
+
+    if (this.formaUbicacion.invalid) {
+      return Object.values(this.formaUbicacion.controls).forEach((control) => {
+        if (control instanceof FormGroup) {
+          Object.values(control.controls).forEach((control) =>
+            control.markAsTouched()
+          );
+        } else {
+          control.markAsTouched();
+        }
+      });
+    } else {
+
+      this._asentamientosService.getAsentamientosPaginado(parseInt(this.formaUbicacion.controls['estado'].value),parseInt(this.formaUbicacion.controls['municipio'].value), 0, 10).subscribe(
+        (data) => {
+          //Next callback
+  
+          this._asentamientos = data;
+
+        },
+        (error: HttpErrorResponse) => {
+          //Error callback
+          //console.log('Error del servicio: ', error.error['Descripcion']);
+  
+          Swal.fire({
+            icon: 'error',
+            title: error.error['Descripcion'],
+            text: '',
+            showCancelButton: false,
+            showDenyButton: false,
+          });
+  
+          switch (error.status) {
+            case 401:
+              break;
+            case 403:
+              break;
+            case 404:
+              break;
+            case 409:
+              break;
+          }
+  
+          //throw error;   //You can also throw the error to a global error handler
+        }
+      );
+
+
+    }
+    
   }
 
 }

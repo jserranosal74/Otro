@@ -69,7 +69,7 @@ export class PlanesComponent implements OnInit {
   }
 
   obtenerPlanes() {
-    let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    let Id_Usuario = this._loginService.obtenerIdCliente();
 
     this._planService.getPlanes().subscribe(
       (data) => {
@@ -115,7 +115,7 @@ export class PlanesComponent implements OnInit {
     this._textoAccion = 'Modificar';
     this._plan = objPlan;
 
-    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Cliente'];
 
     this._planService.getPlan(objPlan.Id_Plan).subscribe(
       (data) => {

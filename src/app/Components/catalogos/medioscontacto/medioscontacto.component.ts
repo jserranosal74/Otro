@@ -60,7 +60,7 @@ export class MedioscontactoComponent implements OnInit {
   }
 
   obtenerMediosContacto() {
-    let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    let Id_Usuario = this._loginService.obtenerIdCliente();
 
     this._mediosContactoService.getMediosContacto().subscribe(
       (data) => {
@@ -103,7 +103,7 @@ export class MedioscontactoComponent implements OnInit {
     this._textoAccion = 'Modificar';
     this._medioContacto = objMedioContacto;
 
-    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Cliente'];
 
     this._mediosContactoService.getMedioContacto(objMedioContacto.Id_MedioContacto).subscribe(
       (data) => {

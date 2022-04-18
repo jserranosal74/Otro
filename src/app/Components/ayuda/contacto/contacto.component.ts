@@ -79,7 +79,7 @@ export class ContactoComponent implements OnInit {
       this._contactoService.postContacto(_contacto).subscribe(
         (data) => {
           //Next callback
-          console.log('datos: ',data);
+          //console.log('datos: ',data);
 
           Swal.fire({
             icon: 'success',
@@ -105,20 +105,12 @@ export class ContactoComponent implements OnInit {
           
           switch (error.status) {
             case 401:
-                //this.router.navigateByUrl("/login");
-                //console.log('error 401');
                 break;
             case 403:
-                //this.router.navigateByUrl("/unauthorized");
-                //console.log('error 403');
                 break;
             case 404:
-                //this.router.navigateByUrl("/unauthorized");
-                //console.log('error 404');
                 break;
             case 409:
-                //this.router.navigateByUrl("/unauthorized");
-                //console.log('error 409');
                 break;
         }
 

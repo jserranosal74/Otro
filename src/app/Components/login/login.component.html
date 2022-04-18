@@ -1,10 +1,7 @@
 <div class="limiter animated fadeInRight">
   <div class="container-login100 animated fadeInRight">
     <div class="wrap-login100 p-t-50 p-b-90">
-  <form
-    autocomplete="off"
-    [formGroup]="formLogin"
-  >
+  <form [formGroup]="formLogin" autocomplete="on">
     <div class="form-group row py-3">
       <label class="col-md-12 col-form-label text-center"
         ><h1 class="display-4 text-primary">Crear cuenta nueva</h1></label
@@ -14,9 +11,8 @@
     <div class="form-group row py-3">
       <label class="col-md-2 col-form-label text-primary">Correo electrónico</label>
       <div class="col-md-4 col-10 p-0">
-        <input
+        <input type="email" autocomplete="new-email"
           class="form-control"
-          type="email"
           placeholder="Correo electrónico"
           formControlName="correo"
           [class.is-invalid]="correoNoValido"
@@ -41,7 +37,7 @@
         />
       </div>
       <div class="col-auto px-0">
-        <button type="button" class="btn btn-primary px-1" (click)="cambiarTipo()"><span class="col-md-1 col-md-offset-2 text-center">
+        <button type="button" tabindex="-1" class="btn btn-primary px-1" (click)="cambiarTipo()"><span class="col-md-1 col-md-offset-2 text-center">
           <div *ngIf="obtenerTipo=='text'">
             <i class="fa fa-eye"></i>
           </div>
@@ -69,7 +65,7 @@
         />
       </div>
       <div class="col-auto px-0">
-        <button type="button" class="btn btn-primary px-1" (click)="cambiarTipo()"><span class="col-md-1 col-md-offset-2 text-center">
+        <button type="button" tabindex="-1" class="btn btn-primary px-1" (click)="cambiarTipo()"><span class="col-md-1 col-md-offset-2 text-center">
           <div *ngIf="obtenerTipo=='text'">
             <i class="fa fa-eye"></i>
           </div>

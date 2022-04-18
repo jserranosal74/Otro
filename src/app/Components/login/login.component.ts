@@ -79,6 +79,7 @@ export class LoginComponent implements OnInit {
         0,
         1,
         tipoCliente,
+        null,
         this.formLogin.get('correo')?.value,
         this.formLogin.get('password1')?.value,
         '',

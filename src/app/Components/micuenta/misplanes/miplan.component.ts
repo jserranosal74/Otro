@@ -65,7 +65,7 @@ export class MisplanesComponent implements OnInit {
   }
 
   obtenerMisPlanes() {
-    let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    let Id_Usuario = this._loginService.obtenerIdCliente();
     this._planClienteService.getPlanesCliente(Id_Usuario).subscribe(
       (data) => {
         //console.log('----datos---: ', data);
@@ -104,7 +104,7 @@ export class MisplanesComponent implements OnInit {
   }
 
   obtenerPlanesDisponibles() {
-    let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+    let Id_Usuario = this._loginService.obtenerIdCliente();
     this._planService.getPlanes().subscribe(
       (data) => {
 
@@ -158,9 +158,9 @@ export class MisplanesComponent implements OnInit {
     } else {
       //Envio de la informacion al servidor
 
-      this._planCliente.Id_Cliente = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+      this._planCliente.Id_Cliente = this._loginService.obtenerIdCliente();
       this._planCliente.Id_Plan = this.formaAgregarPlan.get('plan')?.value;
-      this._planCliente.Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+      this._planCliente.Id_Usuario = 1; //this._loginService.obtenerIdCliente();
 
       this._planClienteService.postPlanesCliente(this._planCliente).subscribe(
         (data) => {

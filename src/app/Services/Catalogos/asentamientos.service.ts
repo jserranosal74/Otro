@@ -30,11 +30,11 @@ export class AsentamientosService {
   }
 
   public getAsentamientosPaginado(Id_Estado : number, Id_Municipio : number, NumPagina : number, NumRenglones : number): Observable<asentamiento[]> {
-    return this.http.get<asentamiento[]>(this.urlAsentamientos + '/Paginado/' + Id_Estado + '/' + Id_Municipio + '/' + NumPagina + '/' + NumRenglones);
+    return this.http.get<asentamiento[]>(this.urlAsentamientos + 'Paginado/' + Id_Estado + '/' + Id_Municipio + '/' + NumPagina + '/' + NumRenglones);
   }
 
   public getAsentamientosPaginadoDet(Id_Estado : number, Id_Municipio : number, NumRenglones : number): Observable<paginadoDetalle> {
-    return this.http.get<paginadoDetalle>(this.urlAsentamientos + '/Paginado/' + Id_Estado + '/' + Id_Municipio + '/' + NumRenglones);
+    return this.http.get<paginadoDetalle>(this.urlAsentamientos + 'Paginado/' + Id_Estado + '/' + Id_Municipio + '/' + NumRenglones);
   }
 
   public getAsentamiento(Id_Asentamiento : number): Observable<asentamiento> {

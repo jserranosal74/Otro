@@ -24,11 +24,11 @@ export class PublicacionesService {
   }
 
   public getPublicacion(Id_Publicacion : number, Id_Cliente : number): Observable<publicacion> {
-    return this.http.get<publicacion>(this.urlPublicaciones + Id_Publicacion + '/' + Id_Cliente, this.httpOptions);
+    return this.http.get<publicacion>('/api/Publicaciones/' + '?Id_Cliente=' + Id_Cliente + '&Id_Publicacion=' + Id_Publicacion, this.httpOptions);
   }
 
   public getPublicaciones(Id_Cliente : number): Observable<publicacion[]> {
-    return this.http.get<publicacion[]>(this.urlPublicaciones + 'Id_Cliente=' + Id_Cliente, this.httpOptions);
+    return this.http.get<publicacion[]>(this.urlPublicaciones + '?Id_Cliente=' + Id_Cliente + '&Id_Publicacion=', this.httpOptions);
   }
 
   public putPublicacion(objPublicacion: publicacion): Observable<publicacion> {

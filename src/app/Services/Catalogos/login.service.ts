@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { URL_APIS } from '../global';
 import { login } from 'src/app/Models/Auxiliares/login.model';
 import { Router } from '@angular/router';
-import { usuario } from 'src/app/Models/Auxiliares/usuario.model';
+import { usuario } from 'src/app/Models/Auxiliares/cliente.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,26 +13,34 @@ import { usuario } from 'src/app/Models/Auxiliares/usuario.model';
 
 export class LoginService {
   public urlLogin: string;
-  public urlRecuperarPassword: string;
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      Authorization: `Bearer ` + this.obtenerToken(),
+    })
+  };
 
   constructor(private http: HttpClient,
               private _router : Router) { 
     this.urlLogin = URL_APIS.urlLogin;
-    this.urlRecuperarPassword = URL_APIS.urlRecuperarPassword;
+    // this.urlRecuperarPassword = URL_APIS.urlRecuperarPassword;
   }
 
   public iniciarSesion(objLogin: login): Observable<usuario> {
-    return this.http.post<usuario>(this.urlLogin, objLogin);
+    return this.http.post<usuario>(this.urlLogin + 'authenticate/', objLogin);
   }
 
   public cerarSesion(){
     localStorage.removeItem('usuario');
-    //this._router.navigate(['/inicio']);
     window.location.href = '/inicio';
   }
 
   public recuperarPassword(objLogin: login): Observable<string> {
-    return this.http.post<string>(this.urlRecuperarPassword, objLogin);
+    return this.http.post<string>(this.urlLogin + 'recuperarPassword/', objLogin);
+  }
+
+  public sesionValida(): Observable<string> {
+    return this.http.get<string>(this.urlLogin + 'echoping/', this.httpOptions);
   }
 
   public estaAutenticado(): boolean {
@@ -43,8 +51,6 @@ export class LoginService {
     else{
       return false;
     }
-    //var currentUser = JSON.parse(localStorage.getItem('token')!);
-    //return localStorage.getItem('token')!.length > 0;
   }
 
   public obtenerRolUsuario(): string {
@@ -57,17 +63,17 @@ export class LoginService {
     }
   }
 
-  public obtenerIdUsuario(): number {
+  public obtenerIdCliente(): number {
     if (localStorage.getItem('usuario'))
     {
-      return JSON.parse(localStorage.getItem('usuario')!)['Id_Usuario'];
+      return JSON.parse(localStorage.getItem('usuario')!)['Id_Cliente'];
     }
     else{
       return 0;
     }
   }
 
-  public obtenerNombreUsuario(): string {
+  public obtenerNombreCliente(): string {
     if (localStorage.getItem('usuario'))
     {
       return JSON.parse(localStorage.getItem('usuario')!)['NombreUsuario'];

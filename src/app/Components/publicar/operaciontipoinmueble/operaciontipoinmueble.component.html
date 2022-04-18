@@ -48,7 +48,7 @@
                             aria-label="Default select example" 
                             formControlName="tipoPropiedad"
                             [class.is-invalid]="tipoPropiedadValido"
-                            (change)="obtenerSubTiposPropiedad()">
+                            (change)="obtenerSubTiposPropiedad(0)">
                         <option value="" selected disabled>Seleccione...</option>
                         <option *ngFor="let tipopropiedad of _tiposPropiedad; let i = index" [value]="tipopropiedad.Id_TipoPropiedad" >{{tipopropiedad.Descripcion}}</option>
                     </select>
