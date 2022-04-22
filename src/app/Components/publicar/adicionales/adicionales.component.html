@@ -1,0 +1,121 @@
+<div class="container animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}">
+    <form [formGroup]="formAdicionales">
+      <fieldset>
+  
+        <div class="container" >
+          <div class="row px-0" >
+              <div class="col-md-10" >
+                <legend class="text-center text-primary mb-3 "><h1 class="display-4">Adicionales</h1></legend>
+              </div>
+              <div class="col-md-2 d-grid py-3" style="border-width:1px 1px 0px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 20px 20px 0px 0px; background: rgba(223, 126, 137, 0.15);">
+                  <button type="button" style="border-radius: 0.8em;" (click)="pantallaSiguiente()" class="btn btn-primary btn-lg align-items-right">Siguiente</button>
+              </div>
+          </div>
+        </div>
+  
+        <div class="container pt-3" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
+
+          <div class="form-group row">
+            <legend class="text-center text-primary mt-2 mb-5"><h3>Características Generales</h3></legend>
+          
+            <div class="form-group py-0 mb-5 px-5">
+              <div formArrayName="caracteristicasGenerales">
+                <div class="row row-cols-2 row-cols-lg-4 g-2 g-lg-3">
+                  <div class="form-group col" [formGroupName]="i" *ngFor="let control of caracteristica.controls; let i = index;">
+                    <div class="row">
+                      <div class="col-1 py-2">
+                        <input id="caracteristica + {{i}}" type="checkbox" style="width: 20px; height: 20px;" class="form-check-input" formControlName="Valor">
+                      </div>
+                      <div class="col-auto py-2">
+                        <label for="caracteristica + {{i}}" class="form-check-label badge text-primary" style="font-size: .95em; font-weight: normal;background-color: rgba(255,0,0,0.1);">{{getControlLabel(control)}}</label>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <legend class="text-center text-primary mt-2"><h3>Servicios</h3></legend>
+          
+            <div class="form-group row py-0 mb-5 px-5">
+              <div formArrayName="servicios">
+                <div class="row row-cols-2 row-cols-lg-4 g-2 g-lg-3">
+                <div class="form-group col" [formGroupName]="i" *ngFor="let control of servicio.controls; let i = index;">
+                  <div class="row">
+                  <div class="col-md-1 py-2">
+                    <input id="servicio + {{i}}" type="checkbox" style="width: 20px; height: 20px;" class="form-check-input" formControlName="Valor">
+                  </div>
+                  <div class="col-md-auto py-2">
+                    <label for="servicio + {{i}}" class="form-check-label badge text-primary" style="font-size: .95em; font-weight: normal;background-color: rgba(255,0,0,0.1);">{{getControlLabel(control)}}</label>
+                  </div>
+                </div>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <legend class="text-center text-primary mt-2"><h3>Exteriores</h3></legend>
+          
+            <div class="form-group row py-0 mb-5 px-5">
+              <div formArrayName="exteriores">
+                <div class="row row-cols-2 row-cols-lg-4 g-2 g-lg-3">
+                  <div class="form-group col" [formGroupName]="i" *ngFor="let control of exterior.controls; let i = index;">
+                    <div class="row">
+                      <div class="col-md-1 py-2">
+                        <input id="exterior + {{i}}" type="checkbox" style="width: 20px; height: 20px;" class="form-check-input" formControlName="Valor">
+                      </div>
+                      <div class="col-md-auto py-2">
+                        <label for="exterior + {{i}}" class="form-check-label badge text-primary" style="font-size: .95em; font-weight: normal;background-color: rgba(255,0,0,0.1);">{{getControlLabel(control)}}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <legend class="text-center text-primary mt-2"><h3>Ambientes</h3></legend>
+          
+            <div class="form-group row py-0 mb-5 px-5">
+              <div formArrayName="ambientes">
+                <div class="row row-cols-2 row-cols-lg-4 g-2 g-lg-3">
+                  <div class="form-group col text-center" [formGroupName]="i" *ngFor="let control of ambiente.controls; let i = index;">
+                    <div class="row text-center">
+                      <div class="col-md-1 py-2">
+                        <input id="ambiente + {{i}}" type="checkbox" style="width: 20px; height: 20px;" class="form-check-input" formControlName="Valor">
+                      </div>
+                      <div class="col-md-auto py-2">
+                        <label for="ambiente + {{i}}" class="form-check-label badge text-primary" style="font-size: .95em; font-weight: normal;background-color: rgba(255,0,0,0.1);">{{getControlLabel(control)}}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+        <div class="container" >
+          <div class="row px-0" >
+            <div class="col-md-2 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0 0 20px 20px; background: rgba(223, 126, 137, 0.15);">
+              <button type="button" style="border-radius: 0.8em;" (click)="regresar()" class="btn btn-primary btn-lg align-items-right">Atras</button>
+            </div>
+            <div class="col-md-4"></div>
+              <div class="col-md-3 d-grid py-3" >
+                  <!-- <button type="button" style="border-radius: 0.8em;" (click)="guardarCaracteristicas()" class="btn btn-primary btn-lg align-items-right">Guardar</button> -->
+              </div>
+              <div class="col-md-3 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0px 0px 20px 20px; background: rgba(223, 126, 137, 0.15);">
+                  <button type="button" style="border-radius: 0.8em;" (click)="guardarCaracteristicas()" class="btn btn-primary btn-lg align-items-right">Guardar y Continuar</button>
+              </div>
+          </div>
+        </div>
+  
+      </fieldset>
+    </form>
+  </div>

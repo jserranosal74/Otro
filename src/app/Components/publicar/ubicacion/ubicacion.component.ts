@@ -29,7 +29,7 @@ export class UbicacionComponent implements OnInit {
   _municipioSeleccionado : number = 0;
   _asentamientoSeleccionado : number = 0;
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null, null, null, new Date(), new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
   _id_publicacion : number = 0;
 
   loading : boolean = false;
@@ -54,7 +54,7 @@ export class UbicacionComponent implements OnInit {
       this._id_publicacion = params['id_Publicacion'];
       if (this._id_publicacion === undefined){
         this._id_publicacion = 0;
-        setTimeout( () => { this.router.navigateByUrl('/publicar/operaciontipoinmueble'); }, 700 );
+        setTimeout( () => { this.router.navigateByUrl('/publicar/operacion-tipo-inmueble'); }, 700 );
       }
     });
 
@@ -167,8 +167,8 @@ crearFormulario() {
   regresar(){
     this._numeroPaso = 2;
 
-    //setTimeout( () => { this.router.navigateByUrl('/publicar/operaciontipoinmueble'); }, 700 );
-    setTimeout( () => { this.router.navigate(['/publicar/operaciontipoinmueble'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+    //setTimeout( () => { this.router.navigateByUrl('/publicar/operacion-tipo-inmueble'); }, 700 );
+    setTimeout( () => { this.router.navigate(['/publicar/operacion-tipo-inmueble'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
   }
 
   pantallaSiguiente(){
@@ -255,11 +255,12 @@ crearFormulario() {
   }
 
   CargarPublicacion(){
+    //debugger;
       if (this._id_publicacion != 0) {
           this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
             (data) => {
               //Next callback
-              //console.log(data);
+              console.log(data);
 
               this._publicacion = data;
 
@@ -270,7 +271,7 @@ crearFormulario() {
               //Error callback
   
               this._id_publicacion = 0;
-              this.router.navigateByUrl('/publicar/operaciontipoinmueble');
+              //this.router.navigateByUrl('/publicar/operacion-tipo-inmueble');
   
               switch (error.status) {
                 case 401:

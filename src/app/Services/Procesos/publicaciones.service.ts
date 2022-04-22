@@ -3,8 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { URL_APIS } from '../global';
-import { publicacion } from '../../Models/procesos/publicacion.model';
+import { publicacion, publicacionCaracteristica, publicacionInfoMini } from '../../Models/procesos/publicacion.model';
 import { LoginService } from '../Catalogos/login.service';
+import { paginadoDetalle } from 'src/app/Models/catalogos/asentamiento.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +32,24 @@ export class PublicacionesService {
     return this.http.get<publicacion[]>(this.urlPublicaciones + '?Id_Cliente=' + Id_Cliente + '&Id_Publicacion=', this.httpOptions);
   }
 
+  public getPublicacionesMini(Id_Cliente : number, NumPagina : number, NumRenglones: number, strFiltros: string): Observable<publicacionInfoMini[]> {
+    return this.http.get<publicacionInfoMini[]>(this.urlPublicaciones + '?Id_Cliente=' + Id_Cliente + '&NumPagina=' + NumPagina + '&NumRenglones=' + NumRenglones + '&strFiltros=' + strFiltros, this.httpOptions);
+  }
+
+  public getPublicacionesMiniPagDet(id_cliente : number, NumRenglones: number, strFiltros: string): Observable<paginadoDetalle> {
+    return this.http.get<paginadoDetalle>(this.urlPublicaciones + 'Paginado?id_cliente=' + id_cliente + '&numRenglones=' + NumRenglones + '&strFiltros=' + strFiltros, this.httpOptions);
+  }
+
+  public getPublicacionCaracteristicas(Id_Publicacion : number, Id_Cliente: number): Observable<publicacionCaracteristica[]> {
+    return this.http.get<publicacionCaracteristica[]>(this.urlPublicaciones + 'Caracteristicas?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente, this.httpOptions);
+  }
+
   public putPublicacion(objPublicacion: publicacion): Observable<publicacion> {
     return this.http.put<publicacion>(this.urlPublicaciones + objPublicacion.Id_Publicacion, objPublicacion, this.httpOptions);
+  }
+
+  public putPublicacionCaracteristicas(Id_Publicacion: number, Id_Cliente : number, strAdicionales : string): Observable<number> {
+    return this.http.get<number>(this.urlPublicaciones + 'Caracteristicas?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente + '&strAdicionales=' + strAdicionales, this.httpOptions);
   }
 
   public postPublicacion(objPublicacion: publicacion): Observable<publicacion> {

@@ -1,6 +1,7 @@
 export const URL_APIS = {
     //Catalogos
     urlAmenidades: '/api/Amenidades/',
+    urlCaracteristicas: '/api/Caracteristicas/',
     urlAsentamientos: '/api/Asentamientos/',
     urlClientes: '/api/Clientes/',
     urlEmpresas: '/api/Empresas/',
@@ -12,6 +13,7 @@ export const URL_APIS = {
     urlMunicipios: '/api/Municipios/',
     urlPlanes: '/api/Planes/',
     urlTipoOperacion: '/api/TipoOperacion/',
+    urlTipoCaracteristica: '/api/TipoCaracteristica/',
     urlTipoPersona: '/api/TipoPersona/',
     urlTipoPropiedad: '/api/TipoPropiedad/',
     urlSubTipoPropiedad: '/api/SubtipoPropiedad/',

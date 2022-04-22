@@ -5,6 +5,7 @@ export class publicacion {
       public Id_PlanCliente: number | null,
       public Id_TipoOperacion: number | null,
       public Id_TipoPropiedad: number | null,
+      public Id_Moneda: number | null,
       public Id_SubtipoPropiedad: number | null,
       public Id_Asentamiento: number | null,
       public TituloPublicacion: string | null,
@@ -17,37 +18,24 @@ export class publicacion {
       public RecamarasHasta: number | null,
       public BaniosCompDesde: number | null,
       public BaniosCompHasta: number | null,
+      public MedioBanio: number | null,
       public EstacionamientosDesde: number | null,
       public EstacionamientosHasta: number | null,
-      public MedioBanio: number | null,
-      public Jardin: number | null,
-      public Garage: number | null,
-      public Sotano: number | null,
       public SuperficieConstruidaDesde: number | null,
       public SuperficieConstruidaHasta: number | null,
       public SuperficieTerreno: number | null,
       public Latitud: number | null,
       public Longitud: number | null,
       public UnidadesDisponibles: number | null,
-      public NumeroPisos: number | null,
       public PosibleEstafa: number | null,
       public Vistas: number | null,
       public VideoUrl: string | null,
       public MostrarDireccionExacta: number | null,
       public Antiguedad: number | null,
       public CuotaMantenimiento: number | null,
-      public AireAcondicionado: number | null,
-      public Calefaccion: number | null,
-      public Amueblado: number | null,
-      public CocinaIntegral: number | null,
-      public PermiteMascotas: number | null,
-      public Chimenea: number | null,
-      public EscuelasCercanas: number | null,
-      public CuartoServicio: number | null,
-      public FrenteAParque: number | null,
-      public FrenteAlMar: number | null,
-      public Closets: number | null,
       public EstadoConservacion: number | null,
+      public NivelesConstruidos: number | null,
+      public Closets: number | null,
       public FechaInicioPublicacion: Date | null,
       public FechaFinPublicacion: Date | null,
       public FechaAlta: Date,
@@ -75,6 +63,7 @@ export class publicacion {
       public Direccion: string | null,
       public PrecioDesde: number | null,
       public PrecioHasta: number | null,
+      public ClaveMoneda: string | null,
       public UnidadesDisponibles: number | null,
       public Vistas: number | null,
       public FechaInicioPublicacion: Date | null,
@@ -103,6 +92,7 @@ export class publicacion {
       public Direccion: string | null,
       public PrecioDesde: number | null,
       public PrecioHasta: number | null,
+      public ClaveMoneda: string | null,
       public UnidadesDisponibles: number | null,
       public Vistas: number | null,
       public FechaInicioPublicacion: Date | null,
@@ -110,6 +100,31 @@ export class publicacion {
       public FechaAlta: Date,
       public FechaModificacion: Date,
       public Estatus: string
+    ) {
+    }
+  }
+
+  export class publicacionCaracteristica {
+    constructor(
+      public Id_Publicacion : number | null,
+      public Id_Cliente : number | null,
+      public Id_Caracteristica : number | null,
+      public Id_TipoCaracteristica : number | null,
+      public Descripcion: string | null,
+      public Valor : number | null,
+      public FechaAlta : Date | null,
+      public FechaModificacion : Date | null,
+      public Id_Estatus : number | null,
+      public Id_Usuario : number | null,
+    ) {
+    }
+  }
+
+  export class publicacionCaracteristicaLigth {
+    constructor(
+      public Id_Caracteristica : number,
+      public Id_TipoCaracteristica : number,
+      public Valor : number,
     ) {
     }
   }

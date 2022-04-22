@@ -1,67 +1,47 @@
-<div class="row">
-    <div class="col-md-4 p-1 border" style="border-radius: 15px 0px 0px 15px;">
-      <img src="https://i.ibb.co/3RgNhSM/Credencial-De-Elector.jpg" alt="" width="290px;" height="auto" style="border-radius: 15px 0px 0px 15px;">
+<div class="row animate__animated animate__backInDown">
+    <div class="col-md-4 p-1 border" style="border-radius: 15px 0px 0px 15px; width:200px;">
+      <img src="https://i.ibb.co/3RgNhSM/Credencial-De-Elector.jpg" alt="" width="100%" height="auto" style="border-radius: 15px 0px 0px 15px;">
     </div>
-    <div class="col-md-8 p-1 border" style="border-radius: 0px 15px 15px 0px;">
+    <div class="col-md-9 p-1 border" style="border-radius: 0px 15px 15px 0px;">
       <div class="row">
-        <h2>{{_publicacion.TituloPublicacion}}</h2>
+        <h3 class="text-primary">{{_publicacion.TituloPublicacion}}</h3>
         <!-- <h2>{{_publicacion.Descripcion}}</h2> -->
-            <h4>{{_publicacion.Direccion}}</h4>
+            <h6 class="text-primary">{{_publicacion.Asentamiento}}, {{_publicacion.Municipio}}, {{_publicacion.Estado}}.</h6>
             <div class="row">
                 <div class="col">
                     <div class="row">
-                        <div class="col-1"><span>MN</span></div>
-                        <div class="col-auto"><h4>$ {{_publicacion.PrecioDesde | number : '1.0'}}</h4></div>
+                        <div class="col-auto text-primary"><h4>MN</h4></div>
+                        <div class="col-auto text-primary px-0"><h4>$ {{_publicacion.PrecioDesde | number : '1.0'}}</h4></div>
                     </div>
                 </div>
                 <div class="col-md-auto">
-                    <label>+ Mantemiento:</label>
-                    <h6>{{_publicacion.CuotaMantenimiento | currency}}</h6>
+                    <!-- <label>+ Mantemiento:</label>
+                    <h6>{{_publicacion.CuotaMantenimiento | currency}}</h6> -->
                 </div>
             </div>
 
-						<div class="row">
-							<div class="col">
-									<div class="row">
-											<div class="col text-center" >
-												<button type="button" class="btn btn-primary" (click)="editarPagina()" style="width:100px;">Editar</button>
-											</div>
-									</div>
-							</div>
-							<div class="col">
-								<div class="row">
-									<div class="col text-center">
-										<button type="button" class="btn btn-primary" style="width:100px;">Eliminar</button>
-									</div>
-								</div>
-							</div>
-							<div class="col">
-								<div class="row">
-									<div class="col text-center">
-										<button type="button" class="btn btn-primary" style="width:100px;">Activar</button>
-									</div>
-								</div>
-							</div>
-					</div>
+                <div class="row m-0 p-0">
+                    <div class="col text-end">
+                        <button type="button" style="border-radius:25px;" class="btn btn-info" (click)="editarAnuncio()">
+                            <span class="col-md-1 col-md-offset-2 text-center">
+                                <i class="fa fa-pen" aria-hidden="true"> </i>
+                        </span></button>
+                        <button type="button" style="border-radius:25px;" class="btn btn-primary mx-1" (click)="verAnuncio()">
+                            <span class="col-md-1 text-center">
+                                <i class="fa fa-eye" aria-hidden="true"> </i>
+                        </span></button>
+                        <button type="button" class="btn btn-success" style="border-radius:25px;" (click)="pagarYActivarAnuncio()">
+                            <span class="col-md-1 col-md-offset-2 text-center">
+                                <i class="fa fa-arrow-up" aria-hidden="true"> </i>
+                        </span></button>
+                        <button type="button" style="border-radius:25px;" class="btn btn-danger mx-1" (click)="eliminarAnuncio()">
+                            <span class="col-md-1 col-md-offset-2 text-center">
+                                <i class="fa fa-trash-can" aria-hidden="true"> </i>
+                        </span></button>
+                    </div>
+                
+            </div>
 
-        <!-- <div class="row">
-            <div class="col">
-                <div><label class="text-secondary">Terreno:</label></div>
-                <div><label class="text-primary">{{_publicacion.SuperficieTerreno}} m2</label></div>
-            </div>
-            <div class="col">
-                <div><span class="text-secondary">Recamaras:</span></div>
-                <div><label class="text-primary">{{_publicacion.RecamarasDesde}}</label></div>
-            </div>
-            <div class="col">
-                <div><label class="text-secondary">Baños:</label></div>
-                <div><label class="text-primary">{{_publicacion.BaniosCompDesde}}</label></div>
-            </div>
-            <div class="col">
-                <div><span class="text-secondary">Estacionamiento:</span></div>
-                <div><label class="text-primary">{{_publicacion.EstacionamientosDesde}}</label></div>
-            </div>
-        </div> -->
       </div>
     </div>
 </div>

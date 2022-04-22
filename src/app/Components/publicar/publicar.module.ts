@@ -9,6 +9,7 @@ import { InformacionprincipalComponent } from '../publicar/informacionprincipal/
 import { OperaciontipoinmuebleComponent } from '../publicar/operaciontipoinmueble/operaciontipoinmueble.component'
 import { CaracteristicasComponent } from './caracteristicas/caracteristicas.component';
 import { PagarYActivarComponent } from './pagar-y-activar/pagar-y-activar.component';
+import { AdicionalesComponent } from './adicionales/adicionales.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { PagarYActivarComponent } from './pagar-y-activar/pagar-y-activar.compon
     CaracteristicasComponent,
     InformacionprincipalComponent,
     OperaciontipoinmuebleComponent,
-    PagarYActivarComponent
+    PagarYActivarComponent,
+    AdicionalesComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +33,8 @@ import { PagarYActivarComponent } from './pagar-y-activar/pagar-y-activar.compon
     CaracteristicasComponent,
     InformacionprincipalComponent,
     OperaciontipoinmuebleComponent,
-    PagarYActivarComponent
+    PagarYActivarComponent,
+    AdicionalesComponent
   ]
 })
 

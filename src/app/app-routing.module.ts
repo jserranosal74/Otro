@@ -18,6 +18,7 @@ import { CATALOGOS_CHILD_ROUTES } from './Components/catalogos/catalogos.routes'
 import { LEGAL_CHILD_ROUTES } from './Components/legal/legal.routes';
 import { MICUENTA_CHILD_ROUTES } from './Components/micuenta/micuenta.routes';
 import { AYUDA_CHILD_ROUTES } from './Components/ayuda/ayuda.routes';
+import { ANUNCIOS_CHILD_ROUTES } from './Components/anuncios/anuncios.routes' 
 
 import { RecuperarpasswordComponent } from './Components/recuperarpassword/recuperarpassword.component';
 import { LegalComponent } from './Components/legal/legal.component';
@@ -53,6 +54,10 @@ const routes: Routes = [
     path: 'micuenta',
     component: MicuentaComponent,
     children: MICUENTA_CHILD_ROUTES
+  },
+  {
+    path: 'anuncio',
+    children: ANUNCIOS_CHILD_ROUTES
   },
   {
     path: 'legal',

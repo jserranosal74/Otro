@@ -6,7 +6,7 @@
         <div class="container" >
           <div class="row px-0" >
               <div class="col-md-10" >
-                <legend class="text-center text-primary mb-3 "><h1 class="display-4">Pagar y activar</h1></legend>
+                <legend class="text-center text-primary mb-3 "><h1 class="display-4">Pagar y publicar</h1></legend>
               </div>
               <div class="col-md-2 d-grid py-3">
                   <!-- <button type="button" style="border-radius: 0.8em;" (click)="pantallaSiguiente()" class="btn btn-primary btn-lg align-items-right">Siguiente</button> -->
@@ -16,262 +16,30 @@
   
         <div class="container py-5" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 20px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
           <div class="form-group row">
-            <legend class="text-center text-primary mt-3"><h3>Planes de pagos disponibles</h3></legend>
+            <legend class="text-center text-primary mt-3"><h3>Selecciona el plan con el que quieres publicar.</h3></legend>
+            <br><h4>Planes disponibles:</h4>
           </div>
-          <div class="form-group row py-0">
-            <div class="col-md-2"></div>
-            <div class="col-md-2">
-              <label class="col-md-12 col-form-label text-primary">Recámaras(opcional)</label>
-              <div class="col-md-12 p-0">
-                <input
-                  class="form-control"
-                  type="number"
-                  min="0" 
-                  max="99"
-                  formControlName="recamaras"
-                />
-              </div>
-            </div>
-            <div class="col-md-2">
-              <label class="col-md-12 col-form-label text-primary">Baños(opcional)</label>
-              <div class="col-md-12 p-0">
-                <input
-                  class="form-control"
-                  type="number"
-                  min="0" 
-                  max="99"
-                  formControlName="banios"
-                />
-              </div>
-            </div>
-            <div class="col-auto">
-              <label class="col-md-12 col-form-label text-primary">Medios baños(opcional)</label>
-              <div class="col-md-12 p-0">
-                <input
-                  class="form-control"
-                  type="number"
-                  min="0" 
-                  max="99"
-                  formControlName="mediosbanios"
-                />
-              </div>
-            </div>
-            <div class="col-auto">
-              <label class="col-md-12 col-form-label text-primary">Estacionamientos(opcional)</label>
-              <div class="col-md-12 p-0">
-                <input
-                  class="form-control"
-                  type="number"
-                  min="0" 
-                  max="99"
-                  formControlName="estacionamientos"
-                />
-              </div>
-            </div>
-          </div>
-  
+
           <div class="form-group row mt-5">
-            <legend class="text-center text-primary mt-3"><h3>Superficie</h3></legend>
+            <legend class="text-center text-primary mt-3">
+              <p>
+                Para adquirir uno de nuestros planes deberá de realizar una transferencia electronica<br>
+                al siguiente numero de cuenta de la siguiente manera<br><br>
+                No de cuenta: 123123123<br>
+                Banco1: 123123123<br>
+                Referencia: 123123123-SIMPLE<br>
+                Referencia: 123123123-DESTACADO<br>
+                Referencia: 123123123-SUPERDESTACADO<br>
+                Referencia: 123123123-PAQUETE1<br>
+                Referencia: 123123123-PAQUETE2<br><br><br>
+                Una vez realizada dicha transferencia tu plan se activara automaticamente<br>
+                y asi podras publicar tu anuncio y asi podrá ser visto por<br>
+                miles de personas en todo México<br><br><br>
+                Y de esta manera concretar la Venta o su Renta de su propiedad.
+              </p>
+              </legend>
           </div>
-  
-          <div class="form-group row py-0">
-            <div class="col-md-2"></div>
-            <div class="col-md-2">
-              <label class="col-md-12 col-form-label text-primary">Superfice construida</label>
-              <div class="col-md-12 p-0">
-                <input
-                  class="form-control"
-                  type="number"
-                  min="0" 
-                  max="999999"
-                  formControlName="superficeconstriuida"
-                />
-              </div>
-            </div>
-            <div class="col-md-2">
-              <label class="col-md-12 col-form-label text-primary">Superficie terreno</label>
-              <div class="col-md-12 p-0">
-                <input
-                  class="form-control"
-                  type="number"
-                  min="0" 
-                  max="999999"
-                  formControlName="superficeterreno"
-                />
-              </div>
-            </div>
-            <div class="col-md-2">
-              <label class="col-md-12 col-form-label text-primary">en metros cuadrados</label>
-            </div>
-            
-          </div>
-  
-          <div class="form-group row mt-5">
-            <legend class="text-center text-primary mt-3"><h3>Antiguedad</h3></legend>
-          </div>
-  
-          <div class="form-group row py-0">
-            <div class="col-md-4"></div>
-            <div class="col-md-2">
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label text-primary" for="flexRadioDefault1">
-                  Nueva
-                </label>
-              </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                <label class="form-check-label text-primary" for="flexRadioDefault2">
-                  En construcción
-                </label>
-              </div>
-            </div>
-            <div class="col-md-5">
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label text-primary" for="flexRadioDefault1">
-                  Años de antiguedad
-                </label>
-              </div>
-              <div class="col-md-5">
-                <div class="col-md-12 p-0">
-                  <input
-                    class="form-control"
-                    type="number"
-                    formControlName="aniosantiguedad"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-  
-          <div class="form-group row mt-5">
-            <legend class="text-center text-primary mt-3"><h3>Precio</h3></legend>
-          </div>
-  
-          <div class="form-group row py-0">
-            <div class="col-md-2"></div>
-            <div class="col-md-2">
-              <label class="col-md-12 col-form-label text-primary">Precio del inmueble</label>
-              <div class="col-md-12 p-0">
-                <input
-                  class="form-control"
-                  type="number"
-                  min="0" 
-                  max="999999"
-                  formControlName="precioinmueble"
-                />
-              </div>
-            </div>
-            <div class="col-md-2">
-              <label class="col-md-12 col-form-label text-primary">Mantenimiento</label>
-              <div class="col-md-12 p-0">
-                <input
-                  class="form-control"
-                  type="number"
-                  min="0" 
-                  max="999999"
-                  formControlName="mantenimiento"
-                />
-              </div>
-            </div>
-            
-          </div>
-  
-          <div class="form-group row mt-5">
-            <legend class="text-center text-primary mt-3"><h3>Descripción del inmueble</h3></legend>
-          </div>
-  
-          <div class="form-group row ">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-              <label class="col-md-12 col-form-label text-primary">Titulo</label>
-              <div class="col-md-12 p-0">
-                <input
-                  class="form-control"
-                  type="text"
-                  formControlName="titulo"
-                />
-              </div>
-            </div>
-            <div class="col-md-2"></div>
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-              <label class="col-md-12 col-form-label text-primary">Descripción</label>
-              <div class="col-md-12 p-0">
-                <textarea class="form-control"
-                          type="textarea"
-                          placeholder="Escribe un mínimo de 100 caracteres"
-                          maxlength="1000"
-                          minlength="100"
-                          formControlName="mantenimiento"></textarea>
-              </div>
-            </div>
-            
-          </div>
-  
-          <!-- <div class="form-group row py-3" formGroupName="direccion">
-            <label class="col-2 col-form-label">Direccion</label>
-            <div class="form-row col-10 p-0">
-              <div class="col-md-12 col-10 p-0">
-                <div class="row">
-                <div class="col-md-5">
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="[Seleccione el Estado]"
-                    formControlName="estado"
-                    [class.is-invalid]="distritoNoValido"
-                  />
-                </div>
-                <div class="col-md-5 col-form-label px-0">
-                  <small *ngIf="distritoNoValido" class="text-danger">
-                    Estado invalido
-                  </small>
-                </div>
-              </div>
-              </div>
-  
-              <div class="col-md-12 col-10 p-0 py-3">
-                <div class="row">
-                  <div class="col-md-5">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Ciudad"
-                  formControlName="ciudad"
-                  [class.is-invalid]="ciudadNoValido"
-                />
-                  </div>
-                <div class="col-md-4 col-10 px-0">
-                  <small *ngIf="ciudadNoValido" class="text-danger">
-                    Ciudad invalida
-                  </small>
-                </div>
-              </div>
-              </div>
-  
-              <div class="col-md-12 col-10 p-0 py-0">
-                <div class="row">
-                  <div class="col-md-5">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Calle"
-                  formControlName="calle"
-                  [class.is-invalid]="ciudadNoValido"
-                />
-                  </div>
-                <div class="col-md-4 col-10 px-0">
-                  <small *ngIf="calleNoValido" class="text-danger">
-                    Calle invalida
-                  </small>
-                </div>
-              </div>
-              </div>
-  
-            </div>
-          </div> -->
+
         </div>
         
         <div class="container" >
@@ -284,7 +52,7 @@
                   <!-- <button type="button" style="border-radius: 0.8em;" (click)="guardarCaracteristicas()" class="btn btn-primary btn-lg align-items-right">Guardar</button> -->
               </div>
               <div class="col-md-3 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0px 0px 20px 20px; background: rgba(223, 126, 137, 0.15);">
-                  <button type="button" style="border-radius: 0.8em;" (click)="guardarCaracteristicas()" class="btn btn-primary btn-lg align-items-right">Guardar y Continuar</button>
+                  <button type="button" style="border-radius: 0.8em;" (click)="guardarPagaryActivar()" class="btn btn-primary btn-lg align-items-right">Guardar y Publicar</button>
               </div>
           </div>
         </div>

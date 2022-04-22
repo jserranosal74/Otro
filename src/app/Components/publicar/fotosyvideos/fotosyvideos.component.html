@@ -1,5 +1,5 @@
 <div class="container animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}">
-  <form>
+  <form [formGroup]="formaFotosyVideos">
     <fieldset>
 
       <div class="container" >
@@ -14,30 +14,42 @@
       </div>
 
       <div class="container" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
-        <div class="form-row row py-3">
-          <div class="form-floating mb-3 px-3">
-            <input
-              type="email"
-              class="form-control"
-              id="correoElectronico"
-              placeholder="name@example.com"/>
-            <label for="correoElectronico" class="px-4" style="color: gray;">Correo electrónico</label>
-          </div>
 
-          <div class="form-floating">
-            <input
-              type="password"
-              class="form-control"
-              id="contrasena"
-              placeholder="Password"/>
-            <label for="contrasena" class="px-4" style="color: gray;">Contraseña</label>
-          </div>
+        <div class="row p-5">
+          <label for="formFileMultiple" class="form-label">Seleccione las fotos de su propiedad</label>
+          <input type="file" 
+                 class="form-control" 
+                 accept="image/jpg,image/png,image/jpeg,image/gif" 
+                 id="fileElem" 
+                 formControlName="fotosPropiedad"
+                 (change)="obtenerArchivos($event)"
+                 multiple >
+        </div>
 
-          <div class="form-check px-5 mt-3">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        <!-- <img *ngFor="let foto of _listaFotos;let i = index;" src="{{foto}}"> -->
+        <div class="form-group row">
+          <legend class="text-center text-primary mt-2 mb-5"><h3>Características Generales</h3></legend>
+        
+          <div class="form-group py-0 mb-5 px-5">
+            <div formArrayName="fotosPropiedad">
+              <div class="row row-cols-3 row-cols-lg-4">
+                <div class="form-group col" [formGroupName]="i" *ngFor="let control of imagenes.controls; let i = index;">
+                    <div class="col-md-auto">
+                      <div class="col p-0 m-0">
+                        <img class="form-control " alt="Girl" width="100" height="auto" [src]="obtenerInfo(control)">
+                      </div>
+                      <div class="col">
+                          <input class="form-control" type="text" formControlName="Descripcion">
+                      </div>
+                    </div>
+                </div>
+            </div>
+            </div>
           </div>
         </div>
+
+        
+        
       </div>
       
       <div class="container" >

@@ -18,16 +18,13 @@ import { subtipoPropiedad } from 'src/app/Models/catalogos/tipoPropiedadDetalle.
 })
 export class OperaciontipoinmuebleComponent implements OnInit {
   _tiposPropiedad : tipoPropiedad[] = [];
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null, null, null, new Date(), new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
   _id_publicacion : number = 0;
   loading : boolean = false;
   _subtiposPropiedad : subtipoPropiedad[] = [];
   _numeroPaso : number = 1;
   _esNuevo : boolean = true;
   _rentaventa : number | null = 0;
-
-  // @ViewChild('v1') venta1! : any;
-  // @ViewChild('r1') renta1! : any;
 
   formaOTI = this.fb.group({
     tipoOperacion : ['', [Validators.required] ],
@@ -49,11 +46,11 @@ export class OperaciontipoinmuebleComponent implements OnInit {
         this._id_publicacion = 0;
       }
     });
-
+    
+    this.probarAutenticacion();
     this.crearFormulario();
     this.obtenerTiposPropiedad();
     this.CargarPublicacion();
-    this.probarAutenticacion();
    }
 
   ngOnInit(): void {
@@ -101,7 +98,7 @@ export class OperaciontipoinmuebleComponent implements OnInit {
         this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
           (data) => {
             //Next callback
-            console.log(data);
+            //console.log(data);
             this._publicacion = data;
 
             this._rentaventa = data.Id_TipoOperacion;
@@ -119,7 +116,7 @@ export class OperaciontipoinmuebleComponent implements OnInit {
             //Error callback
 
             this._id_publicacion = 0;
-            this.router.navigateByUrl('/publicar/operaciontipoinmueble');
+            this.router.navigateByUrl('/publicar/operacion-tipo-inmueble');
 
             // Swal.fire({
             //   icon: 'error',
@@ -205,7 +202,6 @@ export class OperaciontipoinmuebleComponent implements OnInit {
         this._publicacionesService.postPublicacion(this._publicacion).subscribe(
           (data) => {
             //Next callback
-            //console.log('datos: ',data);
 
             this._id_publicacion = data.Id_Publicacion;
 

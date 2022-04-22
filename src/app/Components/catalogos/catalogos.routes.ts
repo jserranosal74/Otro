@@ -4,6 +4,7 @@ import { AuthGuard } from 'src/app/guards/auth.guard';
 
 import { AmenidadesComponent } from './amenidades/amenidades.component';
 import { AsentamientosComponent } from './asentamientos/asentamientos.component';
+import { CaracteristicasComponent } from './caracteristicas/caracteristicas.component';
 import { EmpresasComponent } from './empresas/empresas.component';
 import { MedioscontactoComponent } from './medioscontacto/medioscontacto.component';
 import { MunicipiosComponent } from './municipios/municipios.component';
@@ -15,6 +16,7 @@ import { TiposasentaientoComponent } from './tiposasentamiento/tiposasentamiento
 
 export const CATALOGOS_CHILD_ROUTES: Routes = [
   { path: 'asentamientos', component: AsentamientosComponent, canActivate: [AuthGuard] },
+  { path: 'caracteristicas', component: CaracteristicasComponent, canActivate: [AuthGuard] },
   { path: 'amenidades', component: AmenidadesComponent, canActivate: [AuthGuard] },
   { path: 'municipios', component: MunicipiosComponent, canActivate: [AuthGuard] },
   { path: 'medioscontacto', component: MedioscontactoComponent, canActivate: [AuthGuard] },

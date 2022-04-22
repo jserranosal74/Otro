@@ -68,9 +68,6 @@ import { ActivarclienteComponent } from './Components/activarcliente/activarclie
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    // MaterialModule,
-    // CoreModule,
-    // SharedModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

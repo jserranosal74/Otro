@@ -1,4 +1,3 @@
-<!-- <div class="container animate__animated" [ngClass]="{' animate__backInRight': _numeroPaso === 1, ' animate__backOutLeft': _numeroPaso === 2}"></div> -->
 <div class="container animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}">
   <form autocomplete="off" [formGroup]="formCaracteristicas">
     <fieldset>
@@ -14,168 +13,230 @@
         </div>
       </div>
 
-      <div class="container py-5" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
+      <div class="container pt-3" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
         <div class="form-group row">
-          <legend class="text-center text-primary mt-3"><h3>Principales</h3></legend>
+          <legend class="text-center text-primary mt-2"><h3>Principales</h3></legend>
         </div>
         <div class="form-group row py-0">
-          <div class="col-md-2"></div>
-          <div class="col-md-2">
-            <label class="col-md-12 col-form-label text-primary">Recámaras(opcional)</label>
-            <div class="col-md-12 p-0">
-              <input
-                class="form-control"
-                type="number"
-                min="0" 
-                max="99"
-                formControlName="recamaras"
-              />
+          <div class="col-md-1"></div>
+          <div class="col-md-3">
+            <div class="col-md-6 input-group">
+              <span class="input-group-text text-primary">Recamaras</span>
+              <input  class="form-control"
+                      type="number"
+                      min="0" 
+                      max="99"
+                      formControlName="recamaras"/>
             </div>
           </div>
           <div class="col-md-2">
-            <label class="col-md-12 col-form-label text-primary">Baños(opcional)</label>
-            <div class="col-md-12 p-0">
-              <input
-                class="form-control"
-                type="number"
-                min="0" 
-                max="99"
-                formControlName="banios"
-              />
+            <div class="col-md-6 input-group">
+              <span class="input-group-text text-primary">Baños</span>
+              <input  class="form-control"
+                      type="number"
+                      min="0" 
+                      max="99"
+                      formControlName="banios"/>
             </div>
           </div>
           <div class="col-auto">
-            <label class="col-md-12 col-form-label text-primary">Medios baños(opcional)</label>
-            <div class="col-md-12 p-0">
-              <input
-                class="form-control"
-                type="number"
-                min="0" 
-                max="99"
-                formControlName="mediosbanios"
-              />
+            <div class="col-md-6 input-group">
+              <span class="input-group-text text-primary">&#189; Baños</span>
+              <input  class="form-control"
+                      type="number"
+                      min="0" 
+                      max="99"
+                      formControlName="mediosbanios"/>
             </div>
           </div>
           <div class="col-auto">
-            <label class="col-md-12 col-form-label text-primary">Estacionamientos(opcional)</label>
-            <div class="col-md-12 p-0">
-              <input
-                class="form-control"
-                type="number"
-                min="0" 
-                max="99"
-                formControlName="estacionamientos"
-              />
+            <div class="col-md-6 input-group">
+              <span class="input-group-text text-primary">Estacionamientos</span>
+              <input  class="form-control"
+                      type="number"
+                      min="0" 
+                      max="99"
+                      formControlName="estacionamientos"/>
             </div>
           </div>
         </div>
 
-        <div class="form-group row mt-5">
-          <legend class="text-center text-primary mt-3"><h3>Superficie</h3></legend>
-        </div>
+        
 
         <div class="form-group row py-0">
-          <div class="col-md-2"></div>
-          <div class="col-md-2">
-            <label class="col-md-12 col-form-label text-primary">Superfice construida</label>
-            <div class="col-md-12 p-0">
-              <input
-                class="form-control"
-                type="number"
-                min="0" 
-                max="999999"
-                formControlName="superficeconstriuida"
-              />
-            </div>
-          </div>
-          <div class="col-md-2">
-            <label class="col-md-12 col-form-label text-primary">Superficie terreno</label>
-            <div class="col-md-12 p-0">
-              <input
-                class="form-control"
-                type="number"
-                min="0" 
-                max="999999"
-                formControlName="superficeterreno"
-              />
-            </div>
-          </div>
-          <div class="col-md-2">
-            <label class="col-md-12 col-form-label text-primary">en metros cuadrados</label>
-          </div>
-          
-        </div>
 
-        <div class="form-group row mt-5">
-          <legend class="text-center text-primary mt-3"><h3>Antiguedad</h3></legend>
-        </div>
-
-        <div class="form-group row py-0">
-          <div class="col-md-4"></div>
-          <div class="col-md-2">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-              <label class="form-check-label text-primary" for="flexRadioDefault1">
-                Nueva
-              </label>
+          <div class="col">
+            <div class="form-group row mt-5 mb-3">
+              <legend class="text-center text-primary mt-3"><h3>Superficie</h3></legend>
             </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-              <label class="form-check-label text-primary" for="flexRadioDefault2">
-                En construcción
-              </label>
-            </div>
-          </div>
-          <div class="col-md-5">
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-              <label class="form-check-label text-primary" for="flexRadioDefault1">
-                Años de antiguedad
-              </label>
-            </div>
-            <div class="col-md-5">
-              <div class="col-md-12 p-0">
-                <input
-                  class="form-control"
-                  type="number"
-                  formControlName="aniosantiguedad"
-                />
+            <div class="col-md-auto">
+              <div class="row">
+                <div class="col-md-6 input-group">
+                  <span class="input-group-text text-end text-primary" style="width: 170px;">Superficie construida</span>
+                  <input  class="form-control"
+                          type="number"
+                          min="0" 
+                          max="999999"
+                          formControlName="superficieConstruida"/>
+                  <span class="input-group-text text-primary">m<sup>2</sup></span>
+                </div>
               </div>
             </div>
-          </div>
+              <div class="col-md-auto py-3">
+                <div class="col-md-12 p-0 input-group">
+                  <span class="input-group-text  text-primary" style="width: 170px;">Superficie terreno</span>
+                  <input class="form-control"
+                          type="number"
+                          min="0" 
+                          max="999999"
+                          formControlName="superficieTerreno"/>
+                          <span class="input-group-text text-primary">m<sup>2</sup></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+
+              <div class="form-group row mt-5 mb-3">
+                <legend class="text-center text-primary mt-3"><h3>Antiguedad</h3></legend>
+              </div>
+      
+              <div class="form-group row py-0">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                  <div class="form-check">
+                    <input class="form-check-input" 
+                           type="radio" 
+                           value="0"
+                           name="antiguedad" 
+                           [checked]="_checkNueva"
+                           (change)="seleccionarAntiguedad(0)"
+                           id="flexRadioDefault1">
+                    <label class="form-check-label text-primary" for="flexRadioDefault1">
+                      Nueva
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" 
+                           type="radio" 
+                           name="antiguedad"
+                           value="-1"
+                           (change)="seleccionarAntiguedad(-1)"
+                           [checked]="_checkEnConstruccion"
+                           id="flexRadioDefault2">
+                    <label class="form-check-label text-primary" for="flexRadioDefault2">
+                      En construcción
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div class="form-check">
+                    <input class="form-check-input" 
+                           type="radio" 
+                           name="antiguedad"
+                           value="1"
+                           [checked]="_checkAnios"
+                           (change)="seleccionarAntiguedad(1)"
+                           id="flexRadioDefault1">
+                    <label class="form-check-label text-primary" for="flexRadioDefault1">
+                      Años de antiguedad
+                    </label>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="col-md-12 p-0">
+                      <input class="form-control"
+                             type="number"
+                             min="1"
+                             max="999"
+                             [hidden]="_mostrarAniosAntiguedad"
+                             formControlName="aniosAntiguedad"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-1"></div>
+              </div>
+
+            </div>
+
         </div>
+
+        
 
         <div class="form-group row mt-5">
           <legend class="text-center text-primary mt-3"><h3>Precio</h3></legend>
         </div>
 
         <div class="form-group row py-0">
-          <div class="col-md-2"></div>
-          <div class="col-md-2">
+          <div class="col-md-1"></div>
+          <div class="col-md-3">
             <label class="col-md-12 col-form-label text-primary">Precio del inmueble</label>
-            <div class="col-md-12 p-0">
-              <input
-                class="form-control"
-                type="number"
-                min="0" 
-                max="999999"
-                formControlName="precioinmueble"
-              />
+            <div class="col-md-12 p-0 input-group">
+              <span class="input-group-text text-primary">$</span>
+              <input  class="form-control"
+                      type="number"
+                      min="0" 
+                      max="999999"
+                      formControlName="precioInmueble" />
+              <span class="input-group-text text-primary">.00</span>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label class="col-md-12 col-form-label text-primary">Mantenimiento</label>
+            <div class="col-md-12 p-0 input-group ">
+              <span class="input-group-text text-primary">$</span>
+              <input  class="form-control"
+                      type="number"
+                      min="0" 
+                      max="999999"
+                      formControlName="coutaMantenimiento" />
+                      <span class="input-group-text text-primary">.00</span>
             </div>
           </div>
           <div class="col-md-2">
-            <label class="col-md-12 col-form-label text-primary">Mantenimiento</label>
-            <div class="col-md-12 p-0">
-              <input
-                class="form-control"
-                type="number"
-                min="0" 
-                max="999999"
-                formControlName="mantenimiento"
-              />
+            <div class="col-md-12 p-0 m-0">
+              <label class="col-md-12 col-form-label text-primary">Tipo de Moneda</label>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" 
+                       type="radio" 
+                       value="1"
+                       name="moneda"
+                       formControlName="moneda"
+                       [checked]="_checkMoneda1"
+                       id="monedaMNX">
+                <label class="form-check-label text-primary" for="monedaMNX">
+                  MNX
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" 
+                       type="radio" 
+                       name="moneda"
+                       value="2"
+                       formControlName="moneda"
+                       [checked]="_checkMoneda2"
+                       id="monedaUSD" 
+                       checked>
+                <label class="form-check-label text-primary" for="monedaUSD">
+                  USD
+                </label>
+              </div>
+              
             </div>
           </div>
-          
+          <div class="col-md-3">
+            <div class="row">&nbsp;</div>
+            <div class="row">&nbsp;</div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" 
+                    type="checkbox" 
+                    value="0" 
+                    formControlName="precioNegociable"
+                    id="checkPrecioNegociable">
+              <label class="form-check-label text-primary" for="checkPrecioNegociable">
+                Precio negociable
+              </label>
+            </div>
+          </div>
         </div>
 
         <div class="form-group row mt-5">
@@ -187,91 +248,28 @@
           <div class="col-md-8">
             <label class="col-md-12 col-form-label text-primary">Titulo</label>
             <div class="col-md-12 p-0">
-              <input
-                class="form-control"
-                type="text"
-                formControlName="titulo"
+              <input  class="form-control"
+                      type="text"
+                      formControlName="titulo"
               />
             </div>
           </div>
           <div class="col-md-2"></div>
           <div class="col-md-2"></div>
-          <div class="col-md-8">
+          <div class="col-md-8 mb-5">
             <label class="col-md-12 col-form-label text-primary">Descripción</label>
             <div class="col-md-12 p-0">
               <textarea class="form-control"
                         type="textarea"
+                        rows="3"
                         placeholder="Escribe un mínimo de 100 caracteres"
                         maxlength="1000"
                         minlength="100"
-                        formControlName="mantenimiento"></textarea>
+                        formControlName="descripcion"></textarea>
             </div>
           </div>
           
         </div>
-
-        <!-- <div class="form-group row py-3" formGroupName="direccion">
-          <label class="col-2 col-form-label">Direccion</label>
-          <div class="form-row col-10 p-0">
-            <div class="col-md-12 col-10 p-0">
-              <div class="row">
-              <div class="col-md-5">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="[Seleccione el Estado]"
-                  formControlName="estado"
-                  [class.is-invalid]="distritoNoValido"
-                />
-              </div>
-              <div class="col-md-5 col-form-label px-0">
-                <small *ngIf="distritoNoValido" class="text-danger">
-                  Estado invalido
-                </small>
-              </div>
-            </div>
-            </div>
-
-            <div class="col-md-12 col-10 p-0 py-3">
-              <div class="row">
-                <div class="col-md-5">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Ciudad"
-                formControlName="ciudad"
-                [class.is-invalid]="ciudadNoValido"
-              />
-                </div>
-              <div class="col-md-4 col-10 px-0">
-                <small *ngIf="ciudadNoValido" class="text-danger">
-                  Ciudad invalida
-                </small>
-              </div>
-            </div>
-            </div>
-
-            <div class="col-md-12 col-10 p-0 py-0">
-              <div class="row">
-                <div class="col-md-5">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Calle"
-                formControlName="calle"
-                [class.is-invalid]="ciudadNoValido"
-              />
-                </div>
-              <div class="col-md-4 col-10 px-0">
-                <small *ngIf="calleNoValido" class="text-danger">
-                  Calle invalida
-                </small>
-              </div>
-            </div>
-            </div>
-
-          </div>
-        </div> -->
       </div>
       
       <div class="container" >

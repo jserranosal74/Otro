@@ -23,8 +23,8 @@ export class AsentamientosComponent implements OnInit {
   _municipiosModal : municipio[] = [];
   _asentamientos : asentamiento[] = [];
   _asentamiento : asentamiento = new asentamiento(0,0,0,0,'','',0,0,new Date(),new Date(),0,0);
+  
   _paginadoDetalle : paginadoDetalle = new paginadoDetalle(0,0);
-
   _paginas: pagina[] = [];
   _numeroPaginasMostrar = 5;
   _paginaActual = 0;
@@ -32,11 +32,11 @@ export class AsentamientosComponent implements OnInit {
   _paginaFinal = 4;
   _mostrarPaginaAnterior = true;
   _mostrarPaginaSiguiente = true;
+  _seRealizaBusqueda = false;
 
   _textoAccion ='';
   _esNuevo : boolean = false;
   _loading:boolean = false;
-  _seRealizaBusqueda = false;
 
   @ViewChild('myModalClose') modalClose : any;
 
