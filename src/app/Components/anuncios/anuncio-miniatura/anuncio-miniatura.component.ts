@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { publicacion, publicacionInfoMini } from '../../../Models/procesos/publicacion.model';
+import { publicacion, publicacionInfoMini, imagenModel } from '../../../Models/procesos/publicacion.model';
 
 @Component({
   selector: 'app-anuncio-miniatura',
@@ -10,7 +10,10 @@ import { publicacion, publicacionInfoMini } from '../../../Models/procesos/publi
 })
 export class AnuncioMiniaturaComponent implements OnInit {
   _ligaPublicacion : string = '';
-  @Input() _publicacion : publicacionInfoMini = new publicacionInfoMini(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),'');
+
+  @Input() _publicacion : publicacionInfoMini = new publicacionInfoMini(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),'');
+
+  // @Input() _imagen : string | null = '';
 
   constructor( private _router : Router) {
 

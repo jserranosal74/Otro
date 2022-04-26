@@ -1,6 +1,5 @@
-<div class="container animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}">
-  <form [formGroup]="formaFotosyVideos">
-    <fieldset>
+<div class="container animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}" >
+  
 
       <div class="container" >
         <div class="row px-0" >
@@ -13,12 +12,13 @@
         </div>
       </div>
 
-      <div class="container" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
+  <form [formGroup]="formaFotosyVideos">
+      <div class="container p-5"  style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
 
-        <div class="row p-5">
-          <label for="formFileMultiple" class="form-label">Seleccione las fotos de su propiedad</label>
-          <input type="file" 
-                 class="form-control" 
+        <div class="row px-4">
+          <button for="fileElem" onclick="$('#fileElem').click()" class="btn btn-outline-primary">Subir archivos</button>
+          <input type="file" style="display:none"
+                 class="form-control text-primary" 
                  accept="image/jpg,image/png,image/jpeg,image/gif" 
                  id="fileElem" 
                  formControlName="fotosPropiedad"
@@ -28,27 +28,80 @@
 
         <!-- <img *ngFor="let foto of _listaFotos;let i = index;" src="{{foto}}"> -->
         <div class="form-group row">
-          <legend class="text-center text-primary mt-2 mb-5"><h3>Características Generales</h3></legend>
         
-          <div class="form-group py-0 mb-5 px-5">
+          <div class="form-group py-0 mb-5 px-3">
             <div formArrayName="fotosPropiedad">
-              <div class="row row-cols-3 row-cols-lg-4">
+              <div class="row row-cols-3 row-cols-lg-5 g-4 m-0" >
                 <div class="form-group col" [formGroupName]="i" *ngFor="let control of imagenes.controls; let i = index;">
-                    <div class="col-md-auto">
-                      <div class="col p-0 m-0">
-                        <img class="form-control " alt="Girl" width="100" height="auto" [src]="obtenerInfo(control)">
+                    <div class="col-md">
+                      <div class="col p-0 m-0" >
+                        <img class="form-control m-0 p-0" alt="Imagen" width="auto" height="150" [src]="obtenerInfoUrl(control)">
                       </div>
                       <div class="col">
-                          <input class="form-control" type="text" formControlName="Descripcion">
+                        <div class="row">
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text" style="height:100%;">
+                                <input id="imagenPred{{i}}" type="radio" name="PredeterminadaImagen" (change)="cambiarPredeterminado(control)" [checked]="obtenerEstado(control)" >
+                              </div>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Descripción" formControlName="Descripcion" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            <div class="input-group-append" >
+                              <button class="btn btn-outline-danger" type="button" (click)="borrarFotografia(control, i)"><span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-trash-can" aria-hidden="true"></i></span></button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                 </div>
-            </div>
+              </div>
             </div>
           </div>
         </div>
 
+        <div class="row px-4">
+          <div class="input-group">
+            <input type="text" 
+                  class="form-control input-group text-primary" 
+                  id="videoElem" 
+                  formControlName="urlVideo">
+            <div class="input-group-append">
+              <button type="button" (click)="agregarVideo()" class="btn input-group btn-outline-primary">Agregar video</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
         
+          <div class="form-group py-0 mb-5 px-3">
+            <div formArrayName="videosPropiedad">
+              <div class="row row-cols-2 row-cols-lg-2 g-4 m-0" >
+                <div class="form-group col" [formGroupName]="i" *ngFor="let control of videos.controls; let i = index;">
+                    <div class="col-md">
+                      <div class="col p-0 m-0" >
+                        <iframe class="form-control m-0 p-0" alt="Video" width="100%" height="300px;" [src]="obtenerInfoUrlVideo(control)"></iframe>
+                      </div>
+                      <div class="col">
+                        <div class="row">
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text" style="height:100%;">
+                                <input id="videoPred{{i}}" type="radio" name="PredeterminadaVideo" (change)="cambiarVideoPredeterminado(control)" [checked]="obtenerEstado(control)" >
+                              </div>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Descripción" formControlName="Descripcion">
+                            <div class="input-group-append" >
+                              <button class="btn btn-outline-danger" type="button" (click)="borrarVideo(control, i)"><span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-trash-can" aria-hidden="true"></i></span></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         
       </div>
       
@@ -62,10 +115,12 @@
               <!-- <button type="button" style="border-radius: 0.8em;" (click)="guardarFotosyVideos()" class="btn btn-primary btn-lg align-items-right">Guardar</button> -->
           </div>
           <div class="col-md-3 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0px 0px 20px 20px; background: rgba(223, 126, 137, 0.15);">
-              <button type="button" style="border-radius: 0.8em;" (click)="guardarFotosyVideos()" class="btn btn-primary btn-lg align-items-right">Guardar y Continuar</button>
+              <button type="button" style="border-radius: 0.8em;" (click)="guardarFotosyVideos()" class="btn btn-primary btn-lg align-items-right" [disabled]="_loading">
+                  <span *ngIf="_loading"><i class="fa fa-sync fa-spin"></i> Espere por favor...</span>
+                  <span *ngIf="!_loading">Guardar y Continuar</span>
+              </button>
           </div>
         </div>
       </div>
-    </fieldset>
   </form>
 </div>

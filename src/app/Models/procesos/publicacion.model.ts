@@ -66,6 +66,7 @@ export class publicacion {
       public ClaveMoneda: string | null,
       public UnidadesDisponibles: number | null,
       public Vistas: number | null,
+      public Url: string | null,
       public FechaInicioPublicacion: Date | null,
       public FechaFinPublicacion: Date | null,
       public FechaAlta: Date,
@@ -125,6 +126,35 @@ export class publicacion {
       public Id_Caracteristica : number,
       public Id_TipoCaracteristica : number,
       public Valor : number,
+    ) {
+    }
+  }
+
+  export class publicacionMultimedia {
+    constructor(
+      public Id_Multimedia : number,
+      public Id_Publicacion : number,
+      public Id_Cliente : number,
+      public Id_TipoMultimedia : number,
+      public Descripcion : number | null,
+      public Url: string | null,
+      public Predeterminada : boolean,
+      public FechaAlta : Date | null,
+      public FechaModificacion : Date | null,
+      public Id_Estatus : number | null,
+      public Id_Usuario : number | null,
+    ) {
+    }
+  }
+
+  export class imagenModel {
+    constructor(
+      public Id_Multimedia : number,
+      public Id_TipoMultimedia : number,
+      public Url : string,
+      public ImagenBase64 : string,
+      public Descripcion : string,
+      public Predeterminada : number,
     ) {
     }
   }

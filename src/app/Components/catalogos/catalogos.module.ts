@@ -19,6 +19,7 @@ import { SubtipospropiedadComponent } from './subtipospropiedad/subtipospropieda
 import { EmpresasComponent } from './empresas/empresas.component';
 import { CaracteristicasComponent } from './caracteristicas/caracteristicas.component';
 import { TipoCaracteristicaPipe } from '../../pipes/TipoCaracteristica.pipe';
+import { UsuariosempresaComponent } from './usuariosempresa/usuariosempresa.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { TipoCaracteristicaPipe } from '../../pipes/TipoCaracteristica.pipe';
     SubtipospropiedadComponent,
     EmpresasComponent,
     CaracteristicasComponent,
-    TipoCaracteristicaPipe
+    TipoCaracteristicaPipe,
+    UsuariosempresaComponent
   ],
   imports: [
     CommonModule,
@@ -61,7 +63,8 @@ import { TipoCaracteristicaPipe } from '../../pipes/TipoCaracteristica.pipe';
     SubtipospropiedadComponent,
     EmpresasComponent,
     CaracteristicasComponent,
-    TipoCaracteristicaPipe
+    TipoCaracteristicaPipe,
+    UsuariosempresaComponent
   ]
 })
 

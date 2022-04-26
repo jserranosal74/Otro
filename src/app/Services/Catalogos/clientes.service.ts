@@ -35,12 +35,12 @@ export class ClientesService {
     return this.http.get<number>(this.urlClientes + 'Activar?token=' + token);
   }
 
-  public putCliente(objCliente: cliente): Observable<cliente> {
-    return this.http.put<cliente>(this.urlClientes + objCliente.Id_Cliente, objCliente, this.httpOptions);
+  public putCliente(objCliente: cliente): Observable<number> {
+    return this.http.put<number>(this.urlClientes + objCliente.Id_Cliente, objCliente, this.httpOptions);
   }
 
   public postCliente(objCliente: cliente): Observable<cliente> {
-    return this.http.post<cliente>(this.urlClientes, objCliente);
+    return this.http.post<cliente>(this.urlClientes, objCliente, this.httpOptions);
   }
 
   public deleteCliente(Id_Cliente : number): Observable<cliente> {

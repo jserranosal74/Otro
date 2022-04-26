@@ -8,7 +8,8 @@
                         <div class="form-group row mb-3">
                             <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
                             <div class="col-md-8">
-                                <input autofocus formControlName="nombre" 
+                                <input formControlName="nombre"
+                                       maxlength="50"
                                        type="text" placeholder="Nombre" 
                                        [class.is-invalid]="nombreNoValido" class="form-control">
                             </div>
@@ -22,8 +23,10 @@
                         <div class="form-group row mb-3">
                             <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
                             <div class="col-md-8">
-                                <input autofocus formControlName="apellidos" 
-                                       type="text" placeholder="Apellidos" 
+                                <input formControlName="apellidos" 
+                                       maxlength="50"
+                                       type="text" 
+                                       placeholder="Apellidos" 
                                        [class.is-invalid]="apellidoNoValido" class="form-control">
                             </div>
                             <div class="col-md-3 px-0">
@@ -36,7 +39,8 @@
                         <div class="form-group row mb-3">
                             <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-envelope-o bigicon"></i></span>
                             <div class="col-md-8">
-                                <input formControlName="correo" type="text" 
+                                <input formControlName="correo" 
+                                       type="text" readonly
                                        [class.is-invalid]="correoNoValido"
                                        placeholder="Correo electrónico" class="form-control">
                             </div>
@@ -51,7 +55,8 @@
                             <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
                             <div class="col-md-8">
                                 <input formControlName="rfc" 
-                                        type="text" 
+                                       type="text" 
+                                       maxlength="20"
                                        [class.is-invalid]="rfcNoValido"
                                        placeholder="RFC" class="form-control">
                             </div>
@@ -63,17 +68,53 @@
                         </div>
 
                         <div class="form-group row mb-3">
-                            <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-phone-square bigicon"></i></span>
-                            <div class="col-md-8">
-                                <input formControlName="telefono" type="text" 
-                                       [class.is-invalid]="telefonoNoValido"
-                                       placeholder="Telefono" class="form-control">
+                            <div class="col">
+                                <div class="row">
+                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                                    <div class="col-md-3">
+                                        <input formControlName="telefonoFijo" 
+                                            type="number" 
+                                            [class.is-invalid]="telefonoFijoNoValido"
+                                            placeholder="Telefono fijo" 
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-md-1 px-0">
+                                        <small *ngIf="telefonoFijoNoValido" class="text-danger">
+                                            Se requiere
+                                        </small>
+                                    </div>
+                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                                    <div class="col-md-3">
+                                        <input formControlName="telefonoMovil" 
+                                            type="number" 
+                                            [class.is-invalid]="telefonoMovilNoValido"
+                                            placeholder="Telefono movil" 
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-md-2 px-0">
+                                        <small *ngIf="telefonoMovilNoValido" class="text-danger">
+                                            Se requiere
+                                        </small>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-3 px-0">
-                                <small *ngIf="telefonoNoValido" class="text-danger">
-                                  Telefono no valido
-                                </small>
-                            </div>
+                            <!-- <div class="col-md-6">
+                                <div class="row">
+                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                                    <div class="col-md-5">
+                                        <input formControlName="telefonoMovil" 
+                                            type="number" 
+                                            [class.is-invalid]="telefonoMovilNoValido"
+                                            placeholder="Telefono movil" 
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-md-5 px-0">
+                                        <small *ngIf="telefonoMovilNoValido" class="text-danger">
+                                            Se requiere
+                                        </small>
+                                    </div>
+                                </div>
+                            </div> -->
                         </div>
 
                         <div class="form-group row">

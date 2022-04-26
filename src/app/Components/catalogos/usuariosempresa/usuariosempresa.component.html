@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <form class="form-horizontal" [formGroup]="formaEmpresaUsuarios">
+                    <fieldset>
+                        <legend class="text-center text-primary mb-3"><h1 class="display-4">Usuarios de tu empresa</h1></legend>
+                        <div class="form-group row mb-3">
+                            <div class="col-md-auto p-0">
+                                <a class="btn btn-primary btn-sm" style="border-radius:25px;" (click)="agregarUsuario()">
+                                    <span class="col-md-1 col-md-offset-2 text-center">
+                                    <i class="fa fa-add bigicon" aria-hidden="true"></i>
+                                </span></a>
+                            </div>
+                            <div class="col-md-5 px-2">
+                                <input formControlName="email" 
+                                        type="text" 
+                                        placeholder="Email del usuario que deseas agregar" 
+                                        [class.is-invalid]="emailNoValido" 
+                                        class="form-control">
+                            </div>
+                            <div class="col-md-4 px-0">
+                                <small *ngIf="emailNoValido" class="text-danger">
+                                  Email no valido
+                                </small>
+                            </div>
+                            <div class="col-md-auto p-0">
+                                <td class="text-end">
+                                  <span class="text-primary">Total de registros: <strong>{{_empresaClientes.length}}</strong></span>
+                                </td>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <table class="table table-primary table-striped table-bordered border-primary text-primary">
+                                <thead>
+                                  <tr>
+                                    <th width="50px" class="text-primary text-center" scope="col">#</th>
+                                    <!-- <th class="text-primary" scope="col">Id Cliente</th> -->
+                                    <th width="200px" class="text-primary text-center" scope="col">Correo electrónico</th>
+                                    <th width="100px" class="text-primary text-center" scope="col">Nombre</th>
+                                    <th width="200px" class="text-primary text-center" scope="col">Apellidos</th>
+                                    <th width="150px" class="text-primary text-center" scope="col">Fecha de Alta</th>
+                                    <th width="150px" class="text-primary text-center" scope="col">Fecha de Modificación</th>
+                                    <th class="text-primary text-center" scope="col">Eliminar</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let empresaCliente of _empresaClientes; let i = index;">
+                                    <th class="text-primary text-center" scope="row">{{empresaCliente.Id_EmpresaCliente}}</th>
+                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresaCliente.Email}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{empresaCliente.Email}}</td>
+                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresaCliente.Nombre}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{empresaCliente.Nombre}}</td>
+                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresaCliente.Apellidos}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{empresaCliente.Apellidos}}</td>
+                                    <td class="text-primary text-center">{{empresaCliente.FechaAlta | date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td class="text-primary text-center">{{empresaCliente.FechaModificacion | date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td width="90px" class="p-1">
+                                    <div class="col-auto d-grid p-0 m-0">
+                                        <a class="btn btn-primary" heigth="auto" (click)="eliminarEmpresaCliente(empresaCliente);" ><span class="col-md-1 col-md-offset-2 text-center">
+                                            <i class="fa fa-trash-can"></i>
+                                        </span></a>
+                                    </div></td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+.list-item-image-tools {
+    overflow: hidden;
+    position: relative;
+    right: 0;
+    top: 0;
+    transition: all 200ms ease-in-out;
+}

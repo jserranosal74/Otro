@@ -362,7 +362,7 @@ export class EmpresasComponent implements OnInit {
         );
       }
       else{
-debugger;
+// debugger;
         this._empresa.MediosContacto = [];
         Object.values(this.formaEmpresa.controls).forEach((control) => {
           if (control instanceof FormArray) {
@@ -516,7 +516,7 @@ debugger;
 
   obtenerMunicipios(Id_Estado : number) {
     this._empresa.Id_Municipio = 0;
-    debugger;
+    // debugger;
     this._municipios = [];
     if (Id_Estado === 0) {
       Id_Estado = this.formaEmpresa.controls['estado'].value;

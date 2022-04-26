@@ -77,14 +77,16 @@ export class LoginComponent implements OnInit {
 
       let _cliente = new cliente(
         0,
-        1,
+        null,
         tipoCliente,
         null,
+        1,
         this.formLogin.get('correo')?.value,
         this.formLogin.get('password1')?.value,
         '',
         '',
         '',
+        null,
         '',
         0,
         0,
@@ -97,7 +99,7 @@ export class LoginComponent implements OnInit {
         1
       );
   
-      debugger;
+      //debugger;
 
       this._clienteService.postCliente(_cliente).subscribe(
         (data) => {

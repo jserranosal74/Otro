@@ -73,6 +73,26 @@ export class LoginService {
     }
   }
 
+  public obtenerIdEmpresa(): number {
+    if (localStorage.getItem('usuario'))
+    {
+      return JSON.parse(localStorage.getItem('usuario')!)['Id_Empresa'];
+    }
+    else{
+      return 0;
+    }
+  }
+
+  public obtenerIdEmpresaCliente(): number {
+    if (localStorage.getItem('usuario'))
+    {
+      return JSON.parse(localStorage.getItem('usuario')!)['Id_EmpresaCliente'];
+    }
+    else{
+      return 0;
+    }
+  }
+
   public obtenerNombreCliente(): string {
     if (localStorage.getItem('usuario'))
     {

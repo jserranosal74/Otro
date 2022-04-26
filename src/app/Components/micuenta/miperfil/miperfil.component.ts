@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
-import { ClientesService } from 'src/app/Services/Catalogos/clientes.service';
-import { cliente } from 'src/app/Models/catalogos/cliente.model';
-import { LoginService } from 'src/app/Services/Catalogos/login.service';
+import { ClientesService } from '../../../../app/Services/Catalogos/clientes.service';
+import { cliente, clienteMedioContacto } from '../../../../app/Models/catalogos/cliente.model';
+import { LoginService } from '../../../Services/Catalogos/login.service';
 
 @Component({
   selector: 'app-miperfil',
@@ -13,22 +13,25 @@ import { LoginService } from 'src/app/Services/Catalogos/login.service';
   styleUrls: ['./miperfil.component.css'],
 })
 export class MiperfilComponent implements OnInit {
-  formaPerfil = this.fb.group({
-    nombre: ['', Validators.required],
-    apellidos: ['', Validators.required],
-    correo: [
-      '',
-      [
-        Validators.required,
-        Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
-      ],
-    ],
-    rfc: ['', Validators.required],
-    telefono: ['', Validators.required],
-  });
+  formaPerfil = new FormGroup({});
+_clienteMedioContacto : clienteMedioContacto[] = [];
 
-  constructor(  private _loginService : LoginService,
-                private fb: FormBuilder,
+  // formaPerfil = this.fb.group({
+  //   nombre: ['', Validators.required],
+  //   apellidos: ['', Validators.required],
+  //   correo: [
+  //     '',
+  //     [
+  //       Validators.required,
+  //       Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
+  //     ],
+  //   ],
+  //   rfc: ['', Validators.required],
+  //   telefono: ['', Validators.required],
+  // });
+
+  constructor(  private fb: FormBuilder,
+                private _loginService : LoginService,
                 private _clienteService: ClientesService
   ) {
     this.crearFormulario();
@@ -41,32 +44,22 @@ export class MiperfilComponent implements OnInit {
     this.formaPerfil = this.fb.group({
       nombre: ['', Validators.required],
       apellidos: ['', Validators.required],
-      correo: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
-        ],
-      ],
+      correo: ['', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ],
       rfc: ['', Validators.required],
-      telefono: ['', Validators.required],
+      telefonoFijo: ['', Validators.required],
+      telefonoMovil: ['', Validators.required],
     });
   }
 
   limpiarFormulario() {
     // Reseteo de la información
     this.formaPerfil.reset({
-      nombre: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      correo: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
-        ],
-      ],
-      rfc: ['', Validators.required],
-      telefono: ['', Validators.required],
+      nombre    : '',
+      apellidos : '',
+      correo    : '',
+      rfc       : '',
+      telefonoFijo  : '',
+      telefonoMovil : ''
     });
   }
 
@@ -85,16 +78,21 @@ export class MiperfilComponent implements OnInit {
     } else {
       //Envio de la informacion al servidor
 
+      this._clienteMedioContacto.push(new clienteMedioContacto(1,this._loginService.obtenerIdCliente(),this.formaPerfil.get('telefonoFijo')?.value));
+      this._clienteMedioContacto.push(new clienteMedioContacto(2,this._loginService.obtenerIdCliente(),this.formaPerfil.get('telefonoMovil')?.value));
+
       let _cliente = new cliente(
-        0,
-        1,
-        2, //Rol
+        this._loginService.obtenerIdCliente(),
+        null,  // Tipo persona Cliente- Agente
+        0,  // Rol
         null,
+        1,
         this.formaPerfil.get('correo')?.value,
-        this.formaPerfil.get('password1')?.value,
         '',
-        '',
-        '',
+        this.formaPerfil.get('nombre')?.value,
+        this.formaPerfil.get('apellidos')?.value,
+        this.formaPerfil.get('rfc')?.value,
+        this._clienteMedioContacto,
         '',
         0,
         0,
@@ -107,45 +105,56 @@ export class MiperfilComponent implements OnInit {
         1
       );
 
-      this._clienteService.postCliente(_cliente).subscribe(
+      this._clienteService.putCliente(_cliente).subscribe(
         (data) => {
           //Next callback
-          //console.log('datos: ',data);
 
-          // Swal.fire({
-          //   icon: 'success',
-          //   title: 'Gracias por registrarse!!!!',
-          //   text: 'Revise su correo por favor para activar su cuenta.',
-          //   showCancelButton: false,
-          //   showDenyButton: false,
-          // });
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          });
+          
+          if (data === 1){
+            Toast.fire({
+              icon: 'success',
+              title: 'La información se guardo de manera correcta.'
+            });
+          }
+          else{
+            Toast.fire({
+              icon: 'error',
+              title: 'Ocurrio un error al intentar guardar la información'
+            });
+          }
 
-          this.limpiarFormulario();
         },
         (error: HttpErrorResponse) => {
           //Error callback
           //console.log('Error del servicio: ', error.error['Descripcion']);
 
-          Swal.fire({
-            icon: 'error',
-            title: error.error['Descripcion'],
-            text: '',
-            showCancelButton: false,
-            showDenyButton: false,
-          });
+          // Swal.fire({
+          //   icon: 'error',
+          //   title: error.error['Descripcion'],
+          //   text: '',
+          //   showCancelButton: false,
+          //   showDenyButton: false,
+          // });
 
           switch (error.status) {
             case 401:
-              //console.log('error 401');
               break;
             case 403:
-              //console.log('error 403');
               break;
             case 404:
-              //console.log('error 404');
               break;
             case 409:
-              //console.log('error 409');
               break;
           }
 
@@ -168,7 +177,8 @@ export class MiperfilComponent implements OnInit {
           apellidos: data.Apellidos,
           correo: data.Email,
           rfc: data.RFC,
-          telefono: data.Nombre,
+          telefonoFijo: data.ClienteMedioContacto != null ? data.ClienteMedioContacto![0].Descripcion : '',
+          telefonoMovil: data.ClienteMedioContacto != null ? data.ClienteMedioContacto![1].Descripcion : '',
         });
 
         // this.limpiarFormulario();
@@ -177,26 +187,22 @@ export class MiperfilComponent implements OnInit {
         //Error callback
         //console.log('Error del servicio: ', error.error['Descripcion']);
 
-        Swal.fire({
-          icon: 'error',
-          title: error.error['Descripcion'],
-          text: '',
-          showCancelButton: false,
-          showDenyButton: false,
-        });
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: error.error['Descripcion'],
+        //   text: '',
+        //   showCancelButton: false,
+        //   showDenyButton: false,
+        // });
 
         switch (error.status) {
           case 401:
-            //console.log('error 401');
             break;
           case 403:
-            //console.log('error 403');
             break;
           case 404:
-            //console.log('error 404');
             break;
           case 409:
-            //console.log('error 409');
             break;
         }
 
@@ -206,37 +212,26 @@ export class MiperfilComponent implements OnInit {
   }
 
   get nombreNoValido() {
-    return (
-      this.formaPerfil.get('nombre')?.invalid &&
-      this.formaPerfil.get('nombre')?.touched
-    );
+    return ( this.formaPerfil.get('nombre')?.invalid && this.formaPerfil.get('nombre')?.touched );
   }
 
   get apellidoNoValido() {
-    return (
-      this.formaPerfil.get('apellidos')?.invalid &&
-      this.formaPerfil.get('apellidos')?.touched
-    );
+    return ( this.formaPerfil.get('apellidos')?.invalid && this.formaPerfil.get('apellidos')?.touched );
   }
 
   get correoNoValido() {
-    return (
-      this.formaPerfil.get('correo')?.invalid &&
-      this.formaPerfil.get('correo')?.touched
-    );
+    return ( this.formaPerfil.get('correo')?.invalid && this.formaPerfil.get('correo')?.touched );
   }
 
   get rfcNoValido() {
-    return (
-      this.formaPerfil.get('rfc')?.invalid &&
-      this.formaPerfil.get('rfc')?.touched
-    );
+    return ( this.formaPerfil.get('rfc')?.invalid && this.formaPerfil.get('rfc')?.touched );
   }
 
-  get telefonoNoValido() {
-    return (
-      this.formaPerfil.get('telefono')?.invalid &&
-      this.formaPerfil.get('telefono')?.touched
-    );
+  get telefonoFijoNoValido() {
+    return ( this.formaPerfil.get('telefonoFijo')?.invalid && this.formaPerfil.get('telefonoFijo')?.touched );
+  }
+
+  get telefonoMovilNoValido() {
+    return ( this.formaPerfil.get('telefonoMovil')?.invalid && this.formaPerfil.get('telefonoMovil')?.touched );
   }
 }

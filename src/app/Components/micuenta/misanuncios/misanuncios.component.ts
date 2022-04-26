@@ -7,9 +7,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { estatus } from 'src/app/Models/catalogos/estatus.model';
 import { pagina, paginadoDetalle } from 'src/app/Models/catalogos/asentamiento.model';
 import { EstatusService } from '../../../Services/Catalogos/estatus.service';
-import { publicacion, publicacionInfoMini } from 'src/app/Models/procesos/publicacion.model';
+import { publicacion, publicacionInfoMini, publicacionMultimedia } from 'src/app/Models/procesos/publicacion.model';
 import { PublicacionesService } from '../../../Services/Procesos/publicaciones.service';
 import { LoginService } from '../../../Services/Catalogos/login.service';
+import { FotosPublicacionService } from 'src/app/Services/Procesos/FotosPublicacion.service';
 
 @Component({
   selector: 'app-misanuncios',
@@ -18,6 +19,7 @@ import { LoginService } from '../../../Services/Catalogos/login.service';
 })
 export class MisanunciosComponent implements OnInit {
   _publicaciones : publicacionInfoMini[] = [];
+  _publicacionMultimedia: publicacionMultimedia[] = [];
   _listaEstatus : estatus[] = [];
   _estatus : estatus = new estatus(0,0,'','',new Date(), new Date());
 
@@ -45,6 +47,7 @@ export class MisanunciosComponent implements OnInit {
                 private router: Router,
                 private fb: FormBuilder,
                 private _publicacionesService : PublicacionesService,
+                private _multimediaPublicacionService : FotosPublicacionService,
                 private _loginService : LoginService,
                 private _estatusService : EstatusService
   ) {
@@ -52,7 +55,7 @@ export class MisanunciosComponent implements OnInit {
     this.crearFormulario();
     this.limpiarFormulario();
     this.obtenerEstatusPublicacion();
-    // this.obtenerPublicaciones();
+    this.obtenerImagenesPublicaciones();
 
   }
 
@@ -76,40 +79,6 @@ export class MisanunciosComponent implements OnInit {
   }
 
   buscarPublicaciones(){
-    //debugger;
-    // this._publicacionesService.getPublicacionesMini(this._loginService.obtenerIdCliente(),0,10,'').subscribe(
-    //   (data) => {
-    //     //Next callback
-    //     console.log('data',data);
-
-    //     this._publicaciones = data;
-
-    //   },
-    //   (error: HttpErrorResponse) => {
-    //     Swal.fire({
-    //       icon: 'error',
-    //       title: error.error['Descripcion'],
-    //       text: '',
-    //       showCancelButton: false,
-    //       showDenyButton: false,
-    //     });
-
-    //     switch (error.status) {
-    //       case 401:
-    //         break;
-    //       case 403:
-    //         break;
-    //       case 404:
-    //         break;
-    //       case 409:
-    //         break;
-    //     }
-
-    //     //throw error;   //You can also throw the error to a global error handler
-    //   }
-    // );
-
-
     if (this.formaBusqueda.invalid) {
       return Object.values(this.formaBusqueda.controls).forEach((control) => {
         if (control instanceof FormGroup) {
@@ -168,13 +137,13 @@ export class MisanunciosComponent implements OnInit {
           //Error callback
           //console.log('Error del servicio: ', error.error['Descripcion']);
   
-          Swal.fire({
-            icon: 'error',
-            title: error.error['Descripcion'],
-            text: '',
-            showCancelButton: false,
-            showDenyButton: false,
-          });
+          // Swal.fire({
+          //   icon: 'error',
+          //   title: error.error['Descripcion'],
+          //   text: '',
+          //   showCancelButton: false,
+          //   showDenyButton: false,
+          // });
   
           switch (error.status) {
             case 401:
@@ -194,12 +163,7 @@ export class MisanunciosComponent implements OnInit {
           //throw error;   //You can also throw the error to a global error handler
         }
       );
-
-
     }
-
-
-
   }
 
   obtenerEstatusPublicacion(){
@@ -332,13 +296,13 @@ export class MisanunciosComponent implements OnInit {
         //Error callback
         //console.log('Error del servicio: ', error.error['Descripcion']);
 
-        Swal.fire({
-          icon: 'error',
-          title: error.error['Descripcion'],
-          text: '',
-          showCancelButton: false,
-          showDenyButton: false,
-        });
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: error.error['Descripcion'],
+        //   text: '',
+        //   showCancelButton: false,
+        //   showDenyButton: false,
+        // });
 
         switch (error.status) {
           case 401:
@@ -358,8 +322,47 @@ export class MisanunciosComponent implements OnInit {
         //throw error;   //You can also throw the error to a global error handler
       }
     );
+  }
 
+  obtenerImagenesPublicaciones(){
+debugger;
+    this._multimediaPublicacionService.getMultimediaCliente(this._loginService.obtenerIdCliente(), null, 1).subscribe(
+      (data) => {
+
+        console.log(data);
+
+        this._publicacionMultimedia = data;
+      },
+      (error: HttpErrorResponse) => {
+
+        switch (error.status) {
+          case 401:
+            //console.log('error 401');
+            break;
+          case 403:
+            //console.log('error 403');
+            break;
+          case 404:
+            //console.log('error 404');
+            break;
+          case 409:
+            //console.log('error 409');
+            break;
+        }
+      }
+    );
 
   }
+
+  // obtenerUrlImagen( objPublicacion: publicacionInfoMini){
+  //   //debugger;
+  //   this._publicacionMultimedia.forEach(element => {
+  //     if (element.Id_Publicacion === objPublicacion.Id_Publicacion)
+  //       return element.Url;
+  //     else 
+  //       return '';
+  //   });
+  //   return '';
+  // }
 
 }

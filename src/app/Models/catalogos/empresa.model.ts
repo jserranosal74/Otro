@@ -33,3 +33,18 @@ export class empresa {
         public Descripcion : string,
     ) {}
   }
+
+  export class empresaCliente {
+    constructor(
+        public Id_EmpresaCliente : number,
+        public Id_Cliente : number,
+        public Id_Empresa : number,
+        public Email : string,
+        public Nombre : string,
+        public Apellidos : string,
+        public FechaAlta : Date,
+        public FechaModificacion : Date,
+        public Id_Usuario : number,
+        public Id_Estatus : number,
+    ) {}
+  }

@@ -82,25 +82,25 @@
           <ul class="dropdown-menu">
             <li>
               <a
-                class="dropdown-item"
+                class="dropdown-item text-primary"
                 [routerLink]="['comprar', 'departamento']"
                 >Departamento</a
               >
             </li>
             <li>
-              <a class="dropdown-item" [routerLink]="['comprar', 'casa']"
+              <a class="dropdown-item text-primary" [routerLink]="['comprar', 'casa']"
                 >Casa</a
               >
             </li>
             <li>
               <a
-                class="dropdown-item"
+                class="dropdown-item text-primary"
                 [routerLink]="['comprar', 'rematebancario']"
                 >Remates Bancarios</a
               >
             </li>
             <li>
-              <a class="dropdown-item" [routerLink]="['comprar', 'terreno']"
+              <a class="dropdown-item text-primary" [routerLink]="['comprar', 'terreno']"
                 >Terrenos</a
               >
             </li>
@@ -116,42 +116,42 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a class="dropdown-item" [routerLink]="['rentar', 'departamento']"
+              <a class="dropdown-item text-primary" [routerLink]="['rentar', 'departamento']"
                 ><i class="fa-solid fa-building"></i>
                 <span style="padding: 10px;"> Departamento</span></a
               >
             </li>
             <li>
-              <a class="dropdown-item" [routerLink]="['rentar', 'casa']"
+              <a class="dropdown-item text-primary" [routerLink]="['rentar', 'casa']"
                 ><i class="fa-solid fa-house-chimney-window"></i><span style="padding: 10px;">Casa</span></a
               >
             </li>
             <li>
-              <a class="dropdown-item" [routerLink]="['rentar', 'cuarto']"
+              <a class="dropdown-item text-primary" [routerLink]="['rentar', 'cuarto']"
                 >Cuarto</a
               >
             </li>
             <li>
-              <a class="dropdown-item" [routerLink]="['rentar', 'oficina']"
+              <a class="dropdown-item text-primary" [routerLink]="['rentar', 'oficina']"
                 >Oficina</a
               >
             </li>
             <li>
               <a
-                class="dropdown-item"
+                class="dropdown-item text-primary"
                 [routerLink]="['rentar', 'bodegacomercial']"
                 >Bodega Comercial</a
               >
             </li>
             <li>
               <a
-                class="dropdown-item"
+                class="dropdown-item text-primary"
                 [routerLink]="['rentar', 'localcomercial']"
                 >Local Comercial</a
               >
             </li>
             <li>
-              <a class="dropdown-item" [routerLink]="['rentar', 'quinta']"
+              <a class="dropdown-item text-primary" [routerLink]="['rentar', 'quinta']"
                 >Quinta-Salon</a
               >
             </li>
@@ -168,13 +168,13 @@
           <ul class="dropdown-menu">
             <li>
               <a
-                class="dropdown-item"
+                class="dropdown-item text-primary"
                 [routerLink]="['desarrollos', 'departamento']"
                 >Departamento</a
               >
             </li>
             <li>
-              <a class="dropdown-item" [routerLink]="['desarrollos', 'casa']"
+              <a class="dropdown-item text-primary" [routerLink]="['desarrollos', 'casa']"
                 >Casa</a
               >
             </li>
@@ -190,92 +190,115 @@
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a class="dropdown-item" [routerLink]="['ayudahogar/pintores']"
+              <a class="dropdown-item text-primary" [routerLink]="['ayudahogar/pintores']"
                 >Pintores</a
               >
             </li>
             <li>
               <a
-                class="dropdown-item"
+                class="dropdown-item text-primary"
                 [routerLink]="['ayudahogar/electricistas']"
                 >Electricistas</a
               >
             </li>
             <li>
-              <a class="dropdown-item" [routerLink]="['ayudahogar/plomeros']"
+              <a class="dropdown-item text-primary" [routerLink]="['ayudahogar/plomeros']"
                 >Plomeros</a
               >
             </li>
             <li>
-              <a class="dropdown-item" [routerLink]="['ayudahogar/limpieza']"
+              <a class="dropdown-item text-primary" [routerLink]="['ayudahogar/limpieza']"
                 >Limpieza</a
               >
             </li>
             <li>
-              <a class="dropdown-item" [routerLink]="['ayudahogar/jardineros']"
+              <a class="dropdown-item text-primary" [routerLink]="['ayudahogar/jardineros']"
                 >Jardinero</a
               >
             </li>
             <li>
-              <a class="dropdown-item" [routerLink]="['ayudahogar/carpinteros']"
+              <a class="dropdown-item text-primary" [routerLink]="['ayudahogar/carpinteros']"
                 >Carpintero</a
               >
             </li>
           </ul>
         </li>
         <div *ngIf="usuarioAutenticado && usuarioRol == 'Administrador'" >
-        <li class="nav-item dropdown" routerLinkActive="active">
-          <a
-            class="nav-link dropdown-toggle"
-            routerLink="rentar"
-            data-bs-toggle="dropdown"
-          >
-            Administración
-          </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a class="dropdown-item" [routerLink]="['catalogos', 'asentamientos']"><i class="fa-solid fa-building"></i>
-                <span style="padding: 10px;"> Asentamientos</span></a>
-            </li>
-            <li>
-              <a class="dropdown-item" [routerLink]="['catalogos', 'caracteristicas']"><i class="fa-solid fa-building"></i>
-                <span style="padding: 10px;"> Características</span></a>
-            </li>
-            <li>
-              <a class="dropdown-item" [routerLink]="['catalogos', 'medioscontacto']"><i class="fa-solid fa-building"></i>
-                <span style="padding: 10px;"> Medios de contacto</span></a>
-            </li>
-            <li>
-              <a class="dropdown-item" [routerLink]="['catalogos', 'tiposasentamiento']"><i class="fa-solid fa-house-chimney-window"></i>
-                <span style="padding: 10px;">Tipos de asentamiento</span></a>
-            </li>
-            <li>
-              <a class="dropdown-item" [routerLink]="['catalogos', 'amenidades']"><i class="fa-solid fa-house-chimney-window"></i>
-                <span style="padding: 10px;">Amenidades</span></a>
-            </li>
-            <li>
-              <a class="dropdown-item" [routerLink]="['catalogos', 'tiposoperacion']"><i class="fa-solid fa-house-chimney-window"></i>
-                <span style="padding: 10px;">Tipos Operación</span></a>
-            </li>
-            <li>
-              <a class="dropdown-item" [routerLink]="['catalogos', 'planes']"><i class="fa-solid fa-house-chimney-window"></i>
-                <span style="padding: 10px;">Planes</span></a>
-            </li>
-            <li>
-              <a class="dropdown-item" [routerLink]="['catalogos', 'tipospropiedad']"><i class="fa-solid fa-house-chimney-window"></i>
-                <span style="padding: 10px;">Tipos de propiedad</span></a>
-            </li>
-            <li>
-              <a class="dropdown-item" [routerLink]="['catalogos', 'subtipospropiedad']"><i class="fa-solid fa-house-chimney-window"></i>
-                <span style="padding: 10px;">Subtipos de propiedad</span></a>
-            </li>
-            <li>
-              <a class="dropdown-item" [routerLink]="['catalogos', 'empresas']"><i class="fa-solid fa-house-chimney-window"></i>
-                <span style="padding: 10px;">Empresas</span></a>
-            </li>
-          </ul>
-        </li>
-      </div>
+          <li class="nav-item dropdown" routerLinkActive="active">
+            <a
+              class="nav-link dropdown-toggle"
+              routerLink="rentar"
+              data-bs-toggle="dropdown"
+            >
+              Administración
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'asentamientos']"><i class="fa-solid fa-building"></i>
+                  <span style="padding: 10px;"> Asentamientos</span></a>
+              </li>
+              <li>
+                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'caracteristicas']"><i class="fa-solid fa-building"></i>
+                  <span style="padding: 10px;"> Características</span></a>
+              </li>
+              <li>
+                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'medioscontacto']"><i class="fa-solid fa-building"></i>
+                  <span style="padding: 10px;"> Medios de contacto</span></a>
+              </li>
+              <li>
+                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'tiposasentamiento']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Tipos de asentamiento</span></a>
+              </li>
+              <li>
+                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'amenidades']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Amenidades</span></a>
+              </li>
+              <li>
+                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'tiposoperacion']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Tipos Operación</span></a>
+              </li>
+              <li>
+                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'planes']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Planes</span></a>
+              </li>
+              <li>
+                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'tipospropiedad']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Tipos de propiedad</span></a>
+              </li>
+              <li>
+                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'subtipospropiedad']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Subtipos de propiedad</span></a>
+              </li>
+              <li>
+                <a class="dropdown-item text-primary text-primary" [routerLink]="['catalogos', 'empresas']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Empresas</span></a>
+              </li>
+              <!-- <li>
+                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'usuariosempresa']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Usuarios de Empresa</span></a>
+              </li> -->
+            </ul>
+          </li>
+        </div>
+
+        <div *ngIf="usuarioAutenticado && usuarioRol == 'Empresa'" >
+          <li class="nav-item dropdown" routerLinkActive="active">
+            <a
+              class="nav-link dropdown-toggle"
+              routerLink="rentar"
+              data-bs-toggle="dropdown"
+            >
+              Administración
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'usuariosempresa']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Usuarios de Empresa</span></a>
+              </li>
+            </ul>
+          </li>
+        </div>
+
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="ayuda">Ayuda</a>
         </li>
@@ -316,8 +339,8 @@
                 Dropdown right
               </a>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#"> Submenu item 1</a></li>
-                <li><a class="dropdown-item" href="#"> Submenu item 2 </a></li>
+                <li><a class="dropdown-item text-primary" href="#"> Submenu item 1</a></li>
+                <li><a class="dropdown-item text-primary" href="#"> Submenu item 2 </a></li>
               </ul>
             </li> -->
       </ul>

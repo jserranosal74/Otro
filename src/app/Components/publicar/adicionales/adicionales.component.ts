@@ -220,12 +220,22 @@ export class AdicionalesComponent implements OnInit {
       this._publicacionesService.putPublicacionCaracteristicas(this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, JSON.stringify(this._adicionales)).subscribe(
         (data) => {
 
-          Swal.fire({
-            icon: 'success',
-            title: 'Se actualizaron los cambios',
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
             showConfirmButton: false,
-            timer: 500
-          })
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          });
+  
+          Toast.fire({
+            icon: 'success',
+            title: 'La información se guardo de manera correcta.'
+          });
 
           this._numeroPaso = 2;
           setTimeout( () => { this.router.navigate(['/publicar/pagar-y-activar'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
@@ -233,7 +243,6 @@ export class AdicionalesComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           //Error callback
-debugger;
           Swal.fire({
             icon: 'error',
             title: 'ERROR',

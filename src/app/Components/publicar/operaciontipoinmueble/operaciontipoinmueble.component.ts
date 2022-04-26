@@ -263,12 +263,22 @@ export class OperaciontipoinmuebleComponent implements OnInit {
         this._publicacionesService.putPublicacion(this._publicacion).subscribe(
           (data) => {
   
-            Swal.fire({
-              icon: 'success',
-              title: 'Se actualizaron los cambios',
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
               showConfirmButton: false,
-              timer: 500
-            })
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            });
+    
+            Toast.fire({
+              icon: 'success',
+              title: 'La información se guardo de manera correcta.'
+            });
 
             this._numeroPaso = 2;
             setTimeout( () => { this.router.navigate(['/publicar/ubicacion'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
@@ -277,16 +287,7 @@ export class OperaciontipoinmuebleComponent implements OnInit {
           },
           (error: HttpErrorResponse) => {
             //Error callback
-            //console.log('Error del servicio: ', error.error['Descripcion']);
-  
-            Swal.fire({
-              icon: 'error',
-              title: 'ERROR',
-              text: '',
-              showCancelButton: false,
-              showDenyButton: false,
-            });
-  
+              
             switch (error.status) {
               case 401:
                 Swal.fire({

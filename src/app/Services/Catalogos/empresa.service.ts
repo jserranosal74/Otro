@@ -6,7 +6,6 @@ import { map } from 'rxjs/operators';
 import { URL_APIS } from '../global';
 import { LoginService } from './login.service';
 import { empresa } from '../../Models/catalogos/empresa.model';
-import { medioContacto } from '../../Models/catalogos/medioContacto.model';
 
 @Injectable({
   providedIn: 'root'
