@@ -16,7 +16,7 @@ import { TiposPersonaService } from 'src/app/Services/Catalogos/tiposPersonas.se
 })
 export class DatosfiscalesComponent implements OnInit {
   _datosFiscales : datoFiscal[] = [];
-  _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','',new Date(),new Date(), 0,0);
+  _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(), 0,0);
   _tiposPersonas : tipoPersona[] = [];
   _tipoPersona : tipoPersona = new tipoPersona(0,'',new Date(), new Date(), 0,0,);
   _textoAccion ='';
@@ -55,7 +55,7 @@ export class DatosfiscalesComponent implements OnInit {
       rfc : ['', Validators.required],
       email : ['', Validators.required]
     });
-    this._datoFiscal = new datoFiscal(0,0,0,'','','','',new Date(),new Date(), 0,0);
+    this._datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(), 0,0);
   }
 
   limpiarFormulario() {
@@ -66,12 +66,12 @@ export class DatosfiscalesComponent implements OnInit {
       rfc : '',
       email : ''
     });
-    this._datoFiscal = new datoFiscal(0,0,0,'','','','',new Date(),new Date(), 0,0);
+    this._datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(), 0,0);
     this._textoAccion = 'Agregar'
   }
 
   obtenerTiposPersonas() {
-
+    //debugger;
     this._tiposPersonaService.getTiposPersonas().subscribe(
       (data) => {
         //Next callback
@@ -81,13 +81,13 @@ export class DatosfiscalesComponent implements OnInit {
         //Error callback
         //console.log('Error del servicio: ', error.error['Descripcion']);
 
-        Swal.fire({
-          icon: 'error',
-          title: error.error['Descripcion'],
-          text: 'Error al cargar los tipos de persona',
-          showCancelButton: false,
-          showDenyButton: false,
-        });
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: error.error['Descripcion'],
+        //   text: 'Error al cargar los tipos de persona',
+        //   showCancelButton: false,
+        //   showDenyButton: false,
+        // });
 
         switch (error.status) {
           case 401:
@@ -153,7 +153,7 @@ export class DatosfiscalesComponent implements OnInit {
   obtenerDatoFiscal(objDatoFiscal : datoFiscal) {
     this._textoAccion = 'Modificar';
     this._datoFiscal = objDatoFiscal;
-
+    //debugger;
         this._datosfiscalesService.getDatoFiscalCliente(objDatoFiscal.Id_Cliente, objDatoFiscal.Id_DatosFiscales).subscribe(
       (data) => {
         //Next callback
@@ -235,6 +235,11 @@ export class DatosfiscalesComponent implements OnInit {
 
       if (this._esNuevo){
         this._datoFiscal.Id_DatosFiscales = 0;
+
+        if(this._datosFiscales.length === 0){
+          this._datoFiscal.Predeterminada = 1;
+        }
+        
         this._datosfiscalesService.postDatosFiscales(this._datoFiscal).subscribe(
           (data) => {
             //Next callback
@@ -321,12 +326,63 @@ export class DatosfiscalesComponent implements OnInit {
     }
   }
 
+  actualizarPredeterminado(objDatoFiscal : datoFiscal){
+
+    this._datosFiscales.forEach(item => {
+      if ((item.Predeterminada === 1) && (objDatoFiscal.Predeterminada != 1)){
+        item.Predeterminada = 0;
+        this._datosfiscalesService.putDatosFiscales(item).subscribe(
+          (data) => {
+
+          },
+          (error: HttpErrorResponse) => {
+            switch (error.status) {
+              case 401:
+                break;
+              case 403:
+                break;
+              case 404:
+                break;
+              case 409:
+                break;
+            }
+    
+          }
+        );
+      }
+    });
+
+    objDatoFiscal.Predeterminada = 1;
+    this._datosfiscalesService.putDatosFiscales(objDatoFiscal).subscribe(
+      (data) => {
+
+        this.obtenerDatosFiscales();
+
+        this.limpiarFormulario();
+      },
+      (error: HttpErrorResponse) => {
+        //Error callback
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+
+      }
+    );
+  }
+
   eliminarDatosFiscales(objDatoFiscal : datoFiscal) {
-    this._textoAccion = 'Eliminar';
+    
     this._datoFiscal = objDatoFiscal;
 
     Swal.fire({
-      icon: 'warning',
+      icon: 'question',
       title: '¿Está seguro de que desea eliminar el dato fiscal: "' + objDatoFiscal.NombreRazonSocial + '"?',
       showDenyButton: false,
       showCancelButton: true,
@@ -346,18 +402,27 @@ export class DatosfiscalesComponent implements OnInit {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
 
+
         this._datosfiscalesService.deleteDatosFiscales(this._loginService.obtenerIdCliente(), objDatoFiscal.Id_DatosFiscales).subscribe(
           (data) => {
             //Next callback
             
-            // Swal.fire('Los datos fiscales fueron eliminados', '', 'success')
-
-            Swal.fire({
-              icon: 'success',
-              title: 'Los datos fiscales fueron eliminados',
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
               showConfirmButton: false,
-              timer: 1500
-            })
+              timer: 1500,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            });
+    
+            Toast.fire({
+              icon: 'success',
+              title: 'El dato fiscal fue eliminado.'
+            });
     
             this.obtenerDatosFiscales();
     

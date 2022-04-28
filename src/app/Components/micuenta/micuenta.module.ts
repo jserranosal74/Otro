@@ -13,6 +13,7 @@ import { SalirComponent } from './salir/salir.component';
 import { MisfacturasComponent } from './misfacturas/misfacturas.component';
 import { DatosfiscalesComponent } from './datosfiscales/datosfiscales.component';
 import { AnunciosModule } from '../../Components/anuncios/anuncios.module'
+import { TarjetasModule } from '../tarjetas/tarjetas.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AnunciosModule } from '../../Components/anuncios/anuncios.module'
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    AnunciosModule
+    AnunciosModule,
+    TarjetasModule
   ],
   exports: [
     MiperfilComponent,

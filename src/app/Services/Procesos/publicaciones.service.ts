@@ -48,6 +48,10 @@ export class PublicacionesService {
     return this.http.put<publicacion>(this.urlPublicaciones + objPublicacion.Id_Publicacion, objPublicacion, this.httpOptions);
   }
 
+  public putPublicacionActivar(Id_Publicacion : number, Id_Cliente : number, Id_PlanCliente : number, Id_Plan : number): Observable<publicacion> {
+    return this.http.put<publicacion>(this.urlPublicaciones + '?Id_Publicacion=' + Id_Publicacion+ '&Id_Cliente=' + Id_Cliente + '&Id_PlanCliente=' + Id_PlanCliente+ '&Id_Plan=' + Id_Plan, '', this.httpOptions);
+  }
+
   public putPublicacionCaracteristicas(Id_Publicacion: number, Id_Cliente : number, strAdicionales : string): Observable<number> {
     return this.http.get<number>(this.urlPublicaciones + 'Caracteristicas?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente + '&strAdicionales=' + strAdicionales, this.httpOptions);
   }
@@ -56,8 +60,8 @@ export class PublicacionesService {
     return this.http.post<publicacion>(this.urlPublicaciones, objPublicacion, this.httpOptions);
   }
 
-  public deletePublicacion(Id_Publicacion : number): Observable<publicacion> {
-    return this.http.delete<publicacion>(this.urlPublicaciones + Id_Publicacion, this.httpOptions);
+  public deletePublicacion(Id_Publicacion : number, Id_Cliente : number): Observable<publicacion> {
+    return this.http.delete<publicacion>(this.urlPublicaciones + '?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente, this.httpOptions);
   }
 
 }

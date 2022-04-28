@@ -3,14 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { estatus } from 'src/app/Models/catalogos/estatus.model';
 import { pagina, paginadoDetalle } from 'src/app/Models/catalogos/asentamiento.model';
 import { EstatusService } from '../../../Services/Catalogos/estatus.service';
-import { publicacion, publicacionInfoMini, publicacionMultimedia } from 'src/app/Models/procesos/publicacion.model';
+import { publicacionInfoMini, publicacionMultimedia } from 'src/app/Models/procesos/publicacion.model';
 import { PublicacionesService } from '../../../Services/Procesos/publicaciones.service';
 import { LoginService } from '../../../Services/Catalogos/login.service';
-import { FotosPublicacionService } from 'src/app/Services/Procesos/FotosPublicacion.service';
 
 @Component({
   selector: 'app-misanuncios',
@@ -19,9 +18,10 @@ import { FotosPublicacionService } from 'src/app/Services/Procesos/FotosPublicac
 })
 export class MisanunciosComponent implements OnInit {
   _publicaciones : publicacionInfoMini[] = [];
-  _publicacionMultimedia: publicacionMultimedia[] = [];
+  // _publicacionMultimedia: publicacionMultimedia[] = [];
   _listaEstatus : estatus[] = [];
   _estatus : estatus = new estatus(0,0,'','',new Date(), new Date());
+  _misAnuncios = 'misAnuncios';
 
   _paginadoDetalle : paginadoDetalle = new paginadoDetalle(0,0);
   _paginas: pagina[] = [];
@@ -43,11 +43,9 @@ export class MisanunciosComponent implements OnInit {
     FechaPublicacion : [ '' ],
   });
 
-  constructor(  private _activatedRoute: ActivatedRoute,
-                private router: Router,
+  constructor(  private router: Router,
                 private fb: FormBuilder,
                 private _publicacionesService : PublicacionesService,
-                private _multimediaPublicacionService : FotosPublicacionService,
                 private _loginService : LoginService,
                 private _estatusService : EstatusService
   ) {
@@ -55,7 +53,7 @@ export class MisanunciosComponent implements OnInit {
     this.crearFormulario();
     this.limpiarFormulario();
     this.obtenerEstatusPublicacion();
-    this.obtenerImagenesPublicaciones();
+    //this.obtenerImagenesPublicaciones();
 
   }
 
@@ -94,7 +92,7 @@ export class MisanunciosComponent implements OnInit {
       this._publicacionesService.getPublicacionesMini(this._loginService.obtenerIdCliente(),0,10,'').subscribe(
         (data) => {
           //Next callback
-  
+          console.log('getPublicacionesMini', data);
           this._publicaciones = data;
   
           if (data.length > 0) {
@@ -105,7 +103,7 @@ export class MisanunciosComponent implements OnInit {
           this._publicacionesService.getPublicacionesMiniPagDet(this._loginService.obtenerIdCliente(), 10, '').subscribe(
             (data) => {
               //Next callback
-              console.log(data);
+              console.log('getPublicacionesMiniPagDet', data);
               this._paginadoDetalle = data;
 
               this.CargarPaginador(0);
@@ -115,16 +113,12 @@ export class MisanunciosComponent implements OnInit {
               
               switch (error.status) {
                 case 401:
-                  //console.log('error 401');
                   break;
                 case 403:
-                  //console.log('error 403');
                   break;
                 case 404:
-                  //console.log('error 404');
                   break;
                 case 409:
-                  //console.log('error 409');
                   break;
               }
       
@@ -135,32 +129,19 @@ export class MisanunciosComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           //Error callback
-          //console.log('Error del servicio: ', error.error['Descripcion']);
-  
-          // Swal.fire({
-          //   icon: 'error',
-          //   title: error.error['Descripcion'],
-          //   text: '',
-          //   showCancelButton: false,
-          //   showDenyButton: false,
-          // });
-  
+          
           switch (error.status) {
             case 401:
-              //console.log('error 401');
               break;
             case 403:
-              //console.log('error 403');
               break;
             case 404:
-              //console.log('error 404');
+              this._publicaciones = [];
               break;
             case 409:
-              //console.log('error 409');
               break;
           }
   
-          //throw error;   //You can also throw the error to a global error handler
         }
       );
     }
@@ -202,6 +183,10 @@ export class MisanunciosComponent implements OnInit {
         //throw error;   //You can also throw the error to a global error handler
       }
     );
+  }
+
+  actualizarBusqueda(){
+    this.buscarPublicaciones();  
   }
 
   CargarPaginador(paginaActual : number){
@@ -324,35 +309,35 @@ export class MisanunciosComponent implements OnInit {
     );
   }
 
-  obtenerImagenesPublicaciones(){
-debugger;
-    this._multimediaPublicacionService.getMultimediaCliente(this._loginService.obtenerIdCliente(), null, 1).subscribe(
-      (data) => {
+  // obtenerImagenesPublicaciones(){
+  // //debugger;
+  //   this._multimediaPublicacionService.getMultimediaCliente(this._loginService.obtenerIdCliente(), null, 1).subscribe(
+  //     (data) => {
 
-        console.log(data);
+  //       console.log(data);
 
-        this._publicacionMultimedia = data;
-      },
-      (error: HttpErrorResponse) => {
+  //       this._publicacionMultimedia = data;
+  //     },
+  //     (error: HttpErrorResponse) => {
 
-        switch (error.status) {
-          case 401:
-            //console.log('error 401');
-            break;
-          case 403:
-            //console.log('error 403');
-            break;
-          case 404:
-            //console.log('error 404');
-            break;
-          case 409:
-            //console.log('error 409');
-            break;
-        }
-      }
-    );
+  //       switch (error.status) {
+  //         case 401:
+  //           //console.log('error 401');
+  //           break;
+  //         case 403:
+  //           //console.log('error 403');
+  //           break;
+  //         case 404:
+  //           //console.log('error 404');
+  //           break;
+  //         case 409:
+  //           //console.log('error 409');
+  //           break;
+  //       }
+  //     }
+  //   );
 
-  }
+  // }
 
   // obtenerUrlImagen( objPublicacion: publicacionInfoMini){
   //   //debugger;

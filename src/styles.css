@@ -47,3 +47,11 @@
   color: #bf4080;
   text-shadow: -1px -1px 1px rgb(200, 200, 200), 1px 1px 1px rgb(200, 200, 200), -1px 1px 1px rgb(200, 200, 200), 1px -1px 1px rgb(200, 200, 200);
 }
+
+.bg-color-rt{
+  background: rgba(223, 126, 137, 0.15);
+}
+
+.bg-color-2{
+  background: #bf4080;
+}

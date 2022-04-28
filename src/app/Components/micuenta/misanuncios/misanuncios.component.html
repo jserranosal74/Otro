@@ -47,7 +47,7 @@
   </form>
 
     <div class="row my-3" *ngFor="let publicacion of _publicaciones" >
-        <app-anuncio-miniatura [_publicacion]="publicacion"></app-anuncio-miniatura>
+        <app-anuncio-miniatura [_publicacion]="publicacion" [_tipoBusqueda]="_misAnuncios" (_seEliminoPublicacion)="actualizarBusqueda()"></app-anuncio-miniatura>
     </div>
     <div *ngIf="_seRealizaBusqueda" class="d-flex justify-content-center">
       <nav aria-label="Page navigation py-0 m-0">

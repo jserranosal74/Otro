@@ -4,16 +4,16 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
 
-import { EstadosService } from '../../../Services/Catalogos/estados.service';
 import { AsentamientosService } from '../../../Services/Catalogos/asentamientos.service';
+import { EstadosService } from '../../../Services/Catalogos/estados.service';
+import { LoginService } from 'src/app/Services/Catalogos/login.service';
 import { MunicipiosService } from '../../../Services/Catalogos/municipios.service';
+import { PublicacionesService } from '../../../Services/Procesos/publicaciones.service';
 
+import { asentamiento } from '../../../Models/catalogos/asentamiento.model';
 import { estado } from '../../../Models/catalogos/estado.model';
 import { municipio } from '../../../Models/catalogos/municipio.model';
-import { asentamiento } from '../../../Models/catalogos/asentamiento.model';
 import { publicacion } from 'src/app/Models/procesos/publicacion.model';
-import { PublicacionesService } from '../../../Services/Procesos/publicaciones.service';
-import { LoginService } from 'src/app/Services/Catalogos/login.service';
 
 @Component({
   selector: 'app-ubicacion',
@@ -29,7 +29,7 @@ export class UbicacionComponent implements OnInit {
   _municipioSeleccionado : number = 0;
   _asentamientoSeleccionado : number = 0;
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
   _id_publicacion : number = 0;
 
   loading : boolean = false;

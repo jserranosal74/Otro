@@ -1,13 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
+import Swal from 'sweetalert2';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import { publicacion } from 'src/app/Models/procesos/publicacion.model';
-import { HttpErrorResponse } from '@angular/common/http';
-import { PublicacionesService } from 'src/app/Services/Procesos/publicaciones.service';
+import { BancosService } from 'src/app/Services/Catalogos/bancos.service';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
+import { PlanesclienteService } from 'src/app/Services/Procesos/planesCliente.service';
+import { PublicacionesService } from 'src/app/Services/Procesos/publicaciones.service';
 
+import { publicacion } from '../../../Models/procesos/publicacion.model';
+import { banco } from '../../../Models/catalogos/banco.model';
+import { plancliente } from '../../../Models/procesos/plancliente.model';
 
 @Component({
   selector: 'app-pagar-y-activar',
@@ -16,8 +21,10 @@ import { LoginService } from 'src/app/Services/Catalogos/login.service';
 })
 export class PagarYActivarComponent implements OnInit {
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
   _id_publicacion : number = 0;
+  _bancos : banco[] = [];
+  _planesCliente : plancliente[] = [];
 
   formCaracteristicas = this.fb.group({
     nombre  : ['', [ Validators.required, Validators.minLength(5) ]  ],
@@ -36,6 +43,8 @@ export class PagarYActivarComponent implements OnInit {
 
   constructor(  private _activatedRoute: ActivatedRoute,
                 private _publicacionesService: PublicacionesService,
+                private _planClienteService: PlanesclienteService,
+                private _bancosService: BancosService,
                 private _loginService: LoginService,
                 private fb: FormBuilder,
                 private router: Router) {
@@ -49,6 +58,8 @@ export class PagarYActivarComponent implements OnInit {
     });
 
     this.crearFormulario();
+    this.obtenerPlanesCliente();
+    this.obtenerBancos();
     this.CargarPublicacion();
    }
 
@@ -111,12 +122,78 @@ export class PagarYActivarComponent implements OnInit {
     setTimeout( () => { this.router.navigate(['/publicar/operacion-tipo-inmueble'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
   }
 
+  obtenerPlanesCliente(){
+    let Id_Usuario = this._loginService.obtenerIdCliente();
+    this._planClienteService.getPlanesCliente(Id_Usuario).subscribe(
+      (data) => {
+        //console.log('----datos---: ', data);
+
+        this._planesCliente = data;
+
+      },
+      (error: HttpErrorResponse) => {
+        //Error callback
+
+        switch (error.status) {
+          case 401:
+            Swal.fire({
+              icon: 'error',
+              title: 'Acceso no autorizado',
+              text: 'debera autenticarse',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            this._loginService.cerarSesion();
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+      }
+    );
+
+  }
+
+  obtenerBancos(){
+    if (this._id_publicacion != 0) {
+      this._bancosService.getBancos().subscribe(
+        (data) => {
+          //console.log(data);
+          this._bancos = data;
+
+        },
+        (error: HttpErrorResponse) => {
+
+          switch (error.status) {
+            case 401:
+              break;
+            case 403:
+              break;
+            case 404:
+              break;
+            case 409:
+              break;
+          }
+
+        }
+      );
+    }
+
+  }
+
   CargarPublicacion(){
     if (this._id_publicacion != 0) {
         this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
           (data) => {
             //console.log(data);
             this._publicacion = data;
+
+            if(data.Id_Estatus === 13){
+              setTimeout( () => { this.router.navigate(['/publicar/operacion-tipo-inmueble'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+            }
 
           },
           (error: HttpErrorResponse) => {
@@ -138,6 +215,14 @@ export class PagarYActivarComponent implements OnInit {
           }
         );
       }
+  }
+
+  seleccionarBanco(objBanco : banco){
+    //TODO
+  }
+
+  elegirPlanCliente(objPlanCliente : plancliente){
+    //TODO
   }
 
   guardarPagaryActivar() {

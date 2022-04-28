@@ -1,16 +1,23 @@
-<div class="row animate__animated animate__backInDown">
-    <div class="col-md-4 p-1 border" style="border-radius: 15px 0px 0px 15px; width:200px;">
+<div class="row">
+    <div class="col-md-3 p-1 border" style="border-radius: 15px 0px 0px 15px;">
       <img [src]="_publicacion.Url" alt="" width="100%" height="150px;" style="border-radius: 15px 0px 0px 15px;">
     </div>
     <div class="col-md-9 p-1 border" style="border-radius: 0px 15px 15px 0px;">
       <div class="row">
-        <h3 class="text-primary">{{_publicacion.TituloPublicacion}}</h3>
+          <div class="row px-0">
+              <div class="col px-4">
+                  <h3 class="text-primary">{{_publicacion.TituloPublicacion}}</h3>
+              </div>
+              <div class="col px-0">
+                  <h6 class="text-primary text-end"><kbd class="bg-color-2" >{{_publicacion.Estatus}}</kbd></h6>
+              </div>
+          </div>
         <!-- <h2>{{_publicacion.Descripcion}}</h2> -->
             <h6 class="text-primary">{{_publicacion.Asentamiento}}, {{_publicacion.Municipio}}, {{_publicacion.Estado}}.</h6>
             <div class="row">
                 <div class="col">
                     <div class="row">
-                        <div class="col-auto text-primary"><h4>MN</h4></div>
+                        <div class="col-auto text-primary"><h4>{{_publicacion.ClaveMoneda}}</h4></div>
                         <div class="col-auto text-primary px-0"><h4>$ {{_publicacion.PrecioDesde | number : '1.0'}}</h4></div>
                     </div>
                 </div>
@@ -20,6 +27,9 @@
                 </div>
             </div>
 
+            <div *ngIf="_tipoBusqueda == 'misAnuncios'; then misAnuncios else misFavoritos"></div>
+
+            <ng-template #misAnuncios>
                 <div class="row m-0 p-0">
                     <div class="col text-end">
                         <button type="button" style="border-radius:25px;" class="btn btn-info" (click)="editarAnuncio()">
@@ -40,7 +50,20 @@
                         </span></button>
                     </div>
                 
-            </div>
+                </div>
+            </ng-template>
+
+            <ng-template #misFavoritos>
+                <div class="row m-0 p-0">
+                    <div class="col text-end">
+                        <button type="button" style="border-radius:25px;" class="btn" (click)="quitarFavorito()">
+                            <span class="col-md-1 text-danger">
+                                <i class="fa fa-heart" style="font-size: 25px;" aria-hidden="true"> </i>
+                        </span></button>
+                    </div>
+                
+                </div>
+            </ng-template>
 
       </div>
     </div>

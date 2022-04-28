@@ -110,7 +110,7 @@
                                                type="text" 
                                                placeholder="Descripción" 
                                                [class.is-invalid]="descripcionNoValido" 
-                                               class="form-control">
+                                               class="form-control text-primary">
                                     </div>
                                     <div class="col-md-3 px-0">
                                         <small *ngIf="descripcionNoValido" class="text-danger">
@@ -127,7 +127,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" #myModalClose (click)="limpiarFormulario()" class="btn btn-secondary" data-bs-dismiss="modal" >Cancelar</button>
+          <button type="button" #myModalClose (click)="limpiarFormulario()" class="btn btn-secondary text-light" data-bs-dismiss="modal" >Cancelar</button>
           <button type="button" class="btn btn-primary" (click)="guardarCaracteristica();">{{_textoAccion}}</button>
         </div>
       </div>

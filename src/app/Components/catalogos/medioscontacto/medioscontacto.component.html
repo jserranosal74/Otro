@@ -86,7 +86,7 @@
                                                [class.is-invalid]="claveNoValido"
                                                placeholder="Clave" 
                                                maxlength="10"
-                                               class="form-control">
+                                               class="form-control text-primary">
                                     </div>
                                     <div class="col-md-3 px-0">
                                         <small *ngIf="claveNoValido" class="text-danger">
@@ -100,7 +100,8 @@
                                     <div class="col-md-8">
                                         <input autofocus formControlName="descripcion" 
                                                type="text" placeholder="Descripción" 
-                                               [class.is-invalid]="descripcionNoValido" class="form-control">
+                                               [class.is-invalid]="descripcionNoValido" 
+                                               class="form-control text-primary">
                                     </div>
                                     <div class="col-md-3 px-0">
                                         <small *ngIf="descripcionNoValido" class="text-danger">
@@ -108,9 +109,6 @@
                                         </small>
                                     </div>
                                 </div>
-
-                                
-
                             </fieldset>
                         </form>
                     </div>
@@ -119,8 +117,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" #myModalClose (click)="limpiarFormulario()" class="btn btn-outline-secondary" data-bs-dismiss="modal" >Cancelar</button>
-          <button type="button" class="btn btn-outline-primary" (click)="guardarMedioContacto();">{{_textoAccion}}</button>
+          <button type="button" #myModalClose (click)="limpiarFormulario()" class="btn btn-secondary text-light" data-bs-dismiss="modal" >Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="guardarMedioContacto();">{{_textoAccion}}</button>
         </div>
       </div>
     </div>

@@ -177,8 +177,8 @@ _clienteMedioContacto : clienteMedioContacto[] = [];
           apellidos: data.Apellidos,
           correo: data.Email,
           rfc: data.RFC,
-          telefonoFijo: data.ClienteMedioContacto != null ? data.ClienteMedioContacto![0].Descripcion : '',
-          telefonoMovil: data.ClienteMedioContacto != null ? data.ClienteMedioContacto![1].Descripcion : '',
+          telefonoFijo: data.ClienteMedioContacto![0] != null ? data.ClienteMedioContacto![0].Descripcion : '',
+          telefonoMovil: data.ClienteMedioContacto![1] != null ? data.ClienteMedioContacto![1].Descripcion : '',
         });
 
         // this.limpiarFormulario();

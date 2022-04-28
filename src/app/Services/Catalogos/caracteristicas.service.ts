@@ -34,7 +34,7 @@ export class CaracteristicasService {
   }
 
   public getTipoCaracteristicas(): Observable<tipoCaracteristica[]> {
-    return this.http.get<tipoCaracteristica[]>(this.urlTipoCaracteristica);
+    return this.http.get<tipoCaracteristica[]>(this.urlTipoCaracteristica, this.httpOptions);
   }
 
   public putCaracteristica(obCaracteristica: caracteristica): Observable<caracteristica> {

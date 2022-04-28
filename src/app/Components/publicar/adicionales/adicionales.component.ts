@@ -7,7 +7,6 @@ import Swal from 'sweetalert2';
 import { publicacion, publicacionCaracteristica } from 'src/app/Models/procesos/publicacion.model';
 import { PublicacionesService } from 'src/app/Services/Procesos/publicaciones.service';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
-import { isNgTemplate } from '@angular/compiler';
 import { publicacionCaracteristicaLigth } from '../../../Models/procesos/publicacion.model';
 
 @Component({
@@ -19,9 +18,10 @@ import { publicacionCaracteristicaLigth } from '../../../Models/procesos/publica
 export class AdicionalesComponent implements OnInit {
   _adicionales : publicacionCaracteristicaLigth[] = [];
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion : publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
   _id_publicacion : number = 0;
-  _misCaracteristicas: FormControl[] = [];
+  _misCaracteristicas : FormControl[] = [];
+  _publicacionActivada : boolean = false;
 
   formAdicionales = this.fb.group({
     caracteristicasGenerales : this.fb.array([]),
@@ -45,11 +45,8 @@ export class AdicionalesComponent implements OnInit {
       }
     });
 
-    // this._misCaracteristicas.push(new FormControl('primero'));
-    // this._misCaracteristicas.push(new FormControl('segundo'));
-
     this.crearFormulario();
-    // this.inicializarFormulario();
+    this.CargarPublicacion();
     this.CargarCaracteristicasAdicionales();
    }
 
@@ -193,8 +190,8 @@ export class AdicionalesComponent implements OnInit {
 
   guardarCaracteristicas() {
 
-      this._publicacion.Id_Publicacion = this._id_publicacion;
-      this._publicacion.Id_Cliente = this._loginService.obtenerIdCliente();
+      // this._publicacion.Id_Publicacion = this._id_publicacion;
+      // this._publicacion.Id_Cliente = this._loginService.obtenerIdCliente();
 
       Object.values( this.caracteristica.controls ).forEach( control => {
         if ( control instanceof FormGroup ) {
@@ -217,7 +214,7 @@ export class AdicionalesComponent implements OnInit {
         }
       });
 
-      this._publicacionesService.putPublicacionCaracteristicas(this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, JSON.stringify(this._adicionales)).subscribe(
+      this._publicacionesService.putPublicacionCaracteristicas(this._id_publicacion, this._loginService.obtenerIdCliente(), JSON.stringify(this._adicionales)).subscribe(
         (data) => {
 
           const Toast = Swal.mixin({
@@ -237,8 +234,14 @@ export class AdicionalesComponent implements OnInit {
             title: 'La información se guardo de manera correcta.'
           });
 
-          this._numeroPaso = 2;
-          setTimeout( () => { this.router.navigate(['/publicar/pagar-y-activar'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+          if(this._publicacionActivada){
+            this._numeroPaso = 2;
+            setTimeout( () => { this.router.navigate(['/publicar/operaciontipoinmueble'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+          }
+          else{
+            this._numeroPaso = 2;
+            setTimeout( () => { this.router.navigate(['/publicar/pagar-y-activar'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+          }
 
         },
         (error: HttpErrorResponse) => {
@@ -276,5 +279,42 @@ export class AdicionalesComponent implements OnInit {
         }
       );
   }
+
+  CargarPublicacion(){
+    //debugger;
+      if (this._id_publicacion != 0) {
+          this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
+            (data) => {
+              //Next callback
+              console.log(data);
+
+              this._publicacion = data;
+
+              if(data.Id_Estatus === 13){
+                this._publicacionActivada = true;
+              }
+  
+            },
+            (error: HttpErrorResponse) => {
+              //Error callback
+  
+              this._id_publicacion = 0;
+              //this.router.navigateByUrl('/publicar/operacion-tipo-inmueble');
+  
+              switch (error.status) {
+                case 401:
+                  break;
+                case 403:
+                  break;
+                case 404:
+                  break;
+                case 409:
+                  break;
+              }
+  
+            }
+          );
+        }
+    }
 
 }

@@ -10,6 +10,7 @@ import { OperaciontipoinmuebleComponent } from '../publicar/operaciontipoinmuebl
 import { CaracteristicasComponent } from './caracteristicas/caracteristicas.component';
 import { PagarYActivarComponent } from './pagar-y-activar/pagar-y-activar.component';
 import { AdicionalesComponent } from './adicionales/adicionales.component';
+import { TarjetasModule } from '../tarjetas/tarjetas.module';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { AdicionalesComponent } from './adicionales/adicionales.component';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    TarjetasModule
   ],
   exports: [
     FotosyvideosComponent,

@@ -24,10 +24,6 @@ export class DatosFiscalesService {
     this.urlDatosFiscales = URL_APIS.urlDatosFiscales;
   }
 
-  // public getDatoFiscal(Id_DatosFiscales : number): Observable<datoFiscal> {
-  //   return this.http.get<datoFiscal>(this.urlDatosFiscales + Id_DatosFiscales, this.httpOptions);
-  // }
-
   public getDatosFiscalesCliente(Id_Cliente : number): Observable<datoFiscal[]> {
     return this.http.get<datoFiscal[]>(this.urlDatosFiscales + '?id_cliente=' + Id_Cliente + '&id_datofiscal=', this.httpOptions);
   }

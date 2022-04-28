@@ -1,0 +1,22 @@
+<div class="card px-0" style="width: 15rem; border-radius: 15px;">
+    <div class="card-header text-center bg-color-rt py-0" style="border-radius: 15px 15px 0px 0px;">
+        <h3 class="card-title text-primary text-uppercase py-1 m-0">{{_plan.Descripcion}}</h3>
+    </div>
+    <div class="card-body">
+      <p class="card-text text-primary text-center mb-0">Precio:</p>
+      <h3 class="card-text text-primary text-center">$ {{_plan.Precio}}.00</h3>
+      <p class="card-text text-primary text-center">Cantidad:</p>
+      <h3 class="card-text text-primary text-center">{{_plan.Cantidad}}</h3>
+      <p class="card-text text-primary text-center">Vigencia:</p>
+      <h3 class="card-text text-primary text-center">{{_plan.VigenciaXUnidad}} dias</h3>
+    </div>
+    <div class="card-footer text-end bg-color-rt" style="border-radius: 0px 0px 15px 15px;">
+      <div class="row">
+        <div class="col">
+          <button type="button" class="btn btn-primary" (click)="comprarPlan()" style="border-radius: 25px;">
+            <span class="col-md-1 col-md-offset-2 text-center">Comprar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

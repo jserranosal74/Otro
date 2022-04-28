@@ -17,7 +17,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class FotosyvideosComponent implements OnInit {
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
   _id_publicacion : number = 0;
   _multimediaPublicacion : imagenModel[] = [];
   _loading = false;
@@ -357,8 +357,8 @@ cambiarVideoPredeterminado(control : any){
         this.CargarFotosPublicacion();
 
         // Comentadas las siguientes 2 lineas de manera temporal
-        // this._numeroPaso = 2;
-        // setTimeout( () => { this.router.navigate(['/publicar/adicionales'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+        this._numeroPaso = 2;
+        setTimeout( () => { this.router.navigate(['/publicar/adicionales'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
 
       },
       (error: HttpErrorResponse) => {

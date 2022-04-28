@@ -4,7 +4,7 @@ export class plancliente {
       public Id_Plan: number,
       public Id_Cliente: number,
       public Descripcion: string,
-      public Pagados: number,
+      public Disponibles: number,
       public Utilizados: number,
       public Restantes: number,
       public FechaDePago: Date | null,

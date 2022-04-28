@@ -13,7 +13,7 @@ import { PublicacionesService } from 'src/app/Services/Procesos/publicaciones.se
 export class AnuncioPreviewComponent implements OnInit {
   _parametro : string = '';
   _id_publicacion : number = 0;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
 
   constructor(  private _activatedRoute : ActivatedRoute,
                 private router : Router,

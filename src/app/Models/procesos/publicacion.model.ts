@@ -5,7 +5,7 @@ export class publicacion {
       public Id_PlanCliente: number | null,
       public Id_TipoOperacion: number | null,
       public Id_TipoPropiedad: number | null,
-      public Id_Moneda: number | null,
+      public Id_Moneda: number,
       public Id_SubtipoPropiedad: number | null,
       public Id_Asentamiento: number | null,
       public TituloPublicacion: string | null,

@@ -18,7 +18,7 @@ import { subtipoPropiedad } from 'src/app/Models/catalogos/tipoPropiedadDetalle.
 })
 export class OperaciontipoinmuebleComponent implements OnInit {
   _tiposPropiedad : tipoPropiedad[] = [];
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
   _id_publicacion : number = 0;
   loading : boolean = false;
   _subtiposPropiedad : subtipoPropiedad[] = [];
@@ -205,20 +205,26 @@ export class OperaciontipoinmuebleComponent implements OnInit {
 
             this._id_publicacion = data.Id_Publicacion;
 
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            });
+    
+            Toast.fire({
+              icon: 'success',
+              title: 'La información se guardo de manera correcta.'
+            });
+
             this._numeroPaso = 2;
             setTimeout( () => { this.router.navigate(['/publicar/ubicacion'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
 
-            Swal.fire({
-              icon: 'success',
-              title: 'La publicación se guardo de manera correcta',
-              showConfirmButton: false,
-              timer: 1000
-            })
-  
-            // this.modalClose.nativeElement.click();
-  
-            // this.obtenerPlanes();
-  
             // this.limpiarFormulario();
           },
           (error: HttpErrorResponse) => {

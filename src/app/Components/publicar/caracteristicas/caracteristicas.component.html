@@ -22,7 +22,7 @@
           <div class="col-md-3">
             <div class="col-md-6 input-group">
               <span class="input-group-text text-primary">Recamaras</span>
-              <input  class="form-control"
+              <input  class="form-control text-primary"
                       type="number"
                       min="0" 
                       max="99"
@@ -32,7 +32,7 @@
           <div class="col-md-2">
             <div class="col-md-6 input-group">
               <span class="input-group-text text-primary">Baños</span>
-              <input  class="form-control"
+              <input  class="form-control text-primary"
                       type="number"
                       min="0" 
                       max="99"
@@ -42,7 +42,7 @@
           <div class="col-auto">
             <div class="col-md-6 input-group">
               <span class="input-group-text text-primary">&#189; Baños</span>
-              <input  class="form-control"
+              <input  class="form-control text-primary"
                       type="number"
                       min="0" 
                       max="99"
@@ -52,7 +52,7 @@
           <div class="col-auto">
             <div class="col-md-6 input-group">
               <span class="input-group-text text-primary">Estacionamientos</span>
-              <input  class="form-control"
+              <input  class="form-control text-primary"
                       type="number"
                       min="0" 
                       max="99"
@@ -73,7 +73,7 @@
               <div class="row">
                 <div class="col-md-6 input-group">
                   <span class="input-group-text text-end text-primary" style="width: 170px;">Superficie construida</span>
-                  <input  class="form-control"
+                  <input  class="form-control text-primary"
                           type="number"
                           min="0" 
                           max="999999"
@@ -85,7 +85,7 @@
               <div class="col-md-auto py-3">
                 <div class="col-md-12 p-0 input-group">
                   <span class="input-group-text  text-primary" style="width: 170px;">Superficie terreno</span>
-                  <input class="form-control"
+                  <input class="form-control text-primary"
                           type="number"
                           min="0" 
                           max="999999"
@@ -172,7 +172,7 @@
             <label class="col-md-12 col-form-label text-primary">Precio del inmueble</label>
             <div class="col-md-12 p-0 input-group">
               <span class="input-group-text text-primary">$</span>
-              <input  class="form-control"
+              <input  class="form-control text-primary"
                       type="number"
                       min="0" 
                       max="999999"
@@ -184,7 +184,7 @@
             <label class="col-md-12 col-form-label text-primary">Mantenimiento</label>
             <div class="col-md-12 p-0 input-group ">
               <span class="input-group-text text-primary">$</span>
-              <input  class="form-control"
+              <input  class="form-control text-primary"
                       type="number"
                       min="0" 
                       max="999999"
@@ -200,8 +200,8 @@
                        type="radio" 
                        value="1"
                        name="moneda"
-                       formControlName="moneda"
                        [checked]="_checkMoneda1"
+                       (click)="cambiarMoneda(1)"
                        id="monedaMNX">
                 <label class="form-check-label text-primary" for="monedaMNX">
                   MNX
@@ -212,8 +212,8 @@
                        type="radio" 
                        name="moneda"
                        value="2"
-                       formControlName="moneda"
                        [checked]="_checkMoneda2"
+                       (click)="cambiarMoneda(2)"
                        id="monedaUSD" 
                        checked>
                 <label class="form-check-label text-primary" for="monedaUSD">
@@ -248,7 +248,7 @@
           <div class="col-md-8">
             <label class="col-md-12 col-form-label text-primary">Titulo</label>
             <div class="col-md-12 p-0">
-              <input  class="form-control"
+              <input  class="form-control text-primary"
                       type="text"
                       formControlName="titulo"
               />
@@ -259,7 +259,7 @@
           <div class="col-md-8 mb-5">
             <label class="col-md-12 col-form-label text-primary">Descripción</label>
             <div class="col-md-12 p-0">
-              <textarea class="form-control"
+              <textarea class="form-control text-primary"
                         type="textarea"
                         rows="3"
                         placeholder="Escribe un mínimo de 100 caracteres"

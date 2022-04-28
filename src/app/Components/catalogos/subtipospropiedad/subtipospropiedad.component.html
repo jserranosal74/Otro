@@ -113,7 +113,7 @@
                             <fieldset>
 
                                 <div class="form-group row">
-                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
+                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-house bigicon"></i></span>
                                     <div class="col-md-5">
                                       <select class="form-select form-select-lg mb-3 text-primary"
                                               style="border-radius: 0.8em"
@@ -151,7 +151,7 @@
                               </div>
 
                                 <div class="form-group row mb-3">
-                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pen-square bigicon"></i></span>
                                     <div class="col-md-8">
                                         <input formControlName="descripcion" 
                                                type="text" 
@@ -174,8 +174,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" #myModalClose (click)="limpiarFormularioSubTipos()" class="btn btn-outline-secondary" data-bs-dismiss="modal" >Cancelar</button>
-          <button type="button" class="btn btn-outline-primary" (click)="guardarSubTipoPropiedad();">{{_textoAccion}}</button>
+          <button type="button" #myModalClose (click)="limpiarFormularioSubTipos()" class="btn btn-secondary text-primary" data-bs-dismiss="modal" >Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="guardarSubTipoPropiedad();">{{_textoAccion}}</button>
         </div>
       </div>
     </div>

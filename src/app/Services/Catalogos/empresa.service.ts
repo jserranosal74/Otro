@@ -49,7 +49,7 @@ export class EmpresasService {
   }
 
   public postEmpresa(objEmpresa: empresa): Observable<empresa> {
-    return this.http.post<empresa>(this.urlEmpresas, objEmpresa);
+    return this.http.post<empresa>(this.urlEmpresas, objEmpresa, this.httpOptions);
   }
 
   public deleteEmpresa(Id_Empresa : number): Observable<empresa> {

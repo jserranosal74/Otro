@@ -58,7 +58,7 @@ export class AsentamientosComponent implements OnInit {
                private _estadosService: EstadosService,
                private _municipiosService: MunicipiosService,
                private _asentamientosService: AsentamientosService,
-               private _loginService : LoginService) {
+               private _loginService : LoginService ) {
     
     this.crearFormularioBusquda();
     this.crearFormularioAsentamiento();

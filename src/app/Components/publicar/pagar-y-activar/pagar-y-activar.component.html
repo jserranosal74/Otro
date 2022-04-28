@@ -17,24 +17,38 @@
         <div class="container py-5" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 20px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
           <div class="form-group row">
             <legend class="text-center text-primary mt-3"><h3>Selecciona el plan con el que quieres publicar.</h3></legend>
-            <br><h4>Planes disponibles:</h4>
+            <br>
+            <h4 class="text-center text-primary">Actualmente dispones de los siguientes planes y puedes usar cualquiera de ellos</h4>
+
+            <div class="card-group justify-content-center">
+              <div class="form-group row mb-3" *ngFor="let plancliente of _planesCliente">
+                  <app-tarjetaplanescliente class="row px-4 gy-2" [_planCliente]="plancliente" [_tipoTarjeta]="'AlPagar'" (_seEligePlan)="elegirPlanCliente(plancliente)"></app-tarjetaplanescliente>
+              </div>
+            </div>
+
           </div>
 
-          <div class="form-group row mt-5">
+          <div class="form-group row mt-5 text-center">
             <legend class="text-center text-primary mt-3">
               <p>
-                Para adquirir uno de nuestros planes deberá de realizar una transferencia electronica<br>
-                al siguiente numero de cuenta de la siguiente manera<br><br>
-                No de cuenta: 123123123<br>
-                Banco1: 123123123<br>
-                Referencia: 123123123-SIMPLE<br>
-                Referencia: 123123123-DESTACADO<br>
-                Referencia: 123123123-SUPERDESTACADO<br>
-                Referencia: 123123123-PAQUETE1<br>
-                Referencia: 123123123-PAQUETE2<br><br><br>
-                Una vez realizada dicha transferencia tu plan se activara automaticamente<br>
-                y asi podras publicar tu anuncio y asi podrá ser visto por<br>
-                miles de personas en todo México<br><br><br>
+                Para adquirir uno de nuestros planes deberá de realizar una transferencia electrónica<br>
+                a cualquiera de los siguientes bancos:<br>
+              </p>
+              <div class="card-group justify-content-center">
+                <div class="form-group row mb-3" *ngFor="let banco of _bancos">
+                      <app-tarjetabanco class="row px-4 gy-2" [_banco]="banco" (_seEligeBanco)="seleccionarBanco(banco)"></app-tarjetabanco>
+                </div>
+              </div>
+
+              <p>
+                <br>
+                En el asunto deberas colocar lo siguiente: 1-1-21
+              </p>
+
+              <p>
+                <br>
+                Una vez realizada dicha transferencia tu anuncio será publicado de manera automaticá<br>
+                asi podrá ser visto por miles de personas en todo México<br><br><br>
                 Y de esta manera concretar la Venta o su Renta de su propiedad.
               </p>
               </legend>

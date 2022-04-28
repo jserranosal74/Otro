@@ -4,9 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
 
-import { FormsModule, ReactiveFormsModule} from '@angular/forms';
-
-
 import { publicacion } from 'src/app/Models/procesos/publicacion.model';
 import { PublicacionesService } from 'src/app/Services/Procesos/publicaciones.service';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
@@ -18,7 +15,7 @@ import { LoginService } from 'src/app/Services/Catalogos/login.service';
 })
 export class CaracteristicasComponent implements OnInit {
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
   _id_publicacion : number = 0;
   _AniosAntiguedad : number | null = 0;
   _mostrarAniosAntiguedad : boolean = false;
@@ -40,7 +37,7 @@ export class CaracteristicasComponent implements OnInit {
     coutaMantenimiento    : [ '' ],
     aniosAntiguedad       : [ '' ],
     precioInmueble        : [ '' ],
-    moneda                : [ '' ],
+    // moneda                : [ '' ],
     precioNegociable      : [ '' ],
     titulo                : [ '' ],
     descripcion           : [ '' ]
@@ -79,7 +76,7 @@ export class CaracteristicasComponent implements OnInit {
         coutaMantenimiento    : [ '' ],
         aniosAntiguedad       : [ '' ],
         precioInmueble        : [ '' ],
-        moneda                : [ '' ],
+        // moneda                : [ '' ],
         precioNegociable      : [ '' ],
         titulo                : [ '' ],
         descripcion           : [ '' ]
@@ -98,7 +95,7 @@ export class CaracteristicasComponent implements OnInit {
       coutaMantenimiento    : 0 ,
       aniosAntiguedad       : '' ,
       precioInmueble        : 0 ,
-      moneda                : '',
+      // moneda                : '',
       precioNegociable      : 0 ,
       titulo                : '' ,
       descripcion           : '' 
@@ -163,7 +160,7 @@ export class CaracteristicasComponent implements OnInit {
               coutaMantenimiento    : data.CuotaMantenimiento,
               aniosAntiguedad       : data.Antiguedad,
               precioInmueble        : data.PrecioDesde,
-              moneda                : data.Id_Moneda,
+              // moneda                : data.Id_Moneda,
               precioNegociable      : data.PrecioNegociable,
               titulo                : data.TituloPublicacion,
               descripcion           : data.Descripcion
@@ -212,7 +209,13 @@ export class CaracteristicasComponent implements OnInit {
         this._publicacion.Antiguedad = this.formCaracteristicas.get('aniosAntiguedad')?.value
 
       this._publicacion.PrecioDesde = this.formCaracteristicas.get('precioInmueble')?.value;
-      this._publicacion.Id_Moneda = this.formCaracteristicas.get('moneda')?.value;
+
+      //this._publicacion.Id_Moneda = this.formCaracteristicas.get('moneda')?.value;
+      debugger;
+      if (this._checkMoneda1)
+        this._publicacion.Id_Moneda = 1;
+      else
+        this._publicacion.Id_Moneda = 2;
 
       if (this.formCaracteristicas.get('precioNegociable')?.value)
         this._publicacion.PrecioNegociable = 1;
@@ -282,6 +285,18 @@ export class CaracteristicasComponent implements OnInit {
 
         }
       );
+  }
+
+  cambiarMoneda(i : number){
+
+    if(i===1){
+      this._checkMoneda1 = true;
+      this._checkMoneda2 = false;
+    }
+    else{
+      this._checkMoneda1 = false;
+      this._checkMoneda2 = true;
+    }
   }
 
 }
