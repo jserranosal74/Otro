@@ -10,7 +10,6 @@ export class AuthGuard implements CanActivate {
 
   constructor(private _loginService : LoginService,
               private _router : Router){
-    //console.log('entro al AuthGuard');
   }
 
   canActivate(  ): boolean {

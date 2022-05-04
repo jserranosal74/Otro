@@ -1,17 +1,19 @@
-<div class="card px-0" style="width: 21rem; border-radius: 15px;">
-    <div class="card-header text-center bg-color-rt py-0" style="border-radius: 15px 15px 0px 0px;">
+<div class="card px-0 borde-card" style="width: 21rem; border-radius: 15px;">
+    <div class="card-header text-center bg-color-3 py-0" style="border-radius: 15px 15px 0px 0px;">
         <div class="row">
             <div class="col">
                 <h3 class="card-title text-start text-primary py-1 m-0">{{_banco.InstitucionBancaria}}</h3>
             </div>
             <div class="col px-0 text-end py-1">
-              <button type="button" class="btn btn-outline-primary" (click)="elegirBanco()" style="border-radius: 25px;">
+              <button type="button" class="btn btn-outline-primary" (click)="elegirBanco()" [ngClass]="{' btn-primary': _banco.Seleccionado === 1, ' btn-outline-primary': _banco.Seleccionado === 0}" style="border-radius: 25px;">
                 <span class="col-md-1  text-center"><i class="fa fa-check" > </i></span>
               </button>
             </div>
           </div>
     </div>
     <div class="card-body">
+      <p class="card-text text-primary text-center mb-0">Titular:</p>
+      <h3 class="card-text text-primary text-center">{{_banco.Titular}}</h3>
       <p class="card-text text-primary text-center mb-0">Sucursal:</p>
       <h3 class="card-text text-primary text-center">{{_banco.Sucursal}}</h3>
       <p class="card-text text-primary text-center">Cuenta:</p>

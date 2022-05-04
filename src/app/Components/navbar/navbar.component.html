@@ -151,32 +151,20 @@
               >
             </li>
             <li>
-              <a class="dropdown-item text-primary" [routerLink]="['rentar', 'quinta']"
-                >Quinta-Salon</a
-              >
+              <a class="dropdown-item text-primary" [routerLink]="['rentar', 'quinta']">Quinta-Salon</a>
             </li>
           </ul>
         </li>
         <li class="nav-item dropdown" routerLinkActive="active">
-          <a
-            class="nav-link dropdown-toggle"
-            routerLink="desarrollos"
-            data-bs-toggle="dropdown"
-          >
+          <a class="nav-link dropdown-toggle" routerLink="desarrollos" data-bs-toggle="dropdown">
             Desarrollos
           </a>
           <ul class="dropdown-menu">
             <li>
-              <a
-                class="dropdown-item text-primary"
-                [routerLink]="['desarrollos', 'departamento']"
-                >Departamento</a
-              >
+              <a class="dropdown-item text-primary" [routerLink]="['desarrollos', 'departamento']">Departamento</a>
             </li>
             <li>
-              <a class="dropdown-item text-primary" [routerLink]="['desarrollos', 'casa']"
-                >Casa</a
-              >
+              <a class="dropdown-item text-primary" [routerLink]="['desarrollos', 'casa']">Casa</a>
             </li>
           </ul>
         </li>
@@ -225,12 +213,10 @@
         </li>
         <div *ngIf="usuarioAutenticado && usuarioRol == 'Administrador'" >
           <li class="nav-item dropdown" routerLinkActive="active">
-            <a
-              class="nav-link dropdown-toggle"
-              routerLink="rentar"
-              data-bs-toggle="dropdown"
-            >
-              Administración
+            <a class="nav-link dropdown-toggle"
+               routerLink="rentar"
+               data-bs-toggle="dropdown">
+               Administración
             </a>
             <ul class="dropdown-menu">
               <li>
@@ -238,8 +224,20 @@
                   <span style="padding: 10px;"> Asentamientos</span></a>
               </li>
               <li>
+                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'bancos']"><i class="fa-solid fa-building"></i>
+                  <span style="padding: 10px;"> Bancos</span></a>
+              </li>
+              <li>
                 <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'caracteristicas']"><i class="fa-solid fa-building"></i>
                   <span style="padding: 10px;"> Características</span></a>
+              </li>
+              <li>
+                <a class="dropdown-item text-primary text-primary" [routerLink]="['procesos', 'confirmarpagosplanes']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Confirmar pagos de clientes</span></a>
+              </li>
+              <li>
+                <a class="dropdown-item text-primary text-primary" [routerLink]="['catalogos', 'empresas']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Empresas</span></a>
               </li>
               <li>
                 <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'medioscontacto']"><i class="fa-solid fa-building"></i>
@@ -270,24 +268,16 @@
                   <span style="padding: 10px;">Subtipos de propiedad</span></a>
               </li>
               <li>
-                <a class="dropdown-item text-primary text-primary" [routerLink]="['catalogos', 'empresas']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Empresas</span></a>
-              </li>
-              <!-- <li>
                 <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'usuariosempresa']"><i class="fa-solid fa-house-chimney-window"></i>
                   <span style="padding: 10px;">Usuarios de Empresa</span></a>
-              </li> -->
+              </li>
             </ul>
           </li>
         </div>
 
         <div *ngIf="usuarioAutenticado && usuarioRol == 'Empresa'" >
           <li class="nav-item dropdown" routerLinkActive="active">
-            <a
-              class="nav-link dropdown-toggle"
-              routerLink="rentar"
-              data-bs-toggle="dropdown"
-            >
+            <a class="nav-link dropdown-toggle" routerLink="rentar" data-bs-toggle="dropdown">
               Administración
             </a>
             <ul class="dropdown-menu">

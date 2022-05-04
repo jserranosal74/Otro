@@ -31,11 +31,13 @@ export const URL_APIS = {
     // Procesos
     urlDatosFiscales: '/api/DatosFiscales/',
     urlPublicaciones: '/api/Publicaciones/',
+    urlPublicacionDetalle: '/api/PublicacionDetalle/',
     urlAmenidadesPublicacion: '/api/AmenidadesPublicacion/',
     urlFavoritosCliente: '/api/FavoritosCliente/',
     urlPublicacionMultimedia: '/api/PublicacionMultimedia/',
     urlMensajesPublicacion: '/api/MensajesPublicacion/',
     urlPlanesCliente: '/api/PlanesCliente/',
+    urlPlanesClientePagos: '/api/PlanesClientePagos/',
     urlContacto: '/api/Contacto/',
 
     // Mi cuenta

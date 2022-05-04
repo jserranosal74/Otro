@@ -48,10 +48,35 @@
   text-shadow: -1px -1px 1px rgb(200, 200, 200), 1px 1px 1px rgb(200, 200, 200), -1px 1px 1px rgb(200, 200, 200), 1px -1px 1px rgb(200, 200, 200);
 }
 
+.medicon {
+  font-size: 25px;
+  text-shadow: -1px -1px 1px rgb(200, 200, 200), 1px 1px 1px rgb(200, 200, 200), -1px 1px 1px rgb(200, 200, 200), 1px -1px 1px rgb(200, 200, 200);
+}
+
 .bg-color-rt{
-  background: rgba(223, 126, 137, 0.15);
+  background-color: rgba(223, 126, 137, 0.15);
 }
 
 .bg-color-2{
-  background: #bf4080;
+  background-color: #646464;
+}
+
+.bg-color-3{
+  background-color: rgba(255,0,0,0.2);
+}
+
+.borde-card{
+  border: 1px solid rgba(223, 126, 137, .8);
+}
+
+.br25{
+  border-radius: 25px;
+}
+
+.br20{
+  border-radius: 20px;
+}
+
+.br15{
+  border-radius: 15px;
 }

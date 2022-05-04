@@ -56,7 +56,7 @@
 </div>
 
 <div class="modal fade" id="gridAgregarPlanCliente" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title text-primary" id="gridModalLabel">Comprar plan</h5>
@@ -67,9 +67,9 @@
           <div class="row">
               <div class="col-md-12">
                   <div class="well well-sm">
-                    <div class="card-group">
+                    <div class="card-group justify-content-center">
                       <div class="form-group row" *ngFor="let plan of _planes">
-                        <app-tarjetaplanes  class="row px-3 g-1" [_plan]="plan" (_sePresionaComprar)="comprarPlan(plan)"></app-tarjetaplanes>
+                        <app-tarjetaplanes  class="row px-5 g-4" [_plan]="plan" [_origen]="'misPlanes'" (_sePresionaComprar)="comprarPlan(plan)"></app-tarjetaplanes>
                       </div>
                     </div>
                   </div>

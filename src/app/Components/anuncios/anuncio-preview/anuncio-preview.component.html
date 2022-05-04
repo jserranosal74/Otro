@@ -1,1 +1,91 @@
-<p>anuncio-preview works!</p>
+<div >
+    <div class="row">
+        <div class="col-md-9">
+            <h3 class="text-primary text-uppercase">{{_publicacion.TituloPublicacion}}</h3>
+            <h1 class="text-primary" style="font-size:3em; font-weight: bolder;">{{_publicacion.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }} <label class="text-primary px-1" style="font-size: 2rem;">{{((_publicacion.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label></h1>
+            <hr>
+            <h1 class="text-primary">{{_publicacion.BaniosCompDesde}}</h1>
+            <h1 class="text-primary">{{_publicacion.BaniosCompDesde}}</h1>
+            <h1 class="text-primary">{{_publicacion.BaniosCompDesde}}</h1>
+            <h1 class="text-primary">{{_publicacion.BaniosCompDesde}}</h1>
+            <h1 class="text-primary">{{_publicacion.BaniosCompDesde}}</h1>
+            <h1 class="text-primary">{{_publicacion.BaniosCompDesde}}</h1>
+            <h1 class="text-primary">{{_publicacion.BaniosCompDesde}}</h1>
+            <h1 class="text-primary">{{_publicacion.BaniosCompDesde}}</h1>
+            <h1 class="text-primary">{{_publicacion.BaniosCompDesde}}</h1>
+            <h1 class="text-primary">{{_publicacion.BaniosCompDesde}}</h1>
+            <h1 class="text-primary">{{_publicacion.BaniosCompDesde}}</h1>
+            <h1 class="text-primary">{{_publicacion.BaniosCompDesde}}</h1>
+            <hr>
+        </div>
+        <div class="col-md-3">
+                <div class="sticky-md-top text-primary" style="top:100px; left:1000px">
+                    <div class="text-primary text-end" style="top:50px; left:1000px">
+                        <button type="button" style="border-radius:25px; box-shadow: none;" class="btn btn-link" (click)="agregarFavorito()">
+                            <span class="col-md-1 text-danger">
+                                <i class="fa fa-heart" *ngIf="_estaComoFavorito" style="font-size: 25px;" aria-hidden="true"> </i>
+                                <i class="fa fa-heart-o" *ngIf="!_estaComoFavorito" style="font-size: 25px;" aria-hidden="true"> </i>
+                            </span>
+                        </button>
+                    </div>
+                    <form [formGroup]="formaMensajeVendedor" class="br15">
+                        <legend class="text-center">Mensaje para el vendedor</legend>
+                        <div class="row mb-3 br25" >
+                            <label for="nombreContacto" 
+                                   class="col-sm-3 col-form-label">Nombre</label>
+                            <div class="col-sm-9">
+                                <input  type="text" 
+                                        class="form-control" 
+                                        placeholder="Nombre"
+                                        formControlName="nombre"
+                                        id="nombreContacto">
+                            </div>
+                        </div>
+                        <div class="row mb-3 br25">
+                            <label for="telefonoContacto" 
+                                   class="col-sm-3 col-form-label">Teléfono</label>
+                            <div class="col-sm-9">
+                                <input  type="text" 
+                                        class="form-control" 
+                                        placeholder="Teléfono"
+                                        formControlName="telefono"
+                                        id="telefonoContacto">
+                            </div>
+                        </div>
+                        <div class="row mb-3 br25">
+                            <label for="emailContacto" 
+                                   class="col-sm-3 col-form-label">Email</label>
+                            <div class="col-sm-9">
+                                <input  type="text" 
+                                        class="form-control" 
+                                        placeholder="email"
+                                        formControlName="email"
+                                        id="emailContacto">
+                            </div>
+                        </div>
+                        <div class="row mb-3 br25">
+                            <label for="mensajeContacto" 
+                                   class="col-sm-3 col-form-label">Mensaje</label>
+                            <div class="col-sm-9">
+                                <textarea type="text" rows="3"
+                                        class="form-control" 
+                                        placeholder="Describa aqui su mensaje"
+                                        formControlName="mensaje"
+                                        id="mensajeContacto"></textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-3 br25 text-center">
+                            <div class="col-md-3 text-center"></div>
+                            <div class="col-md-9 text-center">
+                                <button type="button" class="btn btn-primary" (click)="enviarMensaje()">Enviar mensaje
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div>
+                        <h1 class="text-primary" style="top:150px; left:1000px">Compartir</h1>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

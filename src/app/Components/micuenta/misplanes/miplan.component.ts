@@ -18,7 +18,7 @@ export class MisplanesComponent implements OnInit {
 
   _planes : plan[] = [];
   _planesCliente : plancliente[] = [];
-  _planCliente : plancliente = new plancliente(0,0,0,'',0,0,0,null,null,null,0,0);
+  _planCliente : plancliente = new plancliente(0,0,0,null,'',0,0,0,0,'',new Date(),null,null,new Date(),new Date(),0,'',0);
   _planSeleccionado : number = 0;
 
   @ViewChild('myModalClose') modalClose : any;
@@ -39,19 +39,9 @@ export class MisplanesComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // obtenerDetallePlan(objPlanCliente: plancliente) {
-  //   Swal.fire({
-  //     icon: 'success',
-  //     title: 'Aqui se mostrara el detalle del plan',
-  //     text: 'Registro: ' + objPlanCliente.Descripcion + ' - ' + objPlanCliente.Id_PlanCliente,
-  //     showCancelButton: false,
-  //     showDenyButton: false,
-  //   });
-  // }
-
   obtenerMisPlanes() {
     let Id_Usuario = this._loginService.obtenerIdCliente();
-    this._planClienteService.getPlanesCliente(Id_Usuario).subscribe(
+    this._planClienteService.getPlanesCliente(Id_Usuario, null).subscribe(
       (data) => {
         //console.log('----datos---: ', data);
 
@@ -123,14 +113,30 @@ export class MisplanesComponent implements OnInit {
   }
 
   comprarPlan(objPlan : plan){
-    debugger;
+    //debugger;
     this._planCliente.Id_Cliente = this._loginService.obtenerIdCliente();
     this._planCliente.Id_Plan = objPlan.Id_Plan;
-    this._planCliente.Id_Usuario = 1;
 
-    this._planClienteService.postPlanesCliente(this._planCliente).subscribe(
+    this._planClienteService.postPlanesCliente(this._planCliente.Id_Cliente, this._planCliente.Id_Plan).subscribe(
       (data) => {
         //console.log('datos: ',data);
+
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        });
+
+        Toast.fire({
+          icon: 'success',
+          title: 'Se adquirio el plan de manera correcta.'
+        });
 
         this.modalClose.nativeElement.click();
 

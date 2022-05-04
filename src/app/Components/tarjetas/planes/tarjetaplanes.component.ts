@@ -9,10 +9,13 @@ import { plan } from 'src/app/Models/catalogos/planes.model';
 })
 export class TarjetaplanesComponent implements OnInit {
 
-  @Input() _plan : plan = new plan(0,'',0,0,0,'',new Date(),new Date(),0,0);
-  //@Input() _ComprarElegir : string = '';
+  @Input() _plan : plan = new plan(0,'',0,0,0,'',new Date(),new Date(),0,0,0);
+  @Input() _origen : string = '';
 
   @Output() _sePresionaComprar = new EventEmitter<boolean>();
+  @Output() _sePresionaModificar = new EventEmitter<boolean>();
+  @Output() _sePresionaEliminar = new EventEmitter<boolean>();
+  @Output() _sePresionaElegirPlan = new EventEmitter<boolean>();
   //@Output() _seEligePlan = new EventEmitter<boolean>();
   // @Output() _sePresionaPredeterminado = new EventEmitter<boolean>();
 
@@ -25,12 +28,16 @@ export class TarjetaplanesComponent implements OnInit {
     this._sePresionaComprar.emit(true);
   }
 
-  elegirPlan(){
-    //this._seEligePlan.emit(true);
+  modificarPlan(){
+    this._sePresionaModificar.emit(true);
   }
 
-  predeterminarDatoFiscal(){
-    //this._sePresionaPredeterminado.emit(true);
+  elegirPlanCliente(){
+    this._sePresionaElegirPlan.emit(true);
+  }
+
+  eliminarPlan(){
+    this._sePresionaEliminar.emit(true);
   }
 
 }

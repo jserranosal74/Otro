@@ -9,10 +9,11 @@ import { plancliente } from 'src/app/Models/procesos/plancliente.model';
 })
 export class TarjetaPlanesClienteComponent implements OnInit {
 
-  @Input() _planCliente : plancliente = new plancliente(0,0,0,'',0,0,0,null,new Date(),new Date(),0,0);
+  @Input() _planCliente : plancliente = new plancliente(0,0,0,null,'',0,0,0,0,'',new Date(),null,null,new Date(),new Date(),0,'',0);
   @Input() _tipoTarjeta : string = '';
 
   @Output() _seEligePlanCliente = new EventEmitter<boolean>();
+  @Output() _enviarInfoPagoPlan = new EventEmitter<boolean>();
   // @Output() _sePresionaEditar = new EventEmitter<boolean>();
   // @Output() _sePresionaPredeterminado = new EventEmitter<boolean>();
 
@@ -23,6 +24,10 @@ export class TarjetaPlanesClienteComponent implements OnInit {
 
   elegirPlanCliente(){
     this._seEligePlanCliente.emit(true);
+  }
+
+  obtenerInfoPagoPlan(){
+    this._enviarInfoPagoPlan.emit(true);
   }
 
 }

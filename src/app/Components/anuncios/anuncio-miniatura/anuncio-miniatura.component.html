@@ -5,15 +5,16 @@
     <div class="col-md-9 p-1 border" style="border-radius: 0px 15px 15px 0px;">
       <div class="row">
           <div class="row px-0">
-              <div class="col px-4">
-                  <h3 class="text-primary">{{_publicacion.TituloPublicacion}}</h3>
+              <div class="col-md-9 px-4">
+                  <h3 *ngIf="_publicacion.TituloPublicacion != null" class="text-primary">{{_publicacion.TituloPublicacion}}</h3>
+                  <h3 *ngIf="_publicacion.TituloPublicacion === null || _publicacion.TituloPublicacion === ''" class="text-danger">SIN TITULO</h3>
               </div>
-              <div class="col px-0">
+              <div *ngIf="_tipoBusqueda == 'misAnuncios'" class="col-md-3 px-0">
                   <h6 class="text-primary text-end"><kbd class="bg-color-2" >{{_publicacion.Estatus}}</kbd></h6>
               </div>
           </div>
-        <!-- <h2>{{_publicacion.Descripcion}}</h2> -->
-            <h6 class="text-primary">{{_publicacion.Asentamiento}}, {{_publicacion.Municipio}}, {{_publicacion.Estado}}.</h6>
+          <h6 *ngIf="_publicacion.Asentamiento != null " class="text-primary">{{_publicacion.Asentamiento}}, {{_publicacion.Municipio}}, {{_publicacion.Estado}}.</h6>
+          <h6 *ngIf="_publicacion.Asentamiento === null || _publicacion.Asentamiento === ''" class="text-danger">Tu anuncio no tiene una ubicación definida</h6>
             <div class="row">
                 <div class="col">
                     <div class="row">
@@ -22,41 +23,101 @@
                     </div>
                 </div>
                 <div class="col-md-auto">
-                    <!-- <label>+ Mantemiento:</label>
-                    <h6>{{_publicacion.CuotaMantenimiento | currency}}</h6> -->
                 </div>
             </div>
 
             <div *ngIf="_tipoBusqueda == 'misAnuncios'; then misAnuncios else misFavoritos"></div>
 
             <ng-template #misAnuncios>
-                <div class="row m-0 p-0">
-                    <div class="col text-end">
-                        <button type="button" style="border-radius:25px;" class="btn btn-info" (click)="editarAnuncio()">
-                            <span class="col-md-1 col-md-offset-2 text-center">
-                                <i class="fa fa-pen" aria-hidden="true"> </i>
-                        </span></button>
-                        <button type="button" style="border-radius:25px;" class="btn btn-primary mx-1" (click)="verAnuncio()">
-                            <span class="col-md-1 text-center">
-                                <i class="fa fa-eye" aria-hidden="true"> </i>
-                        </span></button>
-                        <button type="button" class="btn btn-success" style="border-radius:25px;" (click)="pagarYActivarAnuncio()">
-                            <span class="col-md-1 col-md-offset-2 text-center">
-                                <i class="fa fa-arrow-up" aria-hidden="true"> </i>
-                        </span></button>
-                        <button type="button" style="border-radius:25px;" class="btn btn-danger mx-1" (click)="eliminarAnuncio()">
-                            <span class="col-md-1 col-md-offset-2 text-center">
-                                <i class="fa fa-trash-can" aria-hidden="true"> </i>
-                        </span></button>
+
+                <div *ngIf="_publicacion.Estatus === 'Borrador'">
+                    <div class="row m-0 p-0">
+                        <div class="col text-end">
+                            <button type="button" style="border-radius:25px;" class="btn btn-success" (click)="editarAnuncio()">
+                                <span class="col-md-1 col-md-offset-2 text-center">
+                                    <i class="fa fa-pen" aria-hidden="true"> </i>
+                            </span></button>
+                            <button type="button" style="border-radius:25px;" class="btn btn-primary mx-1" (click)="verAnuncio()">
+                                <span class="col-md-1 text-center">
+                                    <i class="fa fa-eye" aria-hidden="true"> </i>
+                            </span></button>
+                            <button type="button" class="btn btn-success" style="border-radius:25px;" (click)="pagarYActivarAnuncio()">
+                                <span class="col-md-1 col-md-offset-2 text-center">
+                                    <i class="fa fa-arrow-up" aria-hidden="true"> </i>
+                            </span></button>
+                            <button type="button" style="border-radius:25px;" class="btn btn-danger mx-1" (click)="eliminarAnuncio()">
+                                <span class="col-md-1 col-md-offset-2 text-center">
+                                    <i class="fa fa-trash-can" aria-hidden="true"> </i>
+                            </span></button>
+                        </div>
+                    
                     </div>
-                
                 </div>
+
+                <div *ngIf="_publicacion.Estatus === 'Activada'">
+                    <div class="row m-0 p-0">
+                        <div class="col text-primary px-0">
+                            <br>
+                            <span>Fecha inicio: <strong>{{_publicacion.FechaInicioPublicacion | date:'dd-MM-yyyy'}}</strong> / </span>
+                            <span>Fecha fin: <strong>{{_publicacion.FechaFinPublicacion | date:'dd-MM-yyyy'}}</strong></span>
+                        </div>
+                        <div class="col text-end">
+                            <!-- <button type="button" style="border-radius:25px;" class="btn btn-success" (click)="editarAnuncio()">
+                                <span class="col-md-1 col-md-offset-2 text-center">
+                                    <i class="fa fa-pen" aria-hidden="true"> </i>
+                            </span></button> -->
+                            <button type="button" style="border-radius:25px;" class="btn btn-primary mx-1" (click)="verAnuncio()">
+                                <span class="col-md-1 text-center">
+                                    <i class="fa fa-eye" aria-hidden="true"> </i>
+                            </span></button>
+                            <button type="button" style="border-radius:25px;" class="btn text-white mx-1 bg-dark" (click)="eliminarAnuncio()">
+                                <span class="col-md-1 col-md-offset-2 text-center">
+                                    <i class="fa fa-xmark" aria-hidden="true"> </i>
+                            </span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="_publicacion.Estatus === 'Cancelada'">
+                    <div class="row m-0 p-0">
+                        <div class="col text-end">
+                            <button type="button" style="border-radius:25px;" class="btn btn-primary mx-1" (click)="verAnuncio()">
+                                <span class="col-md-1 text-center">
+                                    <i class="fa fa-eye" aria-hidden="true"> </i>
+                            </span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="_publicacion.Estatus === 'En espera de pago'">
+                    <div class="row m-0 p-0">
+                        <div class="col text-end">
+                            <!-- <button type="button" style="border-radius:25px;" class="btn btn-success" (click)="editarAnuncio()">
+                                <span class="col-md-1 col-md-offset-2 text-center">
+                                    <i class="fa fa-pen" aria-hidden="true"> </i>
+                            </span></button> -->
+                            <button type="button" style="border-radius:25px;" class="btn btn-primary mx-1" (click)="verAnuncio()">
+                                <span class="col-md-1 text-center">
+                                    <i class="fa fa-eye" aria-hidden="true"> </i>
+                            </span></button>
+                            <button type="button" style="border-radius:25px;" class="btn btn-danger mx-1" (click)="eliminarAnuncio()">
+                                <span class="col-md-1 col-md-offset-2 text-center">
+                                    <i class="fa fa-trash-can" aria-hidden="true"> </i>
+                            </span></button>
+                        </div>
+                    </div>
+                </div>
+
             </ng-template>
 
             <ng-template #misFavoritos>
                 <div class="row m-0 p-0">
                     <div class="col text-end">
-                        <button type="button" style="border-radius:25px;" class="btn" (click)="quitarFavorito()">
+                        <button type="button" style="border-radius:25px;" class="btn btn-primary mx-1" (click)="verAnuncio()">
+                            <span class="col-md-1 text-center">
+                                <i class="fa fa-eye" aria-hidden="true"> </i>
+                        </span></button>
+                        <button type="button" style="border-radius:25px; box-shadow: none;" class="btn" (click)="quitarFavorito()">
                             <span class="col-md-1 text-danger">
                                 <i class="fa fa-heart" style="font-size: 25px;" aria-hidden="true"> </i>
                         </span></button>

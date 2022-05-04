@@ -1,39 +1,58 @@
-<!-- <div class="container animate__animated" [ngClass]="{' animate__backInRight': _numeroPaso === 1, ' animate__backOutLeft': _numeroPaso === 2}"></div> -->
 <div class="container animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}">
-    <form autocomplete="off" [formGroup]="formCaracteristicas">
-      <fieldset>
-  
         <div class="container" >
           <div class="row px-0" >
-              <div class="col-md-10" >
+              <div class="col-md-12" >
                 <legend class="text-center text-primary mb-3 "><h1 class="display-4">Pagar y publicar</h1></legend>
-              </div>
-              <div class="col-md-2 d-grid py-3">
-                  <!-- <button type="button" style="border-radius: 0.8em;" (click)="pantallaSiguiente()" class="btn btn-primary btn-lg align-items-right">Siguiente</button> -->
               </div>
           </div>
         </div>
   
         <div class="container py-5" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 20px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
           <div class="form-group row">
-            <legend class="text-center text-primary mt-3"><h3>Selecciona el plan con el que quieres publicar.</h3></legend>
-            <br>
-            <h4 class="text-center text-primary">Actualmente dispones de los siguientes planes y puedes usar cualquiera de ellos</h4>
-
-            <div class="card-group justify-content-center">
-              <div class="form-group row mb-3" *ngFor="let plancliente of _planesCliente">
-                  <app-tarjetaplanescliente class="row px-4 gy-2" [_planCliente]="plancliente" [_tipoTarjeta]="'AlPagar'" (_seEligePlan)="elegirPlanCliente(plancliente)"></app-tarjetaplanescliente>
+            <legend class="text-center text-primary mt-3"><h3>Selecciona el plan con el que quieres publicar o adquiere uno nuevo</h3></legend>
+              <div class="col mt-5">
+                <div class="text-center">
+                  <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col d-grid">
+                      <input type="radio" class="btn-check" name="options-outlined" id="planActual" autocomplete="off" [checked]="!_planActualNuevo" (change)="cambiarPlan(0)">
+                      <label class="btn btn-outline-primary" for="planActual">Deseo utilizar uno de mis planes</label>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col d-grid">
+                      <input type="radio" class="btn-check" name="options-outlined" id="planNuevo" autocomplete="off" [checked]="_planActualNuevo" (change)="cambiarPlan(1)">
+                      <label class="btn btn-outline-primary" for="planNuevo">Deseo adquirir un plan diferente o nuevo</label>
+                    </div>
+                    <div class="col-md-1"></div>
+                  </div>
+                </div>
               </div>
+            <div *ngIf="!_planActualNuevo">
+              <h4 class="text-center text-primary my-5">Actualmente dispones de los siguientes planes y puedes usar cualquiera de ellos</h4>
+
+              <div class="card-group justify-content-center">
+                <div class="form-group row mb-3" *ngFor="let plancliente of _planesCliente">
+                    <app-tarjetaplanescliente class="row px-4 gy-2" [_planCliente]="plancliente" [_tipoTarjeta]="'AlPagar'" (_seEligePlanCliente)="seleccionarPlanCliente(plancliente)"></app-tarjetaplanescliente>
+                </div>
+              </div>
+
             </div>
 
           </div>
 
-          <div class="form-group row mt-5 text-center">
+          <div *ngIf="_planActualNuevo" class="form-group row text-center">
+            <h4 class="text-center text-primary my-5">Selecciona el plan que deseas adquirir de la lista siguiente</h4>
             <legend class="text-center text-primary mt-3">
-              <p>
+              <div class="card-group justify-content-center">
+                <div class="form-group row mb-3" *ngFor="let plan of _planes">
+                      <app-tarjetaplanes class="row px-5 gy-2" [_plan]="plan" [_origen]="'AlPagar'" (_sePresionaElegirPlan)="seleccionarPlan(plan)"></app-tarjetaplanes>
+                </div>
+              </div>
+              <h4>
+                <br>
                 Para adquirir uno de nuestros planes deberá de realizar una transferencia electrónica<br>
-                a cualquiera de los siguientes bancos:<br>
-              </p>
+                a cualquiera de los siguientes bancos:<br><br>
+              </h4>
               <div class="card-group justify-content-center">
                 <div class="form-group row mb-3" *ngFor="let banco of _bancos">
                       <app-tarjetabanco class="row px-4 gy-2" [_banco]="banco" (_seEligeBanco)="seleccionarBanco(banco)"></app-tarjetabanco>
@@ -42,7 +61,7 @@
 
               <p>
                 <br>
-                En el asunto deberas colocar lo siguiente: 1-1-21
+                En el asunto deberas colocar lo siguiente: <strong>{{_plan.Descripcion}}-{{_publicacion.Id_Cliente}}-{{_publicacion.Id_Publicacion}}</strong>
               </p>
 
               <p>
@@ -66,11 +85,40 @@
                   <!-- <button type="button" style="border-radius: 0.8em;" (click)="guardarCaracteristicas()" class="btn btn-primary btn-lg align-items-right">Guardar</button> -->
               </div>
               <div class="col-md-3 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0px 0px 20px 20px; background: rgba(223, 126, 137, 0.15);">
-                  <button type="button" style="border-radius: 0.8em;" (click)="guardarPagaryActivar()" class="btn btn-primary btn-lg align-items-right">Guardar y Publicar</button>
+                  <button type="button" style="border-radius: 0.8em;" class="btn btn-primary btn-lg align-items-right" (click)="validarPlanYBanco()">Guardar y Publicar</button>
+                  <button type="button" style="visibility: hidden;" #myModalAceptarYPublicar data-bs-toggle="modal" data-bs-target="#gridAgregarFactura" ></button>
               </div>
           </div>
         </div>
-  
-      </fieldset>
-    </form>
   </div>
+
+<div class="modal fade" id="gridAgregarFactura" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary" id="gridModalLabel">Facturación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body py-2 px-0">
+        <div class="container">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="well well-sm">
+                    <div class="card-group justify-content-center">
+                      <div class="form-group row" *ngFor="let datoFiscal of _datosFiscales">
+                        <app-tarjetadatofiscal  class="row px-5 g-4" (_seSeleccionaDatoFiscal)="seleccionarDatosFiscales(datoFiscal)" [_datoFiscal]="datoFiscal" [_origen]="'PagarYActivar'" ></app-tarjetadatofiscal>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" #myModalClose class="btn btn-secondary text-light" data-bs-dismiss="modal" >Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="guardarPagaryActivar(0)">Continuar sin Facturar</button>
+        <button type="button" class="btn btn-primary" (click)="guardarPagaryActivar(1)">Continuar y Facturar</button>
+      </div>
+    </div>
+  </div>
+</div>

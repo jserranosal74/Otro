@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { URL_APIS } from '../global';
 import { plancliente } from '../../Models/procesos/plancliente.model';
@@ -22,17 +22,18 @@ export class PlanesclienteService {
     this.urlPlanesCliente = URL_APIS.urlPlanesCliente;
   }
 
-  public getPlanesCliente(Id_Cliente: number): Observable<plancliente[]> {
-    //debugger;
+  public getPlanesCliente(Id_Cliente : number, Id_Estatus : number | null): Observable<plancliente[]> {
     return this.http.get<plancliente[]>(
-      this.urlPlanesCliente + 'obtenerporcliente?id=' + Id_Cliente, this.httpOptions
+      this.urlPlanesCliente + 'obtenerporcliente?Id_Cliente=' + Id_Cliente + '&Id_Estatus=' + Id_Estatus, this.httpOptions
     );
   }
 
-  public postPlanesCliente(objPlanCliente: plancliente): Observable<plancliente[]> {
-    return this.http.post<plancliente[]>(
-      this.urlPlanesCliente, objPlanCliente, this.httpOptions
-    );
+  public putPlanesCliente(Id_PlanCliente : number, Id_Plan : number, Id_Cliente : number, Id_DatosFiscales : number | null): Observable<number> {
+    return this.http.put<number>(this.urlPlanesCliente + '?Id_PlanCliente=' + Id_PlanCliente + '&Id_Plan=' + Id_Plan + '&Id_Cliente=' + Id_Cliente + '&Id_DatosFiscales=' + Id_DatosFiscales, this.httpOptions);
   }
 
+  public postPlanesCliente(Id_Cliente : number, Id_Plan : number): Observable<number> {
+    return this.http.post<number>(this.urlPlanesCliente + '?Id_Cliente=' + Id_Cliente + '&Id_Plan=' + Id_Plan, '', this.httpOptions);
+  }
+  
 }

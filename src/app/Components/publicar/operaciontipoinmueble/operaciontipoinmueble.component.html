@@ -18,16 +18,16 @@
           <div class="col-md-2">
             <label class="text-primary">Tipo de operación</label>
           </div>
-          <div class="col-md-2 px-0">
+          <div class="col-md-auto px-3">
             <div class="btn-group btn-group-lg"  role="group" aria-label="Basic radio toggle button group">
               <input type="radio" class="btn-check" id="v1" name="tipoOperacion" value="1" formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()"/>
-              <label class="btn btn-outline-primary" [ngClass]="{'active' : _rentaventa == 1, 'inactive' : _rentaventa == 2}" for="v1">Venta</label>
+              <label class="btn btn-outline-primary" [ngClass]="{'active' : _rentaVentaDesarrollo == 1, 'inactive' : _rentaVentaDesarrollo === 2 || _rentaVentaDesarrollo === 3 }" for="v1">Venta</label>
 
               <input type="radio" class="btn-check" id="r1" name="tipoOperacion" value="2"  formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()"/>
-              <label class="btn btn-outline-primary" [ngClass]="{'active' : _rentaventa == 2, 'inactive' : _rentaventa == 1}" for="r1">Renta</label>
+              <label class="btn btn-outline-primary" [ngClass]="{'active' : _rentaVentaDesarrollo == 2, 'inactive' : _rentaVentaDesarrollo === 1 || _rentaVentaDesarrollo === 3}" for="r1">Renta</label>
 
-              <!-- <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-                <label class="btn btn-outline-primary" for="btnradio3">Radio 3</label> -->
+              <input *ngIf="_esEmpresa" type="radio" class="btn-check" id="d1" name="tipoOperacion" value="3"  formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()"/>
+              <label *ngIf="_esEmpresa" class="btn btn-outline-primary" [ngClass]="{'active' : _rentaVentaDesarrollo == 3, 'inactive' : _rentaVentaDesarrollo === 1 || _rentaVentaDesarrollo === 2}" for="d1">Desarrollo</label>
             </div>
           </div>
           <div class="col-md-3 px-0">

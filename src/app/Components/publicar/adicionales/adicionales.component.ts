@@ -18,7 +18,7 @@ import { publicacionCaracteristicaLigth } from '../../../Models/procesos/publica
 export class AdicionalesComponent implements OnInit {
   _adicionales : publicacionCaracteristicaLigth[] = [];
   _numeroPaso = 1;
-  _publicacion : publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion : publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
   _id_publicacion : number = 0;
   _misCaracteristicas : FormControl[] = [];
   _publicacionActivada : boolean = false;
@@ -286,11 +286,11 @@ export class AdicionalesComponent implements OnInit {
           this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
             (data) => {
               //Next callback
-              console.log(data);
+              //console.log(data);
 
               this._publicacion = data;
 
-              if(data.Id_Estatus === 13){
+              if((data.Id_Estatus === 13) ||(data.Id_Estatus === 14)){
                 this._publicacionActivada = true;
               }
   

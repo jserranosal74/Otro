@@ -20,6 +20,8 @@ import { EmpresasComponent } from './empresas/empresas.component';
 import { CaracteristicasComponent } from './caracteristicas/caracteristicas.component';
 import { TipoCaracteristicaPipe } from '../../pipes/TipoCaracteristica.pipe';
 import { UsuariosempresaComponent } from './usuariosempresa/usuariosempresa.component';
+import { BancosComponent } from './bancos/bancos.component';
+import { TarjetasModule } from '../tarjetas/tarjetas.module';
 
 @NgModule({
   declarations: [
@@ -39,13 +41,15 @@ import { UsuariosempresaComponent } from './usuariosempresa/usuariosempresa.comp
     EmpresasComponent,
     CaracteristicasComponent,
     TipoCaracteristicaPipe,
-    UsuariosempresaComponent
+    UsuariosempresaComponent,
+    BancosComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    TarjetasModule
   ],
   exports: [
     MedioscontactoComponent,
@@ -64,7 +68,8 @@ import { UsuariosempresaComponent } from './usuariosempresa/usuariosempresa.comp
     EmpresasComponent,
     CaracteristicasComponent,
     TipoCaracteristicaPipe,
-    UsuariosempresaComponent
+    UsuariosempresaComponent,
+    BancosComponent
   ]
 })
 

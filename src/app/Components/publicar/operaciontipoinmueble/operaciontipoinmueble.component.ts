@@ -18,13 +18,14 @@ import { subtipoPropiedad } from 'src/app/Models/catalogos/tipoPropiedadDetalle.
 })
 export class OperaciontipoinmuebleComponent implements OnInit {
   _tiposPropiedad : tipoPropiedad[] = [];
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
   _id_publicacion : number = 0;
   loading : boolean = false;
   _subtiposPropiedad : subtipoPropiedad[] = [];
   _numeroPaso : number = 1;
   _esNuevo : boolean = true;
-  _rentaventa : number | null = 0;
+  _rentaVentaDesarrollo : number | null = 0;
+  _esEmpresa : boolean = false;
 
   formaOTI = this.fb.group({
     tipoOperacion : ['', [Validators.required] ],
@@ -47,6 +48,7 @@ export class OperaciontipoinmuebleComponent implements OnInit {
       }
     });
     
+    this.configurarSiEsEmpresa();
     this.probarAutenticacion();
     this.crearFormulario();
     this.obtenerTiposPropiedad();
@@ -54,6 +56,15 @@ export class OperaciontipoinmuebleComponent implements OnInit {
    }
 
   ngOnInit(): void {
+  }
+
+  configurarSiEsEmpresa(){
+    if (this._loginService.obtenerIdEmpresa() != null){
+      this._esEmpresa = true;
+    }
+    else{
+      this._esEmpresa = false;
+    }
   }
 
   probarAutenticacion(){
@@ -90,7 +101,7 @@ export class OperaciontipoinmuebleComponent implements OnInit {
 
   seleccionarOperacion(){
     //console.log("this.formaOTI.controls['tipoOperacion'].value", this.formaOTI.controls['tipoOperacion'].value);
-    this._rentaventa = this.formaOTI.controls['tipoOperacion'].value;
+    this._rentaVentaDesarrollo = this.formaOTI.controls['tipoOperacion'].value;
   }
 
   CargarPublicacion(){
@@ -98,10 +109,10 @@ export class OperaciontipoinmuebleComponent implements OnInit {
         this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
           (data) => {
             //Next callback
-            //console.log(data);
+            console.log(data);
             this._publicacion = data;
 
-            this._rentaventa = data.Id_TipoOperacion;
+            this._rentaVentaDesarrollo = data.Id_TipoOperacion;
 
             this.obtenerSubTiposPropiedad(data.Id_TipoPropiedad!)
 
@@ -345,7 +356,7 @@ pantallaSiguiente(){
     }else{
       id_TP = Id_TipoPropiedad!;
     }
-    // debugger;
+    debugger;
     this._tiposPropiedadService.getSubTiposPropiedad(id_TP).subscribe(
       (data) => {
         //Next callback

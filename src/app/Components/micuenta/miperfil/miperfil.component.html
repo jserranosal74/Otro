@@ -11,7 +11,7 @@
                                 <input formControlName="nombre"
                                        maxlength="50"
                                        type="text" placeholder="Nombre" 
-                                       [class.is-invalid]="nombreNoValido" class="form-control">
+                                       [class.is-invalid]="nombreNoValido" class="form-control text-primary">
                             </div>
                             <div class="col-md-3 px-0">
                                 <small *ngIf="nombreNoValido" class="text-danger">
@@ -27,7 +27,7 @@
                                        maxlength="50"
                                        type="text" 
                                        placeholder="Apellidos" 
-                                       [class.is-invalid]="apellidoNoValido" class="form-control">
+                                       [class.is-invalid]="apellidoNoValido" class="form-control text-primary">
                             </div>
                             <div class="col-md-3 px-0">
                                 <small *ngIf="apellidoNoValido" class="text-danger">
@@ -42,7 +42,7 @@
                                 <input formControlName="correo" 
                                        type="text" readonly
                                        [class.is-invalid]="correoNoValido"
-                                       placeholder="Correo electrónico" class="form-control">
+                                       placeholder="Correo electrónico" class="form-control text-primary">
                             </div>
                             <div class="col-md-3 px-0">
                                 <small *ngIf="correoNoValido" class="text-danger">
@@ -58,7 +58,7 @@
                                        type="text" 
                                        maxlength="20"
                                        [class.is-invalid]="rfcNoValido"
-                                       placeholder="RFC" class="form-control">
+                                       placeholder="RFC" class="form-control text-primary">
                             </div>
                             <div class="col-md-3 px-0">
                                 <small *ngIf="rfcNoValido" class="text-danger">
@@ -76,7 +76,7 @@
                                             type="number" 
                                             [class.is-invalid]="telefonoFijoNoValido"
                                             placeholder="Telefono fijo" 
-                                            class="form-control">
+                                            class="form-control text-primary">
                                     </div>
                                     <div class="col-md-1 px-0">
                                         <small *ngIf="telefonoFijoNoValido" class="text-danger">
@@ -89,7 +89,7 @@
                                             type="number" 
                                             [class.is-invalid]="telefonoMovilNoValido"
                                             placeholder="Telefono movil" 
-                                            class="form-control">
+                                            class="form-control text-primary">
                                     </div>
                                     <div class="col-md-2 px-0">
                                         <small *ngIf="telefonoMovilNoValido" class="text-danger">

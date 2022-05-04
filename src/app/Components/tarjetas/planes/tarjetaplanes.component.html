@@ -1,6 +1,11 @@
-<div class="card px-0" style="width: 15rem; border-radius: 15px;">
-    <div class="card-header text-center bg-color-rt py-0" style="border-radius: 15px 15px 0px 0px;">
+<div class="card px-0 borde-card" style="width: 15rem; border-radius: 15px;">
+    <div class="card-header text-center bg-color-3 py-0" style="border-radius: 15px 15px 0px 0px;">
         <h3 class="card-title text-primary text-uppercase py-1 m-0">{{_plan.Descripcion}}</h3>
+        <div class="col px-0 text-end py-1" *ngIf="_origen === 'AlPagar'">
+          <button type="button" class="btn btn-outline-primary" (click)="elegirPlanCliente()" [ngClass]="{' btn-primary': _plan.Seleccionado === 1, ' btn-outline-primary': _plan.Seleccionado === 0}" style="border-radius: 25px;">
+            <span class="col-md-1  text-center"><i class="fa fa-check" > </i></span>
+          </button>
+        </div>
     </div>
     <div class="card-body">
       <p class="card-text text-primary text-center mb-0">Precio:</p>
@@ -10,10 +15,18 @@
       <p class="card-text text-primary text-center">Vigencia:</p>
       <h3 class="card-text text-primary text-center">{{_plan.VigenciaXUnidad}} dias</h3>
     </div>
-    <div class="card-footer text-end bg-color-rt" style="border-radius: 0px 0px 15px 15px;">
+    <div *ngIf="_origen === 'menuPlan' || _origen === 'misPlanes'" class="card-footer text-end bg-color-3" style="border-radius: 0px 0px 15px 15px;">
       <div class="row">
-        <div class="col">
-          <button type="button" class="btn btn-primary" (click)="comprarPlan()" style="border-radius: 25px;">
+        <div *ngIf="_origen === 'menuPlan'" class="col text-end px-0">
+          <button type="button" class="btn btn-primary" (click)="modificarPlan()" data-bs-toggle="modal" data-bs-target="#gridAgregarPlanes"  style="border-radius: 25px;">
+            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-pen" aria-hidden="true"></i></span>
+          </button>
+          <button type="button" class="btn btn-danger mx-1" (click)="eliminarPlan()" style="border-radius: 25px;">
+            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-trash" aria-hidden="true"></i></span>
+          </button>
+        </div>
+        <div *ngIf="_origen === 'misPlanes'" class="col d-grid text-center">
+          <button type="button" class="btn btn-primary text-center" (click)="comprarPlan()" style="border-radius: 10px;">
             <span class="col-md-1 col-md-offset-2 text-center">Comprar</span>
           </button>
         </div>

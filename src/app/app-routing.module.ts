@@ -19,6 +19,7 @@ import { LEGAL_CHILD_ROUTES } from './Components/legal/legal.routes';
 import { MICUENTA_CHILD_ROUTES } from './Components/micuenta/micuenta.routes';
 import { AYUDA_CHILD_ROUTES } from './Components/ayuda/ayuda.routes';
 import { ANUNCIOS_CHILD_ROUTES } from './Components/anuncios/anuncios.routes' 
+import { PROCESOS_CHILD_ROUTES } from './Components/procesos/procesos.routes';
 
 import { RecuperarpasswordComponent } from './Components/recuperarpassword/recuperarpassword.component';
 import { LegalComponent } from './Components/legal/legal.component';
@@ -49,6 +50,10 @@ const routes: Routes = [
   {
     path: 'catalogos',
     children: CATALOGOS_CHILD_ROUTES,
+  },
+  {
+    path: 'procesos',
+    children: PROCESOS_CHILD_ROUTES,
   },
   {
     path: 'micuenta',

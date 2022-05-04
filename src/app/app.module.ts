@@ -25,11 +25,12 @@ import { RecuperarpasswordComponent } from './Components/recuperarpassword/recup
 import { LegalComponent } from './Components/legal/legal.component';
 import { MicuentaComponent } from './Components/micuenta/micuenta.component';
 
-import { MicuentaModule } from './Components/micuenta/micuenta.module';
-import { CatalogosModule } from './Components/catalogos/catalogos.module';
-import { PublicarModule } from './Components/publicar/publicar.module';
-import { AyudaModule } from './Components/ayuda/ayuda.module';
 import { ActivarclienteComponent } from './Components/activarcliente/activarcliente.component';
+import { AyudaModule } from './Components/ayuda/ayuda.module';
+import { CatalogosModule } from './Components/catalogos/catalogos.module';
+import { MicuentaModule } from './Components/micuenta/micuenta.module';
+import { ProcesosModule } from './Components/procesos/procesos.module';
+import { PublicarModule } from './Components/publicar/publicar.module';
 
 // import { MaterialModule } from './material.module';
 // import { CoreModule } from './core/core.module';
@@ -64,6 +65,7 @@ import { ActivarclienteComponent } from './Components/activarcliente/activarclie
     PublicarModule,
     AyudaModule,
     CatalogosModule,
+    ProcesosModule,
     MicuentaModule,
     HttpClientModule,
     ReactiveFormsModule,

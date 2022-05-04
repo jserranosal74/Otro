@@ -14,7 +14,7 @@ import { PlanesService } from 'src/app/Services/Catalogos/planes.service';
 })
 export class PlanesComponent implements OnInit {
   _planes : plan[] = [];
-  _plan : plan = new plan(0,'',0,0,0,'',new Date(),new Date(),0,0);
+  _plan : plan = new plan(0,'',0,0,0,'',new Date(),new Date(),0,0,0);
   _textoAccion ='';
 
   _esNuevo : boolean = false;
@@ -53,7 +53,7 @@ export class PlanesComponent implements OnInit {
       vigenciaxunidad: ['', Validators.required],
       urlimagen: ['', Validators.required]
     });
-    this._plan = new plan(0,'',0,0,0,'',new Date(),new Date(),0,0);
+    this._plan = new plan(0,'',0,0,0,'',new Date(),new Date(),0,0,0);
   }
 
   limpiarFormulario() {
@@ -65,7 +65,7 @@ export class PlanesComponent implements OnInit {
       vigenciaxunidad: '',
       urlimagen: ''
     });
-    this._plan = new plan(0,'',0,0,0,'',new Date(),new Date(),0,0);
+    this._plan = new plan(0,'',0,0,0,'',new Date(),new Date(),0,0,0);
   }
 
   obtenerPlanes() {
@@ -114,8 +114,6 @@ export class PlanesComponent implements OnInit {
   obtenerPlan(objPlan : plan) {
     this._textoAccion = 'Modificar';
     this._plan = objPlan;
-
-    //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Cliente'];
 
     this._planService.getPlan(objPlan.Id_Plan).subscribe(
       (data) => {
@@ -314,7 +312,7 @@ export class PlanesComponent implements OnInit {
     this._plan = objPlan;
 
     Swal.fire({
-      icon: 'warning',
+      icon: 'question',
       title: '¿Está seguro de que desea eliminar el plan: "' + objPlan.Descripcion + '"?',
       showDenyButton: false,
       showCancelButton: true,

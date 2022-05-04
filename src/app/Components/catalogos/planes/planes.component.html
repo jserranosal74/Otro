@@ -18,12 +18,25 @@
                                   </td>
                               </div>
                           </div>
-                          <div class="form-group row mb-3">
+
+                          <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="well well-sm">
+                                      <div class="card-group justify-content-center">
+                                        <div class="form-group row" *ngFor="let plan of _planes">
+                                          <app-tarjetaplanes class="row px-4 g-3" [_plan]="plan" [_origen]="'menuPlan'" (_sePresionaModificar)="obtenerPlan(plan)" (_sePresionaEliminar)="eliminarPlan(plan)"></app-tarjetaplanes>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                          <!-- <div class="form-group row mb-3">
                               <table class="table table-primary table-striped table-bordered border-primary text-primary">
                                   <thead>
                                     <tr>
                                       <th width="50px" class="text-primary text-center" scope="col">#</th>
-                                      <!-- <th class="text-primary" scope="col">Id Cliente</th> -->
                                       <th width="190px" class="text-primary text-center"  scope="col">Descripción</th>
                                       <th class="text-primary text-center" scope="col">Precio</th>
                                       <th class="text-primary text-center" scope="col">Cantidad</th>
@@ -38,7 +51,6 @@
                                   <tbody>
                                     <tr *ngFor="let plan of _planes; let i = index;">
                                       <th class="text-primary text-center" scope="row">{{plan.Id_Plan}}</th>
-                                      <!-- <td class="text-primary text-center">{{inmobiliaria.Id_Cliente}}</td> -->
                                       <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{plan.Descripcion}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{plan.Descripcion}}</td>
                                       <td class="text-primary text-end">{{plan.Precio | currency: 'USD'}}</td>
                                       <td class="text-primary text-center">{{plan.Cantidad}}</td>
@@ -62,7 +74,7 @@
                                     </tr>
                                   </tbody>
                                 </table>
-                          </div>
+                          </div> -->
                       </fieldset>
                   </form>
               </div>

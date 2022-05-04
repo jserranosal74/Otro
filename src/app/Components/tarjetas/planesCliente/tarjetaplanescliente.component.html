@@ -1,11 +1,11 @@
-<div class="card px-0" style="width: 15rem; border-radius: 15px;">
-    <div class="card-header text-center bg-color-rt py-0" style="border-radius: 15px 15px 0px 0px;">
+<div class="card px-0 borde-card" style="width: 15rem; border-radius: 15px;">
+    <div class="card-header text-center bg-color-3 py-0" style="border-radius: 15px 15px 0px 0px;">
       <div class="row">
         <div class="col">
           <h3 class="card-title text-primary text-uppercase py-1 m-0">{{_planCliente.Descripcion}}</h3>
         </div>
         <div class="col px-0 text-end py-1" *ngIf="_tipoTarjeta === 'AlPagar'">
-          <button type="button" class="btn btn-outline-primary" (click)="elegirPlanCliente()" style="border-radius: 25px;">
+          <button type="button" class="btn btn-outline-primary" (click)="elegirPlanCliente()" [ngClass]="{' btn-primary': _planCliente.Seleccionado === 1, ' btn-outline-primary': _planCliente.Seleccionado === 0}" style="border-radius: 25px;">
             <span class="col-md-1  text-center"><i class="fa fa-check" > </i></span>
           </button>
         </div>
@@ -13,10 +13,36 @@
     </div>
     <div class="card-body">
       <!-- <h6 class="card-subtitle mb-3 text-primary text-uppercase">Precio: {{_planCliente.Precio}}</h6> -->
-      <p class="card-text text-primary text-center">Disponibles:</p>
-      <h4 class="card-text text-primary text-center">{{_planCliente.Restantes}}</h4>
-      <p class="card-text text-primary text-center">Fecha de compra:</p>
-      <h4 class="card-text text-primary text-center">{{_planCliente.FechaDePago | date:'dd-MM-yyyy'}}</h4>
+      <p *ngIf="_planCliente.DescripcionEstatus === 'Pagado'" class="card-text text-primary text-center">Disponibles:</p>
+      <p *ngIf="_planCliente.DescripcionEstatus === 'En espera de pago'" class="card-text text-primary text-center">Con este pago obtendras:</p>
+      <div class="row">
+        <div class="col p-0">
+          <h4 class="card-text text-primary text-end">{{_planCliente.Restantes}}</h4>
+        </div>
+        <div class="col">
+          <p *ngIf="_planCliente.Restantes > 1" class="text-start text-primary py-1">anuncios</p>
+          <p *ngIf="_planCliente.Restantes === 1" class="text-start text-primary py-1">anuncio</p>
+        </div>
+      </div>
+      <div *ngIf="_planCliente.DescripcionEstatus === 'Pagado'">
+        <p class="card-text text-primary text-center">Fecha de pago:</p>
+        <h4 class="card-text text-primary text-center">{{_planCliente.FechaDePago | date:'dd-MM-yyyy'}}</h4>
+      </div>
+      <div *ngIf="_planCliente.Id_Publicacion != null" class="text-center">
+        <p class="card-text text-primary text-center">Y será aplicado al anuncio:</p>
+        <a class="card-text text-primary text-center" href="/publicar/caracteristicas?id_Publicacion={{_planCliente.Id_Publicacion}}"><strong>{{_planCliente.TituloPublicacion}}</strong></a>
+      </div>
     </div>
-    
+    <div class="card-footer text-end bg-color-3" style="border-radius: 0px 0px 15px 15px;">
+      <div class="row">
+        <div class="col px-0">
+          <h5 class="card-text text-primary text-center">{{_planCliente.DescripcionEstatus}}</h5>
+        </div>
+        <div *ngIf="_planCliente.DescripcionEstatus === 'En espera de pago'" class="col-md-auto px-0">
+          <button type="button" class="btn btn-outline-primary" (click)="obtenerInfoPagoPlan()" style="border-radius: 25px;">
+            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope"></i></span>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>

@@ -16,7 +16,7 @@ import { TiposPersonaService } from 'src/app/Services/Catalogos/tiposPersonas.se
 })
 export class DatosfiscalesComponent implements OnInit {
   _datosFiscales : datoFiscal[] = [];
-  _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(), 0,0);
+  _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(), 0,0,0);
   _tiposPersonas : tipoPersona[] = [];
   _tipoPersona : tipoPersona = new tipoPersona(0,'',new Date(), new Date(), 0,0,);
   _textoAccion ='';
@@ -55,7 +55,7 @@ export class DatosfiscalesComponent implements OnInit {
       rfc : ['', Validators.required],
       email : ['', Validators.required]
     });
-    this._datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(), 0,0);
+    this._datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(),0,0,0);
   }
 
   limpiarFormulario() {
@@ -66,7 +66,7 @@ export class DatosfiscalesComponent implements OnInit {
       rfc : '',
       email : ''
     });
-    this._datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(), 0,0);
+    this._datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(), 0,0,0);
     this._textoAccion = 'Agregar'
   }
 

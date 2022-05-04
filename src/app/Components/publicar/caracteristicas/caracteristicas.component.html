@@ -13,50 +13,358 @@
         </div>
       </div>
 
-      <div class="container pt-3" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
+      
+
+      <div *ngIf="!_esDesarrollo" class="container pt-3" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
+
+        <div class="pt-3">
+          <div class="form-group row">
+            <legend class="text-center text-primary mt-2"><h3>Principales</h3></legend>
+          </div>
+          <div class="form-group row py-0">
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+              <div class="col-md-6 input-group">
+                <span class="input-group-text text-primary">Recamaras</span>
+                <input  class="form-control text-primary"
+                        type="number"
+                        min="0" 
+                        max="99"
+                        formControlName="recamarasDesde"/>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="col-md-6 input-group">
+                <span class="input-group-text text-primary">Baños</span>
+                <input  class="form-control text-primary"
+                        type="number"
+                        min="0" 
+                        max="99"
+                        formControlName="baniosCompDesde"/>
+              </div>
+            </div>
+            <div class="col-auto">
+              <div class="col-md-6 input-group">
+                <span class="input-group-text text-primary">&#189; Baños</span>
+                <input  class="form-control text-primary"
+                        type="number"
+                        min="0" 
+                        max="99"
+                        formControlName="mediosbaniosDesde"/>
+              </div>
+            </div>
+            <div class="col-auto">
+              <div class="col-md-6 input-group">
+                <span class="input-group-text text-primary">Estacionamientos</span>
+                <input  class="form-control text-primary"
+                        type="number"
+                        min="0" 
+                        max="99"
+                        formControlName="estacionamientoDesde"/>
+              </div>
+            </div>
+          </div>
+
+          
+
+          <div class="form-group row py-0">
+
+            <div class="col">
+              <div class="form-group row mt-5 mb-3">
+                <legend class="text-center text-primary mt-3"><h3>Superficie</h3></legend>
+              </div>
+              <div class="col-md-auto">
+                <div class="row">
+                  <div class="col-md-6 input-group">
+                    <span class="input-group-text text-end text-primary" style="width: 170px;">Superficie construida</span>
+                    <input  class="form-control text-primary"
+                            type="number"
+                            min="0" 
+                            max="999999"
+                            formControlName="superficieConstruidaDesde"/>
+                    <span class="input-group-text text-primary">m<sup>2</sup></span>
+                  </div>
+                </div>
+              </div>
+                <div class="col-md-auto py-3">
+                  <div class="col-md-12 p-0 input-group">
+                    <span class="input-group-text  text-primary" style="width: 170px;">Superficie terreno</span>
+                    <input class="form-control text-primary"
+                            type="number"
+                            min="0" 
+                            max="999999"
+                            formControlName="superficieTerreno"/>
+                            <span class="input-group-text text-primary">m<sup>2</sup></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col">
+
+                <div class="form-group row mt-5 mb-3">
+                  <legend class="text-center text-primary mt-3"><h3>Antiguedad</h3></legend>
+                </div>
+        
+                <div class="form-group row py-0">
+                  <div class="col-md-1"></div>
+                  <div class="col-md-5">
+                    <div class="form-check">
+                      <input class="form-check-input" 
+                            type="radio" 
+                            value="0"
+                            name="antiguedad" 
+                            [checked]="_checkNueva"
+                            (change)="seleccionarAntiguedad(0)"
+                            id="flexRadioDefault1">
+                      <label class="form-check-label text-primary" for="flexRadioDefault1">
+                        Nueva
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" 
+                            type="radio" 
+                            name="antiguedad"
+                            value="-1"
+                            (change)="seleccionarAntiguedad(-1)"
+                            [checked]="_checkEnConstruccion"
+                            id="flexRadioDefault2">
+                      <label class="form-check-label text-primary" for="flexRadioDefault2">
+                        En construcción
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-check">
+                      <input class="form-check-input" 
+                            type="radio" 
+                            name="antiguedad"
+                            value="1"
+                            [checked]="_checkAnios"
+                            (change)="seleccionarAntiguedad(1)"
+                            id="flexRadioDefault1">
+                      <label class="form-check-label text-primary" for="flexRadioDefault1">
+                        Años de antiguedad
+                      </label>
+                    </div>
+                    <div class="col-md-5">
+                      <div class="col-md-12 p-0">
+                        <input class="form-control"
+                              type="number"
+                              min="1"
+                              max="999"
+                              [hidden]="_mostrarAniosAntiguedad"
+                              formControlName="aniosAntiguedad"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-1"></div>
+                </div>
+
+              </div>
+
+          </div>
+
+
+          <div class="form-group row mt-5">
+            <legend class="text-center text-primary mt-3"><h3>Precio</h3></legend>
+          </div>
+
+          <div class="form-group row py-0">
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+              <label class="col-md-12 col-form-label text-primary">Precio del inmueble</label>
+              <div class="col-md-12 p-0 input-group">
+                <span class="input-group-text text-primary">$</span>
+                <input  class="form-control text-primary"
+                        type="number"
+                        min="0" 
+                        max="999999"
+                        formControlName="precioDesde" />
+                <span class="input-group-text text-primary">.00</span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <label class="col-md-12 col-form-label text-primary">Mantenimiento</label>
+              <div class="col-md-12 p-0 input-group ">
+                <span class="input-group-text text-primary">$</span>
+                <input  class="form-control text-primary"
+                        type="number"
+                        min="0" 
+                        max="999999"
+                        formControlName="coutaMantenimiento" />
+                        <span class="input-group-text text-primary">.00</span>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="col-md-12 p-0 m-0">
+                <label class="col-md-12 col-form-label text-primary">Tipo de Moneda</label>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" 
+                        type="radio" 
+                        value="1"
+                        name="moneda"
+                        [checked]="_checkMoneda1"
+                        (click)="cambiarMoneda(1)"
+                        id="monedaMNX">
+                  <label class="form-check-label text-primary" for="monedaMNX">
+                    MNX
+                  </label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" 
+                        type="radio" 
+                        name="moneda"
+                        value="2"
+                        [checked]="_checkMoneda2"
+                        (click)="cambiarMoneda(2)"
+                        id="monedaUSD" 
+                        checked>
+                  <label class="form-check-label text-primary" for="monedaUSD">
+                    USD
+                  </label>
+                </div>
+                
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="row">&nbsp;</div>
+              <div class="row">&nbsp;</div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" 
+                      type="checkbox" 
+                      value="0" 
+                      formControlName="precioNegociable"
+                      id="checkPrecioNegociable">
+                <label class="form-check-label text-primary" for="checkPrecioNegociable">
+                  Precio negociable
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row mt-5">
+            <legend class="text-center text-primary mt-3"><h3>Descripción del inmueble</h3></legend>
+          </div>
+
+          <div class="form-group row ">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+              <label class="col-md-12 col-form-label text-primary">Titulo del anuncio</label>
+              <div class="col-md-12 p-0">
+                <input  class="form-control text-primary"
+                        type="text"
+                        placeholder="El titulo debe de ser muy descriptivo, p.e. Casa en Venta en Celaya Guanajuato..."
+                        formControlName="tituloPublicacion"
+                />
+              </div>
+            </div>
+            <div class="col-md-2"></div>
+            <div class="col-md-2"></div>
+            <div class="col-md-8 mb-5">
+              <label class="col-md-12 col-form-label text-primary">Descripción</label>
+              <div class="col-md-12 p-0">
+                <textarea class="form-control text-primary"
+                          type="textarea"
+                          rows="3"
+                          placeholder="Escribe un mínimo de 100 caracteres"
+                          maxlength="1000"
+                          minlength="100"
+                          formControlName="descripcion"></textarea>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+
+
+      <div *ngIf="_esDesarrollo" class="container pt-3" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
         <div class="form-group row">
-          <legend class="text-center text-primary mt-2"><h3>Principales</h3></legend>
+          <legend class="text-center text-primary mt-2"><h3>Principales / Generales</h3></legend>
         </div>
         <div class="form-group row py-0">
-          <div class="col-md-1"></div>
           <div class="col-md-3">
             <div class="col-md-6 input-group">
-              <span class="input-group-text text-primary">Recamaras</span>
+              <span class="input-group-text text-primary">Recamaras desde</span>
               <input  class="form-control text-primary"
                       type="number"
                       min="0" 
                       max="99"
-                      formControlName="recamaras"/>
+                      formControlName="recamarasDesde"/>
             </div>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-3">
             <div class="col-md-6 input-group">
-              <span class="input-group-text text-primary">Baños</span>
+              <span class="input-group-text text-primary">Baños desde</span>
               <input  class="form-control text-primary"
                       type="number"
                       min="0" 
                       max="99"
-                      formControlName="banios"/>
+                      formControlName="baniosCompDesde"/>
             </div>
           </div>
-          <div class="col-auto">
+          <div class="col-md-3">
             <div class="col-md-6 input-group">
-              <span class="input-group-text text-primary">&#189; Baños</span>
+              <span class="input-group-text text-primary">&#189; Baños desde</span>
               <input  class="form-control text-primary"
                       type="number"
                       min="0" 
                       max="99"
-                      formControlName="mediosbanios"/>
+                      formControlName="mediosbaniosDesde"/>
             </div>
           </div>
-          <div class="col-auto">
+          <div class="col-md-3">
             <div class="col-md-6 input-group">
-              <span class="input-group-text text-primary">Estacionamientos</span>
+              <span class="input-group-text text-primary">Estacionamiento desde</span>
               <input  class="form-control text-primary"
                       type="number"
                       min="0" 
                       max="99"
-                      formControlName="estacionamientos"/>
+                      formControlName="estacionamientoDesde"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row py-0">
+          <div class="col-md-3 py-3">
+            <div class="col-md-6 input-group">
+              <span class="input-group-text text-primary">Recamaras hasta</span>
+              <input  class="form-control text-primary"
+                      type="number"
+                      min="0" 
+                      max="99"
+                      formControlName="recamarasHasta"/>
+            </div>
+          </div>
+          <div class="col-md-3 py-3">
+            <div class="col-md-6 input-group">
+              <span class="input-group-text text-primary">Baños hasta</span>
+              <input  class="form-control text-primary"
+                      type="number"
+                      min="0" 
+                      max="99"
+                      formControlName="baniosCompHasta"/>
+            </div>
+          </div>
+          <div class="col-md-3 py-3">
+            <div class="col-md-6 input-group">
+              <span class="input-group-text text-primary">&#189; Baños hasta</span>
+              <input  class="form-control text-primary"
+                      type="number"
+                      min="0" 
+                      max="99"
+                      formControlName="mediosbaniosHasta"/>
+            </div>
+          </div>
+          <div class="col-md-3 py-3">
+            <div class="col-md-6 input-group">
+              <span class="input-group-text text-primary">Estacionamiento hasta</span>
+              <input  class="form-control text-primary"
+                      type="number"
+                      min="0" 
+                      max="99"
+                      formControlName="estacionamientoHasta"/>
             </div>
           </div>
         </div>
@@ -72,24 +380,24 @@
             <div class="col-md-auto">
               <div class="row">
                 <div class="col-md-6 input-group">
-                  <span class="input-group-text text-end text-primary" style="width: 170px;">Superficie construida</span>
+                  <span class="input-group-text text-end text-primary" style="width: 220px;">Superficie construida desde</span>
                   <input  class="form-control text-primary"
                           type="number"
                           min="0" 
                           max="999999"
-                          formControlName="superficieConstruida"/>
+                          formControlName="superficieConstruidaDesde"/>
                   <span class="input-group-text text-primary">m<sup>2</sup></span>
                 </div>
               </div>
             </div>
               <div class="col-md-auto py-3">
                 <div class="col-md-12 p-0 input-group">
-                  <span class="input-group-text  text-primary" style="width: 170px;">Superficie terreno</span>
+                  <span class="input-group-text  text-primary" style="width: 220px;">Superficie construida hasta</span>
                   <input class="form-control text-primary"
                           type="number"
                           min="0" 
                           max="999999"
-                          formControlName="superficieTerreno"/>
+                          formControlName="superficieConstruidaHasta"/>
                           <span class="input-group-text text-primary">m<sup>2</sup></span>
                 </div>
               </div>
@@ -160,27 +468,112 @@
 
         </div>
 
+
+        <div class="row">
+          <div class="col">
+            <div class="row m-4 text-center">
+              <div *ngIf="!_publicacionActivada" class="col-md-12 text-center">
+                <h3 class="text-primary" >Anuncios posibles a enlazar con el desarrollo</h3>
+                <h5 class="text-primary" >Quite de la lista los que no desee que sean enlazados</h5>
+                <button type="button" class="btn btn-primary br25 my-4" (click)="obtenerAnunciosAEnlazar();">Agregar anuncios posibles a enlazar</button>
+              </div>
+              <!-- <div class="col-md-6">
+                <input class="form-control text-primary"
+                       type="text"
+                       maxlength="150"
+                       placeholder="Url de la propiedad a ser enlazada con el desarrollo"
+                       [(ngModel)]="_publicacionHija">
+              </div>
+              <div class="col-md-auto">
+                <button class="btn btn-primary text-start br25"
+                        type="button"
+                        (click)="enlazarPropiedadDetalle()">
+                  Enlazar propiedad a desarrollo
+                </button>
+              </div> -->
+            </div>
+      
+            <table class="table text-primary">
+              <thead class="thead-dark text-primary">
+                <tr>
+                  <th class="text-primary text-center">Titulo</th>
+                  <th class="text-primary text-center">Precio</th>
+                  <th class="text-primary text-center">Superficie m<sup>2</sup></th>
+                  <th class="text-primary text-center">Recamaras</th>
+                  <th class="text-primary text-center">Baños Completos</th>
+                  <th width="50px" class="text-primary text-center">Estacionamientos</th>
+                  <th *ngIf="!_publicacionActivada" width="50px" class="text-primary text-center">Quitar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="py-5" *ngFor="let publicacionHija of _publicacionesHijas; let i = index">
+                      <td class="text-primary text-truncate" style="max-width: 180px;">
+                        <a href="/publicar/caracteristicas?Id_Publicacion={{publicacionHija.Id_Publicacion}}">{{publicacionHija.TituloPublicacion === null ? 'No definido' : publicacionHija.TituloPublicacion }}</a>
+                      </td>
+                      <td class="text-primary text-end" style="min-width: 100px;">
+                        <label class="text-primary">{{publicacionHija.PrecioDesde === null ? 'No definido' : publicacionHija.PrecioDesde | currency}}</label>
+                        <label class="text-primary px-1" style="font-size: 12px; font-weight: bold;">{{((publicacionHija.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label>
+                      </td>
+                      <td class="text-primary text-center">
+                        <label class="text-primary">{{publicacionHija.SuperficieConstruidaDesde === null ? 'No definida' : publicacionHija.SuperficieConstruidaDesde }}</label>
+                      </td>
+                      <td class="text-primary text-center">
+                        <label class="text-primary">{{publicacionHija.RecamarasDesde === null ? 'No definido' : publicacionHija.RecamarasDesde }}</label>
+                      </td>
+                      <td class="text-primary text-center">
+                        <label class="text-primary">{{publicacionHija.BaniosCompDesde === null ? 'No definido' : publicacionHija.BaniosCompDesde }}</label>
+                      </td>
+                      <td class="text-primary text-center">
+                        <label class="text-primary">{{publicacionHija.EstacionamientosDesde === null ? 'No definido' : publicacionHija.EstacionamientosDesde }}</label>
+                      </td>
+                      <td *ngIf="!_publicacionActivada" class="text-end" width="auto" >
+                        <button class="btn d-grid mix-auto btn-outline-primary" 
+                                style="border-radius: 25px;"
+                                (click)="quitarPublicacionHija(publicacionHija)">
+                                <span _ngcontent-hso-c67="" class="col-md-1 col-md-offset-2 text-center">
+                                  <i _ngcontent-hso-c67="" class="fa fa-xmark" aria-hidden="true"></i></span>
+                        </button>
+                      </td>
+                </tr>
+              </tbody>
+            </table>
+      
+          </div>
+        </div>
         
 
         <div class="form-group row mt-5">
-          <legend class="text-center text-primary mt-3"><h3>Precio</h3></legend>
+          <legend class="text-center text-primary mt-3"><h3>Rango de precios de las propiedades en el desarrollo</h3></legend>
         </div>
 
         <div class="form-group row py-0">
-          <div class="col-md-1"></div>
           <div class="col-md-3">
-            <label class="col-md-12 col-form-label text-primary">Precio del inmueble</label>
+            <label class="col-md-12 col-form-label text-primary">Precio desde</label>
             <div class="col-md-12 p-0 input-group">
               <span class="input-group-text text-primary">$</span>
               <input  class="form-control text-primary"
                       type="number"
                       min="0" 
+                      placeholder="Precio desde"
                       max="999999"
-                      formControlName="precioInmueble" />
+                      formControlName="precioDesde" />
               <span class="input-group-text text-primary">.00</span>
             </div>
           </div>
           <div class="col-md-3">
+            <label class="col-md-12 col-form-label text-primary">Precio hasta</label>
+            <div class="col-md-12 p-0 input-group">
+              <span class="input-group-text text-primary">$</span>
+              <input  class="form-control text-primary"
+                      type="number"
+                      min="0" 
+                      placeholder="Precio hasta"
+                      max="999999"
+                      formControlName="precioHasta" />
+              <span class="input-group-text text-primary">.00</span>
+            </div>
+          </div>
+          <div class="col-md-2">
             <label class="col-md-12 col-form-label text-primary">Mantenimiento</label>
             <div class="col-md-12 p-0 input-group ">
               <span class="input-group-text text-primary">$</span>
@@ -188,6 +581,7 @@
                       type="number"
                       min="0" 
                       max="999999"
+                      placeholder="Mantto"
                       formControlName="coutaMantenimiento" />
                       <span class="input-group-text text-primary">.00</span>
             </div>
@@ -223,34 +617,33 @@
               
             </div>
           </div>
-          <div class="col-md-3">
-            <div class="row">&nbsp;</div>
-            <div class="row">&nbsp;</div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" 
-                    type="checkbox" 
-                    value="0" 
-                    formControlName="precioNegociable"
-                    id="checkPrecioNegociable">
-              <label class="form-check-label text-primary" for="checkPrecioNegociable">
-                Precio negociable
-              </label>
+          <div class="col-md-2">
+            <div class="row"><label class="form-check-label text-primary py-2">
+              Precio negociable
+            </label></div>
+            <div class="form-check text-center">
+              <input class="form-check-input"
+                     type="checkbox" 
+                     value="0" 
+                     formControlName="precioNegociable"
+                     id="checkPrecioNegociable">
             </div>
           </div>
         </div>
 
         <div class="form-group row mt-5">
-          <legend class="text-center text-primary mt-3"><h3>Descripción del inmueble</h3></legend>
+          <legend class="text-center text-primary mt-3"><h3>Descripción del Desarrollo</h3></legend>
         </div>
 
         <div class="form-group row ">
           <div class="col-md-2"></div>
           <div class="col-md-8">
-            <label class="col-md-12 col-form-label text-primary">Titulo</label>
+            <label class="col-md-12 col-form-label text-primary">Titulo del anuncio</label>
             <div class="col-md-12 p-0">
               <input  class="form-control text-primary"
                       type="text"
-                      formControlName="titulo"
+                      placeholder="El titulo debe de ser muy descriptivo, p.e. Casa en Venta en Celaya Guanajuato..."
+                      formControlName="tituloPublicacion"
               />
             </div>
           </div>

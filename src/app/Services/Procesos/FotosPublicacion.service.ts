@@ -10,7 +10,7 @@ import { LoginService } from '../Catalogos/login.service';
   providedIn: 'root'
 })
 
-export class FotosPublicacionService {
+export class MultimediaPublicacionService {
   public urlPublicacionMultimedia: string;
 
   httpOptions = {

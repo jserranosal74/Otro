@@ -1,0 +1,7 @@
+<div class="container">
+    <div class="card-group justify-content-center">
+        <div class="form-group row mb-3" *ngFor="let banco of _bancos">
+              <app-tarjetabanco class="row px-4 gy-2" [_banco]="banco"></app-tarjetabanco>
+        </div>
+      </div>
+</div>

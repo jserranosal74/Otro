@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { URL_APIS } from '../global';
-import { publicacion } from '../../Models/procesos/publicacion.model';
 import { LoginService } from '../Catalogos/login.service';
 import { paginadoDetalle } from 'src/app/Models/catalogos/asentamiento.model';
 import { favoritoClienteParams } from 'src/app/Models/procesos/favoritoCliente.model';
@@ -30,12 +29,16 @@ export class FavoritosClienteService {
     return this.http.get<favoritoCliente[]>(this.urlFavoritosCliente + '?Id_Cliente=' + Id_Cliente + '&NumPagina=' + NumPagina + '&NumRenglones=' + NumRenglones, this.httpOptions);
   }
 
+  public getFavoritoCliente(Id_Cliente_FavoritoCliente : number, Id_Cliente : number, Id_Publicacion : number): Observable<number> {
+    return this.http.get<number>(this.urlFavoritosCliente + '?Id_Cliente_FavoritoCliente=' + Id_Cliente_FavoritoCliente + '&Id_Cliente=' + Id_Cliente + '&Id_Publicacion=' + Id_Publicacion, this.httpOptions);
+  }
+
   public getFavoritosClienteResumen(Id_Cliente : number, NumRenglones: number): Observable<paginadoDetalle> {
     return this.http.get<paginadoDetalle>(this.urlFavoritosCliente + '?Id_Cliente=' + Id_Cliente + '&NumRenglones=' + NumRenglones, this.httpOptions);
   }
 
-  public putFavoritoCliente(objParametrosFC: favoritoClienteParams): Observable<number> {
-    return this.http.put<number>(this.urlFavoritosCliente, objParametrosFC, this.httpOptions);
+  public postFavoritoCliente(objParametrosFC: favoritoClienteParams): Observable<number> {
+    return this.http.post<number>(this.urlFavoritosCliente, objParametrosFC, this.httpOptions);
   }
 
   public deleteFavoritoCliente(objParametrosFC: favoritoClienteParams): Observable<number> {

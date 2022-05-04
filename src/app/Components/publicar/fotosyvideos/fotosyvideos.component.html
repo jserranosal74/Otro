@@ -12,7 +12,7 @@
         </div>
       </div>
 
-  <form [formGroup]="formaFotosyVideos">
+  <form [formGroup]="formaMultimedia">
       <div class="container p-5"  style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
 
         <div class="row px-4">
@@ -32,10 +32,25 @@
           <div class="form-group py-0 mb-5 px-3">
             <div formArrayName="fotosPropiedad">
               <div class="row row-cols-3 row-cols-lg-5 g-4 m-0" >
-                <div class="form-group col" [formGroupName]="i" *ngFor="let control of imagenes.controls; let i = index;">
+                <div class="form-group col" [formGroupName]="i" *ngFor="let control of imagenes.controls; let i = index;" style="position:relative; display:block;">
                     <div class="col-md">
-                      <div class="col p-0 m-0" >
-                        <img class="form-control m-0 p-0" alt="Imagen" width="auto" height="150" [src]="obtenerInfoUrl(control)">
+                      <div class="col p-0 m-0">
+                        <img class="form-control m-0 p-0" 
+                              alt="Imagen" 
+                              width="auto" 
+                              height="150" 
+                              [src]="obtenerInfoUrl(control)">
+                      </div>
+                      <div>
+                        <button id="btnEliminar{{i}}"
+                                class="btn btn-outline-danger" 
+                                type="button" 
+                                style="position: absolute; top:5px; left:145px; border-radius: 25px; border:none; color:rgba(255, 0, 0, 0.8);background-color: transparent;
+                                text-shadow: -1px -1px 1px rgb(200, 200, 200), 1px 1px 1px rgb(200, 200, 200), -1px 1px 1px rgb(200, 200, 200), 1px -1px 1px rgb(200, 200, 200);"
+                                (click)="borrarFotografia(control, i)">
+                                <span class="col-md-1 col-md-offset-2 text-center">
+                                  <i class="fa fa-trash-can medicon" aria-hidden="true"></i></span>
+                        </button>
                       </div>
                       <div class="col">
                         <div class="row">
@@ -46,9 +61,9 @@
                               </div>
                             </div>
                             <input type="text" class="form-control" placeholder="Descripción" formControlName="Descripcion" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                            <div class="input-group-append" >
+                            <!-- <div class="input-group-append" >
                               <button class="btn btn-outline-danger" type="button" (click)="borrarFotografia(control, i)"><span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-trash-can" aria-hidden="true"></i></span></button>
-                            </div>
+                            </div> -->
                           </div>
                         </div>
                       </div>
@@ -76,10 +91,19 @@
           <div class="form-group py-0 mb-5 px-3">
             <div formArrayName="videosPropiedad">
               <div class="row row-cols-2 row-cols-lg-2 g-4 m-0" >
-                <div class="form-group col" [formGroupName]="i" *ngFor="let control of videos.controls; let i = index;">
+                <div class="form-group col" [formGroupName]="i" *ngFor="let control of videos.controls; let i = index;" style="position:relative; display:block;">
                     <div class="col-md">
                       <div class="col p-0 m-0" >
                         <iframe class="form-control m-0 p-0" alt="Video" width="100%" height="300px;" [src]="obtenerInfoUrlVideo(control)"></iframe>
+                      </div>
+                      <div>
+                        <button class="btn btn-outline-danger" 
+                                style="position: absolute; top:5px; left:450px; border-radius: 25px; border:none; color:rgba(255, 0, 0, 0.8);background-color: transparent;
+                                       text-shadow: -1px -1px 1px rgb(200, 200, 200), 1px 1px 1px rgb(200, 200, 200), -1px 1px 1px rgb(200, 200, 200), 1px -1px 1px rgb(200, 200, 200);"
+                                (click)="borrarFotografia(control, i)"
+                                type="button" 
+                                (click)="borrarVideo(control, i)"><span class="col-md-1 col-md-offset-2 text-center">
+                                  <i class="fa fa-trash-can medicon" aria-hidden="true"></i></span></button>
                       </div>
                       <div class="col">
                         <div class="row">
@@ -89,10 +113,11 @@
                                 <input id="videoPred{{i}}" type="radio" name="PredeterminadaVideo" (change)="cambiarVideoPredeterminado(control)" [checked]="obtenerEstado(control)" >
                               </div>
                             </div>
-                            <input type="text" class="form-control" placeholder="Descripción" formControlName="Descripcion">
-                            <div class="input-group-append" >
-                              <button class="btn btn-outline-danger" type="button" (click)="borrarVideo(control, i)"><span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-trash-can" aria-hidden="true"></i></span></button>
-                            </div>
+                            <input type="text" 
+                                   class="form-control" 
+                                   placeholder="Descripción" 
+                                   formControlName="Descripcion">
+                            
                           </div>
                         </div>
                       </div>

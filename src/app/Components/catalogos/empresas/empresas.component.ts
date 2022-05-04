@@ -574,12 +574,10 @@ export class EmpresasComponent implements OnInit {
 
   get descripcionNoValido() {
     return ( this.formaEmpresa.get('descripcionEmpresa')?.invalid && this.formaEmpresa.get('descripcionEmpresa')?.touched );
-  
   }
 
   get nombreNoValido() {
     return ( this.formaEmpresa.get('nombreEmpresa')?.invalid && this.formaEmpresa.get('nombreEmpresa')?.touched );
-  
   }
 
   get tipoEmpresaNoValido() {

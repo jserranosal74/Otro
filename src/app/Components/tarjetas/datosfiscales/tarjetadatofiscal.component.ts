@@ -8,11 +8,13 @@ import { datoFiscal } from '../../../Models/procesos/datosFiscales.model';
 })
 export class TarjetaDatoFiscalComponent implements OnInit {
 
-  @Input() _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(),0,0);
+  @Input() _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(),0,0,0);
+  @Input() _origen : string = '';
 
   @Output() _sePresionaEliminar = new EventEmitter<boolean>();
   @Output() _sePresionaEditar = new EventEmitter<boolean>();
   @Output() _sePresionaPredeterminado = new EventEmitter<boolean>();
+  @Output() _seSeleccionaDatoFiscal = new EventEmitter<boolean>();
 
   constructor() { }
 
@@ -29,6 +31,10 @@ export class TarjetaDatoFiscalComponent implements OnInit {
 
   predeterminarDatoFiscal(){
     this._sePresionaPredeterminado.emit(true);
+  }
+
+  seleccionarDatoFiscal(){
+    this._seSeleccionaDatoFiscal.emit(true);
   }
 
 }

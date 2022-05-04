@@ -42,7 +42,7 @@ export class AnuncioMiniaturaComponent implements OnInit {
 
     Swal.fire({
       icon: 'question',
-      title: '¿Está seguro de que desea eliminar el anuncio: "' + this._publicacion.TituloPublicacion + '"?',
+      title: '¿Está seguro de que desea eliminar el anuncio: "' + (this._publicacion.TituloPublicacion === null ? 'Sin titulo' : this._publicacion.TituloPublicacion ) + '"?',
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: 'Si, eliminar',

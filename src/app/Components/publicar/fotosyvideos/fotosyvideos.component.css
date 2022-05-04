@@ -1,7 +1,4 @@
-.list-item-image-tools {
-    overflow: hidden;
-    position: relative;
-    right: 0;
-    top: 0;
-    transition: all 200ms ease-in-out;
-}
+/* button:hover{
+    background-color: transparent;
+    text-shadow: -1px -1px 1px rgb(200, 200, 200), 1px 1px 1px rgb(200, 200, 200), -1px 1px 1px rgb(200, 200, 200), 1px -1px 1px rgb(200, 200, 200);
+} */

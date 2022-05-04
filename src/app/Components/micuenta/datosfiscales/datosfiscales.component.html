@@ -15,7 +15,7 @@
                         </div>
                         <div class="card-group">
                         <div class="form-group row mb-3" *ngFor="let datoFiscal of _datosFiscales">
-                              <app-tarjetadatofiscal class="row px-4 gy-2" (_sePresionaEliminar)="eliminarDatosFiscales(datoFiscal)" (_sePresionaEditar)="obtenerDatoFiscal(datoFiscal)" (_sePresionaPredeterminado)="actualizarPredeterminado(datoFiscal)" [_datoFiscal]="datoFiscal"></app-tarjetadatofiscal>
+                              <app-tarjetadatofiscal class="row px-4 gy-2" (_sePresionaEliminar)="eliminarDatosFiscales(datoFiscal)" (_sePresionaEditar)="obtenerDatoFiscal(datoFiscal)" (_sePresionaPredeterminado)="actualizarPredeterminado(datoFiscal)" [_datoFiscal]="datoFiscal" [_origen]="'MisDatosFiscales'"></app-tarjetadatofiscal>
                             <!-- <table class="table table-primary table-striped table-bordered border-primary text-primary">
                                 <thead>
                                   <tr>

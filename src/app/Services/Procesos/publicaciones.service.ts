@@ -25,11 +25,11 @@ export class PublicacionesService {
   }
 
   public getPublicacion(Id_Publicacion : number, Id_Cliente : number): Observable<publicacion> {
-    return this.http.get<publicacion>('/api/Publicaciones/' + '?Id_Cliente=' + Id_Cliente + '&Id_Publicacion=' + Id_Publicacion, this.httpOptions);
+    return this.http.get<publicacion>('/api/Publicaciones/' + '?Id_Cliente=' + Id_Cliente + '&Id_Estatus=&Id_Publicacion=' + Id_Publicacion, this.httpOptions);
   }
 
-  public getPublicaciones(Id_Cliente : number): Observable<publicacion[]> {
-    return this.http.get<publicacion[]>(this.urlPublicaciones + '?Id_Cliente=' + Id_Cliente + '&Id_Publicacion=', this.httpOptions);
+  public getPublicaciones(Id_Cliente : number, Id_Estatus : number | null): Observable<publicacion[]> {
+    return this.http.get<publicacion[]>(this.urlPublicaciones + '?Id_Cliente=' + Id_Cliente + '&Id_Estatus=' + Id_Estatus + '&Id_Publicacion=', this.httpOptions);
   }
 
   public getPublicacionesMini(Id_Cliente : number, NumPagina : number, NumRenglones: number, strFiltros: string): Observable<publicacionInfoMini[]> {
@@ -48,8 +48,8 @@ export class PublicacionesService {
     return this.http.put<publicacion>(this.urlPublicaciones + objPublicacion.Id_Publicacion, objPublicacion, this.httpOptions);
   }
 
-  public putPublicacionActivar(Id_Publicacion : number, Id_Cliente : number, Id_PlanCliente : number, Id_Plan : number): Observable<publicacion> {
-    return this.http.put<publicacion>(this.urlPublicaciones + '?Id_Publicacion=' + Id_Publicacion+ '&Id_Cliente=' + Id_Cliente + '&Id_PlanCliente=' + Id_PlanCliente+ '&Id_Plan=' + Id_Plan, '', this.httpOptions);
+  public putPublicacionActivar(Id_Publicacion : number, Id_Cliente : number, Id_PlanCliente : number | null, Id_Plan : number, Id_DatosFiscales : number | null, Id_Banco : number | null): Observable<publicacion> {
+    return this.http.put<publicacion>(this.urlPublicaciones + '?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente + '&Id_PlanCliente=' + Id_PlanCliente + '&Id_Plan=' + Id_Plan + '&Id_DatosFiscales=' + Id_DatosFiscales + '&Id_Banco=' + Id_Banco, '', this.httpOptions);
   }
 
   public putPublicacionCaracteristicas(Id_Publicacion: number, Id_Cliente : number, strAdicionales : string): Observable<number> {

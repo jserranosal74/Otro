@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 import { publicacion } from 'src/app/Models/procesos/publicacion.model';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
 import { imagenModel } from '../../../Models/procesos/publicacion.model';
-import { FotosPublicacionService } from '../../../Services/Procesos/FotosPublicacion.service';
+import { MultimediaPublicacionService } from '../../../Services/Procesos/FotosPublicacion.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -17,13 +17,12 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class FotosyvideosComponent implements OnInit {
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
   _id_publicacion : number = 0;
   _multimediaPublicacion : imagenModel[] = [];
   _loading = false;
-  //urlVideo : string = '';
 
-  formaFotosyVideos = this.fb.group({
+  formaMultimedia = this.fb.group({
     urlVideo         : [ '' ],
     fotosPropiedad   : this.fb.array([]),
     videosPropiedad  : this.fb.array([]),
@@ -31,7 +30,7 @@ export class FotosyvideosComponent implements OnInit {
   });
 
   constructor(  private _activatedRoute: ActivatedRoute,
-                private _fotosPublicacionService: FotosPublicacionService,
+                private _fotosPublicacionService: MultimediaPublicacionService,
                 private _loginService: LoginService,
                 private fb: FormBuilder,
                 private sanitizer: DomSanitizer,
@@ -52,7 +51,7 @@ export class FotosyvideosComponent implements OnInit {
   }
 
   CrearFormulario() {
-    this.formaFotosyVideos = this.fb.group({
+    this.formaMultimedia = this.fb.group({
       urlVideo         : [ '' ],
       fotosPropiedad   : this.fb.array([]),
       videosPropiedad  : this.fb.array([]),
@@ -92,7 +91,7 @@ export class FotosyvideosComponent implements OnInit {
               }
             });
 
-            this.formaFotosyVideos.setValue({
+            this.formaMultimedia.setValue({
               urlVideo         : '',
               fotosPropiedad   : this.imagenes,
               videosPropiedad  : this.videos,
@@ -217,16 +216,16 @@ agregarVideo(){
     if (this.videos.controls.length === 0) {
       this.videos.push( this.fb.group({ Id_Multimedia : 0, 
                                         Id_TipoMultimedia : 2,
-                                        Url : this.formaFotosyVideos.controls['urlVideo'].value, 
-                                        Descripcion : this.formaFotosyVideos.controls['urlVideo'].value, 
+                                        Url : this.formaMultimedia.controls['urlVideo'].value, 
+                                        Descripcion : this.formaMultimedia.controls['urlVideo'].value, 
                                         Predeterminada : true,
                                         ImagenBase64 : '' }));
     }
     else{
       this.videos.push( this.fb.group({ Id_Multimedia : 0, 
                                         Id_TipoMultimedia : 2,
-                                        Url : this.formaFotosyVideos.controls['urlVideo'].value, 
-                                        Descripcion : this.formaFotosyVideos.controls['urlVideo'].value, 
+                                        Url : this.formaMultimedia.controls['urlVideo'].value, 
+                                        Descripcion : this.formaMultimedia.controls['urlVideo'].value, 
                                         Predeterminada : false,
                                         ImagenBase64 : '' }));
     }
@@ -276,11 +275,11 @@ cambiarVideoPredeterminado(control : any){
 }
 
   get imagenes(): FormArray {
-    return this.formaFotosyVideos.get('fotosPropiedad') as FormArray;
+    return this.formaMultimedia.get('fotosPropiedad') as FormArray;
   }
 
   get videos(): FormArray {
-    return this.formaFotosyVideos.get('videosPropiedad') as FormArray;
+    return this.formaMultimedia.get('videosPropiedad') as FormArray;
   }
 
   guardarFotosyVideos() {

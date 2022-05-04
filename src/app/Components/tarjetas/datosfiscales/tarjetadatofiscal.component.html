@@ -1,6 +1,11 @@
-<div class="card px-0" style="width: 21rem; border-radius: 15px;">
-    <div class="card-header text-end bg-color-rt" style="border-radius: 15px 15px 0px 0px;">
-      <button type="button" class="btn" (click)="predeterminarDatoFiscal()" [ngClass]="{' btn-primary': _datoFiscal.Predeterminada === 1, ' btn-outline-primary': _datoFiscal.Predeterminada === 0}" style="border-radius: 25px;">
+<div class="card px-0 borde-card" style="width: 21rem; border-radius: 15px;">
+    <div *ngIf="_origen === 'MisDatosFiscales'" class="card-header text-end bg-color-3" style="border-radius: 15px 15px 0px 0px;">
+      <button  type="button" class="btn" (click)="predeterminarDatoFiscal()" [ngClass]="{' btn-primary': _datoFiscal.Predeterminada === 1, ' btn-outline-primary': _datoFiscal.Predeterminada === 0}" style="border-radius: 25px;">
+        <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-check" > </i></span>
+      </button>
+    </div>
+    <div *ngIf="_origen === 'PagarYActivar'" class="card-header text-end bg-color-3" style="border-radius: 15px 15px 0px 0px;">
+      <button type="button" class="btn" (click)="seleccionarDatoFiscal()" [ngClass]="{' btn-primary': _datoFiscal.Seleccionado === 1, ' btn-outline-primary': _datoFiscal.Seleccionado === 0}" style="border-radius: 25px;">
         <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-check" > </i></span>
       </button>
     </div>
@@ -14,7 +19,7 @@
       <p class="card-text text-primary">Domicilio fiscal: {{_datoFiscal.DomicilioFiscal}}</p>
       <p class="card-text text-primary">Email: {{_datoFiscal.Email}}</p>
     </div>
-    <div class="card-footer text-end bg-color-rt" style="border-radius: 0px 0px 15px 15px;">
+    <div *ngIf="_origen === 'MisDatosFiscales'" class="card-footer text-end bg-color-3" style="border-radius: 0px 0px 15px 15px;">
       <div class="row">
         <div class="col text-start">
           <button type="button" class="btn btn-outline-primary" (click)="editarDatoFiscal()" data-bs-toggle="modal" data-bs-target="#gridAgregarDatosFiscales" style="border-radius: 25px;">
