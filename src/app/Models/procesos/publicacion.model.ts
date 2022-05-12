@@ -38,6 +38,7 @@ export class publicacion {
       public NivelesConstruidos: number | null,
       public NivelPropiedad: number | null,
       public Closets: number | null,
+      public Elevadores: number | null,
       public FechaInicioPublicacion: Date | null,
       public FechaFinPublicacion: Date | null,
       public FechaAlta: Date,
@@ -109,54 +110,54 @@ export class publicacion {
 
   export class publicacionCaracteristica {
     constructor(
-      public Id_Publicacion : number | null,
-      public Id_Cliente : number | null,
-      public Id_Caracteristica : number | null,
+      public Id_Publicacion        : number | null,
+      public Id_Cliente            : number | null,
+      public Id_Caracteristica     : number | null,
       public Id_TipoCaracteristica : number | null,
-      public Descripcion: string | null,
-      public Valor : number | null,
-      public FechaAlta : Date | null,
-      public FechaModificacion : Date | null,
-      public Id_Estatus : number | null,
-      public Id_Usuario : number | null,
+      public Descripcion           : string | null,
+      public Valor                 : number | null,
+      public FechaAlta             : Date | null,
+      public FechaModificacion     : Date | null,
+      public Id_Estatus            : number | null,
+      public Id_Usuario            : number | null,
     ) {
     }
   }
 
   export class publicacionCaracteristicaLigth {
     constructor(
-      public Id_Caracteristica : number,
+      public Id_Caracteristica     : number,
       public Id_TipoCaracteristica : number,
-      public Valor : number,
+      public Valor                 : number,
     ) {
     }
   }
 
   export class publicacionMultimedia {
     constructor(
-      public Id_Multimedia : number,
-      public Id_Publicacion : number,
-      public Id_Cliente : number,
+      public Id_Multimedia     : number,
+      public Id_Publicacion    : number,
+      public Id_Cliente        : number,
       public Id_TipoMultimedia : number,
-      public Descripcion : number | null,
-      public Url: string | null,
-      public Predeterminada : boolean,
-      public FechaAlta : Date | null,
+      public Descripcion       : number | null,
+      public Url               : string | null,
+      public Predeterminada    : boolean,
+      public FechaAlta         : Date | null,
       public FechaModificacion : Date | null,
-      public Id_Estatus : number | null,
-      public Id_Usuario : number | null,
+      public Id_Estatus        : number | null,
+      public Id_Usuario        : number | null,
     ) {
     }
   }
 
   export class imagenModel {
     constructor(
-      public Id_Multimedia : number,
+      public Id_Multimedia     : number,
       public Id_TipoMultimedia : number,
-      public Url : string,
-      public ImagenBase64 : string,
-      public Descripcion : string,
-      public Predeterminada : number,
+      public Url               : string,
+      public ImagenBase64      : string,
+      public Descripcion       : string,
+      public Predeterminada    : number,
     ) {
     }
   }

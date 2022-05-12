@@ -28,6 +28,10 @@ export class PublicacionesService {
     return this.http.get<publicacion>('/api/Publicaciones/' + '?Id_Cliente=' + Id_Cliente + '&Id_Estatus=&Id_Publicacion=' + Id_Publicacion, this.httpOptions);
   }
 
+  public getPublicacionVista(Id_Publicacion : number): Observable<publicacion> {
+    return this.http.get<publicacion>('/api/Publicaciones/' + '?Id_Publicacion=' + Id_Publicacion);
+  }
+
   public getPublicaciones(Id_Cliente : number, Id_Estatus : number | null): Observable<publicacion[]> {
     return this.http.get<publicacion[]>(this.urlPublicaciones + '?Id_Cliente=' + Id_Cliente + '&Id_Estatus=' + Id_Estatus + '&Id_Publicacion=', this.httpOptions);
   }
@@ -41,7 +45,7 @@ export class PublicacionesService {
   }
 
   public getPublicacionCaracteristicas(Id_Publicacion : number, Id_Cliente: number): Observable<publicacionCaracteristica[]> {
-    return this.http.get<publicacionCaracteristica[]>(this.urlPublicaciones + 'Caracteristicas?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente, this.httpOptions);
+    return this.http.get<publicacionCaracteristica[]>(this.urlPublicaciones + 'Caracteristicas?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente);
   }
 
   public putPublicacion(objPublicacion: publicacion): Observable<publicacion> {

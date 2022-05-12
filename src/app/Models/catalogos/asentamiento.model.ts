@@ -27,4 +27,20 @@ export class asentamiento {
       public Activa: boolean,
       public Pagina: number
     ) {}
-  }  
+  }
+
+  export class asentamientoUbicacion {
+    constructor(
+      public Id_Asentamiento: number,
+      public Id_Estado: number,
+      public Id_Municipio: number,
+      public Id_TipoAsentamiento: number,
+      public Asentamiento: string,
+      public Municipio: string,
+      public Estado: string,
+      public Pais: string,
+      public CodigoPostal: string,
+      public Latitud: number,
+      public Longitud: number
+    ) {}
+  }

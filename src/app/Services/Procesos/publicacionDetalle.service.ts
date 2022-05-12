@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 
 import { URL_APIS } from '../global';
 import { LoginService } from '../Catalogos/login.service';
-import { publicacionDetalle } from '../../Models/procesos/publicacionDetalle.model';
-import { publicacion } from 'src/app/Models/procesos/publicacion.model';
+import { publicacionDetalle, publicacionDetalleVista } from '../../Models/procesos/publicacionDetalle.model';
+import { publicacion } from '../../Models/procesos/publicacion.model';
 
 @Injectable({
   providedIn: 'root',
@@ -24,11 +24,15 @@ export class PublicacionDetalleService {
   }
 
   public getPublicacionDetalle(Id_ClientePadre : number, Id_PublicacionPadre : number): Observable<publicacionDetalle[]> {
-    return this.http.get<publicacionDetalle[]>(this.urlPublicacionDetalle + '?Id_ClientePadre=' + Id_ClientePadre + '&Id_PublicacionPadre=' + Id_PublicacionPadre, this.httpOptions);
+    return this.http.get<publicacionDetalle[]>(this.urlPublicacionDetalle + '?Id_ClientePadre=' + Id_ClientePadre + '&Id_PublicacionPadre=' + Id_PublicacionPadre);
   }
 
   public getPublicacionDetalleCompleta(Id_ClientePadre : number, Id_PublicacionPadre : number, SoloAgregadas : number): Observable<publicacion[]> {
     return this.http.get<publicacion[]>(this.urlPublicacionDetalle + '?Id_ClientePadre=' + Id_ClientePadre + '&Id_PublicacionPadre=' + Id_PublicacionPadre + '&SoloAgregadas=' + SoloAgregadas, this.httpOptions);
+  }
+
+  public getPublicacionDetalleVista(Id_ClientePadre : number, Id_PublicacionPadre : number): Observable<publicacionDetalleVista[]> {
+    return this.http.get<publicacionDetalleVista[]>(this.urlPublicacionDetalle + '?Id_Cliente=' + Id_ClientePadre + '&Id_Publicacion=' + Id_PublicacionPadre, this.httpOptions);
   }
 
   public postPublicacionDetalle(JsonPublicacionDetalle : string): Observable<number> {

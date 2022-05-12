@@ -33,18 +33,18 @@
                 <div *ngIf="_publicacion.Estatus === 'Borrador'">
                     <div class="row m-0 p-0">
                         <div class="col text-end">
-                            <button type="button" style="border-radius:25px;" class="btn btn-success" (click)="editarAnuncio()">
+                            <a style="border-radius:25px;" class="btn btn-success" [href]="'publicar/operacion-tipo-inmueble?id_Publicacion=' + this._publicacion.Id_Publicacion">
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-pen" aria-hidden="true"> </i>
-                            </span></button>
-                            <button type="button" style="border-radius:25px;" class="btn btn-primary mx-1" (click)="verAnuncio()">
+                            </span></a>
+                            <a style="border-radius:25px;" class="btn btn-primary mx-1" [href]="'anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
-                            </span></button>
-                            <button type="button" class="btn btn-success" style="border-radius:25px;" (click)="pagarYActivarAnuncio()">
+                            </span></a>
+                            <a class="btn btn-success" style="border-radius:25px;" [href]="'publicar/pagar-y-activar?id_Publicacion=' + this._publicacion.Id_Publicacion">
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-arrow-up" aria-hidden="true"> </i>
-                            </span></button>
+                            </span></a>
                             <button type="button" style="border-radius:25px;" class="btn btn-danger mx-1" (click)="eliminarAnuncio()">
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-trash-can" aria-hidden="true"> </i>
@@ -66,10 +66,10 @@
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-pen" aria-hidden="true"> </i>
                             </span></button> -->
-                            <button type="button" style="border-radius:25px;" class="btn btn-primary mx-1" (click)="verAnuncio()">
+                            <a style="border-radius:25px;" class="btn btn-primary mx-1" [href]="'anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
-                            </span></button>
+                            </span></a>
                             <button type="button" style="border-radius:25px;" class="btn text-white mx-1 bg-dark" (click)="eliminarAnuncio()">
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-xmark" aria-hidden="true"> </i>
@@ -81,10 +81,10 @@
                 <div *ngIf="_publicacion.Estatus === 'Cancelada'">
                     <div class="row m-0 p-0">
                         <div class="col text-end">
-                            <button type="button" style="border-radius:25px;" class="btn btn-primary mx-1" (click)="verAnuncio()">
+                            <a style="border-radius:25px;" class="btn btn-primary mx-1" [href]="'anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
-                            </span></button>
+                            </span></a>
                         </div>
                     </div>
                 </div>
@@ -96,10 +96,10 @@
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-pen" aria-hidden="true"> </i>
                             </span></button> -->
-                            <button type="button" style="border-radius:25px;" class="btn btn-primary mx-1" (click)="verAnuncio()">
+                            <a style="border-radius:25px;" class="btn btn-primary mx-1" [href]="'anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
-                            </span></button>
+                            </span></a>
                             <button type="button" style="border-radius:25px;" class="btn btn-danger mx-1" (click)="eliminarAnuncio()">
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-trash-can" aria-hidden="true"> </i>
@@ -113,10 +113,10 @@
             <ng-template #misFavoritos>
                 <div class="row m-0 p-0">
                     <div class="col text-end">
-                        <button type="button" style="border-radius:25px;" class="btn btn-primary mx-1" (click)="verAnuncio()">
+                        <a style="border-radius:25px;" class="btn btn-primary mx-1" [href]="'anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion">
                             <span class="col-md-1 text-center">
                                 <i class="fa fa-eye" aria-hidden="true"> </i>
-                        </span></button>
+                        </span></a>
                         <button type="button" style="border-radius:25px; box-shadow: none;" class="btn" (click)="quitarFavorito()">
                             <span class="col-md-1 text-danger">
                                 <i class="fa fa-heart" style="font-size: 25px;" aria-hidden="true"> </i>

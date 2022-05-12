@@ -29,8 +29,9 @@ export class UbicacionComponent implements OnInit {
   _municipioSeleccionado : number = 0;
   _asentamientoSeleccionado : number = 0;
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
   _id_publicacion : number = 0;
+  _mostrarUbicacionExacta : boolean =false;
 
   loading : boolean = false;
 
@@ -127,7 +128,7 @@ export class UbicacionComponent implements OnInit {
 
       this.estadoSeleccionado(data.Id_Estado, data.Id_Municipio);
       
-      this.formaUbicacion.setValue({
+      this.formaUbicacion.patchValue({
         estado : data.Id_Estado,
         municipio : data.Id_Municipio,
         asentamiento : data.Id_Asentamiento,
@@ -157,10 +158,10 @@ export class UbicacionComponent implements OnInit {
 crearFormulario() {
 
     this.formaUbicacion = this.fb.group({
-        estado : ['', Validators.required ],
-        municipio : ['', Validators.required ],
-        asentamiento : ['', Validators.required ],
-        calleynumero : ['' ]
+        estado       : [ '', Validators.required ],
+        municipio    : [ '', Validators.required ],
+        asentamiento : [ '', Validators.required ],
+        calleynumero : [ '' ]
     });
   }
 
@@ -193,11 +194,12 @@ crearFormulario() {
     }
     else{
       //Envio de la informacion al servidor
-      //debugger;
+      debugger;
       this._publicacion.Id_Publicacion = this._id_publicacion;
       this._publicacion.Id_Cliente = this._loginService.obtenerIdCliente();
       this._publicacion.Id_Asentamiento = this.formaUbicacion.get('asentamiento')?.value;
       this._publicacion.Direccion = this.formaUbicacion.get('calleynumero')?.value;
+      this._publicacion.MostrarDireccionExacta = this._mostrarUbicacionExacta === true ? 1 : 0;
       this._publicacion.FechaModificacion = new Date();
 
       this._publicacionesService.putPublicacion(this._publicacion).subscribe(
@@ -207,7 +209,7 @@ crearFormulario() {
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 2000,
             timerProgressBar: true,
             didOpen: (toast) => {
               toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -270,7 +272,9 @@ crearFormulario() {
           this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
             (data) => {
               //Next callback
-              console.log(data);
+              //console.log(data);
+
+              this._mostrarUbicacionExacta = data.MostrarDireccionExacta === 0 ? false : true;
 
               this._publicacion = data;
 
@@ -370,6 +374,10 @@ crearFormulario() {
 
     }
     
+  }
+
+  cambiarMDE(){
+    this._mostrarUbicacionExacta = !this._mostrarUbicacionExacta;
   }
 
 }

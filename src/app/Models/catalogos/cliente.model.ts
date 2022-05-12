@@ -10,7 +10,7 @@ export class cliente {
       public Nombre: string,
       public Apellidos: string,
       public RFC: string,
-      public ClienteMedioContacto : clienteMedioContacto[] | null,
+      public ClienteMedioContacto : clienteMedioContacto[],
       public UrlFotoPerfil: string,
       public RecibirOfertas: number,
       public RecibirInformacion: number,
@@ -21,6 +21,16 @@ export class cliente {
       public FechaModificacion: Date,
       public Id_Usuario: number,
       public Id_Estatus: number 
+    ) {}
+  }
+
+  export class clienteVista {
+    constructor(
+      public Id_Cliente: number,
+      public Nombre: string,
+      public Apellidos: string,
+      public Email: string,
+      public ClienteMedioContacto : clienteMedioContacto[],
     ) {}
   }
 

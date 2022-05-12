@@ -32,13 +32,16 @@ export const URL_APIS = {
     urlDatosFiscales: '/api/DatosFiscales/',
     urlPublicaciones: '/api/Publicaciones/',
     urlPublicacionDetalle: '/api/PublicacionDetalle/',
+    urlPublicacionesMensajes: '/api/PublicacionesMensajes/',
     urlAmenidadesPublicacion: '/api/AmenidadesPublicacion/',
     urlFavoritosCliente: '/api/FavoritosCliente/',
     urlPublicacionMultimedia: '/api/PublicacionMultimedia/',
     urlMensajesPublicacion: '/api/MensajesPublicacion/',
     urlPlanesCliente: '/api/PlanesCliente/',
     urlPlanesClientePagos: '/api/PlanesClientePagos/',
+    urlClientesFacturas: '/api/ClientesFacturas/',
     urlContacto: '/api/Contacto/',
+    urlVistasUsuarios: '/api/VistasUsuarios/',
 
     // Mi cuenta
     // urlPlanesCliente: '/api/PlanesCliente/obtenerporcliente',

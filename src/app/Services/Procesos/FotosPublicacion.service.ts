@@ -24,7 +24,7 @@ export class MultimediaPublicacionService {
   }
 
   public getFotosPublicacion(Id_Publicacion : number, Id_Cliente: number): Observable<publicacionMultimedia[]> {
-    return this.http.get<publicacionMultimedia[]>(this.urlPublicacionMultimedia + '?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente, this.httpOptions);
+    return this.http.get<publicacionMultimedia[]>(this.urlPublicacionMultimedia + '?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente);
   }
   
   public getMultimediaCliente(Id_Cliente: number, Id_Publicacion : number | null, Solo_Pred : number | null): Observable<publicacionMultimedia[]> {

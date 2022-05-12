@@ -4,22 +4,25 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AnuncioMiniaturaComponent } from './anuncio-miniatura/anuncio-miniatura.component';
-import { AnuncioPreviewComponent } from './anuncio-preview/anuncio-preview.component';
+import { AnuncioVistaComponent } from './anuncio-vista/anuncio-vista.component';
+
+import { GoogleMapsModule } from '@angular/google-maps'; 
 
 @NgModule({
   declarations: [
     AnuncioMiniaturaComponent,
-    AnuncioPreviewComponent
+    AnuncioVistaComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    GoogleMapsModule
   ],
   exports: [
     AnuncioMiniaturaComponent,
-    AnuncioPreviewComponent
+    AnuncioVistaComponent
   ]
 })
 

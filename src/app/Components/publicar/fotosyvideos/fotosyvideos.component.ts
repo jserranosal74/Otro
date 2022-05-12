@@ -17,7 +17,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class FotosyvideosComponent implements OnInit {
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
   _id_publicacion : number = 0;
   _multimediaPublicacion : imagenModel[] = [];
   _loading = false;
@@ -26,7 +26,7 @@ export class FotosyvideosComponent implements OnInit {
     urlVideo         : [ '' ],
     fotosPropiedad   : this.fb.array([]),
     videosPropiedad  : this.fb.array([]),
-    planos           : [ '' ]
+    planos  : this.fb.array([]),
   });
 
   constructor(  private _activatedRoute: ActivatedRoute,
@@ -55,7 +55,7 @@ export class FotosyvideosComponent implements OnInit {
       urlVideo         : [ '' ],
       fotosPropiedad   : this.fb.array([]),
       videosPropiedad  : this.fb.array([]),
-      planos           : [ '' ]
+      planos           : this.fb.array([])
     });
   }
 
@@ -335,7 +335,7 @@ cambiarVideoPredeterminado(control : any){
           toast: true,
           position: 'top-end',
           showConfirmButton: false,
-          timer: 3000,
+          timer: 2000,
           timerProgressBar: true,
           didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)

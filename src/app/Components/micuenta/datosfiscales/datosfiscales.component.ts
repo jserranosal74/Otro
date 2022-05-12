@@ -25,11 +25,11 @@ export class DatosfiscalesComponent implements OnInit {
   @ViewChild('myModalClose') modalClose : any;
 
   formaDatosFiscales = this.fb.group({
-      tipopersona : ['', Validators.required],
-      nombrerazonsocial : ['', Validators.required],
-      domiciliofiscal : ['', Validators.required],
-      rfc : ['', Validators.required],
-      email : ['', Validators.required]
+      tipopersona       : [ '', Validators.required],
+      nombrerazonsocial : [ '', Validators.required],
+      domiciliofiscal   : [ '', Validators.required],
+      rfc               : [ '', Validators.required],
+      email             : [ '', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ]
   });
 
   constructor( private fb: FormBuilder,
@@ -49,22 +49,22 @@ export class DatosfiscalesComponent implements OnInit {
 
   crearFormulario() {
     this.formaDatosFiscales = this.fb.group({
-      tipopersona : ['', Validators.required],
-      nombrerazonsocial : ['', Validators.required],
-      domiciliofiscal : ['', Validators.required],
-      rfc : ['', Validators.required],
-      email : ['', Validators.required]
+      tipopersona       : [ '', Validators.required],
+      nombrerazonsocial : [ '', Validators.required],
+      domiciliofiscal   : [ '', Validators.required],
+      rfc               : [ '', Validators.required],
+      email             : [ '', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ]
     });
     this._datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(),0,0,0);
   }
 
   limpiarFormulario() {
     this.formaDatosFiscales.reset({
-      tipopersona : '',
+      tipopersona       : '',
       nombrerazonsocial : '',
-      domiciliofiscal : '',
-      rfc : '',
-      email : ''
+      domiciliofiscal   : '',
+      rfc               : '',
+      email             : ''
     });
     this._datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(), 0,0,0);
     this._textoAccion = 'Agregar'

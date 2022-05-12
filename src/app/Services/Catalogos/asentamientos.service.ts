@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { URL_APIS } from '../global';
-import { asentamiento, paginadoDetalle } from '../../Models/catalogos/asentamiento.model';
+import { asentamiento, asentamientoUbicacion, paginadoDetalle } from '../../Models/catalogos/asentamiento.model';
 import { LoginService } from './login.service';
 
 @Injectable({
@@ -39,6 +39,10 @@ export class AsentamientosService {
 
   public getAsentamiento(Id_Asentamiento : number): Observable<asentamiento> {
     return this.http.get<asentamiento>(this.urlAsentamientos + Id_Asentamiento);
+  }
+
+  public getAsentamientoUbicacion(Id_Asentamiento : number): Observable<asentamientoUbicacion> {
+    return this.http.get<asentamientoUbicacion>(this.urlAsentamientos + '?Id_Asentamiento=' + Id_Asentamiento);
   }
 
   public putAsentamiento(objAsentamiento: asentamiento): Observable<asentamiento> {

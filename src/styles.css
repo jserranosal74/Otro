@@ -65,6 +65,10 @@
   background-color: rgba(255,0,0,0.2);
 }
 
+.bg-color-4{
+  background-color: rgba(223, 126, 137, .8);
+}
+
 .borde-card{
   border: 1px solid rgba(223, 126, 137, .8);
 }
@@ -79,4 +83,16 @@
 
 .br15{
   border-radius: 15px;
+}
+
+.br10{
+  border-radius: 10px;
+}
+
+/* 
+ * Always set the map height explicitly to define the size of the div element
+ * that contains the map. 
+ */
+ #map {
+  height: 100%;
 }

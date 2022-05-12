@@ -28,7 +28,7 @@
         <p class="card-text text-primary text-center">Fecha de pago:</p>
         <h4 class="card-text text-primary text-center">{{_planCliente.FechaDePago | date:'dd-MM-yyyy'}}</h4>
       </div>
-      <div *ngIf="_planCliente.Id_Publicacion != null" class="text-center">
+      <div *ngIf="_planCliente.Id_Publicacion != null && _planCliente.DescripcionEstatus === 'En espera de pago'" class="text-center">
         <p class="card-text text-primary text-center">Y será aplicado al anuncio:</p>
         <a class="card-text text-primary text-center" href="/publicar/caracteristicas?id_Publicacion={{_planCliente.Id_Publicacion}}"><strong>{{_planCliente.TituloPublicacion}}</strong></a>
       </div>

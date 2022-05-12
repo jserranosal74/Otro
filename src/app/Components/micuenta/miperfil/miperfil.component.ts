@@ -113,7 +113,7 @@ _clienteMedioContacto : clienteMedioContacto[] = [];
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 2000,
             timerProgressBar: true,
             didOpen: (toast) => {
               toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -165,9 +165,9 @@ _clienteMedioContacto : clienteMedioContacto[] = [];
   }
 
   obtenerDatosPerfil() {
-    let Id_Usuario = this._loginService.obtenerIdCliente();
+    //let Id_Usuario = this._loginService.obtenerIdCliente();
 
-    this._clienteService.getCliente(Id_Usuario).subscribe(
+    this._clienteService.getCliente(this._loginService.obtenerIdCliente()).subscribe(
       (data) => {
         //Next callback
         console.log('datos: ', data);

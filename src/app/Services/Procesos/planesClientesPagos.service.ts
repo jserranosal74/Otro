@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { URL_APIS } from '../global';
 import { planClientePagos } from '../../Models/procesos/plancliente.model';
 import { LoginService } from '../Catalogos/login.service';
+import { factura } from 'src/app/Models/catalogos/factura.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,7 @@ export class PlanesClientesPagosService {
   public getPlanesClientesPagos(): Observable<planClientePagos[]> {
     return this.http.get<planClientePagos[]>(this.urlPlanesClientePagos, this.httpOptions);
   }
-
+  
   public putPlanClientePadado(Id_PlanCliente : number, Id_Plan : number, Id_Cliente : number): Observable<number> {
     return this.http.put<number>(this.urlPlanesClientePagos + '?Id_PlanCliente=' + Id_PlanCliente + '&Id_Cliente=' + Id_Cliente + '&Id_Plan=' + Id_Plan, '', this.httpOptions);
   }

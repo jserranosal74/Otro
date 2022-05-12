@@ -2,9 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 
-import { ClientesService } from 'src/app/Services/Catalogos/clientes.service';
-import { plancliente } from '../../../Models/procesos/plancliente.model';
 import { LoginService } from '../../../Services/Catalogos/login.service';
+import { factura } from 'src/app/Models/catalogos/factura.model';
+import { ClientesFacturasService } from 'src/app/Services/Procesos/clientesFacturas.service';
 
 @Component({
   selector: 'app-misfacturas',
@@ -12,56 +12,34 @@ import { LoginService } from '../../../Services/Catalogos/login.service';
   styleUrls: ['./misfacturas.component.css']
 })
 export class MisfacturasComponent implements OnInit {
-  _facturasCliente : plancliente[] = [];
+  _facturasCliente : factura[] = [];
 
-  constructor( private _clienteService: ClientesService,
-               private _loginService : LoginService ) { }
+  constructor( private _clientesFacturasService : ClientesFacturasService,
+               private _loginService : LoginService ) { 
+
+  this.ObtenerFacturasCliente();
+  }
 
   ngOnInit(): void {
   }
 
-  obtenerDetalleFactura(objfacturaCliente : plancliente) {
-    let Id_Usuario = this._loginService.obtenerIdCliente();
+  ObtenerFacturasCliente() {
 
-    this._clienteService.getCliente(Id_Usuario).subscribe(
+    this._clientesFacturasService.getClienteFacturas(this._loginService.obtenerIdCliente(), new Date()).subscribe(
       (data) => {
-        //Next callback
-        console.log('datos: ', data);
-
-        // this.formaPerfil.setValue({
-        //   nombre: data.Nombre,
-        //   apellidos: data.Apellidos,
-        //   correo: data.Email,
-        //   rfc: data.RFC,
-        //   telefono: data.Nombre,
-        // });
-
-        // this.limpiarFormulario();
+        //console.log('datos: ', data);
+        this._facturasCliente = data;
       },
       (error: HttpErrorResponse) => {
-        //Error callback
-        //console.log('Error del servicio: ', error.error['Descripcion']);
-
-        Swal.fire({
-          icon: 'error',
-          title: error.error['Descripcion'],
-          text: '',
-          showCancelButton: false,
-          showDenyButton: false,
-        });
 
         switch (error.status) {
           case 401:
-            //console.log('error 401');
             break;
           case 403:
-            //console.log('error 403');
             break;
           case 404:
-            //console.log('error 404');
             break;
           case 409:
-            //console.log('error 409');
             break;
         }
 

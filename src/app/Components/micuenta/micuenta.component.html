@@ -1,49 +1,51 @@
-<div >
+<div>
   <div class="row">
-    <div class="col-2 " >
-      <ul class="p-0 my-2">
-        <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/miperfil']">
-          <li>
-            <span>Mi perfil</span>
-          </li>
-        </a>
-        <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/datosfiscales']">
-          <li>
-            <span>Mis datos fiscales</span>
-          </li>
-        </a>
-        <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/misplanes']">
-          <li>
-            <span>Mis planes</span>
-          </li>
-        </a>
-        <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/misanuncios']">
-          <li>
-            <span>Mis anuncios</span>
-          </li>
-        </a>
-        <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/misfavoritos']">
-          <li>
-            <span>Mis favoritos</span>
-          </li>
-        </a>
-        <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/mismensajes']">
-          <li>
-            <span>Mis mensajes</span>
-          </li>
-        </a>
-        <a class="btn btn-outline-secondary d-grid" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/misfacturas']">
-          <li>
-            <span>Mis facturas</span>
-          </li>
-        </a>
-        <br><br>
-        <a class="btn btn-outline-secondary d-grid" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/salir']">
-          <li>
-            <span>Cerrar sesión</span>
-          </li>
-        </a>
-      </ul>
+    <div class="col-2">
+      <div class="sticky-md-top" style="top:70px; left:10px">
+        <ul class="p-0 my-2">
+          <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/miperfil']">
+            <li>
+              <span>Mi perfil</span>
+            </li>
+          </a>
+          <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/datosfiscales']">
+            <li>
+              <span>Mis datos fiscales</span>
+            </li>
+          </a>
+          <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/misplanes']">
+            <li>
+              <span>Mis planes</span>
+            </li>
+          </a>
+          <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/misanuncios']">
+            <li>
+              <span>Mis anuncios</span>
+            </li>
+          </a>
+          <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/misfavoritos']">
+            <li>
+              <span>Mis favoritos</span>
+            </li>
+          </a>
+          <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/mismensajes']">
+            <li>
+              <span>Mis mensajes</span>
+            </li>
+          </a>
+          <a class="btn btn-outline-secondary d-grid" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/misfacturas']">
+            <li>
+              <span>Mis facturas</span>
+            </li>
+          </a>
+          <br><br>
+          <a class="btn btn-outline-secondary d-grid" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/salir']">
+            <li>
+              <span>Cerrar sesión</span>
+            </li>
+          </a>
+        </ul>
+      </div>
     </div>
     <div class="col">
       <router-outlet></router-outlet>

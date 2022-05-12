@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
         '',
         '',
         '',
-        null,
+        [],
         '',
         0,
         0,

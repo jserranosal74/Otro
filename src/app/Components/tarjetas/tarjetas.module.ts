@@ -6,6 +6,7 @@ import { TarjetaDatoFiscalComponent } from './datosfiscales/tarjetadatofiscal.co
 import { TarjetaPlanesClienteComponent } from './planesCliente/tarjetaplanescliente.component';
 import { TarjetaplanesComponent } from './planes/tarjetaplanes.component';
 import { TarjetabancoComponent } from './banco/tarjetabanco.component';
+import { TarjetafacturaComponent } from './factura/tarjetafactura.component';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { TarjetabancoComponent } from './banco/tarjetabanco.component';
     TarjetaDatoFiscalComponent,
     TarjetaPlanesClienteComponent,
     TarjetaplanesComponent,
-    TarjetabancoComponent
+    TarjetabancoComponent,
+    TarjetafacturaComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { TarjetabancoComponent } from './banco/tarjetabanco.component';
     TarjetaDatoFiscalComponent,
     TarjetaPlanesClienteComponent,
     TarjetaplanesComponent,
-    TarjetabancoComponent
+    TarjetabancoComponent,
+    TarjetafacturaComponent
   ]
 })
 

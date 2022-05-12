@@ -18,7 +18,7 @@ import { subtipoPropiedad } from 'src/app/Models/catalogos/tipoPropiedadDetalle.
 })
 export class OperaciontipoinmuebleComponent implements OnInit {
   _tiposPropiedad : tipoPropiedad[] = [];
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
   _id_publicacion : number = 0;
   loading : boolean = false;
   _subtiposPropiedad : subtipoPropiedad[] = [];
@@ -192,7 +192,7 @@ export class OperaciontipoinmuebleComponent implements OnInit {
     }
     else{
       //Envio de la informacion al servidor
-
+debugger;
       if (this._publicacion.Id_Publicacion != 0){
         this._esNuevo = false;
       }else{
@@ -220,7 +220,7 @@ export class OperaciontipoinmuebleComponent implements OnInit {
               toast: true,
               position: 'top-end',
               showConfirmButton: false,
-              timer: 3000,
+              timer: 2000,
               timerProgressBar: true,
               didOpen: (toast) => {
                 toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -284,7 +284,7 @@ export class OperaciontipoinmuebleComponent implements OnInit {
               toast: true,
               position: 'top-end',
               showConfirmButton: false,
-              timer: 3000,
+              timer: 2000,
               timerProgressBar: true,
               didOpen: (toast) => {
                 toast.addEventListener('mouseenter', Swal.stopTimer)

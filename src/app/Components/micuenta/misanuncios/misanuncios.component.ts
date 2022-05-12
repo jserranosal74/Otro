@@ -53,6 +53,7 @@ export class MisanunciosComponent implements OnInit {
     this.crearFormulario();
     this.limpiarFormulario();
     this.obtenerEstatusPublicacion();
+    this.buscarPublicaciones();
     //this.obtenerImagenesPublicaciones();
 
   }

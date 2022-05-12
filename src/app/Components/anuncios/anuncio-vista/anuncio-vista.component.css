@@ -1,0 +1,15 @@
+/* i#corazon:hover{
+    background: red;
+    transition: background-color 1s;
+} */
+
+.telefonoOculto{
+    background: -webkit-linear-gradient(left, rgba(191,64,128,1), rgba(223, 126, 137, 0.15));
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+    background-clip: text;
+}
+
+.telefonoCompleto{
+    color: rgba(191,64,128,1);
+}

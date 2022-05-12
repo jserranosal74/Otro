@@ -34,9 +34,9 @@ export class AnuncioMiniaturaComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  editarAnuncio(){
-    this._router.navigateByUrl('publicar/operacion-tipo-inmueble?id_Publicacion=' + this._publicacion.Id_Publicacion);
-  }
+  // editarAnuncio(){
+  //   this._router.navigateByUrl('publicar/operacion-tipo-inmueble?id_Publicacion=' + this._publicacion.Id_Publicacion);
+  // }
 
   eliminarAnuncio(){
 
@@ -133,12 +133,12 @@ export class AnuncioMiniaturaComponent implements OnInit {
 
   }
 
-  pagarYActivarAnuncio(){
-    this._router.navigateByUrl('publicar/pagar-y-activar?id_Publicacion=' + this._publicacion.Id_Publicacion);
-  }
+  // pagarYActivarAnuncio(){
+  //   this._router.navigateByUrl('publicar/pagar-y-activar?id_Publicacion=' + this._publicacion.Id_Publicacion);
+  // }
 
-  verAnuncio(){
-    this._router.navigateByUrl('anuncio/preview/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion);
-  }
+  // verAnuncio(){
+  //   this._router.navigateByUrl('anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion);
+  // }
 
 }
