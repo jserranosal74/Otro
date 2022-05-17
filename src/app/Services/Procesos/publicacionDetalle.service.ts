@@ -32,7 +32,7 @@ export class PublicacionDetalleService {
   }
 
   public getPublicacionDetalleVista(Id_ClientePadre : number, Id_PublicacionPadre : number): Observable<publicacionDetalleVista[]> {
-    return this.http.get<publicacionDetalleVista[]>(this.urlPublicacionDetalle + '?Id_Cliente=' + Id_ClientePadre + '&Id_Publicacion=' + Id_PublicacionPadre, this.httpOptions);
+    return this.http.get<publicacionDetalleVista[]>(this.urlPublicacionDetalle + '?Id_Cliente=' + Id_ClientePadre + '&Id_Publicacion=' + Id_PublicacionPadre);
   }
 
   public postPublicacionDetalle(JsonPublicacionDetalle : string): Observable<number> {

@@ -28,7 +28,6 @@
     </div>
   </div>
 
-
 <div>
     
     <div class="row">
@@ -43,37 +42,43 @@
                     <h3 class="text-primary mb-3">Caracteristicas Generales</h3>
                 </div>    
                 <div class="row">
-                    <div class="col-md-3">
-                        <h6 class="text-primary">
-                            Recamaras: {{_publicacion.RecamarasDesde}}
-                        </h6>
+                    <div class="col-md-3 m-2">
+                            <img src="/assets/anuncioVista/PRUEBA32PX.png" />
+                            <span class="text-primary px-2">
+                                Recamaras: {{_publicacion.RecamarasDesde}}
+                            </span>
                     </div>
-                    <div class="col-md-3">
-                        <h6 class="text-primary">
+                    <div class="col-md-3 m-2">
+                        <img src="/assets/anuncioVista/PRUEBA32PX.png" />
+                        <span class="text-primary px-2">
                             Baños completos: {{_publicacion.BaniosCompDesde}}
-                        </h6>
+                        </span>
                     </div>
-                    <div class="col-md-3">
-                        <h6 class="text-primary">
+                    <div class="col-md-3 m-2">
+                        <img src="/assets/anuncioVista/PRUEBA32PX.png" />
+                        <span class="text-primary px-2">
                             &#189; baños: {{_publicacion.BaniosCompDesde}}
-                        </h6>
+                        </span>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
-                        <h6 class="text-primary">
-                            Superficie construida: {{_publicacion.SuperficieConstruidaDesde}} m<sup>2</sup>
-                        </h6>
+                    <div class="col-md-3 m-2">
+                        <img src="/assets/anuncioVista/PRUEBA32PX.png" />
+                        <span class="text-primary px-2">
+                            Sup. construida: {{_publicacion.SuperficieConstruidaDesde}} m<sup>2</sup>
+                        </span>
                     </div>
-                    <div class="col-md-3">
-                        <h6 class="text-primary">
-                            Superfice Terreno: {{_publicacion.SuperficieTerreno}} m<sup>2</sup>
-                        </h6>
+                    <div class="col-md-3 m-2">
+                        <img src="/assets/anuncioVista/PRUEBA32PX.png" />
+                        <span class="text-primary px-2">
+                            Sup. Terreno: {{_publicacion.SuperficieTerreno}} m<sup>2</sup>
+                        </span>
                     </div>
-                    <div class="col-md-3">
-                        <h6 class="text-primary">
+                    <div class="col-md-3 m-2">
+                        <img src="/assets/anuncioVista/PRUEBA32PX.png" />
+                        <span class="text-primary px-2">
                             Estacionamientos: {{_publicacion.EstacionamientosDesde}}
-                        </h6>
+                        </span>
                     </div>
                 </div>
                 <hr>
@@ -238,7 +243,8 @@
                                 <i class="fa fa-share-nodes" style="font-size: 25px;" aria-hidden="true"> </i>
                             </span>
                         </button>
-                        <button type="button" style="border-radius:25px; box-shadow: none;" class="btn btn-link" (click)="agregarFavorito()">
+                        <button type="button" style="visibility: hidden;" #myModalIniciarSesion data-bs-toggle="modal" data-bs-target="#modalLogin" ></button>
+                        <button type="button" style="box-shadow: none;" class="btn btn-link br25" (click)="agregarFavorito()" >
                             <span class="col-md-1 text-danger">
                                 <i class="fa fa-heart" *ngIf="_estaComoFavorito" style="font-size: 25px;" aria-hidden="true"> </i>
                                 <i class="fa fa-heart-o" *ngIf="!_estaComoFavorito" style="font-size: 25px;" aria-hidden="true"> </i>
@@ -354,9 +360,10 @@
                                         <span class="text-center text-primary" [ngClass]="{' telefonoOculto': _telefonoOculto, ' telefonoCompleto': _telefonoOculto}"><i class="fa fa-phone" aria-hidden="true" > {{_telefono}}</i></span>
                                     </div>
                                     <div class="col-md-6 text-end" style="display:flex; align-items : center; cursor: pointer;">
+                                        <button type="button" style="visibility: hidden;" #myModalDatosUsuario data-bs-toggle="modal" data-bs-target="#modalDatosUsuarios" ></button>
                                         <a class="link link-outline-primary text-end br25" 
                                            style="border: none;"
-                                           (click)="mostrarTelefono()">Ver teléfono</a>
+                                           (click)="verTelefonoContacto()">Ver teléfono</a>
                                     </div>
                                 </div>
                             </div>
@@ -367,3 +374,157 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-primary" id="gridModalLabel">Iniciar sesión</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-2 px-0">
+          <div class="container">
+            <form [formGroup]="formIniciarsesion" autocomplete="on">
+                <fieldset>
+                  <div class="form-group row py-3">
+                    <label class="col-md-4 col-form-label text-primary text-end">Correo electrónico</label>
+                    <div class="col-md-6 col-10 p-0">
+                      <input autocomplete="on"
+                             class="form-control"
+                             type="email"
+                             email
+                             placeholder="Correo electrónico"
+                             formControlName="correo"
+                             [class.is-invalid]="correoNoValido"/>
+                    </div>
+                    <div class="col-md-2 col-form-label">
+                      <small *ngIf="correoNoValido" class="text-danger">
+                        *
+                      </small>
+                    </div>
+                  </div>
+                
+                  <div class="form-group row py-3">
+                    <label class="col-md-4 col-form-label text-primary text-end">Contraseña</label>
+                    <div class="col-md-6 col-10 p-0">
+                      <input [type]="obtenerTipo"
+                             autocomplete="off"
+                             class="form-control"
+                             placeholder="Contraseña"
+                             formControlName="password1"
+                             [class.is-invalid]="password1NoValido"/>
+                    </div>
+                    <div class="col-auto px-0">
+                      <button type="button" tabindex="-1" class="btn btn-primary px-1" (click)="cambiarTipo()"><span class="col-md-1 col-md-offset-2 text-center">
+                        <div *ngIf="obtenerTipo=='text'">
+                          <i class="fa fa-eye"></i>
+                        </div>
+                        <div *ngIf="obtenerTipo=='password'">
+                          <i class="fa fa-eye-slash"></i>
+                        </div>
+                      </span></button>
+                    </div>
+                    <div class="col-md-1 col-form-label">
+                      <small *ngIf="password1NoValido" class="text-danger">
+                        *
+                      </small>
+                    </div>
+                  </div>
+              
+                  <div class="text-center p-3">
+                    <a class="text-danger" href="/login">¿No tienes cuenta? Registrate aqui.</a>
+                  </div>
+                  <div class="text-center p-3">
+                    <a class="text-success" href="/recuperarpassword">¿Olvidaste tu contraseña? / Recuperar contraseña</a>
+                  </div>
+                  
+                </fieldset>
+              </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #myModalCloseLogin class="btn btn-secondary text-light br25" data-bs-dismiss="modal" >Cancelar</button>
+          <button type="submit" class="btn btn-primary br25" (click)="iniciarSesion()">Iniciar sesión</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="modalDatosUsuarios" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-primary" id="gridModalLabel">Información requerida</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-2 px-0">
+          <div class="container">
+            <form [formGroup]="formaDatosUsuario" autocomplete="off" class="br15 bg-color-rt px-3 py-1">
+                <div class="row mb-2 br25" >
+                    <label for="nombreContacto" 
+                           class="col-sm-3 col-form-label text-primary text-end">Nombre</label>
+                    <div class="col-sm-8 px-0">
+                        <input  type="text" autocomplete="off"
+                                class="form-control text-primary" 
+                                placeholder="Nombre"
+                                [class.is-invalid]="nombreDUNoValido"
+                                formControlName="nombreDU"
+                                id="nombreUsuario">
+                    </div>
+                    <div class="col-md-1 px-0 text-center">
+                        <small *ngIf="nombreDUNoValido" class="text-danger">
+                            *
+                        </small>
+                    </div>
+                </div>
+                <div class="row mb-2 br25">
+                    <label for="telefonoContacto" 
+                           class="col-sm-3 col-form-label text-primary text-end">Teléfono</label>
+                    <div class="col-sm-8 px-0">
+                        <input  type="text" 
+                                class="form-control text-primary" 
+                                placeholder="Teléfono"
+                                formControlName="telefonoDU"
+                                [class.is-invalid]="telefonoDUNoValido"
+                                id="telefonoUsuario">
+                    </div>
+                    <div class="col-md-1 px-0 text-center">
+                        <small *ngIf="telefonoDUNoValido" class="text-danger">
+                            *
+                        </small>
+                    </div>
+                </div>
+                <div class="row mb-2 br25">
+                    <label for="emailContacto" 
+                           class="col-sm-3 col-form-label text-primary text-end">Email</label>
+                    <div class="col-sm-8 px-0">
+                        <input  type="text"
+                                class="form-control text-primary" 
+                                placeholder="email"
+                                formControlName="emailDU"
+                                [class.is-invalid]="emailDUNoValido"
+                                id="emailUsuario">
+                    </div>
+                    <div class="col-md-1 px-0 text-center">
+                        <small *ngIf="emailDUNoValido" class="text-danger">
+                            *
+                        </small>
+                    </div>
+                </div>
+                <div class="row mb-2 br25 text-center">
+                    <div class="col-md-12 text-center d-grid">
+                        <span class="text-primary" style="font-size: 10px;">Al hacer clic en <strong>Mostrar telefóno</strong> aceptas nuestros <a href="/legal/terminosycondicionesdeuso">Terminos, condiciones y politicas de privacidad.</a></span>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #myModalCloseDatosUsuario class="btn btn-secondary text-light br25" data-bs-dismiss="modal" >Cancelar</button>
+          <button type="button" class="btn btn-primary br25" (click)="mostrarTelefono()">Mostrar telefóno</button>
+        </div>
+      </div>
+    </div>
+  </div>

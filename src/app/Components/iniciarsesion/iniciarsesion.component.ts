@@ -47,7 +47,7 @@ export class IniciarsesionComponent implements OnInit {
   }
 
   iniciarSesion() {
-    console.log(this.formIniciarsesion);
+    //console.log(this.formIniciarsesion);
 
     let _login = new login(
       this.formIniciarsesion.get('correo')?.value,
@@ -125,23 +125,17 @@ export class IniciarsesionComponent implements OnInit {
   limpiarFormulario() {
     // Reseteo de la información
     this.formIniciarsesion.reset({
-      correo: '',
-      password1: ''
+      correo    : '',
+      password1 : ''
     });
   }
 
   get correoNoValido() {
-    return (
-      this.formIniciarsesion.get('correo')?.invalid &&
-      this.formIniciarsesion.get('correo')?.touched
-    );
+    return ( this.formIniciarsesion.get('correo')?.invalid && this.formIniciarsesion.get('correo')?.touched );
   }
 
   get password1NoValido() {
-    return (
-      this.formIniciarsesion.get('password1')?.invalid &&
-      this.formIniciarsesion.get('password1')?.touched
-    );
+    return ( this.formIniciarsesion.get('password1')?.invalid && this.formIniciarsesion.get('password1')?.touched );
   }
   
   cambiarTipo(){

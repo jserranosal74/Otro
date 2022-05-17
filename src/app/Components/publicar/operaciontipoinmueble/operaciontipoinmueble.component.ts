@@ -49,7 +49,7 @@ export class OperaciontipoinmuebleComponent implements OnInit {
     });
     
     this.configurarSiEsEmpresa();
-    this.probarAutenticacion();
+    //this.probarAutenticacion();
     this.crearFormulario();
     this.obtenerTiposPropiedad();
     this.CargarPublicacion();
@@ -67,26 +67,26 @@ export class OperaciontipoinmuebleComponent implements OnInit {
     }
   }
 
-  probarAutenticacion(){
-    this._loginService.sesionValida().subscribe((data)=> { 
+  // probarAutenticacion(){
+  //   this._loginService.sesionValida().subscribe((data)=> { 
 
-    },(error : HttpErrorResponse) => {
-    console.log('error',error);
-        switch (error.status) {
-          case 401:
-            this._loginService.cerarSesion();
-            this.router.navigateByUrl('/login');
-            break;
-          case 403:
-            break;
-          case 404:
-            break;
-          case 409:
-            break;
-        }
-      }
-    );
-  }
+  //   },(error : HttpErrorResponse) => {
+  //   console.log('error',error);
+  //       switch (error.status) {
+  //         case 401:
+  //           this._loginService.cerarSesion();
+  //           this.router.navigateByUrl('/login');
+  //           break;
+  //         case 403:
+  //           break;
+  //         case 404:
+  //           break;
+  //         case 409:
+  //           break;
+  //       }
+  //     }
+  //   );
+  // }
 
   obtenerTiposPropiedad(){
     // console.log(this.loading);

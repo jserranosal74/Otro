@@ -5,15 +5,15 @@
   </div>
 
     <div class="form-group row py-3">
-      <label class="col-md-2 col-form-label text-primary">Correo electrónico</label>
+      <label class="col-md-2 col-form-label text-primary text-end">Correo electrónico</label>
       <div class="col-md-4 col-10 p-0">
         <input autocomplete="on"
-              class="form-control"
-              type="email"
-              email
-              placeholder="Correo electrónico"
-              formControlName="correo"
-              [class.is-invalid]="correoNoValido"/>
+               class="form-control text-primary"
+               type="email"
+               email
+               placeholder="Correo electrónico"
+               formControlName="correo"
+               [class.is-invalid]="correoNoValido"/>
       </div>
       
       <div class="col-md-4 col-form-label">
@@ -24,14 +24,14 @@
     </div>
   
     <div class="form-group row py-3">
-      <label class="col-md-2 col-form-label text-primary">Contraseña</label>
+      <label class="col-md-2 col-form-label text-primary text-end">Contraseña</label>
       <div class="col-md-4 col-10 p-0">
-        <input
-          [type]="obtenerTipo"
-          class="form-control"
-          placeholder="Contraseña"
-          formControlName="password1"
-          [class.is-invalid]="password1NoValido"
+        <input [type]="obtenerTipo"
+               autocomplete="off"
+               class="form-control text-primary"
+               placeholder="Contraseña"
+               formControlName="password1"
+               [class.is-invalid]="password1NoValido"
         />
       </div>
       <div class="col-auto px-0">
@@ -69,5 +69,5 @@
   
     </div> -->
   </fieldset>
-  </form>
+</form>
   

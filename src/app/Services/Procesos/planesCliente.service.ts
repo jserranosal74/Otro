@@ -32,8 +32,16 @@ export class PlanesclienteService {
     return this.http.put<number>(this.urlPlanesCliente + '?Id_PlanCliente=' + Id_PlanCliente + '&Id_Plan=' + Id_Plan + '&Id_Cliente=' + Id_Cliente + '&Id_DatosFiscales=' + Id_DatosFiscales, this.httpOptions);
   }
 
-  public postPlanesCliente(Id_Cliente : number, Id_Plan : number): Observable<number> {
-    return this.http.post<number>(this.urlPlanesCliente + '?Id_Cliente=' + Id_Cliente + '&Id_Plan=' + Id_Plan, '', this.httpOptions);
+  public putEnviarCorreo(Id_Cliente : number, Id_PlanCliente : number, Id_Publicacion : number | null): Observable<number> {
+    return this.http.put<number>(this.urlPlanesCliente + '?Id_Cliente=' + Id_Cliente + '&Id_PlanCliente=' + Id_PlanCliente + '&Id_Publicacion=' + Id_Publicacion, '', this.httpOptions);
+  }
+
+  public postPlanesCliente(Id_Cliente : number, Id_Plan : number, Id_DatosFiscales : number | null): Observable<number> {
+    return this.http.post<number>(this.urlPlanesCliente + '?Id_Cliente=' + Id_Cliente + '&Id_Plan=' + Id_Plan + '&Id_DatosFiscales=' + Id_DatosFiscales, '', this.httpOptions);
+  }
+
+  public deletePlanCliente(Id_PlanCliente : number): Observable<number> {
+    return this.http.delete<number>(this.urlPlanesCliente + '?Id_PlanCliente=' + Id_PlanCliente, this.httpOptions);
   }
   
 }

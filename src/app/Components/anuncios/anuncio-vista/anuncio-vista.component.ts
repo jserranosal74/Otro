@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -9,7 +9,6 @@ import { MultimediaPublicacionService } from 'src/app/Services/Procesos/FotosPub
 import { PublicacionDetalleService } from 'src/app/Services/Procesos/publicacionDetalle.service';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
 import { ClientesService } from '../../../Services/Catalogos/clientes.service';
-import { VistaUsuarioService } from 'src/app/Services/Procesos/vistaUsuario.service';
 import { AsentamientosService } from 'src/app/Services/Catalogos/asentamientos.service';
 import { FavoritosClienteService } from 'src/app/Services/Procesos/misFavoritos.service';
 import { PublicacionMensajesService } from '../../../Services/Procesos/publicacionMensajes.service';
@@ -20,7 +19,7 @@ import { favoritoClienteParams } from 'src/app/Models/procesos/favoritoCliente.m
 import { publicacionMensaje } from 'src/app/Models/procesos/publicacionMensaje.model';
 import { asentamientoUbicacion } from '../../../Models/catalogos/asentamiento.model';
 import { clienteVista } from 'src/app/Models/catalogos/cliente.model';
-import { vistaUsuario } from 'src/app/Models/procesos/vistaUsuario.model';
+import { login } from 'src/app/Models/Auxiliares/login.model';
 
 
 @Component({
@@ -31,6 +30,8 @@ import { vistaUsuario } from 'src/app/Models/procesos/vistaUsuario.model';
 
 export class AnuncioVistaComponent implements OnInit {
   formaMensajeVendedor = this.fb.group([]);
+  formIniciarsesion = this.fb.group([]);
+  formaDatosUsuario = this.fb.group([]);
   _infoURL : string = '';
   _id_publicacion : number = 0;
   _publicacion : publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
@@ -62,6 +63,17 @@ export class AnuncioVistaComponent implements OnInit {
   _gm_zoom = 15;
   _gm_display?: google.maps.LatLngLiteral;
 
+  obtenerTipo = 'password';
+  // formIniciarsesion = this.fb.group({
+  //   correo    : [ '', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ],
+  //   password1 : ['', Validators.required]
+  // });
+
+  @ViewChild('myModalIniciarSesion') modalIniciarSesion : any;
+  @ViewChild('myModalCloseLogin') modalCloseLogin : any;
+  @ViewChild('myModalDatosUsuario') modalDatosUsuario : any;
+  @ViewChild('myModalCloseDatosUsuario') modalCloseDatosUsuario : any;
+
   constructor( private _activatedRoute : ActivatedRoute,
                private router : Router,
                private fb: FormBuilder,
@@ -72,7 +84,6 @@ export class AnuncioVistaComponent implements OnInit {
                private _publicacionMensajeService : PublicacionMensajesService,
                private _asentamientosService : AsentamientosService,
                private _clienteService : ClientesService,
-               private _vistaUsuarioService : VistaUsuarioService,
                private _loginService: LoginService ) {
 
     // Se obtiene el Id de la publicacion a visualizar
@@ -84,7 +95,9 @@ export class AnuncioVistaComponent implements OnInit {
       }
     });
 
+    this.crearFormularioInicioSesion();
     this.crearFormularioMensaje();
+    this.crearFormularioDatosUsuario();
     this.CargarPublicacion();
     this.validarAutenticacion();
   }
@@ -94,19 +107,26 @@ export class AnuncioVistaComponent implements OnInit {
 
   validarAutenticacion(){
     //debugger;
-    this._loginService.sesionValida().subscribe((data)=> { 
+    this._loginService.usuarioAutenticadoServidor().subscribe((data)=> { 
 
-      this.CargarUsuario();
+      //console.log('usuarioAutenticadoServidor',data);
 
-      this._usuarioAutenticado = true;
+      if (data){
+        this._usuarioAutenticado = true;
+        this.CargarUsuario();
+      }else{
+        localStorage.removeItem('usuario');
+        this._usuarioAutenticado = false;
+      }
 
     },(error : HttpErrorResponse) => {
+      localStorage.removeItem('usuario');
       this._usuarioAutenticado = false;
-      console.log('error',error);
+      //console.log('error',error);
         switch (error.status) {
           case 401:
             this._loginService.cerarSesion();
-            this.router.navigateByUrl('/login');
+            //this.router.navigateByUrl('/login');
             break;
           case 403:
             break;
@@ -119,6 +139,13 @@ export class AnuncioVistaComponent implements OnInit {
     );
   }
 
+  crearFormularioInicioSesion() {
+    this.formIniciarsesion = this.fb.group({
+      correo    : [ '', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ],
+      password1 : [ '', Validators.required]
+    });
+  }
+
   crearFormularioMensaje() {
     this.formaMensajeVendedor = this.fb.group({
       nombre   : [ '', Validators.required ],
@@ -128,12 +155,30 @@ export class AnuncioVistaComponent implements OnInit {
     });
   }
 
+  crearFormularioDatosUsuario() {
+    this.formaDatosUsuario = this.fb.group({
+      nombreDU   : [ '', Validators.required ],
+      telefonoDU : [ '', Validators.required ],
+      emailDU    : [ '', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ],
+      mensajeDU  : [ '' ]
+    });
+  }
+
   limpiarFormularioMensaje() {
     this.formaMensajeVendedor.reset({
       nombre   : this._usuario.Nombre + ' ' + this._usuario.Apellidos,
       telefono : '',
       email    : this._usuario.Email,
       mensaje  : 'Hola, me interesa este inmueble que vi en Inmuebles MZ y quiero que me contacten. Gracias.'
+    });
+  }
+
+  limpiarFormularioDatosUsuario() {
+    this.formaMensajeVendedor.reset({
+      nombreDU   : '',
+      telefonoDU : '',
+      emailDU    : '',
+      mensajeDU  : ''
     });
   }
 
@@ -151,7 +196,7 @@ export class AnuncioVistaComponent implements OnInit {
               this._publicacionDetalleService.getPublicacionDetalleVista(this._publicacion.Id_Cliente, this._publicacion.Id_Publicacion).subscribe(
                 (dataPD) => {
                   //Next callback
-                  console.log(dataPD);
+                  //console.log(dataPD);
                   this._publicacionDetalle = dataPD;
 
                   dataPD.forEach(item => {
@@ -341,6 +386,9 @@ export class AnuncioVistaComponent implements OnInit {
   agregarFavorito(){
     //debugger;
     if (this._loginService.obtenerIdCliente() === 0){
+      this._estaComoFavorito = false;
+      this.validarAutenticacion();
+      this.modalIniciarSesion.nativeElement.click();
       return;
     }
 
@@ -412,20 +460,24 @@ export class AnuncioVistaComponent implements OnInit {
 
       this._loading = true;
 
-      let _publicacionMensaje : publicacionMensaje = new publicacionMensaje(0,0,0,0,'','','','',new Date(), new Date(),0,0);
+      let _publicacionMensaje : publicacionMensaje = new publicacionMensaje(0,0,0,0,0,'','','','','',new Date(), new Date(),0,0);
 
       _publicacionMensaje.Id_Cliente = this._publicacion.Id_Cliente;
       _publicacionMensaje.Id_Publicacion = this._publicacion.Id_Publicacion;
-      _publicacionMensaje.Id_ClienteMensaje = this._loginService.obtenerIdCliente();
+      _publicacionMensaje.Id_ClienteMensaje = (this._loginService.obtenerIdCliente() == 0 ? null : this._loginService.obtenerIdCliente() );
       _publicacionMensaje.Nombre = this.formaMensajeVendedor.get('nombre')?.value;
       _publicacionMensaje.Email = this.formaMensajeVendedor.get('email')?.value;
       _publicacionMensaje.Telefono = this.formaMensajeVendedor.get('telefono')?.value;
       _publicacionMensaje.Mensaje = this.formaMensajeVendedor.get('mensaje')?.value;
+      _publicacionMensaje.Accion = 2;
+      _publicacionMensaje.Componente = 'anuncio-vista';
     
       this._publicacionMensajeService.postPublicacionMensaje(_publicacionMensaje).subscribe(
         (data) => {
-          console.log('postPublicacionMensaje',data);
+          //console.log('postPublicacionMensaje',data);
           this.limpiarFormularioMensaje();
+
+          this._loading = false;
 
           const Toast = Swal.mixin({
             toast: true,
@@ -446,30 +498,30 @@ export class AnuncioVistaComponent implements OnInit {
 
 
 
-          this._vistaUsuarioService.postVistaUsuario(new vistaUsuario(this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),'Envió mensaje', 'anuncio-vista.html', new Date())).subscribe(
-            (dataVista) => {
+          // this._vistaUsuarioService.postVistaUsuario(new vistaUsuario(this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),'Envió mensaje', 'anuncio-vista.html', new Date())).subscribe(
+          //   (dataVista) => {
       
-              //console.log(dataVista);
-              this._loading = false;
+          //     //console.log(dataVista);
+          //     this._loading = false;
       
-            },
-            (error: HttpErrorResponse) => {
-              console.log('error: postVistaUsuario',error);
-              this._loading = false;
-              switch (error.status) {
-                case 401:
-                  break;
-                case 403:
-                  break;
-                case 404:
-                  break;
-                case 409:
-                  break;
-              }
+          //   },
+          //   (error: HttpErrorResponse) => {
+          //     console.log('error: postVistaUsuario',error);
+          //     this._loading = false;
+          //     switch (error.status) {
+          //       case 401:
+          //         break;
+          //       case 403:
+          //         break;
+          //       case 404:
+          //         break;
+          //       case 409:
+          //         break;
+          //     }
       
-              //throw error;   //You can also throw the error to a global error handler
-            }
-          );
+          //     //throw error;   //You can also throw the error to a global error handler
+          //   }
+          // );
 
 
         },
@@ -495,6 +547,47 @@ export class AnuncioVistaComponent implements OnInit {
     
   }
 
+  verTelefonoContacto(){
+    //debugger;
+    if (this._loginService.obtenerIdCliente() === 0){
+      this.validarAutenticacion();
+      this.modalDatosUsuario.nativeElement.click();
+      return;
+    }else{
+      if (this._telefonoOculto){
+        this._cliente.ClienteMedioContacto.forEach(item=>{
+          if (item.Id_MedioContacto === 1){
+            this._telefono = item.Descripcion;
+            this._telefonoOculto = false;
+          }
+        })
+  
+        this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),2,'anuncio-vista',this.formaDatosUsuario.get('nombreDU')?.value, this.formaDatosUsuario.get('telefonoDU')?.value, this.formaDatosUsuario.get('emailDU')?.value, 'Se muestra telefono a usuario', new Date(),new Date(),0,0)).subscribe(
+          (dataVista) => {
+  
+            //console.log(dataVista);
+    
+          },
+          (error: HttpErrorResponse) => {
+            switch (error.status) {
+              case 401:
+                break;
+              case 403:
+                break;
+              case 404:
+                break;
+              case 409:
+                break;
+            }
+    
+            //throw error;   //You can also throw the error to a global error handler
+          }
+        );
+  
+      }
+    }
+  }
+
   get nombreNoValido() {
     return ( this.formaMensajeVendedor.get('nombre')?.invalid && this.formaMensajeVendedor.get('nombre')?.touched );
   }
@@ -511,8 +604,21 @@ export class AnuncioVistaComponent implements OnInit {
     return ( this.formaMensajeVendedor.get('mensaje')?.invalid && this.formaMensajeVendedor.get('mensaje')?.touched );
   }
 
+  get nombreDUNoValido() {
+    return ( this.formaDatosUsuario.get('nombreDU')?.invalid && this.formaDatosUsuario.get('nombreDU')?.touched );
+  }
+
+  get emailDUNoValido() {
+    return ( this.formaDatosUsuario.get('emailDU')?.invalid && this.formaDatosUsuario.get('emailDU')?.touched );
+  }
+
+  get telefonoDUNoValido() {
+    return ( this.formaDatosUsuario.get('telefonoDU')?.invalid && this.formaDatosUsuario.get('telefonoDU')?.touched );
+  }
+
   CargarCliente(){
     //debugger;
+    //console.log('CargarCliente');
     this._clienteService.getClienteVista(this._publicacion.Id_Cliente).subscribe(
       (dataCliente) => {
 
@@ -527,6 +633,7 @@ export class AnuncioVistaComponent implements OnInit {
 
       },
       (error: HttpErrorResponse) => {
+        console.log('error: CargarCliente');
         switch (error.status) {
           case 401:
             break;
@@ -547,7 +654,7 @@ export class AnuncioVistaComponent implements OnInit {
     //debugger;
     this._clienteService.getClienteVista(this._loginService.obtenerIdCliente()).subscribe(
       (dataUsuario) => {
-        console.log('this._usuario',dataUsuario);
+        //console.log('this._usuario',dataUsuario);
         let telefono = '';
         this._usuario = dataUsuario;
 
@@ -596,14 +703,14 @@ export class AnuncioVistaComponent implements OnInit {
       });
     }
 
-    let WhatsApp : string = '';
+    let WhatssApp : string = '';
     this._cliente.ClienteMedioContacto.forEach(item=>{
       if(item.Id_MedioContacto === 2){
-        WhatsApp = item.Descripcion;
+        WhatssApp = item.Descripcion;
       }
     })
 
-    this._vistaUsuarioService.postVistaUsuario(new vistaUsuario(this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),'Contacto por WhatsApp', 'anuncio-vista.html', new Date())).subscribe(
+    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),3,'anuncio-vista',this.formaMensajeVendedor.get('nombre')?.value, this.formaMensajeVendedor.get('email')?.value, this.formaMensajeVendedor.get('telefono')?.value, this.formaMensajeVendedor.get('mensaje')?.value + '(WhatssApp)', new Date(),new Date(),0,0)).subscribe(
       (dataVista) => {
 
         //console.log(dataVista);
@@ -626,26 +733,174 @@ export class AnuncioVistaComponent implements OnInit {
     );
 
    //this.router.navigate(['https://api.whatsapp.com/send/?phone=23123123']);
-   window.open('https://api.whatsapp.com/send/?phone=52' + WhatsApp + '&text=Hola me interesa esta propiedad que vi en InmueblesMZ');
+   window.open('https://api.whatsapp.com/send/?phone=52' + WhatssApp + '&text=Hola me interesa esta propiedad que vi en InmueblesMZ');
 
   }
 
 mostrarTelefono(){
-    if (this._telefonoOculto){
-      this._cliente.ClienteMedioContacto.forEach(item=>{
-        if (item.Id_MedioContacto === 1){
-          this._telefono = item.Descripcion;
-          this._telefonoOculto = false;
-        }
-      })
+  debugger;
+  if (this.formaDatosUsuario.invalid) {
+    return Object.values(this.formaDatosUsuario.controls).forEach((control) => {
+      if (control instanceof FormGroup) {
+        Object.values(control.controls).forEach((control) =>
+          control.markAsTouched()
+        );
+      } else {
+        control.markAsTouched();
+      }
+    });
+  }
+  else{
 
-      this._vistaUsuarioService.postVistaUsuario(new vistaUsuario(this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),'Telefono Fijo', 'anuncio-vista.html', new Date())).subscribe(
-        (dataVista) => {
+    //this._loading = true;
 
-          //console.log(dataVista);
+    let _publicacionMensaje : publicacionMensaje = new publicacionMensaje(0,0,0,0,0,'','','','','',new Date(), new Date(),0,0);
+
+    _publicacionMensaje.Id_Cliente = this._publicacion.Id_Cliente;
+    _publicacionMensaje.Id_Publicacion = this._publicacion.Id_Publicacion;
+    _publicacionMensaje.Id_ClienteMensaje = (this._loginService.obtenerIdCliente() == 0 ? null : this._loginService.obtenerIdCliente() );
+    _publicacionMensaje.Nombre = this.formaDatosUsuario.get('nombreDU')?.value;
+    _publicacionMensaje.Email = this.formaDatosUsuario.get('emailDU')?.value;
+    _publicacionMensaje.Telefono = this.formaDatosUsuario.get('telefonoDU')?.value;
+    _publicacionMensaje.Mensaje = 'Se muestra telefono a usuario.';
+    _publicacionMensaje.Accion = 2;   // Vista
+    _publicacionMensaje.Componente = 'anuncio-vista';
   
+    this._publicacionMensajeService.postPublicacionMensaje(_publicacionMensaje).subscribe(
+      (data) => {
+        
+        this.modalCloseDatosUsuario.nativeElement.click();
+
+        if (this._telefonoOculto){
+          this._cliente.ClienteMedioContacto.forEach(item=>{
+            if (item.Id_MedioContacto === 1){
+              this._telefono = item.Descripcion;
+              this._telefonoOculto = false;
+            }
+          })
+    
+          // this._vistaUsuarioService.postVistaUsuario(new vistaUsuario(this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),'Telefono Fijo', 'anuncio-vista.html', new Date())).subscribe(
+          //   (dataVista) => {
+    
+          //     //console.log(dataVista);
+      
+          //   },
+          //   (error: HttpErrorResponse) => {
+          //     switch (error.status) {
+          //       case 401:
+          //         break;
+          //       case 403:
+          //         break;
+          //       case 404:
+          //         break;
+          //       case 409:
+          //         break;
+          //     }
+      
+          //     //throw error;   //You can also throw the error to a global error handler
+          //   }
+          // );
+    
+        }
+
+
+        this.limpiarFormularioDatosUsuario();
+
+       
+
+      },
+      (error: HttpErrorResponse) => {
+        //this._loading = false;
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+
+      }
+    );
+
+    }
+
+    
+  }
+
+  abrirPublicacion(objPubDet : publicacionDetalleVista){
+    //debugger;
+    this.router.navigateByUrl('/anuncio/vista/' + (objPubDet.TituloPublicacion)?.replaceAll(' ','-') + '-' + objPubDet.Id_Publicacion);
+    //window.open('/anuncio/vista/' + (objPubDet.TituloPublicacion)?.replaceAll(' ','-') + '-' + objPubDet.Id_Publicacion);
+  }
+
+  get correoNoValido() {
+    return ( this.formIniciarsesion.get('correo')?.invalid && this.formIniciarsesion.get('correo')?.touched );
+  }
+
+  get password1NoValido() {
+    return ( this.formIniciarsesion.get('password1')?.invalid && this.formIniciarsesion.get('password1')?.touched );
+  }
+  
+  cambiarTipo(){
+    if (this.obtenerTipo === 'password'){
+      this.obtenerTipo = 'text';
+    }
+    else{
+      this.obtenerTipo = 'password';
+    }
+    
+  }
+
+  iniciarSesion() {
+    let _login = new login(
+      this.formIniciarsesion.get('correo')?.value,
+      this.formIniciarsesion.get('password1')?.value
+    );
+
+    if (this.formIniciarsesion.invalid) {
+      return Object.values(this.formIniciarsesion.controls).forEach(
+        (control) => {
+          if (control instanceof FormGroup) {
+            Object.values(control.controls).forEach((control) =>
+              control.markAsTouched()
+            );
+          } else {
+            control.markAsTouched();
+          }
+        }
+      );
+    } else {
+      //Envio de la informacion al servidor
+      this._loginService.iniciarSesion(_login).subscribe(
+        (data) => {
+          //debugger;
+          localStorage.setItem('usuario', JSON.stringify(data));
+
+          this.agregarFavorito();
+
+          // this.modalCloseLogin.nativeElement.click();
+
+          // this.formIniciarsesion.reset({
+          //   correo    : '',
+          //   password1 : ''
+          // });
+
+          window.location.reload();
+
         },
         (error: HttpErrorResponse) => {
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Ocurrio un error al intentar autenticar el usuario',
+            text: 'Correo y/o contraseña incorrectos.',
+            showCancelButton: false,
+            showDenyButton: false,
+          });
+
           switch (error.status) {
             case 401:
               break;
@@ -656,18 +911,11 @@ mostrarTelefono(){
             case 409:
               break;
           }
-  
+
           //throw error;   //You can also throw the error to a global error handler
         }
       );
-
     }
-  }
-
-  abrirPublicacion(objPubDet : publicacionDetalleVista){
-    debugger;
-    this.router.navigateByUrl('/anuncio/vista/' + (objPubDet.TituloPublicacion)?.replaceAll(' ','-') + '-' + objPubDet.Id_Publicacion);
-    //window.open('/anuncio/vista/' + (objPubDet.TituloPublicacion)?.replaceAll(' ','-') + '-' + objPubDet.Id_Publicacion);
   }
 
 }

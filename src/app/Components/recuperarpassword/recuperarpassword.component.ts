@@ -33,7 +33,7 @@ export class RecuperarpasswordComponent implements OnInit {
   }
 
   recuperarPassword() {
-    console.log(this.formRP);
+    //console.log(this.formRP);
 
     // let _login = new login(
     //   this.formRP.get('correo')?.value,
@@ -63,7 +63,7 @@ export class RecuperarpasswordComponent implements OnInit {
       this._loginService.recuperarPassword(_login).subscribe(
         (data) => {
           //debugger;
-          console.log('datos: ', data);
+          //console.log('datos: ', data);
 
           Swal.fire({
             icon: 'success',
@@ -87,28 +87,28 @@ export class RecuperarpasswordComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           //Error callback
-          console.log('Error del servicio: ', error);
+          //console.log('Error del servicio: ', error);
 
           switch (error.status) {
             case 401:
               //this.router.navigateByUrl("/login");
-              console.log('error 401');
+              //console.log('error 401');
               break;
             case 403:
               //this.router.navigateByUrl("/unauthorized");
-              console.log('error 403');
+              //console.log('error 403');
               break;
             case 404:
 
               Swal.fire({
                 icon: 'error',
-                title: 'Al parecer la cuenta de correo proporcionada no existe en nuestro sistema',
+                title: 'Cuenta de correo inexistente',
                 text: '',
                 showCancelButton: false,
                 showDenyButton: false,
               });
     
-              console.log('error 404');
+              //console.log('error 404');
               break;
             case 409:
               
@@ -120,7 +120,7 @@ export class RecuperarpasswordComponent implements OnInit {
                 showDenyButton: false,
               });
 
-              console.log('error 409');
+              //console.log('error 409');
               break;
           }
 

@@ -31,7 +31,7 @@ export class PagarYActivarComponent implements OnInit {
   _planActualNuevo : boolean = false;
   _datosFiscales : datoFiscal[] = [];
 
-  _planCliente : plancliente = new plancliente(0,0,0,null,'',0,0,0,0,'',new Date(),null,null,new Date(),new Date(),0,'',0);
+  _planCliente : plancliente = new plancliente(0,0,0,null,'',0,0,0,0,'',new Date(),null,null,null,null,new Date(),new Date(),0,'',0,false);
   _banco : banco = new banco(0,'','','','','',0,new Date(), new Date(), 0,0,0);
   _plan : plan = new plan(0,'',0,0,0,'',new Date(), new Date(),0,0,0);
   _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(),0,0,0);
@@ -84,10 +84,10 @@ export class PagarYActivarComponent implements OnInit {
 
         data.forEach(item =>{
           if(this._publicacion.Id_TipoOperacion != 3){
-            this._planesCliente.push(new plancliente(item.Id_PlanCliente, item.Id_Plan, item.Id_Cliente, item.Id_DatosFiscales, item.Descripcion, item.Disponibles, item.Utilizados, item.Restantes,  item.Id_Publicacion, item.TituloPublicacion, item.FechaDePago, item.FechaFacturacion, item.NumFactura, item.FechaAlta, item.FechaModificacion, item.Id_Estatus, item.DescripcionEstatus,0));
+            this._planesCliente.push(new plancliente(item.Id_PlanCliente, item.Id_Plan, item.Id_Cliente, item.Id_DatosFiscales, item.Descripcion, item.Disponibles, item.Utilizados, item.Restantes,  item.Id_Publicacion, item.TituloPublicacion, item.FechaDePago, item.FechaFacturacion, item.NombreRazonSocial, item.RFC, item.NumFactura, item.FechaAlta, item.FechaModificacion, item.Id_Estatus, item.DescripcionEstatus,0,false));
           }else if(this._publicacion.Id_TipoOperacion === 3){
             if(item.Id_Plan === 7){
-              this._planesCliente.push(new plancliente(item.Id_PlanCliente, item.Id_Plan, item.Id_Cliente, item.Id_DatosFiscales, item.Descripcion, item.Disponibles, item.Utilizados, item.Restantes,  item.Id_Publicacion, item.TituloPublicacion, item.FechaDePago, item.FechaFacturacion, item.NumFactura, item.FechaAlta, item.FechaModificacion, item.Id_Estatus, item.DescripcionEstatus,0));
+              this._planesCliente.push(new plancliente(item.Id_PlanCliente, item.Id_Plan, item.Id_Cliente, item.Id_DatosFiscales, item.Descripcion, item.Disponibles, item.Utilizados, item.Restantes,  item.Id_Publicacion, item.TituloPublicacion, item.FechaDePago, item.FechaFacturacion, item.NombreRazonSocial, item.RFC, item.NumFactura, item.FechaAlta, item.FechaModificacion, item.Id_Estatus, item.DescripcionEstatus,0,false));
             }
           }
         });
@@ -394,7 +394,7 @@ export class PagarYActivarComponent implements OnInit {
         return;
       }
     }
-    this._publicacionesService.putPublicacionActivar(this._id_publicacion, this._loginService.obtenerIdCliente(), this._planCliente.Seleccionado === 1 ? this._planCliente.Id_PlanCliente : null, this._planCliente.Seleccionado === 1 ? this._planCliente.Id_Plan : this._plan.Id_Plan, intConFactura === 1 ? this._datoFiscal.Id_DatosFiscales : null, this._banco.Id_Banco === 0 ? null : this._banco.Id_Banco ).subscribe(
+    this._publicacionesService.putActivarPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente(), this._planCliente.Seleccionado === 1 ? this._planCliente.Id_PlanCliente : null, this._planCliente.Seleccionado === 1 ? this._planCliente.Id_Plan : this._plan.Id_Plan, intConFactura === 1 ? this._datoFiscal.Id_DatosFiscales : null, this._banco.Id_Banco === 0 ? null : this._banco.Id_Banco ).subscribe(
       (data) => {
 
         if (this._planActualNuevo === false){

@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 
 import { ClientesService } from '../../Services/Catalogos/clientes.service';
 import { cliente } from 'src/app/Models/catalogos/cliente.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ import { cliente } from 'src/app/Models/catalogos/cliente.model';
 export class LoginComponent implements OnInit {
   obtenerTipo = 'password';
   soypropietario = '';
-  soyagente = '';
+  _soyAgente = '';
 
   formLogin = this.fb.group({
     correo: [
@@ -25,13 +26,12 @@ export class LoginComponent implements OnInit {
       ],
     ],
     password1: ['', Validators.required],
-    password2: ['', Validators.required],
-    soyagente: [false]
+    password2: ['', Validators.required]
   });
 
-  constructor(
-    private fb: FormBuilder,
-    private _clienteService: ClientesService
+  constructor( private router : Router,
+               private fb: FormBuilder,
+               private _clienteService: ClientesService
   ) {
     this.crearFormulario();
   }
@@ -48,8 +48,7 @@ export class LoginComponent implements OnInit {
         ],
       ],
       password1: ['', Validators.required],
-      password2: ['', Validators.required],
-      soyagente: [false]
+      password2: ['', Validators.required]
     });
   }
 
@@ -57,8 +56,7 @@ export class LoginComponent implements OnInit {
   debugger;
 
   let tipoCliente = 2;
-
-  if (!this.formLogin.get('soyagente')?.value){
+  if (this._soyAgente){
     tipoCliente = 3;
   }
 
@@ -72,12 +70,15 @@ export class LoginComponent implements OnInit {
           control.markAsTouched();
         }
       });
-    } else {
+    } else if(this.passwordsDiferentes){
+      return;
+    }  
+    else {
       //Envio de la informacion al servidor
 
       let _cliente = new cliente(
         0,
-        null,
+        1,
         tipoCliente,
         null,
         1,
@@ -115,6 +116,9 @@ export class LoginComponent implements OnInit {
           });
 
           this.limpiarFormulario();
+
+          this.router.navigateByUrl('/iniciarsesion');
+
         },
         (error: HttpErrorResponse) => {
           //Error callback

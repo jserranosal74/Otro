@@ -7,4 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'midepa';
+  _modoObscuro = ( localStorage.getItem('mo') === "true" ? true : false );
+
+  cambiarModo(event : any){
+    this._modoObscuro = event;
+  }
+
 }

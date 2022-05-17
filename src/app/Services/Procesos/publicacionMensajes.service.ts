@@ -27,7 +27,7 @@ export class PublicacionMensajesService {
   }
 
   public postPublicacionMensaje(objPublicacionMensaje : publicacionMensaje): Observable<number> {
-    return this.http.post<number>(this.urlPublicacionesMensajes, objPublicacionMensaje, this.httpOptions);
+    return this.http.post<number>(this.urlPublicacionesMensajes, objPublicacionMensaje);
   }
 
   public deletePublicacionMensaje(Id_PublicacionMensaje : number): Observable<number> {

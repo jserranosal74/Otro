@@ -15,8 +15,8 @@ export class ActivarclienteComponent implements OnInit {
   mensaje = '';
   ExisteRespuesta = true;
 
-  constructor(private _activatedRoute: ActivatedRoute,
-              private _clienteService: ClientesService) { 
+  constructor( private _activatedRoute: ActivatedRoute,
+               private _clienteService: ClientesService) { 
     
     this._activatedRoute.queryParams.subscribe(params => {
       this.token = params['token'];

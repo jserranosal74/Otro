@@ -32,15 +32,33 @@ export class LoginService {
 
   public cerarSesion(){
     localStorage.removeItem('usuario');
-    window.location.href = '/inicio';
+    window.location.reload();
   }
 
   public recuperarPassword(objLogin: login): Observable<string> {
-    return this.http.post<string>(this.urlLogin + 'recuperarPassword/', objLogin);
+    return this.http.post<string>(this.urlLogin + 'recuperarpassword/', objLogin);
   }
 
-  public sesionValida(): Observable<string> {
-    return this.http.get<string>(this.urlLogin + 'echoping/', this.httpOptions);
+  public validarToken(Token : string): Observable<string> {
+    return this.http.get<string>(this.urlLogin + 'validartoken?token=' + Token);
+  }
+
+  public restablecerPassword(Token : string, Password : string): Observable<string> {
+    return this.http.put<string>(this.urlLogin + 'restablecerpassword?Token=' + Token + '&Password=' + Password,'');
+  }
+
+  // Servicios de autenticacion funcionando
+  // public sesionValida(): Observable<boolean> {
+  //   return this.http.get<boolean>(this.urlLogin + 'echoping/');
+  // }
+
+  // Servicios de autenticacion funcionando
+  public usuarioAutenticadoServidor(): Observable<boolean> {
+    if (this.obtenerToken() === ''){
+      return this.http.get<boolean>(this.urlLogin + 'echouser/');
+    }else{
+      return this.http.get<boolean>(this.urlLogin + 'echouser/', this.httpOptions);
+    }
   }
 
   public estaAutenticado(): boolean {

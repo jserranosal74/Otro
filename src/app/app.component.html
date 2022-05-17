@@ -1,7 +1,7 @@
-<div id="containerMain" class="Ligth" >
-  <app-navbar></app-navbar>
+<div id="containerMain" [ngClass]="{' Dark': _modoObscuro, ' Ligth': !_modoObscuro}" >
+  <app-navbar (_seCambiaModo)="cambiarModo($event)"></app-navbar>
 
-  <div class="img" style="padding-top: 60px" >
+  <div class="img" style="padding-top: 60px;"  >
     <div class="p-4">
       <router-outlet></router-outlet>
     </div>

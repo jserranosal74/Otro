@@ -295,29 +295,42 @@
       </ul>
 
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item px-2" routerLinkActive="active">
-          <a class="btn text-white btn-secondary" style="border-radius: 10px;" [routerLink]="['publicar']"
-            >Publicar gratis</a
-          >
+        <li class="nav-item" routerLinkActive="active">
+          <button type="button" class="btn btn-link" (click)="cambiarModo()">
+            <i *ngIf="_modoObscuro" class="fa-solid fa-sun fs-5" style="color:yellow"></i>
+            <i *ngIf="!_modoObscuro" class="fa-solid fa-moon fs-5" style="color:white"></i>
+          </button>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="btn text-white btn-secondary" style="border-radius: 10px;" [routerLink]="['publicar']">
+            Publicar</a>
         </li>
         <div *ngIf="usuarioAutenticado">
         <li class="nav-item" style="padding-right: 10px;" routerLinkActive="active">
-          <a
-            class="btn text-white btn-secondary" style="border-radius: 10px; padding-left: 10px;"
-            [routerLink]="['micuenta']"
-          >
-            Mi Cuenta
+          <a class="btn btn-link" 
+             style="border:none; box-shadow: none;"
+             [routerLink]="['micuenta']">
+            <span><i class="fa-solid fa-circle-user medicon"></i></span>
           </a>
+          <span class="text-white text-capitalize">{{_nombreUsuario}}</span>
         </li>
       </div>
         <div *ngIf="!usuarioAutenticado; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
           <li class="nav-item">
-            <a class="btn text-white btn-secondary" style="border-radius: 10px;" routerLink="iniciarsesion">Ingresar</a>
+            <a class="btn btn-link" 
+               style="border:none; box-shadow: none;"
+               routerLink="iniciarsesion">
+               <i class="fa-solid fa-arrow-right-to-bracket medicon"></i>
+            </a>
           </li></ng-template>
         <ng-template #elseBlock>
           <li class="nav-item">
-            <a class="btn text-white btn-secondary" style="border-radius: 10px;" (click)="cerrarSesion()">Salir</a>
+            <a class="btn btn-link" 
+               style="border:none; box-shadow: none;"
+               (click)="cerrarSesion()">
+               <span><i class="fa-solid fa-arrow-right-from-bracket medicon"></i></span>
+            </a>
           </li>
         </ng-template>
       </ul>

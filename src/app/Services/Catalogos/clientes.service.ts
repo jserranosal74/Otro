@@ -45,7 +45,7 @@ export class ClientesService {
   }
 
   public postCliente(objCliente: cliente): Observable<cliente> {
-    return this.http.post<cliente>(this.urlClientes, objCliente, this.httpOptions);
+    return this.http.post<cliente>(this.urlClientes, objCliente);
   }
 
   public deleteCliente(Id_Cliente : number): Observable<cliente> {

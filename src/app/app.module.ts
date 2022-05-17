@@ -31,6 +31,7 @@ import { CatalogosModule } from './Components/catalogos/catalogos.module';
 import { MicuentaModule } from './Components/micuenta/micuenta.module';
 import { ProcesosModule } from './Components/procesos/procesos.module';
 import { PublicarModule } from './Components/publicar/publicar.module';
+import { RestablecerpasswordComponent } from './Components/restablecerpassword/restablecerpassword.component';
 
 // import { MaterialModule } from './material.module';
 // import { CoreModule } from './core/core.module';
@@ -55,6 +56,7 @@ import { PublicarModule } from './Components/publicar/publicar.module';
     BusquedadetalladaComponent,
     IniciarsesionComponent,
     RecuperarpasswordComponent,
+    RestablecerpasswordComponent,
     LegalComponent,
     MicuentaComponent,
     ActivarclienteComponent
