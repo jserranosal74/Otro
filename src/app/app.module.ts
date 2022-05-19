@@ -33,9 +33,34 @@ import { ProcesosModule } from './Components/procesos/procesos.module';
 import { PublicarModule } from './Components/publicar/publicar.module';
 import { RestablecerpasswordComponent } from './Components/restablecerpassword/restablecerpassword.component';
 
+import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
+import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+
 // import { MaterialModule } from './material.module';
 // import { CoreModule } from './core/core.module';
 // import { SharedModule } from './shared/shared.module';
+
+const fbLoginOptions = {
+  scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
+  return_scopes: true,
+  enable_profile_selector: true
+}; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
+
+const googleLoginOptions = {
+  scope: 'profile email'
+}; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
+
+
+// let config = [
+//   {
+//     id: GoogleLoginProvider.PROVIDER_ID,
+//     provider: new GoogleLoginProvider("871188979190-53oa9ctrooeiv32eslaocarmn1rnif8a.apps.googleusercontent.com")
+//   },
+//   {
+//     id: FacebookLoginProvider.PROVIDER_ID,
+//     provider: new FacebookLoginProvider("523699662832841")
+//   }
+// ];
 
 @NgModule({
   declarations: [
@@ -72,8 +97,29 @@ import { RestablecerpasswordComponent } from './Components/restablecerpassword/r
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    SocialLoginModule
   ],
-  providers: [],
+  providers: [{
+    provide: 'SocialAuthServiceConfig',
+    useValue: {
+      autoLogin: false,
+      providers: [
+        {
+          id: GoogleLoginProvider.PROVIDER_ID,
+          provider: new GoogleLoginProvider(
+            '871188979190-53oa9ctrooeiv32eslaocarmn1rnif8a.apps.googleusercontent.com', googleLoginOptions
+          )
+        },
+        {
+          id: FacebookLoginProvider.PROVIDER_ID,
+          provider: new FacebookLoginProvider('523699662832841', fbLoginOptions)
+        }
+      ],
+      onError: (err) => {
+        console.error(err);
+      }
+    } as SocialAuthServiceConfig,
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

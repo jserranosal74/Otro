@@ -140,10 +140,10 @@
 
 <div class="modal fade" id="gridAsentamiento" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content">
+    <div class="modal-content color-modal">
       <div class="modal-header">
         <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} Asentamiento</h5>
-        <button type="button" class="btn-close" (click)="limpiarFormularioAsentamiento()" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close bg-color-5" (click)="limpiarFormularioAsentamiento()" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="container-fluid bd-example-row">
@@ -200,7 +200,7 @@
                                              type="text" 
                                              placeholder="Descripcion" 
                                              [class.is-invalid]="asentamientoNoValido" 
-                                             class="form-control text-primary">
+                                             class="form-control text-primary color-text-box">
                                   </div>
                                   <div class="col-md-3 px-0">
                                       <small *ngIf="asentamientoNoValido" class="text-danger">
@@ -216,7 +216,7 @@
                                              type="number"
                                              [class.is-invalid]="codigopostalNoValido"
                                              placeholder="Codigo Postal" 
-                                             class="form-control text-primary">
+                                             class="form-control text-primary color-text-box">
                                   </div>
                                   <div class="col-md-3 px-0">
                                       <small *ngIf="codigopostalNoValido" class="text-danger">
@@ -232,7 +232,7 @@
                                            type="number"
                                            [class.is-invalid]="latitudNoValido"
                                            placeholder="Latitud" 
-                                           class="form-control text-primary">
+                                           class="form-control text-primary color-text-box">
                                 </div>
                                 <div class="col-md-3 px-0">
                                     <small *ngIf="latitudNoValido" class="text-danger">
@@ -248,7 +248,7 @@
                                          type="number"
                                          [class.is-invalid]="longitudNoValido"
                                          placeholder="Longitud" 
-                                         class="form-control text-primary">
+                                         class="form-control text-primary color-text-box">
                               </div>
                               <div class="col-md-3 px-0">
                                   <small *ngIf="longitudNoValido" class="text-danger">

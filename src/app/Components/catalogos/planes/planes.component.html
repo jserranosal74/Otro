@@ -84,7 +84,7 @@
   
   <div class="modal fade" id="gridAgregarPlanes" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
       <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+        <div class="modal-content color-modal">
           <div class="modal-header">
             <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} Plan</h5>
             <button type="button" class="btn-close" (click)="limpiarFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -104,7 +104,7 @@
                                                  type="text" 
                                                  placeholder="Descripción" 
                                                  [class.is-invalid]="descripcionNoValido" 
-                                                 class="form-control text-primary">
+                                                 class="form-control text-primary color-text-box">
                                       </div>
                                       <div class="col-md-3 px-0">
                                           <small *ngIf="descripcionNoValido" class="text-danger">
@@ -120,7 +120,7 @@
                                                  type="number"
                                                  [class.is-invalid]="precioNoValido"
                                                  placeholder="Precio" 
-                                                 class="form-control text-primary">
+                                                 class="form-control text-primary color-text-box">
                                       </div>
                                       <div class="col-md-3 px-0">
                                           <small *ngIf="precioNoValido" class="text-danger">
@@ -136,7 +136,7 @@
                                                  type="number"
                                                  [class.is-invalid]="cantidadNoValido"
                                                  placeholder="Cantidad" 
-                                                 class="form-control text-primary">
+                                                 class="form-control text-primary color-text-box">
                                       </div>
                                       <div class="col-md-3 px-0">
                                           <small *ngIf="cantidadNoValido" class="text-danger">
@@ -152,7 +152,7 @@
                                                  type="number"
                                                  [class.is-invalid]="vigenciaxunidadNoValido"
                                                  placeholder="Vigencia por unidad" 
-                                                 class="form-control text-primary">
+                                                 class="form-control text-primary color-text-box">
                                       </div>
                                       <div class="col-md-3 px-0">
                                           <small *ngIf="vigenciaxunidadNoValido" class="text-danger">
@@ -168,7 +168,7 @@
                                                  type="text"
                                                  [class.is-invalid]="urlimagenNoValido"
                                                  placeholder="URL de la imagen" 
-                                                 class="form-control text-primary">
+                                                 class="form-control text-primary color-text-box">
                                       </div>
                                       <div class="col-md-3 px-0">
                                           <small *ngIf="urlimagenNoValido" class="text-danger">

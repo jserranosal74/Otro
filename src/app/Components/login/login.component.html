@@ -13,7 +13,7 @@
       <div class="col-md-4 col-10 p-0">
         <input type="email" 
                autocomplete="on"
-               class="form-control text-primary"
+               class="form-control text-primary color-text-box"
                placeholder="Correo electrónico"
                formControlName="correo"
                [class.is-invalid]="correoNoValido"/>
@@ -30,7 +30,7 @@
       <div class="col-md-4 col-10 p-0">
         <input
           [type]="obtenerTipo"
-          class="form-control text-primary"
+          class="form-control text-primary color-text-box"
           placeholder="Contraseña"
           formControlName="password1"
           [class.is-invalid]="password1NoValido"
@@ -58,7 +58,7 @@
       <div class="col-md-4 col-10 p-0">
         <input
           [type]="obtenerTipo"
-          class="form-control text-primary"
+          class="form-control text-primary color-text-box"
           placeholder="Repita contraseña"
           formControlName="password2"
           [class.is-invalid]="passwordsDiferentes"
@@ -83,9 +83,9 @@
 
     <div class="form-group row py-0">
       <label class="col-md-2 col-form-label">&nbsp;</label>
-      <div class="col-md-4 d-grid gap-2 mix-auto">
+      <div class="col-md-4">
         <div class="form-check">
-          <input class="form-check-input" 
+          <input class="form-check-input"
                  type="checkbox" 
                  [checked]="_soyAgente"
                  id="flexCheckChecked">

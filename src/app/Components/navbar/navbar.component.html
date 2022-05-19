@@ -296,23 +296,19 @@
 
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" routerLinkActive="active">
-          <button type="button" class="btn btn-link" (click)="cambiarModo()">
-            <i *ngIf="_modoObscuro" class="fa-solid fa-sun fs-5" style="color:yellow"></i>
-            <i *ngIf="!_modoObscuro" class="fa-solid fa-moon fs-5" style="color:white"></i>
-          </button>
-        </li>
-        <li class="nav-item" routerLinkActive="active">
           <a class="btn text-white btn-secondary" style="border-radius: 10px;" [routerLink]="['publicar']">
             Publicar</a>
         </li>
         <div *ngIf="usuarioAutenticado">
-        <li class="nav-item" style="padding-right: 10px;" routerLinkActive="active">
-          <a class="btn btn-link" 
-             style="border:none; box-shadow: none;"
-             [routerLink]="['micuenta']">
-            <span><i class="fa-solid fa-circle-user medicon"></i></span>
-          </a>
-          <span class="text-white text-capitalize">{{_nombreUsuario}}</span>
+        <li class="nav-item" routerLinkActive="active">
+          <div style="display:flex; align-items:center; max-width: 120px;">
+            <a class="btn btn-link" 
+              style="border:none; box-shadow: none;"
+              [routerLink]="['micuenta']">
+              <span><i class="fa-solid fa-circle-user medicon"></i></span>
+            </a>
+            <label class="text-white text-capitalize text-truncate" >{{_nombreUsuario}}</label>
+          </div>
         </li>
       </div>
         <div *ngIf="!usuarioAutenticado; then thenBlock else elseBlock"></div>
@@ -333,6 +329,12 @@
             </a>
           </li>
         </ng-template>
+        <li class="nav-item" routerLinkActive="active">
+          <button type="button" class="btn btn-link px-0" (click)="cambiarModo()">
+            <i *ngIf="_modoObscuro" class="fa-solid fa-sun fs-5" style="color:yellow"></i>
+            <i *ngIf="!_modoObscuro" class="fa-solid fa-moon fs-5" style="color:white"></i>
+          </button>
+        </li>
       </ul>
     </div>
     

@@ -63,11 +63,11 @@
 </div>
 
 <div class="modal" id="gridAgregarDatosFiscales" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
+    <div class="modal-dialog modal-lg br15">
+      <div class="modal-content color-modal">
         <div class="modal-header">
           <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} dato fiscal</h5>
-          <button type="button" class="btn-close" (click)="limpiarFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close bg-color-5" (click)="limpiarFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="container-fluid bd-example-row">
@@ -83,12 +83,12 @@
                                     <label class="text-primary">Tipo de persona:</label>
                                   </div>
                                   <div class="col-md-5">
-                                    <select class="form-select form-select-lg mb-3 text-primary"
-                                      style="border-radius: 0.8em"
-                                      aria-label="Default select example"
-                                      name="tipopersona"
-                                      formControlName="tipopersona"
-                                      [class.is-invalid]="tipopersonaNoValido">
+                                    <select class="form-select form-select-lg mb-3 br15 text-primary color-text-box"
+                                            style="border-radius: 0.8em"
+                                            aria-label="Default select example"
+                                            name="tipopersona"
+                                            formControlName="tipopersona"
+                                            [class.is-invalid]="tipopersonaNoValido">
                                       <option value="" selected disabled>Seleccione...</option>
                                       <option *ngFor="let tipopersona of _tiposPersonas" [value]="tipopersona.Id_TipoPersona">{{ tipopersona.Descripcion }}
                                       </option>
@@ -109,7 +109,7 @@
                                                type="text" 
                                                placeholder="Nombre o razón social" 
                                                [class.is-invalid]="nombreNoValido" 
-                                               class="form-control text-primary">
+                                               class="form-control text-primary color-text-box">
                                     </div>
                                     <div class="col-auto px-0">
                                         <small *ngIf="nombreNoValido" class="text-danger">
@@ -126,7 +126,7 @@
                                                maxlength="200"
                                                placeholder="Domicilio fiscal" 
                                                [class.is-invalid]="domiciliofiscalNoValido" 
-                                               class="form-control text-primary">
+                                               class="form-control text-primary color-text-box">
                                     </div>
                                     <div class="col-auto px-0">
                                         <small *ngIf="domiciliofiscalNoValido" class="text-danger">
@@ -143,7 +143,7 @@
                                                maxlength="50"
                                                [class.is-invalid]="correoNoValido"
                                                placeholder="Correo electrónico" 
-                                               class="form-control text-primary">
+                                               class="form-control text-primary color-text-box">
                                     </div>
                                     <div class="col-auto px-0">
                                         <small *ngIf="correoNoValido" class="text-danger">
@@ -160,7 +160,7 @@
                                                maxlength="15"
                                                [class.is-invalid]="rfcNoValido"
                                                placeholder="RFC" 
-                                               class="form-control text-primary">
+                                               class="form-control text-primary color-text-box">
                                     </div>
                                     <div class="col-auto px-0">
                                         <small *ngIf="rfcNoValido" class="text-danger">

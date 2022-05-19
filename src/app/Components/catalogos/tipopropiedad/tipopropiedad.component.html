@@ -65,10 +65,10 @@
 
 <div class="modal fade" id="gridAgregarTipoPropiedad" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content">
+      <div class="modal-content color-modal">
         <div class="modal-header">
           <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} Tipo de Propiedad</h5>
-          <button type="button" class="btn-close" (click)="limpiarFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close bg-color-5" (click)="limpiarFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="container-fluid bd-example-row">
@@ -85,7 +85,7 @@
                                            type="text"
                                            [class.is-invalid]="claveNoValido"
                                            placeholder="Clave" 
-                                           class="form-control text-primary">
+                                           class="form-control text-primary color-text-box">
                                 </div>
                                 <div class="col-md-3 px-0">
                                     <small *ngIf="claveNoValido" class="text-danger">

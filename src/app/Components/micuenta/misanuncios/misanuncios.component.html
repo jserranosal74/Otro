@@ -23,12 +23,11 @@
           <label class="text-primary">Estatus de la publicación:</label>
         </div>
         <div class="col-md-4">
-          <select 
-            class="form-select form-select-lg mb-3 text-primary"
-            style="border-radius: 0.8em"
-            aria-label="Default select example"
-            name="estatusPublicacion"
-            formControlName="estatusPublicacion" >
+          <select class="form-select form-select-lg mb-3 text-primary color-text-box"
+                  style="border-radius: 0.8em"
+                  aria-label="Default select example"
+                  name="estatusPublicacion"
+                  formControlName="estatusPublicacion" >
             <option *ngFor="let estatus of _listaEstatus" [value]="estatus.Id_Estatus">{{ estatus.Descripcion }}
             </option>
           </select>

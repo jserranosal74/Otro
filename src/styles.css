@@ -1,42 +1,59 @@
-.form-zone {
-  border-radius: 22px;
-  max-width: 100%;
-  padding: 10px;
-  top: 130px;
-  width: auto;
-  /*background: rgba(72,69,64,1);*/
-  /* background: rgba(255, 255, 255, 1); */
-}
 
-.form-zone.Ligth {
-  border-radius: 22px;
-  max-width: 100%;
-  padding: 10px;
-  top: 130px;
-  width: auto;
-  /*background: rgba(72,69,64,1);*/
-  background: rgba(255, 255, 255, 1);
-}
-
-.form-zone.Dark {
-  border-radius: 22px;
-  max-width: 100%;
-  padding: 10px;
-  top: 130px;
-  width: auto;
-  /*background: rgba(72,69,64,1);*/
-  background: rgb(0, 0, 0);
-}
-
-#containerMain.Ligth {
+.Ligth {
   background-color: white;
   -webkit-transition: background-color 200ms linear;
   -ms-transition: background-color 200ms linear;
   transition: background-color 200ms linear;
 }
 
-#containerMain.Dark {
+.Dark {
   background-color: #111111;
+  -webkit-transition: background-color 200ms linear;
+  -ms-transition: background-color 200ms linear;
+  transition: background-color 200ms linear;
+}
+
+.Ligth .color-card{
+  background-color: white;
+  border: 1px solid rgba(223, 126, 137, .8);
+  -webkit-transition: background-color 200ms linear;
+  -ms-transition: background-color 200ms linear;
+  transition: background-color 200ms linear;
+}
+
+.Dark .color-card {
+  background-color: #111111;
+  border: 1px solid rgba(223, 126, 137, .8);
+  -webkit-transition: background-color 200ms linear;
+  -ms-transition: background-color 200ms linear;
+  transition: background-color 200ms linear;
+}
+
+.Ligth .color-modal{
+  background-color: white;
+  border: 1px solid rgba(223, 126, 137, .8);
+  -webkit-transition: background-color 200ms linear;
+  -ms-transition: background-color 200ms linear;
+  transition: background-color 200ms linear;
+}
+
+.Dark .color-modal {
+  background-color: #222222;
+  border: 1px solid rgba(223, 126, 137, .8);
+  -webkit-transition: background-color 200ms linear;
+  -ms-transition: background-color 200ms linear;
+  transition: background-color 200ms linear;
+}
+
+.Ligth .color-text-box{
+  background-color: white;
+  -webkit-transition: background-color 200ms linear;
+  -ms-transition: background-color 200ms linear;
+  transition: background-color 200ms linear;
+}
+
+.Dark .color-text-box {
+  background-color: transparent;
   -webkit-transition: background-color 200ms linear;
   -ms-transition: background-color 200ms linear;
   transition: background-color 200ms linear;
@@ -44,6 +61,12 @@
 
 .header {
   color: #bf4080;
+  font-size: 27px;
+  padding: 10px;
+}
+
+.Dark .header {
+  color: #000000;
   font-size: 27px;
   padding: 10px;
 }
@@ -75,8 +98,8 @@
   background-color: rgba(223, 126, 137, .8);
 }
 
-.borde-card{
-  border: 1px solid rgba(223, 126, 137, .8);
+.bg-color-5{
+  background-color: #bf4080;
 }
 
 .br25{
@@ -93,12 +116,4 @@
 
 .br10{
   border-radius: 10px;
-}
-
-/* 
- * Always set the map height explicitly to define the size of the div element
- * that contains the map. 
- */
- #map {
-  height: 100%;
 }

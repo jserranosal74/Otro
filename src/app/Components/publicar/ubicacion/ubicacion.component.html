@@ -21,14 +21,13 @@
             <label class="text-primary">Estado:</label>
           </div>
           <div class="col-md-3">
-            <select
-              class="form-select form-select-lg mb-3 text-primary"
-              style="border-radius: 0.8em"
-              aria-label="Default select example"
-              name="estado"
-              formControlName="estado"
-              [class.is-invalid]="estadoNoValido" 
-              (change)="obtenerMunicipios(0,0)">
+            <select class="form-select form-select-lg mb-3 text-primary color-text-box"
+                    style="border-radius: 0.8em"
+                    aria-label="Default select example"
+                    name="estado"
+                    formControlName="estado"
+                    [class.is-invalid]="estadoNoValido" 
+                    (change)="obtenerMunicipios(0,0)">
               <option value="" selected disabled>Seleccione...</option>
               <option *ngFor="let estado of _estados; let i = index" [value]="estado.Id_Estado">{{ estado.Nombre }}
               </option>
@@ -43,14 +42,13 @@
             <label class="text-primary">Ciudad o municipio:</label>
           </div>
           <div class="col-md-3">
-            <select
-              class="form-select form-select-lg mb-3 text-primary"
-              style="border-radius: 0.8em"
-              aria-label="Default select example"
-              name="municipio"
-              formControlName="municipio"
-              [class.is-invalid]="municipioNoValido" 
-              (change)="obtenerAsentamientos(0,0)">
+            <select class="form-select form-select-lg mb-3 text-primary color-text-box"
+                    style="border-radius: 0.8em"
+                    aria-label="Default select example"
+                    name="municipio"
+                    formControlName="municipio"
+                    [class.is-invalid]="municipioNoValido" 
+                    (change)="obtenerAsentamientos(0,0)">
             <option value="" selected disabled>Seleccione...</option>
               <option *ngFor="let municipio of _municipios; let i = index" [value]="municipio.Id_Municipio">{{ municipio.Municipio }}
               </option>
@@ -70,13 +68,12 @@
             <label class="text-primary">Colonia:</label>
           </div>
           <div class="col-md-3">
-            <select
-              class="form-select form-select-lg mb-3 text-primary"
-              style="border-radius: 0.8em"
-              aria-label="Default select example"
-              name="asentamiento"
-              formControlName="asentamiento"
-              [class.is-invalid]="asentamientoNoValido">
+            <select class="form-select form-select-lg mb-3 text-primary color-text-box"
+                    style="border-radius: 0.8em"
+                    aria-label="Default select example"
+                    name="asentamiento"
+                    formControlName="asentamiento"
+                    [class.is-invalid]="asentamientoNoValido">
               <option value="" selected disabled>Seleccione...</option>
               <option *ngFor="let asentamiento of _asentamientos; let i = index" [value]="asentamiento.Id_Asentamiento">{{ asentamiento.Asentamiento }}
               </option>
@@ -92,7 +89,7 @@
           </div>
           <div class="col-md-3 lg text-primary">
             <input type="text" style="display:flex; align-items : center;"
-                   class="form-control text-primary br15"
+                   class="form-control text-primary br15 color-text-box"
                    maxlength="50"
                    placeholder="Calle y número"
                    formControlName="calleynumero"/>

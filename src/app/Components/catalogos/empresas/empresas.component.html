@@ -67,10 +67,10 @@
 
 <div class="modal fade" id="gridAgregarEmpresa" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-lg">
-      <div class="modal-content">
+      <div class="modal-content color-modal">
         <div class="modal-header">
           <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} Empresa</h5>
-          <button type="button" class="btn-close" (click)="limpiarFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close bg-color-5" (click)="limpiarFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="container-fluid bd-example-row">
@@ -140,7 +140,7 @@
                                                       type="text" 
                                                       placeholder="Nombre de la empresa" 
                                                       [class.is-invalid]="nombreNoValido" 
-                                                      class="form-control text-primary">
+                                                      class="form-control text-primary color-text-box">
                                             </div>
                                             <div class="col-md-1 px-0">
                                                 <small *ngIf="nombreNoValido" class="text-danger">
@@ -175,7 +175,7 @@
                                                       rows="4"
                                                       placeholder="Descripción de la empresa"
                                                       [class.is-invalid]="descripcionNoValido" 
-                                                      class="form-control text-primary"></textarea>
+                                                      class="form-control text-primary color-text-box"></textarea>
                                         </div>
                                         <div class="col-md-1 px-0">
                                             <small *ngIf="descripcionNoValido" class="text-danger">
@@ -210,7 +210,7 @@
                                                   </select>
                                                 </td>
                                                 <td>
-                                                  <input class="form-control text-primary"
+                                                  <input class="form-control text-primary color-text-box"
                                                          type="text"
                                                          maxlength="50"
                                                          formControlName="Descripcion">

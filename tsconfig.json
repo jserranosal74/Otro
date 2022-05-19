@@ -17,7 +17,7 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2017",
-    "types": ["googlemaps"],
+    "types": ["googlemaps", "gapi", "gapi.auth2"],
     "module": "es2020",
     "lib": [
       "es2020",

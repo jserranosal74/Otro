@@ -8,9 +8,12 @@
                         <div class="form-group row mb-3">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
                             <div class="col-md-8">
-                                <input autofocus formControlName="nombre" 
-                                       type="text" placeholder="Nombre" 
-                                       [class.is-invalid]="nombreNoValido" class="form-control">
+                                <input autofocus 
+                                       formControlName="nombre" 
+                                       type="text" 
+                                       placeholder="Nombre" 
+                                       [class.is-invalid]="nombreNoValido" 
+                                       class="form-control color-text-box">
                             </div>
                             <div class="col-md-3 px-0">
                                 <small *ngIf="nombreNoValido" class="text-danger">
@@ -27,7 +30,8 @@
                                        maxlength="50"
                                        email
                                        [class.is-invalid]="correoNoValido"
-                                       placeholder="Correo electrónico" class="form-control">
+                                       placeholder="Correo electrónico" 
+                                       class="form-control color-text-box">
                             </div>
                             <div class="col-md-3 px-0">
                                 <small *ngIf="correoNoValido" class="text-danger">
@@ -42,7 +46,8 @@
                                 <input formControlName="telefono" 
                                        type="number" 
                                        [class.is-invalid]="telefonoNoValido"
-                                       placeholder="Telefono" class="form-control">
+                                       placeholder="Telefono" 
+                                       class="form-control color-text-box">
                             </div>
                             <div class="col-md-3 px-0">
                                 <small *ngIf="telefonoNoValido" class="text-danger">
@@ -57,7 +62,8 @@
                                 <input formControlName="asunto" 
                                        maxlength="50"
                                        [class.is-invalid]="asuntoNoValido"
-                                       type="text" placeholder="Asunto" class="form-control">
+                                       type="text" placeholder="Asunto" 
+                                       class="form-control color-text-box">
                             </div>
                             <div class="col-md-3 px-0">
                                 <small *ngIf="asuntoNoValido" class="text-danger">
@@ -69,7 +75,7 @@
                         <div class="form-group row">
                             <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
                             <div class="col-md-8">
-                                <textarea class="form-control" 
+                                <textarea class="form-control color-text-box" 
                                           maxlength="500"
                                           formControlName="mensaje" 
                                           [class.is-invalid]="mensajeNoValido"

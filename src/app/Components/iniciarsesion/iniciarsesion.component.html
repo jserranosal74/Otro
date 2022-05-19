@@ -1,3 +1,4 @@
+
 <form [formGroup]="formIniciarsesion" autocomplete="on">
   <fieldset>
   <div class="form-group row py-3">
@@ -6,9 +7,9 @@
 
     <div class="form-group row py-3">
       <label class="col-md-2 col-form-label text-primary text-end">Correo electrónico</label>
-      <div class="col-md-4 col-10 p-0">
+      <div class="col-md-3 col-10 p-0">
         <input autocomplete="on"
-               class="form-control text-primary"
+               class="form-control text-primary color-text-box"
                type="email"
                email
                placeholder="Correo electrónico"
@@ -16,26 +17,37 @@
                [class.is-invalid]="correoNoValido"/>
       </div>
       
-      <div class="col-md-4 col-form-label">
+      <div class="col-md-2 col-form-label">
         <small *ngIf="correoNoValido" class="text-danger">
           Ingrese el correo
         </small>
+      </div>
+      <div class="col-md-3 col-form-label d-grid mix-auto">
+        <button id="sesiongoogle"
+                type="submit" 
+                (click)="iniciarSesionGoogle()" 
+                class="btn btn-outline-primary btn-lg br25">Iniciar con Google
+                <i class="fa-brands fa-google"></i>
+        </button>
+        <!-- <div id="googleBtn" class="g-signin2" data-onsuccess="onSignIn"></div> -->
       </div>
     </div>
   
     <div class="form-group row py-3">
       <label class="col-md-2 col-form-label text-primary text-end">Contraseña</label>
-      <div class="col-md-4 col-10 p-0">
+      <div class="col-md-3 col-10 p-0">
         <input [type]="obtenerTipo"
                autocomplete="off"
-               class="form-control text-primary"
+               class="form-control text-primary color-text-box"
                placeholder="Contraseña"
                formControlName="password1"
-               [class.is-invalid]="password1NoValido"
-        />
+               [class.is-invalid]="password1NoValido"/>
       </div>
       <div class="col-auto px-0">
-        <button type="button" tabindex="-1" class="btn btn-primary px-1" (click)="cambiarTipo()"><span class="col-md-1 col-md-offset-2 text-center">
+        <button type="button" 
+                tabindex="-1" 
+                class="btn btn-primary px-1" 
+                (click)="cambiarTipo()"><span class="col-md-1 col-md-offset-2 text-center">
           <div *ngIf="obtenerTipo=='text'">
             <i class="fa fa-eye"></i>
           </div>
@@ -44,17 +56,27 @@
           </div>
         </span></button>
       </div>
-      <div class="col-md-4 col-form-label">
+      <div class="col-md-2 col-form-label">
         <small *ngIf="password1NoValido" class="text-danger">
           Ingrese la contraseña
         </small>
+      </div>
+      <div class="col-md-3 col-form-label d-grid mix-auto">
+        <button type="submit" 
+                (click)="iniciarSesionFacebook()" 
+                class="btn btn-outline-primary btn-lg br25">Iniciar con Facebook
+                <i class="fa-brands fa-facebook-square"></i>
+        </button>
       </div>
     </div>
   
     <div class="form-group row py-3">
       <label class="col-md-2 col-form-label">&nbsp;</label>
-      <div class="col-4 d-grid gap-2 mix-auto">
-        <button type="submit" (click)="iniciarSesion()" class="btn btn-primary btn-lg">Iniciar sesión</button>
+      <div class="col-3 d-grid gap-2 mix-auto">
+        <button type="submit" 
+                (click)="iniciarSesion()" 
+                class="btn btn-primary btn-lg br25">Iniciar sesión
+        </button>
       </div>
     </div>
 

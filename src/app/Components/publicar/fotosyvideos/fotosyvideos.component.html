@@ -60,7 +60,12 @@
                                 <input id="imagenPred{{i}}" type="radio" name="PredeterminadaImagen" (change)="cambiarPredeterminado(control)" [checked]="obtenerEstado(control)" >
                               </div>
                             </div>
-                            <input type="text" class="form-control" placeholder="Descripción" formControlName="Descripcion" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            <input type="text" 
+                                   class="form-control color-text-box" 
+                                   placeholder="Descripción" 
+                                   formControlName="Descripcion" 
+                                   aria-label="Recipient's username" 
+                                   aria-describedby="basic-addon2">
                             <!-- <div class="input-group-append" >
                               <button class="btn btn-outline-danger" type="button" (click)="borrarFotografia(control, i)"><span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-trash-can" aria-hidden="true"></i></span></button>
                             </div> -->
@@ -77,7 +82,7 @@
         <div class="row px-4">
           <div class="input-group">
             <input type="text" 
-                  class="form-control input-group text-primary" 
+                  class="form-control input-group text-primary color-text-box" 
                   id="videoElem" 
                   formControlName="urlVideo">
             <div class="input-group-append">
@@ -114,7 +119,7 @@
                               </div>
                             </div>
                             <input type="text" 
-                                   class="form-control" 
+                                   class="form-control color-text-box" 
                                    placeholder="Descripción" 
                                    formControlName="Descripcion">
                             

@@ -258,7 +258,7 @@
                                    class="col-sm-3 col-form-label text-end">Nombre</label>
                             <div class="col-sm-8 px-0">
                                 <input  type="text" 
-                                        class="form-control text-primary" 
+                                        class="form-control text-primary color-text-box" 
                                         placeholder="Nombre"
                                         [class.is-invalid]="nombreNoValido"
                                         formControlName="nombre"
@@ -275,7 +275,7 @@
                                    class="col-sm-3 col-form-label text-end">Teléfono</label>
                             <div class="col-sm-8 px-0">
                                 <input  type="text" 
-                                        class="form-control text-primary" 
+                                        class="form-control text-primary color-text-box" 
                                         placeholder="Teléfono"
                                         formControlName="telefono"
                                         [class.is-invalid]="telefonoNoValido"
@@ -292,7 +292,7 @@
                                    class="col-sm-3 col-form-label text-end">Email</label>
                             <div class="col-sm-8 px-0">
                                 <input  type="text"
-                                        class="form-control text-primary" 
+                                        class="form-control text-primary color-text-box" 
                                         placeholder="email"
                                         formControlName="email"
                                         [class.is-invalid]="emailNoValido"
@@ -310,7 +310,7 @@
                                    class="col-sm-3 col-form-label text-end">Mensaje</label>
                             <div class="col-sm-8 px-0">
                                 <textarea type="text" rows="3"
-                                        class="form-control text-primary" 
+                                        class="form-control text-primary color-text-box" 
                                         placeholder="Describa aqui su mensaje"
                                         formControlName="mensaje"
                                         [class.is-invalid]="mensajeNoValido"
@@ -378,10 +378,10 @@
 
 <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-md">
-      <div class="modal-content">
+      <div class="modal-content color-modal">
         <div class="modal-header">
           <h5 class="modal-title text-primary" id="gridModalLabel">Iniciar sesión</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close bg-color-5" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body py-2 px-0">
           <div class="container">
@@ -391,7 +391,7 @@
                     <label class="col-md-4 col-form-label text-primary text-end">Correo electrónico</label>
                     <div class="col-md-6 col-10 p-0">
                       <input autocomplete="on"
-                             class="form-control"
+                             class="form-control color-text-box color-text-box"
                              type="email"
                              email
                              placeholder="Correo electrónico"
@@ -410,7 +410,7 @@
                     <div class="col-md-6 col-10 p-0">
                       <input [type]="obtenerTipo"
                              autocomplete="off"
-                             class="form-control"
+                             class="form-control color-text-box"
                              placeholder="Contraseña"
                              formControlName="password1"
                              [class.is-invalid]="password1NoValido"/>
@@ -454,10 +454,10 @@
 
   <div class="modal fade" id="modalDatosUsuarios" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-md">
-      <div class="modal-content">
+      <div class="modal-content color-modal">
         <div class="modal-header">
           <h5 class="modal-title text-primary" id="gridModalLabel">Información requerida</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close bg-color-5" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body py-2 px-0">
           <div class="container">
@@ -467,7 +467,7 @@
                            class="col-sm-3 col-form-label text-primary text-end">Nombre</label>
                     <div class="col-sm-8 px-0">
                         <input  type="text" autocomplete="off"
-                                class="form-control text-primary" 
+                                class="form-control text-primary color-text-box" 
                                 placeholder="Nombre"
                                 [class.is-invalid]="nombreDUNoValido"
                                 formControlName="nombreDU"
@@ -484,7 +484,7 @@
                            class="col-sm-3 col-form-label text-primary text-end">Teléfono</label>
                     <div class="col-sm-8 px-0">
                         <input  type="text" 
-                                class="form-control text-primary" 
+                                class="form-control text-primary color-text-box" 
                                 placeholder="Teléfono"
                                 formControlName="telefonoDU"
                                 [class.is-invalid]="telefonoDUNoValido"
@@ -501,7 +501,7 @@
                            class="col-sm-3 col-form-label text-primary text-end">Email</label>
                     <div class="col-sm-8 px-0">
                         <input  type="text"
-                                class="form-control text-primary" 
+                                class="form-control text-primary color-text-box" 
                                 placeholder="email"
                                 formControlName="emailDU"
                                 [class.is-invalid]="emailDUNoValido"

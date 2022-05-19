@@ -7,41 +7,56 @@ import { LoginService } from 'src/app/Services/Catalogos/login.service';
 import { login } from 'src/app/Models/Auxiliares/login.model';
 import { Router } from '@angular/router';
 
+import { SocialAuthService, SocialUser } from "angularx-social-login";
+import { FacebookLoginProvider, GoogleLoginProvider } from "angularx-social-login";
+
+const fbLoginOptions = {
+  scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
+  return_scopes: true,
+  enable_profile_selector: true
+}; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
+
+const googleLoginOptions = {
+  scope: 'profile email'
+}; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
+
+
 @Component({
   selector: 'app-iniciarsesion',
   templateUrl: './iniciarsesion.component.html',
   styleUrls: ['./iniciarsesion.component.css'],
 })
+
 export class IniciarsesionComponent implements OnInit {
+  user     : SocialUser = new SocialUser();
+  loggedIn : boolean = false;
+
   obtenerTipo = 'password';
   formIniciarsesion = this.fb.group({
-    correo: [
-      '',
-      [
-        Validators.required,
-        Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
-      ],
-    ],
+    correo: ['',[Validators.required,Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),],],
     password1: ['', Validators.required]
   });
 
-  constructor(private fb: FormBuilder, 
-    private _loginService: LoginService,
-    private _router : Router) {
+  constructor( private fb: FormBuilder, 
+               private _loginService: LoginService,
+              private authService: SocialAuthService,
+               private _router : Router) {
     this.crearFormulario();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    debugger;
+    this.authService.authState.subscribe((user) => {
+      this.user = user;
+      this.loggedIn = (user != null);
+      console.log('this.user',this.user);
+      
+    });
+  }
 
   crearFormulario() {
     this.formIniciarsesion = this.fb.group({
-      correo: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
-        ],
-      ],
+      correo: ['',[Validators.required,Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),],],
       password1: ['', Validators.required]
     });
   }
@@ -71,12 +86,12 @@ export class IniciarsesionComponent implements OnInit {
       this._loginService.iniciarSesion(_login).subscribe(
         (data) => {
           //debugger;
-          console.log('datos: ', data);
+          //console.log('datos: ', data);
 
           localStorage.setItem('usuario', JSON.stringify(data));
           
-          console.log(localStorage.getItem('usuario'));
-          console.log(JSON.parse(localStorage.getItem('usuario')!));
+          // console.log(localStorage.getItem('usuario'));
+          // console.log(JSON.parse(localStorage.getItem('usuario')!));
           //JSON.parse(localStorage.getItem('usuario'))['Token']
 
           //this._router.navigateByUrl('/inicio');
@@ -91,20 +106,12 @@ export class IniciarsesionComponent implements OnInit {
 
           switch (error.status) {
             case 401:
-              //this.router.navigateByUrl("/login");
-              console.log('error 401');
               break;
             case 403:
-              //this.router.navigateByUrl("/unauthorized");
-              console.log('error 403');
               break;
             case 404:
-              //this.router.navigateByUrl("/unauthorized");
-              console.log('error 404');
               break;
             case 409:
-              //this.router.navigateByUrl("/unauthorized");
-              console.log('error 409');
               break;
           }
 
@@ -145,7 +152,24 @@ export class IniciarsesionComponent implements OnInit {
     else{
       this.obtenerTipo = 'password';
     }
-    
+  }
+
+  iniciarSesionGoogle(){
+    debugger;
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID, googleLoginOptions);
+    //this._loginService.loginForUser();
+  }
+
+  iniciarSesionFacebook(){
+    //this.authService.signIn(FacebookLoginProvider.PROVIDER_ID, fbLoginOptions);
+  }
+
+  refreshToken(): void {
+    this.authService.refreshAuthToken(GoogleLoginProvider.PROVIDER_ID);
+  }
+
+  signOut(): void {
+    //this.authService.signOut();
   }
 
 }
