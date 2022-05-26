@@ -23,8 +23,10 @@ import { PROCESOS_CHILD_ROUTES } from './Components/procesos/procesos.routes';
 
 import { RecuperarpasswordComponent } from './Components/recuperarpassword/recuperarpassword.component';
 import { LegalComponent } from './Components/legal/legal.component';
-import { ActivarclienteComponent } from './Components/activarcliente/activarcliente.component';
+import { ActivarclienteComponent } from './Components/cliente/activarcliente/activarcliente.component';
 import { RestablecerpasswordComponent } from './Components/restablecerpassword/restablecerpassword.component';
+import { LoadtkComponent } from './Components/loadtk/loadtk.component';
+import { CLIENTE_CHILD_ROUTES } from './Components/cliente/cliente.routes';
 
 
 const routes: Routes = [
@@ -37,12 +39,13 @@ const routes: Routes = [
   { path: 'iniciarsesion', component: IniciarsesionComponent },
   { path: 'recuperarpassword', component: RecuperarpasswordComponent },
   { path: 'restablecerpassword', component: RestablecerpasswordComponent },
-  { path: 'cliente', component: ActivarclienteComponent, children: [
-    {
-      path: 'activar',
-      component: ActivarclienteComponent
-    }] 
-  },
+  { path: 'loadtk/:info', component: LoadtkComponent },
+  // { path: 'cliente', component: ActivarclienteComponent, children: [
+  //   {
+  //     path: 'activar',
+  //     component: ActivarclienteComponent
+  //   }] 
+  // },
   { path: 'ayuda', component: AyudaComponent, children: AYUDA_CHILD_ROUTES },
   {
     path: 'publicar',
@@ -65,6 +68,10 @@ const routes: Routes = [
   {
     path: 'anuncio',
     children: ANUNCIOS_CHILD_ROUTES
+  },
+  {
+    path: 'cliente',
+    children: CLIENTE_CHILD_ROUTES
   },
   {
     path: 'legal',

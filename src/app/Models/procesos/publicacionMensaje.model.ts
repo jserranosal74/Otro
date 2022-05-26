@@ -6,6 +6,7 @@ export class publicacionMensaje {
       public Id_ClienteMensaje     : number | null,
       public Accion                : number,
       public Componente            : string,
+      public TituloPublicacion     : string,
       public Nombre                : string,
       public Email                 : string,
       public Telefono              : string,

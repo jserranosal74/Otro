@@ -19,7 +19,7 @@ import { DatosFiscalesService } from 'src/app/Services/Procesos/datosFiscales.se
 export class MisplanesComponent implements OnInit {
 
   _planes : plan[] = [];
-  _plan : plan = new plan(0,'',0,0,0,'',new Date(), new Date(), 0,0,0);
+  _plan : plan = new plan(0,'',0,0,0,'',0,new Date(),new Date(),0,0,0);
   _planesCliente : plancliente[] = [];
   _planCliente : plancliente = new plancliente(0,0,0,null,'',0,0,0,0,'',new Date(),null,null,null,null,new Date(),new Date(),0,'',0,false);
   _datosFiscales : datoFiscal[] = [];
@@ -80,8 +80,9 @@ export class MisplanesComponent implements OnInit {
   }
 
   obtenerPlanesDisponibles() {
-    let Id_Usuario = this._loginService.obtenerIdCliente();
-    this._planService.getPlanes().subscribe(
+    //let Id_Usuario = this._loginService.obtenerIdCliente();
+    debugger;
+    this._planService.getPlanes(null,true).subscribe(
       (data) => {
 
         data.forEach((element,index)=>{

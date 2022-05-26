@@ -33,8 +33,16 @@
     <div class="row">
         <div class="col-md-9">
             <div class="col">
-                <!-- <h3 class="text-primary text-uppercase">{{_publicacion.TituloPublicacion}}</h3> -->
-                <h1 class="text-primary" style="font-size:3em; font-weight: bolder;">{{_publicacion.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }} <label class="text-primary px-1" style="font-size: 2rem;">{{((_publicacion.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label></h1>
+                <div class="row row-cols-2">
+                    <!-- <h3 class="text-primary text-uppercase">{{_publicacion.TituloPublicacion}}</h3> -->
+                    <h1 class="text-primary" style="font-size:3em; font-weight: bolder;">{{_publicacion.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }} <label class="text-primary px-1" style="font-size: 2rem;">{{((_publicacion.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label></h1>
+                    <div class="col text-end mb-3">
+                        <a (click)="abrirPaginaCliente()" class="text-end text-truncate" style="cursor:pointer;" >
+                            <img class="col-md-2 text-center" [src]="_clienteVista.UrlFotoPerfil" width="100%" height="100%" alt="fotoPefil">
+                            <label class="text-primary text-truncate px-2" style="max-width:100px; cursor:pointer;">{{_clienteVista.Nombre}} {{_clienteVista.Apellidos}}</label><br>
+                        </a>
+                    </div>
+                </div>
                 <hr>
             </div>
             <div class="col">
@@ -43,39 +51,39 @@
                 </div>    
                 <div class="row">
                     <div class="col-md-3 m-2">
-                            <img src="/assets/anuncioVista/PRUEBA32PX.png" />
+                            <img src="/assets/anuncioVista/RECAMARA.png" />
                             <span class="text-primary px-2">
                                 Recamaras: {{_publicacion.RecamarasDesde}}
                             </span>
                     </div>
                     <div class="col-md-3 m-2">
-                        <img src="/assets/anuncioVista/PRUEBA32PX.png" />
+                        <img src="/assets/anuncioVista/BANIO COMPLETO.png" />
                         <span class="text-primary px-2">
                             Baños completos: {{_publicacion.BaniosCompDesde}}
                         </span>
                     </div>
                     <div class="col-md-3 m-2">
-                        <img src="/assets/anuncioVista/PRUEBA32PX.png" />
+                        <img src="/assets/anuncioVista/MEDIO BANIO.png" />
                         <span class="text-primary px-2">
-                            &#189; baños: {{_publicacion.BaniosCompDesde}}
+                            &#189; baños: {{_publicacion.MedioBanioDesde}}
                         </span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3 m-2">
-                        <img src="/assets/anuncioVista/PRUEBA32PX.png" />
+                        <img src="/assets/anuncioVista/M2 CONSTRUCCION.png" />
                         <span class="text-primary px-2">
                             Sup. construida: {{_publicacion.SuperficieConstruidaDesde}} m<sup>2</sup>
                         </span>
                     </div>
                     <div class="col-md-3 m-2">
-                        <img src="/assets/anuncioVista/PRUEBA32PX.png" />
+                        <img src="/assets/anuncioVista/M2 TERRENO.png" />
                         <span class="text-primary px-2">
                             Sup. Terreno: {{_publicacion.SuperficieTerreno}} m<sup>2</sup>
                         </span>
                     </div>
                     <div class="col-md-3 m-2">
-                        <img src="/assets/anuncioVista/PRUEBA32PX.png" />
+                        <img src="/assets/anuncioVista/COCHERA.png" />
                         <span class="text-primary px-2">
                             Estacionamientos: {{_publicacion.EstacionamientosDesde}}
                         </span>
@@ -351,15 +359,25 @@
                     </form>
 
                     <div class="br15 bg-color-rt px-3 py-1 mt-2" >
-                        <div class="col">
-                            <h6 class="text-primary text-center">Información del vendedor</h6>
+                        <div class="col py-2">
+                            <div class="row row-cols-2">
+                                <div class=" col-auto text-start mb-2 px-2">
+                                    <a (click)="abrirPaginaCliente()" class="text-truncate" style="cursor:pointer;">
+                                        <img class="text-primary br25" style="border:1px solid;" [src]="_clienteVista.UrlFotoPerfil" width="30px" height="30px" alt="fotoPefil">
+                                    </a>
+                                </div>
+                                <div class="text-start mb-2 p-0">
+                                    <a (click)="abrirPaginaCliente()" class="text-truncate" style="cursor:pointer;">
+                                        <label class="text-primary text-truncate px-1" style="max-width:250px; cursor:pointer;">{{_clienteVista.Nombre}} {{_clienteVista.Apellidos}}</label><br>
+                                    </a>
+                                </div>
+                            </div>
                             <div class="text-center">
-                                <span class="text-primary">{{_cliente.Nombre}} {{_cliente.Apellidos}}</span><br>
                                 <div class="row">
                                     <div class="col-md-6" style="display:flex; align-items : center;">
                                         <span class="text-center text-primary" [ngClass]="{' telefonoOculto': _telefonoOculto, ' telefonoCompleto': _telefonoOculto}"><i class="fa fa-phone" aria-hidden="true" > {{_telefono}}</i></span>
                                     </div>
-                                    <div class="col-md-6 text-end" style="display:flex; align-items : center; cursor: pointer;">
+                                    <div class="col-md-6 text-end px-0" style="display:flex; align-items : center; cursor: pointer;">
                                         <button type="button" style="visibility: hidden;" #myModalDatosUsuario data-bs-toggle="modal" data-bs-target="#modalDatosUsuarios" ></button>
                                         <a class="link link-outline-primary text-end br25" 
                                            style="border: none;"
@@ -391,7 +409,7 @@
                     <label class="col-md-4 col-form-label text-primary text-end">Correo electrónico</label>
                     <div class="col-md-6 col-10 p-0">
                       <input autocomplete="on"
-                             class="form-control color-text-box color-text-box"
+                             class="form-control text-primary color-text-box"
                              type="email"
                              email
                              placeholder="Correo electrónico"
@@ -410,7 +428,7 @@
                     <div class="col-md-6 col-10 p-0">
                       <input [type]="obtenerTipo"
                              autocomplete="off"
-                             class="form-control color-text-box"
+                             class="form-control text-primary color-text-box"
                              placeholder="Contraseña"
                              formControlName="password1"
                              [class.is-invalid]="password1NoValido"/>

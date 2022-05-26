@@ -14,6 +14,7 @@ import { MisfacturasComponent } from './misfacturas/misfacturas.component';
 import { DatosfiscalesComponent } from './datosfiscales/datosfiscales.component';
 import { AnunciosModule } from '../../Components/anuncios/anuncios.module'
 import { TarjetasModule } from '../tarjetas/tarjetas.module';
+import { MensajeusuarioComponent } from './mensajeusuario/mensajeusuario.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { TarjetasModule } from '../tarjetas/tarjetas.module';
     MisalertasComponent,
     SalirComponent,
     MisfacturasComponent,
-    DatosfiscalesComponent
+    DatosfiscalesComponent,
+    MensajeusuarioComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +46,8 @@ import { TarjetasModule } from '../tarjetas/tarjetas.module';
     MisalertasComponent,
     SalirComponent,
     MisfacturasComponent,
-    DatosfiscalesComponent
+    DatosfiscalesComponent,
+    MensajeusuarioComponent
   ]
 })
 

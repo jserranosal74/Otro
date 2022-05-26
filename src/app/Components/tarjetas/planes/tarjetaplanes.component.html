@@ -6,6 +6,11 @@
             <span class="col-md-1  text-center"><i class="fa fa-check" > </i></span>
           </button>
         </div>
+        <div class="col px-0 text-end py-1" *ngIf="_origen === 'menuAgregarPlanACliente'">
+          <button type="button" class="btn btn-outline-primary" (click)="elegirPlanCliente()" [ngClass]="{' btn-primary': _plan.Seleccionado === 1, ' btn-outline-primary': _plan.Seleccionado === 0}" style="border-radius: 25px;">
+            <span class="col-md-1 text-center"><i class="fa fa-check" > </i></span>
+          </button>
+        </div>
     </div>
     <div class="card-body">
       <p class="card-text text-primary text-center mb-0">Precio:</p>

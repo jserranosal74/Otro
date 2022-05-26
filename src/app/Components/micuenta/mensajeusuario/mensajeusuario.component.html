@@ -1,0 +1,17 @@
+    <td class="text-primary">{{_mensajeUsuario.Id_PublicacionMensaje}}</td>
+    <td class="text-primary">{{_mensajeUsuario.Nombre}}</td>
+    <!-- <td class="col-md-2">Email: {{_mensajeUsuario.Email}}</td>
+    <td class="col-md-2">Telefono: {{_mensajeUsuario.Telefono}}</td> -->
+    <td class="text-primary">{{_mensajeUsuario.Mensaje}}</td>
+    <td class="text-primary">{{_mensajeUsuario.FechaAlta | date:'dd-MM-yyyy'}}</td>
+    <td class="text-primary">
+        <button type="button" class="btn btn-outline-primary br25" (click)="responderMensaje()">
+            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o"></i></span>
+        </button>
+        <button type="button" class="btn btn-primary mx-3 br25" (click)="responderWhatsApp()" style="background-color:#4fce5d; border:none !important">
+            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa-brands fa-whatsapp"></i></span>
+        </button>
+        <button type="button" class="btn btn-outline-primary br25" (click)="eliminarMensaje()">
+            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa-solid fa-trash-can"></i></span>
+        </button>
+    </td>

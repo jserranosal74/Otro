@@ -36,12 +36,12 @@ export class PublicacionesService {
     return this.http.get<publicacion[]>(this.urlPublicaciones + '?Id_Cliente=' + Id_Cliente + '&Id_Estatus=' + Id_Estatus + '&Id_Publicacion=', this.httpOptions);
   }
 
-  public getPublicacionesMini(Id_Cliente : number, NumPagina : number, NumRenglones: number, strFiltros: string): Observable<publicacionInfoMini[]> {
-    return this.http.get<publicacionInfoMini[]>(this.urlPublicaciones + '?Id_Cliente=' + Id_Cliente + '&NumPagina=' + NumPagina + '&NumRenglones=' + NumRenglones + '&strFiltros=' + strFiltros, this.httpOptions);
+  public getPublicacionesMini(Id_Cliente : number, Id_Usuario : number | null, NumPagina : number, NumRenglones: number, strFiltros: string): Observable<publicacionInfoMini[]> {
+    return this.http.get<publicacionInfoMini[]>(this.urlPublicaciones + '?Id_Cliente=' + Id_Cliente + '&Id_Usuario=' + Id_Usuario + '&NumPagina=' + NumPagina + '&NumRenglones=' + NumRenglones + '&strFiltros=' + strFiltros);
   }
 
-  public getPublicacionesMiniPagDet(id_cliente : number, NumRenglones: number, strFiltros: string): Observable<paginadoDetalle> {
-    return this.http.get<paginadoDetalle>(this.urlPublicaciones + 'Paginado?id_cliente=' + id_cliente + '&numRenglones=' + NumRenglones + '&strFiltros=' + strFiltros, this.httpOptions);
+  public getPublicacionesMiniPagDet(Id_Cliente : number, NumRenglones: number, strFiltros: string): Observable<paginadoDetalle> {
+    return this.http.get<paginadoDetalle>(this.urlPublicaciones + 'Paginado?id_cliente=' + Id_Cliente + '&numRenglones=' + NumRenglones + '&strFiltros=' + strFiltros);
   }
 
   public getPublicacionCaracteristicas(Id_Publicacion : number, Id_Cliente: number): Observable<publicacionCaracteristica[]> {

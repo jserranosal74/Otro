@@ -43,8 +43,8 @@ export class AnuncioVistaComponent implements OnInit {
   _ambientes : publicacionCaracteristica[] = [];
   _multimedia : publicacionMultimedia[] = [];
   _asentamientoUbicacion : asentamientoUbicacion = new asentamientoUbicacion(0,0,0,0,'','','','','',0,0);
-  _cliente : clienteVista = new clienteVista(0,'','','',[]);
-  _usuario : clienteVista = new clienteVista(0,'','','',[]);
+  _clienteVista : clienteVista = new clienteVista(0,'','','','',[]);
+  _usuarioVista : clienteVista = new clienteVista(0,'','','','',[]);
   //_clienteMediosContacto : clienteMedioContacto[] = [];
 
   _fotosPrincipales : string[] = [];
@@ -166,10 +166,17 @@ export class AnuncioVistaComponent implements OnInit {
 
   limpiarFormularioMensaje() {
     this.formaMensajeVendedor.reset({
-      nombre   : this._usuario.Nombre + ' ' + this._usuario.Apellidos,
+      nombre   : this._usuarioVista.Nombre + ' ' + this._usuarioVista.Apellidos,
       telefono : '',
-      email    : this._usuario.Email,
+      email    : this._usuarioVista.Email,
       mensaje  : 'Hola, me interesa este inmueble que vi en Inmuebles MZ y quiero que me contacten. Gracias.'
+    });
+  }
+
+  limpiarFormularioInicioSesion() {
+    this.formIniciarsesion.reset({
+      correo   : '',
+      password1 : ''
     });
   }
 
@@ -386,6 +393,7 @@ export class AnuncioVistaComponent implements OnInit {
   agregarFavorito(){
     //debugger;
     if (this._loginService.obtenerIdCliente() === 0){
+      this.limpiarFormularioInicioSesion();
       this._estaComoFavorito = false;
       this.validarAutenticacion();
       this.modalIniciarSesion.nativeElement.click();
@@ -460,7 +468,7 @@ export class AnuncioVistaComponent implements OnInit {
 
       this._loading = true;
 
-      let _publicacionMensaje : publicacionMensaje = new publicacionMensaje(0,0,0,0,0,'','','','','',new Date(), new Date(),0,0);
+      let _publicacionMensaje : publicacionMensaje = new publicacionMensaje(0,0,0,0,0,'','','','','','',new Date(), new Date(),0,0);
 
       _publicacionMensaje.Id_Cliente = this._publicacion.Id_Cliente;
       _publicacionMensaje.Id_Publicacion = this._publicacion.Id_Publicacion;
@@ -548,21 +556,21 @@ export class AnuncioVistaComponent implements OnInit {
   }
 
   verTelefonoContacto(){
-    //debugger;
+    debugger;
     if (this._loginService.obtenerIdCliente() === 0){
       this.validarAutenticacion();
       this.modalDatosUsuario.nativeElement.click();
       return;
     }else{
       if (this._telefonoOculto){
-        this._cliente.ClienteMedioContacto.forEach(item=>{
+        this._clienteVista.ClienteMedioContacto.forEach(item=>{
           if (item.Id_MedioContacto === 1){
             this._telefono = item.Descripcion;
             this._telefonoOculto = false;
           }
         })
   
-        this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),2,'anuncio-vista',this.formaDatosUsuario.get('nombreDU')?.value, this.formaDatosUsuario.get('telefonoDU')?.value, this.formaDatosUsuario.get('emailDU')?.value, 'Se muestra telefono a usuario', new Date(),new Date(),0,0)).subscribe(
+        this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),1,'anuncio-vista','',this.formaDatosUsuario.get('nombreDU')?.value, this.formaDatosUsuario.get('telefonoDU')?.value, this.formaDatosUsuario.get('emailDU')?.value, 'Se muestra telefono a usuario', new Date(),new Date(),0,0)).subscribe(
           (dataVista) => {
   
             //console.log(dataVista);
@@ -619,10 +627,10 @@ export class AnuncioVistaComponent implements OnInit {
   CargarCliente(){
     //debugger;
     //console.log('CargarCliente');
-    this._clienteService.getClienteVista(this._publicacion.Id_Cliente).subscribe(
+    this._clienteService.getClienteVista(this._publicacion.Id_Cliente, null).subscribe(
       (dataCliente) => {
 
-        this._cliente = dataCliente;
+        this._clienteVista = dataCliente;
 
         dataCliente.ClienteMedioContacto.forEach(item=>{
           if (item.Id_MedioContacto === 1){
@@ -652,11 +660,11 @@ export class AnuncioVistaComponent implements OnInit {
 
   CargarUsuario(){
     //debugger;
-    this._clienteService.getClienteVista(this._loginService.obtenerIdCliente()).subscribe(
+    this._clienteService.getClienteVista(this._loginService.obtenerIdCliente(), null).subscribe(
       (dataUsuario) => {
         //console.log('this._usuario',dataUsuario);
         let telefono = '';
-        this._usuario = dataUsuario;
+        this._usuarioVista = dataUsuario;
 
         dataUsuario.ClienteMedioContacto.forEach(item=>{
           if (item.Id_MedioContacto === 2){
@@ -665,9 +673,9 @@ export class AnuncioVistaComponent implements OnInit {
         });
 
         this.formaMensajeVendedor.patchValue({
-          nombre   : this._usuario.Nombre + ' ' + this._usuario.Apellidos,
+          nombre   : this._usuarioVista.Nombre + ' ' + this._usuarioVista.Apellidos,
           telefono : telefono,
-          email    : this._usuario.Email,
+          email    : this._usuarioVista.Email,
           mensaje  : 'Hola, me interesa este inmueble que vi en Inmuebles MZ y quiero que me contacten. Gracias.'
         });
 
@@ -704,13 +712,13 @@ export class AnuncioVistaComponent implements OnInit {
     }
 
     let WhatssApp : string = '';
-    this._cliente.ClienteMedioContacto.forEach(item=>{
+    this._clienteVista.ClienteMedioContacto.forEach(item=>{
       if(item.Id_MedioContacto === 2){
         WhatssApp = item.Descripcion;
       }
     })
 
-    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),3,'anuncio-vista',this.formaMensajeVendedor.get('nombre')?.value, this.formaMensajeVendedor.get('email')?.value, this.formaMensajeVendedor.get('telefono')?.value, this.formaMensajeVendedor.get('mensaje')?.value + '(WhatssApp)', new Date(),new Date(),0,0)).subscribe(
+    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),3,'anuncio-vista','',this.formaMensajeVendedor.get('nombre')?.value, this.formaMensajeVendedor.get('email')?.value, this.formaMensajeVendedor.get('telefono')?.value, this.formaMensajeVendedor.get('mensaje')?.value + '(WhatssApp)', new Date(),new Date(),0,0)).subscribe(
       (dataVista) => {
 
         //console.log(dataVista);
@@ -754,7 +762,7 @@ mostrarTelefono(){
 
     //this._loading = true;
 
-    let _publicacionMensaje : publicacionMensaje = new publicacionMensaje(0,0,0,0,0,'','','','','',new Date(), new Date(),0,0);
+    let _publicacionMensaje : publicacionMensaje = new publicacionMensaje(0,0,0,0,0,'','','','','','',new Date(), new Date(),0,0);
 
     _publicacionMensaje.Id_Cliente = this._publicacion.Id_Cliente;
     _publicacionMensaje.Id_Publicacion = this._publicacion.Id_Publicacion;
@@ -763,7 +771,7 @@ mostrarTelefono(){
     _publicacionMensaje.Email = this.formaDatosUsuario.get('emailDU')?.value;
     _publicacionMensaje.Telefono = this.formaDatosUsuario.get('telefonoDU')?.value;
     _publicacionMensaje.Mensaje = 'Se muestra telefono a usuario.';
-    _publicacionMensaje.Accion = 2;   // Vista
+    _publicacionMensaje.Accion = 1;   // Vista
     _publicacionMensaje.Componente = 'anuncio-vista';
   
     this._publicacionMensajeService.postPublicacionMensaje(_publicacionMensaje).subscribe(
@@ -772,7 +780,7 @@ mostrarTelefono(){
         this.modalCloseDatosUsuario.nativeElement.click();
 
         if (this._telefonoOculto){
-          this._cliente.ClienteMedioContacto.forEach(item=>{
+          this._clienteVista.ClienteMedioContacto.forEach(item=>{
             if (item.Id_MedioContacto === 1){
               this._telefono = item.Descripcion;
               this._telefonoOculto = false;
@@ -916,6 +924,10 @@ mostrarTelefono(){
         }
       );
     }
+  }
+
+  abrirPaginaCliente(){
+    window.open('cliente/propiedades/' + (this._clienteVista.Nombre + '-' + this._clienteVista.Apellidos )?.replaceAll(' ','-') + '-' + this._clienteVista.Id_Cliente);
   }
 
 }

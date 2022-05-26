@@ -5,6 +5,27 @@
                 <form class="form-horizontal" [formGroup]="formaPerfil" (ngSubmit)="guardarPerfil()">
                     <fieldset>
                         <legend class="text-center text-primary mb-3"><h1 class="display-4">Mi perfil</h1></legend>
+
+                        <div class="form-group row mb-3">
+                            <div class="row row-cols-3">
+                                <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
+                                <div class="col-md-auto" >
+                                    <button for="fileElem" 
+                                            type="button"
+                                            onclick="$('#fileElem').click()" 
+                                            class="btn btn-outline-primary br25">Subir foto de perfil
+                                    </button>
+                                    <input type="file" 
+                                           style="display:none"
+                                           class="form-control text-primary" 
+                                           accept="image/jpg,image/png,image/jpeg,image/gif" 
+                                           id="fileElem" 
+                                           (change)="obtenerFotoPerfil($event)">
+                                </div>
+                                <img class="col-md-2" height="100%" width="100%" [src]="obtenerInfoFotoPerfil()" alt="">
+                            </div>
+                        </div>
+
                         <div class="form-group row mb-3">
                             <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
                             <div class="col-md-8">
@@ -87,7 +108,7 @@
                                             Se requiere
                                         </small>
                                     </div>
-                                    <span class="col-md-1 col-md-offset-2 text-center" ><i class="fa fa-whatsapp bigicon" style="color:#4fce5d; border:none !important"></i></span>
+                                    <span class="col-md-1 col-md-offset-2 text-center" ><i class="fa fa-whatsapp bigicon" style="color:#4fce5d;"></i></span>
                                     <div class="col-md-3">
                                         <input formControlName="telefonoMovil" 
                                                type="number" 
@@ -124,8 +145,11 @@
                         <div class="form-group row">
                             <div class="col-md-1"></div>
                             <div class="col-md-8 d-grid mt-3">
-                                <button type="submit" 
-                                        class="btn btn-primary br25 btn-lg">Guardar</button>
+                                <button type="submit" [disabled]="_actualizandoDatos"
+                                        class="btn btn-primary br25 btn-lg">
+                                        <span *ngIf="_actualizandoDatos"><i class="fa fa-sync fa-spin"></i> Espere por favor...</span>
+                                        <span *ngIf="!_actualizandoDatos"><i class="fa-solid fa-cloud-arrow-up"></i> Guardar</span>
+                                </button>
                             </div>
                             <div class="col-md-3"></div>
                         </div>

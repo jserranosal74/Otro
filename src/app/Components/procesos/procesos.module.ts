@@ -5,19 +5,24 @@ import { HttpClientModule } from '@angular/common/http';
 
 //import { TarjetasModule } from '../tarjetas/tarjetas.module';
 import { ConfirmarPagosPlanesComponent } from './confirmarpagosplanes/confirmarpagosplanes.component';
+import { AgregarplanaclienteComponent } from './agregarplanacliente/agregarplanacliente.component';
+import { TarjetasModule } from '../tarjetas/tarjetas.module';
 
 @NgModule({
   declarations: [
-    ConfirmarPagosPlanesComponent
+    ConfirmarPagosPlanesComponent,
+    AgregarplanaclienteComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    TarjetasModule
   ],
   exports: [
-    ConfirmarPagosPlanesComponent
+    ConfirmarPagosPlanesComponent,
+    AgregarplanaclienteComponent
   ]
 })
 

@@ -4,8 +4,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 import { LoginService } from '../../../Services/Catalogos/login.service';
-import { empresaCliente } from '../../../Models/catalogos/empresa.model';
+import { empresa, empresaCliente } from '../../../Models/catalogos/empresa.model';
 import { EmpresaUsuariosService } from '../../../Services/Catalogos/empresaUsuariosService.service';
+import { EmpresasService } from 'src/app/Services/Catalogos/empresa.service';
 
 @Component({
   selector: 'app-usuariosempresa',
@@ -16,16 +17,19 @@ export class UsuariosempresaComponent implements OnInit {
   formaEmpresaUsuarios : FormGroup = new FormGroup({});
   _empresaClientes : empresaCliente[] = [];
   _email : string = '';
-  _id_Empresa : number = 0;
+  _Id_Empresa : number = 0;
+  _empresas : empresa[] = [];
 
   constructor(  private fb : FormBuilder,
                 private _empresaUsuariosService : EmpresaUsuariosService,
+                private _empresasService : EmpresasService,
                 private _loginService : LoginService
   ) {
 
     this.crearFormulario();
     this.limpiarFormulario();
     this.obtenerEmpresaClientes();
+    this.obtenerEmpresas();
   }
 
   ngOnInit(): void {
@@ -34,20 +38,22 @@ export class UsuariosempresaComponent implements OnInit {
 
   crearFormulario() {
     this.formaEmpresaUsuarios = this.fb.group({
-      email : ['', Validators.required]
+      email   : [ '', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ],
+      empresa : ['', Validators.required]
     });
   }
 
   limpiarFormulario() {
     this.formaEmpresaUsuarios.reset({
-      email : ''
+      email   : '',
+      empresa : ''
     });
   }
 
   obtenerEmpresaClientes() {
-    this._id_Empresa = this._loginService.obtenerIdCliente();
+    //this._id_Empresa = this._loginService.obtenerIdCliente();
 
-    this._empresaUsuariosService.getEmpresaClientes(this._id_Empresa).subscribe(
+    this._empresaUsuariosService.getEmpresaClientes(null).subscribe(
       (data) => {
         this._empresaClientes = data;
 
@@ -77,7 +83,41 @@ export class UsuariosempresaComponent implements OnInit {
     );
   }
 
-  agregarUsuario(){
+  obtenerEmpresas() {
+    //this._id_Empresa = this._loginService.obtenerIdCliente();
+
+    this._empresasService.getEmpresas().subscribe(
+      (data) => {
+
+        this._empresas = data;
+
+      },
+      (error: HttpErrorResponse) => {
+        //Error callback
+
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            Swal.fire({
+              icon: 'error',
+              title: 'No hay usuarios dados de alta.',
+              text: '',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            break;
+          case 409:
+            break;
+        }
+
+      }
+    );
+  }
+
+  asignarUsuarioAEmpresa(){
 
     //debugger;
     if (this.formaEmpresaUsuarios.invalid) {
@@ -94,9 +134,9 @@ export class UsuariosempresaComponent implements OnInit {
       //Envio de la informacion al servidor
 
       this._email = this.formaEmpresaUsuarios.get('email')?.value;
-      this._id_Empresa = this._loginService.obtenerIdCliente();
+      this._Id_Empresa = this.formaEmpresaUsuarios.get('empresa')?.value;
 
-      this._empresaUsuariosService.postEmpresaCliente(this._id_Empresa, this._email).subscribe(
+      this._empresaUsuariosService.postEmpresaCliente(this._Id_Empresa, this._email).subscribe(
         (data) => {
           console.log('datos: ',data);
 
@@ -136,7 +176,7 @@ export class UsuariosempresaComponent implements OnInit {
             default:
                 Swal.fire({
                   icon: 'success',
-                  title: 'El usario con correo <strong>' + this._email + '</strong> se agrego de manera correcta.',
+                  title: 'El usario con correo <strong>' + this._email + '</strong> se agregó de manera correcta.',
                   showConfirmButton: false,
                   timer: 1500
                 });

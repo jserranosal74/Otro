@@ -33,7 +33,7 @@ export class PagarYActivarComponent implements OnInit {
 
   _planCliente : plancliente = new plancliente(0,0,0,null,'',0,0,0,0,'',new Date(),null,null,null,null,new Date(),new Date(),0,'',0,false);
   _banco : banco = new banco(0,'','','','','',0,new Date(), new Date(), 0,0,0);
-  _plan : plan = new plan(0,'',0,0,0,'',new Date(), new Date(),0,0,0);
+  _plan : plan = new plan(0,'',0,0,0,'',0,new Date(),new Date(),0,0,0);
   _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(),0,0,0);
 
   @ViewChild('myModalAceptarYPublicar') modalAceptarYPublicar : any;
@@ -128,7 +128,7 @@ export class PagarYActivarComponent implements OnInit {
 
   obtenerPlanesDisponibles() {
     debugger;
-    this._planService.getPlanes().subscribe(
+    this._planService.getPlanes(null, true).subscribe(
       (data) => {
 
         data.forEach((element,index)=>{
@@ -139,11 +139,11 @@ export class PagarYActivarComponent implements OnInit {
         data.forEach(item =>{
           if(this._publicacion.Id_TipoOperacion != 3){
             if ((item.Cantidad === 1) && (item.Id_Plan != 7)) {
-              this._planes.push(new plan(item.Id_Plan, item.Descripcion, item.Precio, item.Cantidad, item.VigenciaXUnidad, item.UrlImagen, item.FechaAlta, item.FechaModificacion, item.Id_Usuario, item.Id_Estatus, 0));
+              this._planes.push(new plan(item.Id_Plan, item.Descripcion, item.Precio, item.Cantidad, item.VigenciaXUnidad, item.UrlImagen, item.Visible, item.FechaAlta, item.FechaModificacion, item.Id_Usuario, item.Id_Estatus, 0));
             }
           }else if(this._publicacion.Id_TipoOperacion === 3){
             if (item.Id_Plan === 7){
-              this._planes.push(new plan(item.Id_Plan, item.Descripcion, item.Precio, item.Cantidad, item.VigenciaXUnidad, item.UrlImagen, item.FechaAlta, item.FechaModificacion, item.Id_Usuario, item.Id_Estatus, 0));
+              this._planes.push(new plan(item.Id_Plan, item.Descripcion, item.Precio, item.Cantidad, item.VigenciaXUnidad, item.UrlImagen, item.Visible, item.FechaAlta, item.FechaModificacion, item.Id_Usuario, item.Id_Estatus, 0));
             }
           }
         });

@@ -14,7 +14,7 @@ import { favoritoCliente } from '../../../Models/procesos/favoritoCliente.model'
 })
 export class MisfavoritosComponent implements OnInit {
   _favoritosCliente : favoritoCliente[] = [];
-  _misFavoritos : string = 'misFavoritos';
+  //_misFavoritos : string = 'misFavoritos';
 
   _paginadoDetalle : paginadoDetalle = new paginadoDetalle(0,0);
   _paginas: pagina[] = [];
@@ -34,18 +34,6 @@ export class MisfavoritosComponent implements OnInit {
     this.obtenerMisFavoritos();
     //this.obtenerImagenesPublicaciones();
   }
-
-  // crearFormulario() {
-  //   this.formaBusqueda =  this.fb.group({
-  //     estatusPublicacion : [ '' ],
-  //   });
-  // }
-
-  // limpiarFormulario() {
-  //   this.formaBusqueda.reset({
-  //     estatusPublicacion : '' ,
-  //   });
-  // }
 
   ngOnInit(): void {
   }

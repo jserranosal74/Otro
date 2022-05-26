@@ -159,10 +159,10 @@ export class LoginComponent implements OnInit {
   limpiarFormulario(){
     // Reseteo de la información
     this.formLogin.reset({
-      correo: '',
-      password1: '',
-      password2: '',
-      soyagente: false
+      correo    : '',
+      password1 : '',
+      password2 : '',
+      soyagente : false
     });
   }
 

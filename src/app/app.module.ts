@@ -25,7 +25,6 @@ import { RecuperarpasswordComponent } from './Components/recuperarpassword/recup
 import { LegalComponent } from './Components/legal/legal.component';
 import { MicuentaComponent } from './Components/micuenta/micuenta.component';
 
-import { ActivarclienteComponent } from './Components/activarcliente/activarcliente.component';
 import { AyudaModule } from './Components/ayuda/ayuda.module';
 import { CatalogosModule } from './Components/catalogos/catalogos.module';
 import { MicuentaModule } from './Components/micuenta/micuenta.module';
@@ -34,33 +33,13 @@ import { PublicarModule } from './Components/publicar/publicar.module';
 import { RestablecerpasswordComponent } from './Components/restablecerpassword/restablecerpassword.component';
 
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
-import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import { FacebookLoginProvider } from 'angularx-social-login';
+import { LoadtkComponent } from './Components/loadtk/loadtk.component';
 
 // import { MaterialModule } from './material.module';
 // import { CoreModule } from './core/core.module';
 // import { SharedModule } from './shared/shared.module';
-
-const fbLoginOptions = {
-  scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
-  return_scopes: true,
-  enable_profile_selector: true
-}; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
-
-const googleLoginOptions = {
-  scope: 'profile email'
-}; // https://developers.google.com/api-client-library/javascript/reference/referencedocs#gapiauth2clientconfig
-
-
-// let config = [
-//   {
-//     id: GoogleLoginProvider.PROVIDER_ID,
-//     provider: new GoogleLoginProvider("871188979190-53oa9ctrooeiv32eslaocarmn1rnif8a.apps.googleusercontent.com")
-//   },
-//   {
-//     id: FacebookLoginProvider.PROVIDER_ID,
-//     provider: new FacebookLoginProvider("523699662832841")
-//   }
-// ];
+import { ClienteModule } from './Components/cliente/cliente.module';
 
 @NgModule({
   declarations: [
@@ -84,7 +63,7 @@ const googleLoginOptions = {
     RestablecerpasswordComponent,
     LegalComponent,
     MicuentaComponent,
-    ActivarclienteComponent
+    LoadtkComponent
   ],
   imports: [
     BrowserModule,
@@ -97,6 +76,7 @@ const googleLoginOptions = {
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    ClienteModule,
     SocialLoginModule
   ],
   providers: [{
@@ -105,14 +85,8 @@ const googleLoginOptions = {
       autoLogin: false,
       providers: [
         {
-          id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider(
-            '871188979190-53oa9ctrooeiv32eslaocarmn1rnif8a.apps.googleusercontent.com', googleLoginOptions
-          )
-        },
-        {
           id: FacebookLoginProvider.PROVIDER_ID,
-          provider: new FacebookLoginProvider('523699662832841', fbLoginOptions)
+          provider: new FacebookLoginProvider('523699662832841')
         }
       ],
       onError: (err) => {

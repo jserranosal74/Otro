@@ -9,7 +9,7 @@ import { plan } from 'src/app/Models/catalogos/planes.model';
 })
 export class TarjetaplanesComponent implements OnInit {
 
-  @Input() _plan : plan = new plan(0,'',0,0,0,'',new Date(),new Date(),0,0,0);
+  @Input() _plan : plan = new plan(0,'',0,0,0,'',0,new Date(),new Date(),0,0,0);
   @Input() _origen : string = '';
 
   @Output() _sePresionaComprar = new EventEmitter<boolean>();

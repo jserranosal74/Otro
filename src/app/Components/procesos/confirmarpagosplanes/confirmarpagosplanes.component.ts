@@ -6,6 +6,9 @@ import Swal from 'sweetalert2';
 import { LoginService } from '../../../Services/Catalogos/login.service';
 import { planClientePagos } from '../../../Models/procesos/plancliente.model';
 import { PlanesClientesPagosService } from 'src/app/Services/Procesos/planesClientesPagos.service';
+import { EstatusService } from 'src/app/Services/Catalogos/estatus.service';
+import { estatus } from 'src/app/Models/catalogos/estatus.model';
+import { datoFiscal } from 'src/app/Models/procesos/datosFiscales.model';
 
 @Component({
   selector: 'app-confirmarpagosplanes',
@@ -13,24 +16,37 @@ import { PlanesClientesPagosService } from 'src/app/Services/Procesos/planesClie
   styleUrls: ['./confirmarpagosplanes.component.css']
 })
 export class ConfirmarPagosPlanesComponent implements OnInit {
-  _planesClientes : planClientePagos[] = [];
-  _planCliente : planClientePagos = new planClientePagos(0,0,0,0,'',0,'','','',new Date(),new Date(),'',0,'');
+  formaBusqueda = this.fb.group({});
 
-  constructor(  private fb: FormBuilder,
-                private _loginService : LoginService,
-                private _planesClienteService : PlanesClientesPagosService,
+  _planesClientes : planClientePagos[] = [];
+  _estatusPlanesClientes : estatus[] = [];
+  _planCliente! : planClientePagos;
+  _confirmando : boolean = false;
+
+  constructor( private fb: FormBuilder,
+               private _loginService : LoginService,
+               private _planesClienteService : PlanesClientesPagosService,
+               private _estatusService : EstatusService,
   ) {
 
+    this.crearFormularioBusquda();
     this.obtenerPlanesClientes();
+    this.obtenerEstatusPlanes();
   }
 
   ngOnInit(): void {
     // this.limpiarFormulario();
   }
 
-  obtenerPlanesClientes() {
+  crearFormularioBusquda() {
+    this.formaBusqueda = this.fb.group({
+      estatusPlanCliente : [15],        // por default en espera de pago
+      emailCliente       : [ '', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ]
+    });
+  }
 
-    this._planesClienteService.getPlanesClientesPagos().subscribe(
+  obtenerPlanesClientes() {
+    this._planesClienteService.getPlanesClientesFiltro(this.formaBusqueda.get('emailCliente')?.value, this.formaBusqueda.get('estatusPlanCliente')!.value).subscribe(
       (data) => {
         //Next callback
         //console.log('data',data);
@@ -55,20 +71,52 @@ export class ConfirmarPagosPlanesComponent implements OnInit {
     );
   }
 
+  obtenerEstatusPlanes() {
+    this._estatusService.getEstatusProceso('PlanCliente').subscribe(
+      (data) => {
+        //Next callback
+        this._estatusPlanesClientes = data;
+      },
+      (error: HttpErrorResponse) => {
+        //Error callback
+
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+      }
+    );
+  }
 
   confirmarDesconfirmarPago(objPlanClientePago : planClientePagos ){
 
+    if(objPlanClientePago.Id_Estatus != 15){
+      Swal.fire({
+        icon: 'error',
+        title: 'El plan ' + objPlanClientePago.Id_PlanCliente + ' ya se encuentra confirmado.',
+        showConfirmButton: false,
+        timer: 1500
+      });
+      return;
+    }
+
+    objPlanClientePago.Confirmando = true;
+
     this._planesClienteService.putPlanClientePadado(objPlanClientePago.Id_PlanCliente, objPlanClientePago.Id_Plan, objPlanClientePago.Id_Cliente).subscribe(
       (data) => {
-
+        objPlanClientePago.Confirmando = false;
         Swal.fire({
           icon: 'success',
-          title: 'La información del pago se actualizo de manera correcta.',
+          title: 'El pago del plan ha sido confirmado.',
           showConfirmButton: false,
-          timer: 1000
+          timer: 15000
         })
-
-
 
         this.obtenerPlanesClientes();
 

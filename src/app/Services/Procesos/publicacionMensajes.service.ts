@@ -23,15 +23,15 @@ export class PublicacionMensajesService {
   }
 
   public getPublicacionesMensajes(Id_Cliente : number): Observable<publicacionMensaje[]> {
-    return this.http.get<publicacionMensaje[]>(this.urlPublicacionesMensajes + '?Id_Cliente=' + Id_Cliente, this.httpOptions);
+    return this.http.get<publicacionMensaje[]>(this.urlPublicacionesMensajes + '?Id_Cliente=' + Id_Cliente + '&Accion=2' + '&Id_Publicacion=' + '&Id_Estatus=18', this.httpOptions);
   }
 
   public postPublicacionMensaje(objPublicacionMensaje : publicacionMensaje): Observable<number> {
     return this.http.post<number>(this.urlPublicacionesMensajes, objPublicacionMensaje);
   }
 
-  public deletePublicacionMensaje(Id_PublicacionMensaje : number): Observable<number> {
-    return this.http.delete<number>(this.urlPublicacionesMensajes + '?Id_PublicacionMensaje=' + Id_PublicacionMensaje, this.httpOptions);
+  public deletePublicacionMensaje(Id_PublicacionMensaje : number | null, Id_Publicacion : number, Id_Cliente : number): Observable<number> {
+    return this.http.delete<number>(this.urlPublicacionesMensajes + '?Id_PublicacionMensaje=' + Id_PublicacionMensaje + '&Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente, this.httpOptions);
   }
   
 }

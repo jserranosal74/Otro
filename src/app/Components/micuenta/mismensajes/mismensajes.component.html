@@ -1,47 +1,36 @@
-<div class="container animate__animated animate__backInDown px-0">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="well well-sm">
-                <form class="form-horizontal" [formGroup]="formaMensajes">
-                    <fieldset>
-                        <legend class="text-center text-primary mb-3"><h1 class="display-4">Mis mensajes</h1></legend>
-                        <div class="form-group row mb-3">
-                            <table class="table table-primary table-striped table-bordered border-primary text-primary">
-                                <thead>
-                                  <tr>
-                                    <th class="text-primary" scope="col">#</th>
-                                    <th class="text-primary" scope="col">Id Plan</th>
-                                    <th class="text-primary" scope="col">Descripción</th>
-                                    <th class="text-primary" scope="col">Disponibles</th>
-                                    <th class="text-primary" scope="col">Utilizados</th>
-                                    <th class="text-primary" scope="col">Restantes</th>
-                                    <th class="text-primary" scope="col">Fecha de pago</th>
-                                    <th class="text-primary" scope="col">Ver detalle</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <th class="text-primary text-center" scope="row">1</th>
-                                    <td class="text-primary text-center">1</td>
-                                    <td class="text-primary">Destacado</td>
-                                    <td class="text-primary text-center">3</td>
-                                    <td class="text-primary text-center">1</td>
-                                    <td class="text-primary text-center">2</td>
-                                    <td class="text-primary text-center">2/12/20022</td>
-                                    <td>
-                                        <div class="col-auto d-grid gap-2 mix-auto px-0">
-                                            <a class="btn btn-primary px-1 btn-sm"><span class="col-md-1 col-md-offset-2 text-center">
-                                                <i class="fa fa-eye"></i>
-                                            </span></a>
-                                          </div>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-    </div>
+<div class="">
+    <table class="table text-primary table-striped color-table">
+        <thead>
+          <tr>
+            <th class="text-center" scope="col" style="border-radius: 20px 0px 0px 0px;">#</th>
+            <th class="text-center" scope="col">Nombre</th>
+            <th class="text-center" scope="col">Mensaje</th>
+            <th class="text-center" scope="col">Fecha de envio</th>
+            <th class="text-center" scope="col" style="border-radius: 0px 20px 0px 0px;">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let mensaje of _mensajesUsuarios">
+                <td class="text-primary" >{{mensaje.Id_PublicacionMensaje}}</td>
+                <td class="text-primary" width="15%">{{mensaje.Nombre}}</td>
+                <td class="text-primary" width="40%">{{mensaje.Mensaje}}</td>
+                <td class="text-primary text-center">{{mensaje.FechaAlta | date:'dd-MM-yyyy'}}</td>
+                <td class="text-primary text-center">
+                    <button type="button" class="btn btn-outline-primary br25" (click)="responderMensaje()">
+                        <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o"></i></span>
+                    </button>
+                    <button type="button" class="btn btn-primary mx-1 br25" (click)="responderWhatsApp(mensaje)" style="background-color:#4fce5d; border:none !important">
+                        <span class="col-md-1 col-md-offset-2 text-center"><i class="fa-brands fa-whatsapp"></i></span>
+                    </button>
+                    <button type="button" class="btn btn-outline-primary br25" (click)="eliminarMensaje(mensaje)">
+                        <span class="col-md-1 col-md-offset-2 text-center"><i class="fa-solid fa-trash-can"></i></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+      </table>
+    <!-- <div class="form-group row mb-1" *ngFor="let mensaje of _mensajesUsuarios">
+        <app-mensajeusuario [_mensajeUsuario]="mensaje" (_ResponderMensaje)="responderMensaje()" (_ResponderWhatsApp)="responderWhatsApp(mensaje)" (_EliminarMensaje)="eliminarMensaje(mensaje)"></app-mensajeusuario>
+        <hr>
+    </div> -->
 </div>

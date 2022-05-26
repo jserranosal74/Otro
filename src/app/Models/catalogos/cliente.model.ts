@@ -26,10 +26,11 @@ export class cliente {
 
   export class clienteVista {
     constructor(
-      public Id_Cliente: number,
-      public Nombre: string,
-      public Apellidos: string,
-      public Email: string,
+      public Id_Cliente     : number,
+      public Nombre         : string,
+      public Apellidos      : string,
+      public Email          : string,
+      public UrlFotoPerfil  : string,
       public ClienteMedioContacto : clienteMedioContacto[],
     ) {}
   }

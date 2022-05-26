@@ -17,21 +17,21 @@
     </div>
 
     <div class="row my-3" *ngFor="let favoritoCliente of _favoritosCliente" >
-        <app-anuncio-miniatura [_publicacion]="favoritoCliente" [_tipoBusqueda]="_misFavoritos" (_seEliminaFavorito)="actualizarBusqueda()"></app-anuncio-miniatura>
+        <app-anuncio-miniatura [_publicacion]="favoritoCliente" [_tipoBusqueda]="'misFavoritos'" (_seEliminaFavorito)="actualizarBusqueda()"></app-anuncio-miniatura>
     </div>
     <div *ngIf="_seRealizaBusqueda" class="d-flex justify-content-center">
       <nav aria-label="Page navigation py-0 m-0">
           <ul class="pagination pagination-lg">
             <li class="page-item" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none'}" >
-              <button class="page-link" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
+              <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
                 <span>&larr;</span>
               </button>
             </li>
             <li *ngFor="let pagina of _paginas" class="page-item mx-1" [class.disabled]="pagina.Activa">
-              <button class="page-link" style="border-radius: 30px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : ''}" (click)="obtenerPagina(pagina.Pagina)">{{pagina.Pagina+1}}</button>
+              <button class="page-link color-text-box" style="border-radius: 30px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : ''}" (click)="obtenerPagina(pagina.Pagina)">{{pagina.Pagina+1}}</button>
             </li>
             <li class="page-item" [ngStyle]="{'pointer-events': _mostrarPaginaSiguiente ? 'auto' : 'none'}" >
-              <button class="page-link" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
+              <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
                 <span>&rarr;</span>
               </button>
             </li>

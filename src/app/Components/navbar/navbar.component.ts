@@ -15,6 +15,7 @@ export class NavbarComponent implements OnInit {
   usuarioAutenticado : boolean = false;
   usuarioRol : string = '';
   _nombreUsuario : string = '';
+  _urlFotoPerfil : string = '';
   _modoObscuro : boolean;
   // _userSocial = new SocialUser();
   // _loggedIn : boolean = false;
@@ -28,6 +29,7 @@ export class NavbarComponent implements OnInit {
     this.usuarioAutenticado = this._loginService.estaAutenticado();
     this.usuarioRol = this._loginService.obtenerRolUsuario();
     this._nombreUsuario = this._loginService.obtenerNombreCliente();
+    this._urlFotoPerfil = this._loginService.obtenerUrlFotoCliente();
     this._modoObscuro = ( localStorage.getItem('mo') === "true" ? true : false );
    }
 

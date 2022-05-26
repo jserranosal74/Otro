@@ -6,12 +6,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { AnuncioMiniaturaComponent } from './anuncio-miniatura/anuncio-miniatura.component';
 import { AnuncioVistaComponent } from './anuncio-vista/anuncio-vista.component';
 
-import { GoogleMapsModule } from '@angular/google-maps'; 
+import { GoogleMapsModule } from '@angular/google-maps';
+import { AnuncioVistaBuscadorComponent } from './anuncio-vista-buscador/anuncio-vista-buscador.component'; 
 
 @NgModule({
   declarations: [
     AnuncioMiniaturaComponent,
-    AnuncioVistaComponent
+    AnuncioVistaComponent,
+    AnuncioVistaBuscadorComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
   ],
   exports: [
     AnuncioMiniaturaComponent,
-    AnuncioVistaComponent
+    AnuncioVistaComponent,
+    AnuncioVistaBuscadorComponent
   ]
 })
 

@@ -14,6 +14,7 @@ export const URL_APIS = {
     urlMediosContacto: '/api/MediosContacto/',
     urlMunicipios: '/api/Municipios/',
     urlPlanes: '/api/Planes/',
+    urlPaquetes: '/api/Paquetes/',
     urlTipoOperacion: '/api/TipoOperacion/',
     urlTipoCaracteristica: '/api/TipoCaracteristica/',
     urlTipoPersona: '/api/TipoPersona/',

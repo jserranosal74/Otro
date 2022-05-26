@@ -45,7 +45,7 @@
   transition: background-color 200ms linear;
 }
 
-.Ligth .color-text-box{
+.Ligth .color-text-box {
   background-color: white;
   -webkit-transition: background-color 200ms linear;
   -ms-transition: background-color 200ms linear;
@@ -53,6 +53,20 @@
 }
 
 .Dark .color-text-box {
+  background-color: transparent;
+  -webkit-transition: background-color 200ms linear;
+  -ms-transition: background-color 200ms linear;
+  transition: background-color 200ms linear;
+}
+
+.Ligth .color-table {
+  background-color: rgba(223, 126, 137, .4);
+  -webkit-transition: background-color 200ms linear;
+  -ms-transition: background-color 200ms linear;
+  transition: background-color 200ms linear;
+}
+
+.Dark .color-table {
   background-color: transparent;
   -webkit-transition: background-color 200ms linear;
   -ms-transition: background-color 200ms linear;

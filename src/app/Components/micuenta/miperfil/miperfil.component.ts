@@ -12,23 +12,13 @@ import { LoginService } from '../../../Services/Catalogos/login.service';
   templateUrl: './miperfil.component.html',
   styleUrls: ['./miperfil.component.css'],
 })
+
 export class MiperfilComponent implements OnInit {
   formaPerfil = new FormGroup({});
-_clienteMedioContacto : clienteMedioContacto[] = [];
-
-  // formaPerfil = this.fb.group({
-  //   nombre: ['', Validators.required],
-  //   apellidos: ['', Validators.required],
-  //   correo: [
-  //     '',
-  //     [
-  //       Validators.required,
-  //       Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
-  //     ],
-  //   ],
-  //   rfc: ['', Validators.required],
-  //   telefono: ['', Validators.required],
-  // });
+  _cliente! : cliente;
+  _clienteMedioContacto : clienteMedioContacto[] = [];
+  _fotoPerfil: any;
+  _actualizandoDatos = false;
 
   constructor(  private fb: FormBuilder,
                 private _loginService : LoginService,
@@ -77,9 +67,16 @@ _clienteMedioContacto : clienteMedioContacto[] = [];
       });
     } else {
       //Envio de la informacion al servidor
-
+      debugger;
       this._clienteMedioContacto.push(new clienteMedioContacto(1,this._loginService.obtenerIdCliente(),this.formaPerfil.get('telefonoFijo')?.value));
       this._clienteMedioContacto.push(new clienteMedioContacto(2,this._loginService.obtenerIdCliente(),this.formaPerfil.get('telefonoMovil')?.value));
+      let fotoPerfil = '';
+      if ((typeof(this._fotoPerfil) === 'string') || (this._fotoPerfil === undefined)) {
+        fotoPerfil = this._cliente.UrlFotoPerfil;
+      }
+      else{
+        fotoPerfil = this._fotoPerfil.__zone_symbol__value.split(',')[1];
+      }
 
       let _cliente = new cliente(
         this._loginService.obtenerIdCliente(),
@@ -93,7 +90,7 @@ _clienteMedioContacto : clienteMedioContacto[] = [];
         this.formaPerfil.get('apellidos')?.value,
         this.formaPerfil.get('rfc')?.value,
         this._clienteMedioContacto,
-        '',
+        fotoPerfil,
         0,
         0,
         0,
@@ -105,9 +102,13 @@ _clienteMedioContacto : clienteMedioContacto[] = [];
         1
       );
 
+      this._actualizandoDatos = true;
+
       this._clienteService.putCliente(_cliente).subscribe(
         (data) => {
           //Next callback
+
+          this._actualizandoDatos = false;
 
           const Toast = Swal.mixin({
             toast: true,
@@ -170,7 +171,8 @@ _clienteMedioContacto : clienteMedioContacto[] = [];
     this._clienteService.getCliente(this._loginService.obtenerIdCliente()).subscribe(
       (data) => {
         //Next callback
-        console.log('datos: ', data);
+        //console.log('datos: ', data);
+        this._cliente = data;
 
         this.formaPerfil.setValue({
           nombre: data.Nombre,
@@ -234,4 +236,37 @@ _clienteMedioContacto : clienteMedioContacto[] = [];
   get telefonoMovilNoValido() {
     return ( this.formaPerfil.get('telefonoMovil')?.invalid && this.formaPerfil.get('telefonoMovil')?.touched );
   }
+
+  obtenerFotoPerfil(archivos : Event){
+    //debugger;
+    let lstArchivos = (<HTMLInputElement>archivos.target).files;
+    for (let index = 0; index < lstArchivos!.length; index++) {
+      this._fotoPerfil = this.readFileAsText(lstArchivos![index]);
+    }
+  }
+
+  readFileAsText(file : File){
+    return new Promise(function(resolve,reject){
+        let fr = new FileReader();
+
+        fr.onload = function(){
+            resolve(fr.result);
+        };
+
+        fr.onerror = function(){
+            reject(fr);
+        };
+        fr.readAsDataURL(file);
+    });
+  }
+
+  obtenerInfoFotoPerfil(){
+    if (this._fotoPerfil != undefined)
+      return this._fotoPerfil.__zone_symbol__value;
+    else if (this._cliente != undefined)
+      return this._cliente.UrlFotoPerfil;
+    else
+      return 'https://graph.facebook.com/107553868631059/picture';
+  }
+
 }

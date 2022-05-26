@@ -1,0 +1,219 @@
+<div>
+    <legend class="text-center text-primary mb-3">
+        <img width="100px" height="100px" [src]="_clienteVista.UrlFotoPerfil" alt="Foto perfil">
+        <label class="text-primary text-center px-2">{{_clienteVista.Nombre}} {{_clienteVista.Apellidos}}</label>
+    </legend>
+    
+    <hr>
+
+      <div class="form-group row mb-3">
+        <div class="col-md-5 d-grid gap-2 mix-auto px-0"></div>
+        <div class="col-md-7 p-0">
+            <label *ngIf="_paginadoDetalle.TotalRegistros > 1" class="text-primary"><i class="fa-solid fa-house"></i> Propiedades publicadas {{_paginadoDetalle.TotalRegistros}}</label>
+            <label *ngIf="_paginadoDetalle.TotalRegistros === 1" class="text-primary"><i class="fa-solid fa-house"></i> Propiedad publicada {{_paginadoDetalle.TotalRegistros}}</label>
+        </div>
+      </div>
+  
+      <div class="row my-3" *ngFor="let pubCliente of _publicacionesCliente" >
+          <app-anuncio-vista-buscador [_publicacionCliente]="pubCliente" (_contactarPorWhatsApp)="abrirVentanaContacto(pubCliente, 1)" (_contactarPorMensaje)="abrirVentanaContacto(pubCliente, 2)" (_seAgregaFavorito)="agregarFavorito(pubCliente)"></app-anuncio-vista-buscador>
+      </div>
+      <div *ngIf="_seRealizaBusqueda" class="d-flex justify-content-center">
+        <nav aria-label="Page navigation py-0 m-0">
+            <ul class="pagination pagination-lg">
+              <li class="page-item" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none'}" >
+                <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
+                  <span>&larr;</span>
+                </button>
+              </li>
+              <li *ngFor="let pagina of _paginas" class="page-item mx-1" [class.disabled]="pagina.Activa">
+                <button class="page-link color-text-box" style="border-radius: 30px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : ''}" (click)="obtenerPagina(pagina.Pagina)">{{pagina.Pagina+1}}</button>
+              </li>
+              <li class="page-item" [ngStyle]="{'pointer-events': _mostrarPaginaSiguiente ? 'auto' : 'none'}" >
+                <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
+                  <span>&rarr;</span>
+                </button>
+              </li>
+            </ul>
+          </nav>
+      </div>
+  </div>
+
+  <button type="button" style="visibility: hidden;" #myModalIniciarSesion data-bs-toggle="modal" data-bs-target="#modalLogin" ></button>
+  <button type="button" style="visibility: hidden;" #myModalDatosUsuario data-bs-toggle="modal" data-bs-target="#modalDatosUsuarios" ></button>
+
+  <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content color-modal">
+        <div class="modal-header">
+          <h5 class="modal-title text-primary" id="gridModalLabel">Iniciar sesión</h5>
+          <button type="button" class="btn-close bg-color-5" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-2 px-0">
+          <div class="container">
+            <form [formGroup]="formIniciarsesion" autocomplete="on">
+                <fieldset>
+                  <div class="form-group row py-3">
+                    <label class="col-md-4 col-form-label text-primary text-end">Correo electrónico</label>
+                    <div class="col-md-6 col-10 p-0">
+                      <input autocomplete="on"
+                             class="form-control text-primary color-text-box"
+                             type="email"
+                             email
+                             placeholder="Correo electrónico"
+                             formControlName="correo"
+                             [class.is-invalid]="correoNoValido"/>
+                    </div>
+                    <div class="col-md-2 col-form-label">
+                      <small *ngIf="correoNoValido" class="text-danger">
+                        *
+                      </small>
+                    </div>
+                  </div>
+                
+                  <div class="form-group row py-3">
+                    <label class="col-md-4 col-form-label text-primary text-end">Contraseña</label>
+                    <div class="col-md-6 col-10 p-0">
+                      <input [type]="obtenerTipo"
+                             autocomplete="off"
+                             class="form-control text-primary color-text-box"
+                             placeholder="Contraseña"
+                             formControlName="password1"
+                             [class.is-invalid]="password1NoValido"/>
+                    </div>
+                    <div class="col-auto px-0">
+                      <button type="button" tabindex="-1" class="btn btn-primary px-1" (click)="cambiarTipo()"><span class="col-md-1 col-md-offset-2 text-center">
+                        <div *ngIf="obtenerTipo=='text'">
+                          <i class="fa fa-eye"></i>
+                        </div>
+                        <div *ngIf="obtenerTipo=='password'">
+                          <i class="fa fa-eye-slash"></i>
+                        </div>
+                      </span></button>
+                    </div>
+                    <div class="col-md-1 col-form-label">
+                      <small *ngIf="password1NoValido" class="text-danger">
+                        *
+                      </small>
+                    </div>
+                  </div>
+              
+                  <div class="text-center p-3">
+                    <a class="text-danger" href="/login">¿No tienes cuenta? Registrate aqui.</a>
+                  </div>
+                  <div class="text-center p-3">
+                    <a class="text-success" href="/recuperarpassword">¿Olvidaste tu contraseña? / Recuperar contraseña</a>
+                  </div>
+                  
+                </fieldset>
+              </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #myModalCloseLogin class="btn btn-secondary text-light br25" data-bs-dismiss="modal" >Cancelar</button>
+          <button type="submit" class="btn btn-primary br25" (click)="iniciarSesion()">Iniciar sesión</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalDatosUsuarios" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content color-modal">
+        <div class="modal-header">
+          <h5 class="modal-title text-primary" id="gridModalLabel">Información requerida</h5>
+          <button type="button" class="btn-close bg-color-5" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-2 px-0">
+          <div class="container">
+            <form [formGroup]="formaMensajeVendedor" autocomplete="off" class="br15 bg-color-rt px-3 py-1">
+                <div class="row mb-2 br25" >
+
+                    <label for="nombreContacto" 
+                           class="col-sm-3 col-form-label text-primary text-end">Nombre</label>
+                    <div class="col-sm-8 px-0">
+                        <input  type="text" autocomplete="off"
+                                class="form-control text-primary color-text-box" 
+                                placeholder="Nombre"
+                                [class.is-invalid]="nombreDUNoValido"
+                                formControlName="nombreDU"
+                                id="nombreUsuario">
+                    </div>
+                    <div class="col-md-1 px-0 text-center">
+                        <small *ngIf="nombreDUNoValido" class="text-danger">
+                            *
+                        </small>
+                    </div>
+                </div>
+
+                <div class="row mb-2 br25">
+                    <label for="telefonoContacto" 
+                           class="col-sm-3 col-form-label text-primary text-end">Teléfono</label>
+                    <div class="col-sm-8 px-0">
+                        <input  type="number" 
+                                class="form-control text-primary color-text-box" 
+                                placeholder="Teléfono"
+                                formControlName="telefonoDU"
+                                [class.is-invalid]="telefonoDUNoValido"
+                                id="telefonoUsuario">
+                    </div>
+                    <div class="col-md-1 px-0 text-center">
+                        <small *ngIf="telefonoDUNoValido" class="text-danger">
+                            *
+                        </small>
+                    </div>
+                </div>
+
+                <div class="row mb-2 br25">
+                    <label for="emailContacto" 
+                           class="col-sm-3 col-form-label text-primary text-end">Email</label>
+                    <div class="col-sm-8 px-0">
+                        <input  type="text"
+                                class="form-control text-primary color-text-box" 
+                                placeholder="email"
+                                formControlName="emailDU"
+                                [class.is-invalid]="emailDUNoValido"
+                                id="emailUsuario">
+                    </div>
+                    <div class="col-md-1 px-0 text-center">
+                        <small *ngIf="emailDUNoValido" class="text-danger">
+                            *
+                        </small>
+                    </div>
+                </div>
+
+                <div class="row mb-2 br25" >
+                  <label for="mensajeUsuario" 
+                         class="col-sm-3 col-form-label text-primary text-end">Mensaje</label>
+                  <div class="col-sm-8 px-0">
+                      <textarea  type="text" autocomplete="off"
+                              class="form-control text-primary color-text-box" 
+                              placeholder="Mensaje"
+                              [class.is-invalid]="mensajeDUNoValido"
+                              formControlName="mensajeDU"
+                              id="mensajeUsuario"></textarea>
+                  </div>
+                  <div class="col-md-1 px-0 text-center">
+                      <small *ngIf="mensajeDUNoValido" class="text-danger">
+                          *
+                      </small>
+                  </div>
+              </div>
+
+                <div class="row mb-2 br25 text-center">
+                    <div class="col-md-12 text-center d-grid">
+                        <span class="text-primary" style="font-size: 10px;">Al hacer clic en <strong>Mostrar telefóno</strong> aceptas nuestros <a href="/legal/terminosycondicionesdeuso">Terminos, condiciones y politicas de privacidad.</a></span>
+                    </div>
+                </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #myModalCloseDatosUsuario class="btn btn-secondary text-light br25" data-bs-dismiss="modal" >Cancelar</button>
+          <button type="button" class="btn btn-primary br25" (click)="contactarVendedor()">
+              <span *ngIf="_tipoContactoVendedor === 1">Contactar por WhatsApp</span>
+              <span *ngIf="_tipoContactoVendedor === 2">Enviar email</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

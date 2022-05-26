@@ -23,11 +23,11 @@ export class PlanesService {
   }
 
   public getPlan(Id_Plan : number): Observable<plan> {
-    return this.http.get<plan>(this.urlPlanes + Id_Plan);
+    return this.http.get<plan>(this.urlPlanes + '?Id_Plan=' + Id_Plan);
   }
 
-  public getPlanes(): Observable<plan[]> {
-    return this.http.get<plan[]>(this.urlPlanes);
+  public getPlanes(Id_Plan : number | null, Visible : boolean | null): Observable<plan[]> {
+    return this.http.get<plan[]>(this.urlPlanes + '?Id_Plan=' + Id_Plan + '&Visible=' + Visible);
   }
 
   public putPlan(objPlan: plan): Observable<plan> {
@@ -38,8 +38,8 @@ export class PlanesService {
     return this.http.post<plan>(this.urlPlanes, objPlan, this.httpOptions);
   }
 
-  public deletePlan(Id_Amenidad : number): Observable<plan> {
-    return this.http.delete<plan>(this.urlPlanes + Id_Amenidad, this.httpOptions);
+  public deletePlan(Id_Plan : number): Observable<plan> {
+    return this.http.delete<plan>(this.urlPlanes + Id_Plan, this.httpOptions);
   }
 
 }

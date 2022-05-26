@@ -1,0 +1,82 @@
+<div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <form [formGroup]="formaCliente" class="form-horizontal">
+                    <fieldset>
+                        <legend class="text-center text-primary mb-4"><h1 class="display-4">Agregar plan a cliente (Empresa)</h1></legend>
+                        <div class="form-group row mb-3">
+                            <div class="col-md-1 text-end">
+                                <label class="text-primary text-end">Email:</label>
+                            </div>
+                            <div class="col-md-4 p-0">
+                                <input  type="text"
+                                        class="form-control text-primary color-text-box"
+                                        [class.is-invalid]="emailNoValido"
+                                        formControlName="email">
+                            </div>
+                            <div class="col-md-1">
+                              <small *ngIf="emailNoValido" class="text-danger">
+                                Se requiere
+                              </small>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-primary mx-1 br25" (click)="asignarPlanACliente()">
+                                    <span class="col-md-1 col-md-offset-2 text-center">
+                                        <i class="fa fa-add" aria-hidden="true"> </i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="col-md-3 p-0 text-end">
+                                  <label class="text-primary text-end">Total de planes: <strong>{{_planes.length}}</strong></label>
+                            </div>
+                        </div>
+
+                        <div class="container">
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="well well-sm">
+                                    <div class="card-group justify-content-center">
+                                      <div class="form-group row" *ngFor="let plan of _planes">
+                                        <app-tarjetaplanes class="row px-4 g-3" [_plan]="plan" [_origen]="'menuAgregarPlanACliente'" (_sePresionaElegirPlan)="seleccionarPlanCliente(plan)" ></app-tarjetaplanes>
+                                      </div>
+                                    </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" style="display: none;" #mostrarFacturas data-bs-toggle="modal" data-bs-target="#gridAgregarFactura"></button>
+
+<div class="modal fade" id="gridAgregarFactura" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content color-modal br15">
+        <div class="modal-header">
+          <h5 class="modal-title text-primary" id="gridModalLabel">Facturación</h5>
+          <button type="button" class="btn-close bg-color-5" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body py-2 px-0">
+          <div class="container">
+            <div class="row">
+                      <div class="card-group justify-content-center">
+                        <div class="form-group row" *ngFor="let datoFiscal of _datosFiscales">
+                          <app-tarjetadatofiscal  class="row px-4 g-2" (_seSeleccionaDatoFiscal)="seleccionarDatosFiscales(datoFiscal)" [_datoFiscal]="datoFiscal" [_origen]="'PagarYActivar'" ></app-tarjetadatofiscal>
+                        </div>
+                      </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" #myModalCloseFacturas class="btn btn-secondary text-light" data-bs-dismiss="modal" >Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="guardarPagaryActivar(0)">Continuar sin Facturar</button>
+          <button type="button" class="btn btn-primary" (click)="guardarPagaryActivar(1)">Continuar y Facturar</button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -90,10 +90,10 @@ export class MisanunciosComponent implements OnInit {
       });
     } else {
 
-      this._publicacionesService.getPublicacionesMini(this._loginService.obtenerIdCliente(),0,10,'').subscribe(
+      this._publicacionesService.getPublicacionesMini(this._loginService.obtenerIdCliente(), null, 0,10,'').subscribe(
         (data) => {
           //Next callback
-          console.log('getPublicacionesMini', data);
+          //console.log('getPublicacionesMini', data);
           this._publicaciones = data;
   
           if (data.length > 0) {
@@ -104,7 +104,7 @@ export class MisanunciosComponent implements OnInit {
           this._publicacionesService.getPublicacionesMiniPagDet(this._loginService.obtenerIdCliente(), 10, '').subscribe(
             (data) => {
               //Next callback
-              console.log('getPublicacionesMiniPagDet', data);
+              //console.log('getPublicacionesMiniPagDet', data);
               this._paginadoDetalle = data;
 
               this.CargarPaginador(0);
@@ -265,7 +265,7 @@ export class MisanunciosComponent implements OnInit {
   obtenerPagina(item : number){
     // alert(item);
 
-    this._publicacionesService.getPublicacionesMini(this._loginService.obtenerIdCliente(), item, 10, '').subscribe(
+    this._publicacionesService.getPublicacionesMini(this._loginService.obtenerIdCliente(), null, item, 10, '').subscribe(
       (data) => {
         //Next callback
 

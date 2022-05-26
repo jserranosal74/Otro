@@ -14,7 +14,8 @@ import { PlanesService } from 'src/app/Services/Catalogos/planes.service';
 })
 export class PlanesComponent implements OnInit {
   _planes : plan[] = [];
-  _plan : plan = new plan(0,'',0,0,0,'',new Date(),new Date(),0,0,0);
+  //_planesFijos : plan[] = [];
+  _plan : plan = new plan(0,'',0,0,0,'',0,new Date(),new Date(),0,0,0);
   _textoAccion ='';
 
   _esNuevo : boolean = false;
@@ -23,11 +24,12 @@ export class PlanesComponent implements OnInit {
   // @ViewChild('verformaAmenidad') modalformaAmenidad : any;
 
   formaPlan = this.fb.group({
-    descripcion: ['', Validators.required],
-    precio: ['', Validators.required],
-    cantidad: ['', Validators.required],
-    vigenciaxunidad: ['', Validators.required],
-    urlimagen: ['', Validators.required]
+    descripcion     : ['', Validators.required],
+    precio          : ['', Validators.required],
+    cantidad        : ['', Validators.required],
+    vigenciaxunidad : ['', Validators.required],
+    urlimagen       : ['', Validators.required],
+    visible         : [0]
   });
 
   constructor(
@@ -47,36 +49,44 @@ export class PlanesComponent implements OnInit {
 
   crearFormulario() {
     this.formaPlan = this.fb.group({
-      descripcion: ['', Validators.required],
-      precio: ['', Validators.required],
-      cantidad: ['', Validators.required],
-      vigenciaxunidad: ['', Validators.required],
-      urlimagen: ['', Validators.required]
+      descripcion     : ['', Validators.required],
+      precio          : ['', Validators.required],
+      cantidad        : ['', Validators.required],
+      vigenciaxunidad : ['', Validators.required],
+      urlimagen       : ['', Validators.required],
+      visible         : [0]
     });
-    this._plan = new plan(0,'',0,0,0,'',new Date(),new Date(),0,0,0);
+    this._plan = new plan(0,'',0,0,0,'',0,new Date(),new Date(),0,0,0);
   }
 
   limpiarFormulario() {
     this._textoAccion = 'Agregar';
     this.formaPlan.reset({
-      descripcion: '',
-      precio: '',
-      cantidad: '',
-      vigenciaxunidad: '',
-      urlimagen: ''
+      descripcion     : '',
+      precio          : '',
+      cantidad        : '',
+      vigenciaxunidad : '',
+      urlimagen       : '',
+      visible         : 0
     });
-    this._plan = new plan(0,'',0,0,0,'',new Date(),new Date(),0,0,0);
+    this._plan = new plan(0,'',0,0,0,'',0,new Date(),new Date(),0,0,0);
   }
 
   obtenerPlanes() {
-    let Id_Usuario = this._loginService.obtenerIdCliente();
-
-    this._planService.getPlanes().subscribe(
+    this._planService.getPlanes(null, null).subscribe(
       (data) => {
         //Next callback
         //console.log('datos: ', data);
 
         this._planes = data;
+
+        // data.forEach( item => {
+        //   if (item.TipoPlanAgregar === null) {
+        //     this._planesFijos.push(item);
+        //   }
+        // });
+
+        // console.log('this._planesFijos', this._planesFijos);
 
         // this.limpiarFormulario();
       },
@@ -84,13 +94,13 @@ export class PlanesComponent implements OnInit {
         //Error callback
         //console.log('Error del servicio: ', error.error['Descripcion']);
 
-        Swal.fire({
-          icon: 'error',
-          title: error.error['Descripcion'],
-          text: 'Error al cargar las inmobiliarias',
-          showCancelButton: false,
-          showDenyButton: false,
-        });
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: error.error['Descripcion'],
+        //   text: 'Error al cargar las inmobiliarias',
+        //   showCancelButton: false,
+        //   showDenyButton: false,
+        // });
 
         switch (error.status) {
           case 401:
@@ -118,14 +128,15 @@ export class PlanesComponent implements OnInit {
     this._planService.getPlan(objPlan.Id_Plan).subscribe(
       (data) => {
         //Next callback
-        console.log('datos: ', data);
+        //console.log('obtenerPlan: ', data);
 
         this.formaPlan.setValue({
-          descripcion: data.Descripcion,
-          precio: data.Precio,
-          cantidad: data.Cantidad,
-          vigenciaxunidad: data.VigenciaXUnidad,
-          urlimagen: data.UrlImagen
+          descripcion     : data.Descripcion,
+          precio          : data.Precio,
+          cantidad        : data.Cantidad,
+          vigenciaxunidad : data.VigenciaXUnidad,
+          urlimagen       : data.UrlImagen,
+          visible         : data.Visible ? 1 : 0
         });
 
         // this.limpiarFormulario();
@@ -188,6 +199,8 @@ export class PlanesComponent implements OnInit {
       this._plan.Cantidad = this.formaPlan.get('cantidad')?.value;
       this._plan.VigenciaXUnidad = this.formaPlan.get('vigenciaxunidad')?.value;
       this._plan.UrlImagen = this.formaPlan.get('urlimagen')?.value;
+      //this._plan.TipoPlanAgregar = this.formaPlan.get('tipoplanagregar')?.value;
+      this._plan.Visible = this.formaPlan.get('visible')?.value;
       this._plan.FechaAlta = new Date();
       this._plan.FechaModificacion = new Date();
       this._plan.Id_Usuario = 1;
@@ -217,13 +230,13 @@ export class PlanesComponent implements OnInit {
             //Error callback
             //console.log('Error del servicio: ', error.error['Descripcion']);
   
-            Swal.fire({
-              icon: 'error',
-              title: error.error['Descripcion'],
-              text: '',
-              showCancelButton: false,
-              showDenyButton: false,
-            });
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: error.error['Descripcion'],
+            //   text: '',
+            //   showCancelButton: false,
+            //   showDenyButton: false,
+            // });
   
             switch (error.status) {
               case 401:
@@ -271,13 +284,13 @@ export class PlanesComponent implements OnInit {
             //Error callback
             //console.log('Error del servicio: ', error.error['Descripcion']);
   
-            Swal.fire({
-              icon: 'error',
-              title: 'ERROR',
-              text: '',
-              showCancelButton: false,
-              showDenyButton: false,
-            });
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: 'ERROR',
+            //   text: '',
+            //   showCancelButton: false,
+            //   showDenyButton: false,
+            // });
   
             switch (error.status) {
               case 401:

@@ -27,20 +27,22 @@ export class plancliente {
 
   export class planClientePagos {
     constructor(
-      public Id_PlanCliente: number,
-      public Id_Plan: number,
-      public Id_Cliente: number,
-      public Id_DatosFiscales: number | null,
-      public Descripcion: string,
-      public Disponibles: number,
-      public Email: string,
-      public Nombre: string,
-      public Apellidos: string,
-      public FechaDePago: Date | null,
-      public FechaFacturacion: Date | null,
-      public NumFactura: string | null,
-      public Id_Estatus: number,
-      public DescripcionEstatus: string,
+      public Id_PlanCliente     : number,
+      public Id_Plan            : number,
+      public Id_Cliente         : number,
+      public Id_DatosFiscales   : number | null,
+      public Id_Publicacion     : number | null,
+      public Descripcion        : string,
+      public Disponibles        : number,
+      public Email              : string,
+      public Nombre             : string,
+      public Apellidos          : string,
+      public FechaDePago        : Date | null,
+      public FechaFacturacion   : Date | null,
+      public NumFactura         : string | null,
+      public Id_Estatus         : number,
+      public DescripcionEstatus : string,
+      public Confirmando        : boolean,
     ) {
     }
   }

@@ -28,55 +28,7 @@ export class LoginService {
               private _router : Router) { 
     this.urlLogin = URL_APIS.urlLogin;
 
-    // this.load()
-    //   .then(() => this.init())
-    //   .then(auth => {
-    //     this.auth = auth;
-    //   });
-
-    // this.urlRecuperarPassword = URL_APIS.urlRecuperarPassword;
   }
-
-  // private load(): Promise<void> {
-  //   return new Promise((resolve, reject) => {
-  //     this.zone.run(() => {
-  //       gapi.load('auth2', {
-  //         callback: resolve,
-  //         onerror: reject,
-  //       });
-  //     });
-  //   });
-  // }
-  // private init(): Promise<gapi.auth2.GoogleAuth> {
-  //   return new Promise((resolve, reject) => {
-  //     this.zone.run(() => {
-  //       const auth = gapi.auth2.init({
-  //         client_id: '871188979190-53oa9ctrooeiv32eslaocarmn1rnif8a.apps.googleusercontent.com',
-  //         scope: 'profile email',
-  //       });
-  //       resolve(auth);
-  //     });
-  //   });
-  // }
-
-  // loginForUser(): Promise<gapi.auth2.GoogleUser> {
-  //   return this.zone.run(() => {
-  //     return this.auth.signIn()
-  //       .then((user:any) => {
-  //         this.user = user;
-  //         return user;
-  //       });
-  //   });
-  // }
-
-  // loginForCode(): Promise<{ code: string }> {
-  //   return this.zone.run(() => {
-  //     return this.auth.grantOfflineAccess()
-  //       .then((response:any) => {
-  //         return response;
-  //       });
-  //   });
-  // }
 
   public iniciarSesion(objLogin: login): Observable<usuario> {
     return this.http.post<usuario>(this.urlLogin + 'authenticate/', objLogin);
@@ -90,13 +42,17 @@ export class LoginService {
   public recuperarPassword(objLogin: login): Observable<string> {
     return this.http.post<string>(this.urlLogin + 'recuperarpassword/', objLogin);
   }
-
+  
   public validarToken(Token : string): Observable<string> {
     return this.http.get<string>(this.urlLogin + 'validartoken?token=' + Token);
   }
-
+  
   public restablecerPassword(Token : string, Password : string): Observable<string> {
     return this.http.put<string>(this.urlLogin + 'restablecerpassword?Token=' + Token + '&Password=' + Password,'');
+  }
+  
+  public obtenerTokenGoogle(): Observable<string> {
+    return this.http.post<string>(this.urlLogin + 'obtenertokengoogle?credential=','');
   }
 
   // Servicios de autenticacion funcionando
@@ -153,20 +109,30 @@ export class LoginService {
     }
   }
 
-  public obtenerIdEmpresaCliente(): number {
-    if (localStorage.getItem('usuario'))
-    {
-      return JSON.parse(localStorage.getItem('usuario')!)['Id_EmpresaCliente'];
-    }
-    else{
-      return 0;
-    }
-  }
+  // public obtenerIdEmpresaCliente(): number {
+  //   if (localStorage.getItem('usuario'))
+  //   {
+  //     return JSON.parse(localStorage.getItem('usuario')!)['Id_EmpresaCliente'];
+  //   }
+  //   else{
+  //     return 0;
+  //   }
+  // }
 
   public obtenerNombreCliente(): string {
     if (localStorage.getItem('usuario'))
     {
       return JSON.parse(localStorage.getItem('usuario')!)['NombreUsuario'];
+    }
+    else{
+      return '';
+    }
+  }
+
+  public obtenerUrlFotoCliente(): string {
+    if (localStorage.getItem('usuario'))
+    {
+      return JSON.parse(localStorage.getItem('usuario')!)['UrlFotoPerfil'];
     }
     else{
       return '';

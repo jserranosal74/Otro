@@ -28,8 +28,8 @@ export class ClientesService {
     return this.http.get<cliente>(this.urlClientes + Id_Cliente, this.httpOptions);
   }
 
-  public getClienteVista(Id_Cliente : number): Observable<clienteVista> {
-    return this.http.get<clienteVista>(this.urlClientes + '?Id_Cliente=' + Id_Cliente);
+  public getClienteVista(Id_Cliente : number | null, Email : string | null): Observable<clienteVista> {
+    return this.http.get<clienteVista>(this.urlClientes + '?Id_Cliente=' + Id_Cliente + '&Email=' + (Email === null ? '' : Email));
   }
 
   public getClientes(): Observable<cliente[]> {

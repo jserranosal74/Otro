@@ -220,6 +220,18 @@
             </a>
             <ul class="dropdown-menu">
               <li>
+                <a class="dropdown-item text-primary text-primary" [routerLink]="['procesos', 'agregarplanacliente']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Agregar plan a cliente</span></a>
+              </li>
+              <li>
+                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'usuariosempresa']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Asignar usuario a Empresa</span></a>
+              </li>
+              <li>
+                <a class="dropdown-item text-primary text-primary" [routerLink]="['procesos', 'confirmarpagosplanes']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Confirmar pagos de clientes</span></a>
+              </li>
+              <li>
                 <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'asentamientos']"><i class="fa-solid fa-building"></i>
                   <span style="padding: 10px;"> Asentamientos</span></a>
               </li>
@@ -230,10 +242,6 @@
               <li>
                 <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'caracteristicas']"><i class="fa-solid fa-building"></i>
                   <span style="padding: 10px;"> Características</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary text-primary" [routerLink]="['procesos', 'confirmarpagosplanes']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Confirmar pagos de clientes</span></a>
               </li>
               <li>
                 <a class="dropdown-item text-primary text-primary" [routerLink]="['catalogos', 'empresas']"><i class="fa-solid fa-house-chimney-window"></i>
@@ -267,15 +275,11 @@
                 <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'subtipospropiedad']"><i class="fa-solid fa-house-chimney-window"></i>
                   <span style="padding: 10px;">Subtipos de propiedad</span></a>
               </li>
-              <li>
-                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'usuariosempresa']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Usuarios de Empresa</span></a>
-              </li>
             </ul>
           </li>
         </div>
 
-        <div *ngIf="usuarioAutenticado && usuarioRol == 'Empresa'" >
+        <!-- <div *ngIf="usuarioAutenticado && usuarioRol == 'Empresa'" >
           <li class="nav-item dropdown" routerLinkActive="active">
             <a class="nav-link dropdown-toggle" routerLink="rentar" data-bs-toggle="dropdown">
               Administración
@@ -287,7 +291,7 @@
               </li>
             </ul>
           </li>
-        </div>
+        </div> -->
 
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="ayuda">Ayuda</a>
@@ -305,7 +309,8 @@
             <a class="btn btn-link" 
               style="border:none; box-shadow: none;"
               [routerLink]="['micuenta']">
-              <span><i class="fa-solid fa-circle-user medicon"></i></span>
+              <span *ngIf="!_urlFotoPerfil"><i class="fa-solid fa-circle-user medicon"></i></span>
+              <img *ngIf="_urlFotoPerfil" class="br25" width="25px" height="100%" [src]="_urlFotoPerfil" alt="">
             </a>
             <label class="text-white text-capitalize text-truncate" >{{_nombreUsuario}}</label>
           </div>
@@ -316,7 +321,7 @@
           <li class="nav-item">
             <a class="btn btn-link" 
                style="border:none; box-shadow: none;"
-               routerLink="iniciarsesion">
+               href="iniciarsesion">
                <i class="fa-solid fa-arrow-right-to-bracket medicon"></i>
             </a>
           </li></ng-template>

@@ -24,7 +24,7 @@ export class EmpresaUsuariosService {
     this.urlEmpresaClientes = URL_APIS.urlEmpresaClientes;
   }
 
-  public getEmpresaClientes(Id_Empresa : number): Observable<empresaCliente[]> {
+  public getEmpresaClientes(Id_Empresa : number | null): Observable<empresaCliente[]> {
     return this.http.get<empresaCliente[]>(this.urlEmpresaClientes + '?Id_Empresa=' + Id_Empresa, this.httpOptions);
   }
 
