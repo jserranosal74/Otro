@@ -3,101 +3,171 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
-import { plan } from 'src/app/Models/catalogos/planes.model';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
-import { PlanesService } from 'src/app/Services/Catalogos/planes.service';
+import { EmpresasService } from '../../../Services/Catalogos/empresa.service';
+import { PaquetesService } from '../../../Services/Catalogos/paquetes.service';
+
+import { empresa } from 'src/app/Models/catalogos/empresa.model';
+import { paquete } from 'src/app/Models/catalogos/paquetes.model';
+import { plan } from 'src/app/Models/catalogos/planes.model';
+import { PlanesService } from '../../../Services/Catalogos/planes.service';
+import { paqueteDetalle } from '../../../Models/catalogos/paquetes.model';
 
 @Component({
   selector: 'app-paquetes',
   templateUrl: './paquetes.component.html',
   styleUrls: ['./paquetes.component.css']
 })
-export class PlanesComponent implements OnInit {
-  _planes : plan[] = [];
-  //_planesFijos : plan[] = [];
-  _plan : plan = new plan(0,'',0,0,0,'',0,new Date(),new Date(),0,0,0);
+export class PaquetesComponent implements OnInit {
+  _paquetes : paquete[] = [];
+  _paquete : paquete = new paquete(0,'',0,'','',null,null,[],new Date(),new Date(),0,0,0);
+  _paqueteDetalle : paqueteDetalle[] = [];
+  _empresas : empresa[] = [];
+  _planes : plan[] = []
   _textoAccion ='';
+  cargando : boolean = false;
 
   _esNuevo : boolean = false;
   @ViewChild('myModalClose') modalClose : any;
   @ViewChild('descripcion') modaldescripcion : any;
-  // @ViewChild('verformaAmenidad') modalformaAmenidad : any;
 
-  formaPaquete = this.fb.group({
-    empresa     : ['', Validators.required],
-    descripcion : ['', Validators.required],
-    precio      : ['', Validators.required]
-  });
+  formaPaquete = this.fb.group({});
+  formaPlan = this.fb.group({});
 
   constructor(
     private fb: FormBuilder,
-    private _planService: PlanesService,
+    private _empresasService: EmpresasService,
+    private _planesService: PlanesService,
+    private _paquetesService: PaquetesService,
     private _loginService : LoginService,
   ) {
-
-    this.crearFormulario();
-    this.limpiarFormulario();
+    //debugger;
+    this.crearFormularios();
+    this.limpiarFormularios();
+    this.obtenerEmpresas();
     this.obtenerPlanes();
+    this.obtenerPaquetes();
   }
 
   ngOnInit(): void {
-    this.limpiarFormulario();
+    //this.limpiarFormulario();
   }
 
-  crearFormulario() {
+  crearFormularios() {
+    this.formaPaquete = this.fb.group({
+      descripcion  : ['', Validators.required],
+      precio       : ['', Validators.required],
+      clave        : ['', Validators.required],
+      claveProdSAT : ['', Validators.required]
+    });
+
     this.formaPlan = this.fb.group({
-      descripcion     : ['', Validators.required],
-      precio          : ['', Validators.required],
-      cantidad        : ['', Validators.required],
-      vigenciaxunidad : ['', Validators.required],
-      urlimagen       : ['', Validators.required],
-      visible         : [0]
+      plan     : ['', Validators.required],
+      cantidad : ['', Validators.required],
+      vigencia : ['30', Validators.required]
     });
-    this._plan = new plan(0,'',0,0,0,'',0,new Date(),new Date(),0,0,0);
+
+    this._paquete = new paquete(0,'',0,'','',null,null,[],new Date(),new Date(),0,0,0);
   }
 
-  limpiarFormulario() {
+  limpiarFormularios() {
     this._textoAccion = 'Agregar';
-    this.formaPlan.reset({
-      descripcion     : '',
-      precio          : '',
-      cantidad        : '',
-      vigenciaxunidad : '',
-      urlimagen       : '',
-      visible         : 0
+    this._paqueteDetalle = [];
+    this.formaPaquete.reset({
+      descripcion  : '',
+      precio       : '',
+      clave        : '',
+      claveProdSAT : ''
     });
-    this._plan = new plan(0,'',0,0,0,'',0,new Date(),new Date(),0,0,0);
+    this._paquete = new paquete(0,'',0,'','',null,null,[],new Date(),new Date(),0,0,0);
+    this.limpiarFormularioPlan();
   }
 
-  obtenerPlanes() {
-    this._planService.getPlanes(null, null).subscribe(
+  limpiarFormularioPlan(){
+    this.formaPlan.reset({
+      plan     : '',
+      cantidad : '',
+      vigencia : '30'
+    });
+  }
+
+  obtenerEmpresas() {
+    //this._id_Empresa = this._loginService.obtenerIdCliente();
+
+    this._empresasService.getEmpresas().subscribe(
       (data) => {
-        //Next callback
-        //console.log('datos: ', data);
 
-        this._planes = data;
+        this._empresas = data;
 
-        // data.forEach( item => {
-        //   if (item.TipoPlanAgregar === null) {
-        //     this._planesFijos.push(item);
-        //   }
-        // });
-
-        // console.log('this._planesFijos', this._planesFijos);
-
-        // this.limpiarFormulario();
       },
       (error: HttpErrorResponse) => {
         //Error callback
-        //console.log('Error del servicio: ', error.error['Descripcion']);
 
-        // Swal.fire({
-        //   icon: 'error',
-        //   title: error.error['Descripcion'],
-        //   text: 'Error al cargar las inmobiliarias',
-        //   showCancelButton: false,
-        //   showDenyButton: false,
-        // });
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            Swal.fire({
+              icon: 'error',
+              title: 'No hay usuarios dados de alta.',
+              text: '',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            break;
+          case 409:
+            break;
+        }
+
+      }
+    );
+  }
+
+  obtenerPaquetes() {
+    this.cargando = true;
+    
+    this._paquetesService.getPaquetes().subscribe(
+      (data) => {
+        //Next callback
+        console.log('obtenerPaquetes: ', data);
+
+        this._paquetes = data
+
+        //setTimeout(()=> this._paquetes = data, 10000);
+        this.cargando = false;
+      },
+      (error: HttpErrorResponse) => {
+
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            this._paquetes = [];
+            break;
+          case 409:
+            break;
+        }
+
+      }
+    );
+  }
+
+  obtenerPlanes() {
+    this.cargando = true;
+    
+    this._planesService.getPlanes(null,null).subscribe(
+      (data) => {
+        //Next callback
+
+        this._planes = data
+
+        this.cargando = false;
+      },
+      (error: HttpErrorResponse) => {
 
         switch (error.status) {
           case 401:
@@ -118,30 +188,26 @@ export class PlanesComponent implements OnInit {
     );
   }
 
-  obtenerPlan(objPlan : plan) {
+  obtenerPaquete(objPaquete : paquete) {
     this._textoAccion = 'Modificar';
-    this._plan = objPlan;
-
-    this._planService.getPlan(objPlan.Id_Plan).subscribe(
+    this._paquete = objPaquete;
+    debugger;
+    this._paquetesService.getPaquete(objPaquete.Id_Paquete).subscribe(
       (data) => {
         //Next callback
-        //console.log('obtenerPlan: ', data);
-
-        this.formaPlan.setValue({
-          descripcion     : data.Descripcion,
-          precio          : data.Precio,
-          cantidad        : data.Cantidad,
-          vigenciaxunidad : data.VigenciaXUnidad,
-          urlimagen       : data.UrlImagen,
-          visible         : data.Visible ? 1 : 0
+        // console.log('obtenerPaquete: ', data);
+        this._paqueteDetalle = data[0].Detalle;
+        
+        this.formaPaquete.setValue({
+          descripcion  : data[0].Descripcion,
+          precio       : data[0].Precio,
+          clave        : data[0].Clave,
+          claveProdSAT : data[0].ClaveProdServ
         });
 
         // this.limpiarFormulario();
       },
       (error: HttpErrorResponse) => {
-        //Error callback
-        //console.log('Error del servicio: ', error.error['Descripcion']);
-
         Swal.fire({
           icon: 'error',
           title: error.error['Descripcion'],
@@ -170,10 +236,10 @@ export class PlanesComponent implements OnInit {
     );
   }
 
-  guardarPlan(){
+  guardarPaquete(){
 
-    if (this.formaPlan.invalid) {
-      return Object.values(this.formaPlan.controls).forEach((control) => {
+    if (this.formaPaquete.invalid) {
+      return Object.values(this.formaPaquete.controls).forEach((control) => {
         if (control instanceof FormGroup) {
           Object.values(control.controls).forEach((control) =>
             control.markAsTouched()
@@ -185,27 +251,23 @@ export class PlanesComponent implements OnInit {
     } else {
       //Envio de la informacion al servidor
 
-      if (this._plan.Id_Plan != 0){
+      if (this._paquete.Id_Paquete != 0){
         this._esNuevo = false;
       }else{
         this._esNuevo = true;
       }
 
-      this._plan.Descripcion = this.formaPlan.get('descripcion')?.value;
-      this._plan.Precio = this.formaPlan.get('precio')?.value;
-      this._plan.Cantidad = this.formaPlan.get('cantidad')?.value;
-      this._plan.VigenciaXUnidad = this.formaPlan.get('vigenciaxunidad')?.value;
-      this._plan.UrlImagen = this.formaPlan.get('urlimagen')?.value;
-      //this._plan.TipoPlanAgregar = this.formaPlan.get('tipoplanagregar')?.value;
-      this._plan.Visible = this.formaPlan.get('visible')?.value;
-      this._plan.FechaAlta = new Date();
-      this._plan.FechaModificacion = new Date();
-      this._plan.Id_Usuario = 1;
-      this._plan.Id_Estatus = 1;
+      this._paquete.Descripcion = this.formaPaquete.get('descripcion')?.value;
+      this._paquete.Precio = this.formaPaquete.get('precio')?.value;
+      this._paquete.Detalle = this._paqueteDetalle;
+      // this._paquete.FechaAlta = new Date();
+      // this._paquete.FechaModificacion = new Date();
+      // this._paquete.Id_Usuario = 1;
+      // this._paquete.Id_Estatus = 1;
 
       if (this._esNuevo){
-        this._plan.Id_Plan = 0;
-        this._planService.postPlan(this._plan).subscribe(
+        this._paquete.Id_Paquete = 0;
+        this._paquetesService.postPaquete(this._paquete).subscribe(
           (data) => {
             //Next callback
             //console.log('datos: ',data);
@@ -219,9 +281,9 @@ export class PlanesComponent implements OnInit {
   
             this.modalClose.nativeElement.click();
   
-            this.obtenerPlanes();
+            this.obtenerPaquetes();
   
-            this.limpiarFormulario();
+            this.limpiarFormularios();
           },
           (error: HttpErrorResponse) => {
             //Error callback
@@ -261,7 +323,7 @@ export class PlanesComponent implements OnInit {
         );
       }
       else{
-        this._planService.putPlan(this._plan).subscribe(
+        this._paquetesService.putPaquete(this._paquete).subscribe(
           (data) => {
   
             this.modalClose.nativeElement.click();
@@ -273,9 +335,9 @@ export class PlanesComponent implements OnInit {
               timer: 1000
             })
   
-            this.obtenerPlanes();
+            this.obtenerPaquetes();
   
-            this.limpiarFormulario();
+            this.limpiarFormularios();
           },
           (error: HttpErrorResponse) => {
             //Error callback
@@ -317,13 +379,13 @@ export class PlanesComponent implements OnInit {
     }
   }
 
-  eliminarPlan(objPlan : plan) {
+  eliminarPaquete(objPaquete : paquete) {
     // this._textoAccion = 'Eliminar';
-    this._plan = objPlan;
+    this._paquete = objPaquete;
 
     Swal.fire({
       icon: 'question',
-      title: '¿Está seguro de que desea eliminar el plan: "' + objPlan.Descripcion + '"?',
+      title: '¿Está seguro de que desea eliminar el paquete: "' + objPaquete.Descripcion + '"?',
       showDenyButton: false,
       showCancelButton: true,
       confirmButtonText: 'Si, eliminar',
@@ -342,20 +404,18 @@ export class PlanesComponent implements OnInit {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
 
-        this._planService.deletePlan(objPlan.Id_Plan).subscribe(
+        this._paquetesService.deletePaquete(objPaquete.Id_Paquete).subscribe(
           (data) => {
             //Next callback
-            
-            // Swal.fire('Los datos fiscales fueron eliminados', '', 'success')
 
             Swal.fire({
               icon: 'success',
-              title: 'El plan fue eliminado.',
+              title: 'El paquete fue eliminado.',
               showConfirmButton: false,
               timer: 1500
             })
     
-            this.obtenerPlanes();
+            this.obtenerPaquetes();
     
           },
           (error: HttpErrorResponse) => {
@@ -403,25 +463,83 @@ export class PlanesComponent implements OnInit {
     
   }
 
+  agregarPlan(){
+    //this._paqueteDetalle = [];
+    if (this.formaPlan.invalid) {
+      return Object.values(this.formaPlan.controls).forEach((control) => {
+        if (control instanceof FormGroup) {
+          Object.values(control.controls).forEach((control) =>
+            control.markAsTouched()
+          );
+        } else {
+          control.markAsTouched();
+        }
+      });
+    }
+    else{
+      debugger;
+
+      let descripcion = '';
+
+      this._planes.forEach(item=>{
+          if (item.Id_Plan == this.formaPlan.get('plan')?.value )
+          {
+            descripcion = item.Descripcion;
+          }
+      });
+
+      let pd = new paqueteDetalle(0,0,this.formaPlan.get('plan')?.value, descripcion, this.formaPlan.get('cantidad')?.value, this.formaPlan.get('vigencia')?.value, new Date(), new Date(), 0, 0, 0);
+
+      this._paqueteDetalle.push(pd);
+
+      this.limpiarFormularioPlan();
+
+    }
+
+    // this._paquete.Detalle.forEach((item,index) => {
+    //     if (item.Id_Plan === objPaqueteDetalle.Id_Plan){
+    //      this._planes.splice(index,1); 
+    //     }
+    // });
+
+  }
+
+  eliminarPlan(objPaqueteDetalle : paqueteDetalle){
+    //debugger;
+    this._paqueteDetalle.forEach((item,index) => {
+        if (item.Id_Plan === objPaqueteDetalle.Id_Plan){
+          this._paqueteDetalle.splice(index,1); 
+        }
+    });
+
+  }
+
   get descripcionNoValido() {
-    return ( this.formaPlan.get('descripcion')?.invalid && this.formaPlan.get('descripcion')?.touched );
+    return ( this.formaPaquete.get('descripcion')?.invalid && this.formaPaquete.get('descripcion')?.touched );
   }
       
   get precioNoValido() {
-    return ( this.formaPlan.get('precio')?.invalid && this.formaPlan.get('precio')?.touched );
+    return ( this.formaPaquete.get('precio')?.invalid && this.formaPaquete.get('precio')?.touched );
   }
 
-  get cantidadNoValido() {
+  get planNoValido() {
+    return ( this.formaPlan.get('plan')?.invalid && this.formaPlan.get('plan')?.touched );
+  }
+
+  get cantidadNoValida() {
     return ( this.formaPlan.get('cantidad')?.invalid && this.formaPlan.get('cantidad')?.touched );
   }
 
-  get vigenciaxunidadNoValido() {
-    return ( this.formaPlan.get('vigenciaxunidad')?.invalid && this.formaPlan.get('vigenciaxunidad')?.touched );
+  get vigenciaNoValida() {
+    return ( this.formaPlan.get('vigencia')?.invalid && this.formaPlan.get('vigencia')?.touched );
   }
 
-  get urlimagenNoValido() {
-    return ( this.formaPlan.get('urlimagen')?.invalid && this.formaPlan.get('urlimagen')?.touched );
+  get claveNoValido() {
+    return ( this.formaPaquete.get('clave')?.invalid && this.formaPaquete.get('clave')?.touched );
+  }
+
+  get claveProdSATNoValido() {
+    return ( this.formaPaquete.get('claveProdSAT')?.invalid && this.formaPaquete.get('claveProdSAT')?.touched );
   }
 
 }
-

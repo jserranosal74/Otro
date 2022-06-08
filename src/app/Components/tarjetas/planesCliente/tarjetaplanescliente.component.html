@@ -1,14 +1,12 @@
 <div class="card px-0 color-card" style="width: 15rem; border-radius: 15px;">
     <div class="card-header text-center bg-color-3 py-0" style="border-radius: 15px 15px 0px 0px;">
+      <div class="row text-end" *ngIf="_tipoTarjeta === 'AlPagar'" style="position:absolute; right:11px; top:-1px;">
+        <button type="button" class="btn btn-outline-primary br25" (click)="elegirPlanCliente()" [ngClass]="{' btn-primary': _planCliente.Seleccionado === 1, ' btn-outline-primary': _planCliente.Seleccionado === 0}">
+          <span class="col-md-1 text-center m-0 p-0"><i class="fa fa-check" > </i></span>
+        </button>
+      </div>
       <div class="row">
-        <div class="col">
-          <h3 class="card-title text-primary text-uppercase py-1 m-0">{{_planCliente.Descripcion}}</h3>
-        </div>
-        <div class="col px-0 text-end py-1" *ngIf="_tipoTarjeta === 'AlPagar'">
-          <button type="button" class="btn btn-outline-primary" (click)="elegirPlanCliente()" [ngClass]="{' btn-primary': _planCliente.Seleccionado === 1, ' btn-outline-primary': _planCliente.Seleccionado === 0}" style="border-radius: 25px;">
-            <span class="col-md-1  text-center"><i class="fa fa-check" > </i></span>
-          </button>
-        </div>
+          <h4 class="card-title text-primary text-uppercase py-1 m-0">{{_planCliente.Descripcion}}</h4>
       </div>
     </div>
     <div class="card-body">
@@ -25,7 +23,7 @@
         </div>
         <p *ngIf="_planCliente.NombreRazonSocial != null && _planCliente.DescripcionEstatus === 'En espera de pago'" class="text-center text-primary mb-1">Se facturará a:</p>
         <p *ngIf="_planCliente.NombreRazonSocial != null && _planCliente.DescripcionEstatus === 'En espera de pago'" class="text-center text-primary text-uppercase m-0"><strong>{{_planCliente.NombreRazonSocial}}</strong></p>
-        <p *ngIf="_planCliente.NombreRazonSocial === null && _planCliente.DescripcionEstatus === 'En espera de pago'" class="text-center text-primary text-uppercase m-0"><strong>Este pago no será facturado</strong></p>
+        <p *ngIf="_planCliente.NombreRazonSocial === null && _planCliente.DescripcionEstatus === 'En espera de pago'" class="text-center text-primary text-uppercase m-0"><strong>El pago de este plan no será facturado</strong></p>
       </div>
       <div *ngIf="_planCliente.DescripcionEstatus === 'Pagado'">
         <p class="card-text text-primary text-center">Fecha de pago:</p>

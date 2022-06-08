@@ -5,13 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 //import { TarjetasModule } from '../tarjetas/tarjetas.module';
 import { ConfirmarPagosPlanesComponent } from './confirmarpagosplanes/confirmarpagosplanes.component';
-import { AgregarplanaclienteComponent } from './agregarplanacliente/agregarplanacliente.component';
+import { AsignarPaqueteAClienteComponent } from './asignarpaqueteacliente/asignarpaqueteacliente.component';
 import { TarjetasModule } from '../tarjetas/tarjetas.module';
 
 @NgModule({
   declarations: [
     ConfirmarPagosPlanesComponent,
-    AgregarplanaclienteComponent
+    AsignarPaqueteAClienteComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +22,7 @@ import { TarjetasModule } from '../tarjetas/tarjetas.module';
   ],
   exports: [
     ConfirmarPagosPlanesComponent,
-    AgregarplanaclienteComponent
+    AsignarPaqueteAClienteComponent
   ]
 })
 

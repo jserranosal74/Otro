@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { URL_APIS } from '../global';
-import { plan } from 'src/app/Models/catalogos/planes.model';
 import { LoginService } from './login.service';
 import { paquete } from 'src/app/Models/catalogos/paquetes.model';
 
@@ -23,12 +22,12 @@ export class PaquetesService {
     this.urlPaquetes = URL_APIS.urlPaquetes;
   }
 
-  public getPaquete(Id_Paquete : number | null, Id_Empresa : number | null): Observable<paquete> {
-    return this.http.get<paquete>(this.urlPaquetes + '?Id_Paquete=' + Id_Paquete + '&Id_Empresa=' + Id_Empresa, this.httpOptions);
+  public getPaquete(Id_Paquete : number | null): Observable<paquete[]> {
+    return this.http.get<paquete[]>(this.urlPaquetes + '?Id_Paquete=' + Id_Paquete, this.httpOptions);
   }
 
   public getPaquetes(): Observable<paquete[]> {
-    return this.http.get<paquete[]>(this.urlPaquetes + '?Id_Paquete=&Id_Empresa=', this.httpOptions);
+    return this.http.get<paquete[]>(this.urlPaquetes + '?Id_Paquete=', this.httpOptions);
   }
 
   public putPaquete(objPaquete: paquete): Observable<paquete> {
@@ -40,7 +39,7 @@ export class PaquetesService {
   }
 
   public deletePaquete(Id_Paquete : number): Observable<paquete> {
-    return this.http.delete<paquete>(this.urlPaquetes + Id_Paquete, this.httpOptions);
+    return this.http.delete<paquete>(this.urlPaquetes + '?Id_Paquete=' + Id_Paquete, this.httpOptions);
   }
 
 }

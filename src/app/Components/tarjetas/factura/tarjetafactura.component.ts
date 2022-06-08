@@ -9,7 +9,7 @@ import { factura } from '../../../Models/catalogos/factura.model';
 })
 export class TarjetafacturaComponent implements OnInit {
 
-  @Input() _factura : factura = new factura(0,0,0,0,0,'',0,new Date(),new Date(),'','','');
+  @Input() _facturaCliente! : factura;
   @Input() _origen : string = '';
 
   @Output() _verDetalleFactura = new EventEmitter<boolean>();

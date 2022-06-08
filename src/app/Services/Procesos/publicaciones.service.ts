@@ -52,8 +52,8 @@ export class PublicacionesService {
     return this.http.put<publicacion>(this.urlPublicaciones + objPublicacion.Id_Publicacion, objPublicacion, this.httpOptions);
   }
 
-  public putActivarPublicacion(Id_Publicacion : number, Id_Cliente : number, Id_PlanCliente : number | null, Id_Plan : number, Id_DatosFiscales : number | null, Id_Banco : number | null): Observable<publicacion> {
-    return this.http.put<publicacion>(this.urlPublicaciones + '?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente + '&Id_PlanCliente=' + Id_PlanCliente + '&Id_Plan=' + Id_Plan + '&Id_DatosFiscales=' + Id_DatosFiscales + '&Id_Banco=' + Id_Banco, '', this.httpOptions);
+  public putActivarPublicacion(Id_Publicacion : number, Id_Cliente : number, Id_PlanCliente : number | null, Id_Plan : number, Id_DatosFiscales : number | null, Id_Banco : number | null, Id_Paquete : number | null, Id_PaqueteDetalle : number | null): Observable<publicacion> {
+    return this.http.put<publicacion>(this.urlPublicaciones + '?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente + '&Id_PlanCliente=' + Id_PlanCliente + '&Id_Plan=' + Id_Plan + '&Id_DatosFiscales=' + Id_DatosFiscales + '&Id_Banco=' + Id_Banco + '&Id_Paquete=' + (Id_Paquete === null ? '' : Id_Paquete ) + '&Id_PaqueteDetalle=' + (Id_PaqueteDetalle === null ? '' : Id_PaqueteDetalle), '', this.httpOptions);
   }
 
   public putPublicacionCaracteristicas(Id_Publicacion: number, Id_Cliente : number, strAdicionales : string): Observable<number> {

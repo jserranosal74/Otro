@@ -22,6 +22,7 @@ export class MisanunciosComponent implements OnInit {
   _listaEstatus : estatus[] = [];
   _estatus : estatus = new estatus(0,0,'','',new Date(), new Date());
   _misAnuncios = 'misAnuncios';
+  _mostrarFiltros : boolean = false;
 
   _paginadoDetalle : paginadoDetalle = new paginadoDetalle(0,0);
   _paginas: pagina[] = [];
@@ -310,45 +311,8 @@ export class MisanunciosComponent implements OnInit {
     );
   }
 
-  // obtenerImagenesPublicaciones(){
-  // //debugger;
-  //   this._multimediaPublicacionService.getMultimediaCliente(this._loginService.obtenerIdCliente(), null, 1).subscribe(
-  //     (data) => {
-
-  //       console.log(data);
-
-  //       this._publicacionMultimedia = data;
-  //     },
-  //     (error: HttpErrorResponse) => {
-
-  //       switch (error.status) {
-  //         case 401:
-  //           //console.log('error 401');
-  //           break;
-  //         case 403:
-  //           //console.log('error 403');
-  //           break;
-  //         case 404:
-  //           //console.log('error 404');
-  //           break;
-  //         case 409:
-  //           //console.log('error 409');
-  //           break;
-  //       }
-  //     }
-  //   );
-
-  // }
-
-  // obtenerUrlImagen( objPublicacion: publicacionInfoMini){
-  //   //debugger;
-  //   this._publicacionMultimedia.forEach(element => {
-  //     if (element.Id_Publicacion === objPublicacion.Id_Publicacion)
-  //       return element.Url;
-  //     else 
-  //       return '';
-  //   });
-  //   return '';
-  // }
+  mostrarFiltros(){
+    this._mostrarFiltros = !this._mostrarFiltros;
+  }
 
 }

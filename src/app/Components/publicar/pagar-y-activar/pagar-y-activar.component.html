@@ -16,12 +16,12 @@
                     <div class="col-md-1"></div>
                     <div class="col d-grid">
                       <input type="radio" class="btn-check" name="options-outlined" id="planActual" autocomplete="off" [checked]="!_planActualNuevo" (change)="cambiarPlan(0)">
-                      <label class="btn btn-outline-primary" for="planActual">Deseo utilizar uno de mis planes</label>
+                      <label class="btn btn-outline-primary br25" for="planActual">Deseo utilizar uno de mis planes ó paquetes</label>
                     </div>
                     <div class="col-md-1"></div>
                     <div class="col d-grid">
                       <input type="radio" class="btn-check" name="options-outlined" id="planNuevo" autocomplete="off" [checked]="_planActualNuevo" (change)="cambiarPlan(1)">
-                      <label class="btn btn-outline-primary" for="planNuevo">Deseo adquirir un plan diferente o nuevo</label>
+                      <label class="btn btn-outline-primary br25" for="planNuevo">Deseo adquirir un plan diferente o nuevo</label>
                     </div>
                     <div class="col-md-1"></div>
                   </div>
@@ -33,6 +33,12 @@
               <div class="card-group justify-content-center">
                 <div class="form-group row mb-3" *ngFor="let plancliente of _planesCliente">
                     <app-tarjetaplanescliente class="row px-4 gy-2" [_planCliente]="plancliente" [_tipoTarjeta]="'AlPagar'" (_seEligePlanCliente)="seleccionarPlanCliente(plancliente)"></app-tarjetaplanescliente>
+                </div>
+              </div>
+
+              <div class="card-group justify-content-center">
+                <div class="form-group row mb-3" *ngFor="let paqueteCliente of _paquetesCliente">
+                  <app-tarjetapaquetescliente class="row px-4 g-2" [_paqueteCliente]="paqueteCliente" [_tipoTarjeta]="'AlPagar'" (_seEligePlanPaqueteCliente)="seleccionarPlanPaqueteCliente(paqueteCliente)"></app-tarjetapaquetescliente>
                 </div>
               </div>
 
@@ -61,7 +67,7 @@
 
               <p>
                 <br>
-                En el asunto deberas colocar lo siguiente: <strong>{{_plan.Descripcion}}C{{_publicacion.Id_Cliente}}P{{_publicacion.Id_Publicacion}}</strong>
+                En el asunto deberas colocar lo siguiente: <strong>{{_plan.Clave}}C{{_publicacion.Id_Cliente}}P{{_publicacion.Id_Publicacion}}</strong>
               </p>
 
               <p>

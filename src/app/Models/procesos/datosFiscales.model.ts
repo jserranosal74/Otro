@@ -6,6 +6,7 @@ export class datoFiscal {
       public NombreRazonSocial : string,
       public RFC               : string,
       public DomicilioFiscal   : string,
+      public CodigoPostal      : string,
       public Email             : string,
       public Predeterminada    : number,
       public FechaAlta         : Date,

@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 import { BancosService } from 'src/app/Services/Catalogos/bancos.service';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
-import { PlanesclienteService } from 'src/app/Services/Procesos/planesCliente.service';
+import { PlanesClienteService } from 'src/app/Services/Procesos/planesCliente.service';
 import { PublicacionesService } from 'src/app/Services/Procesos/publicaciones.service';
 
 import { publicacion } from '../../../Models/procesos/publicacion.model';
@@ -15,6 +15,8 @@ import { plan } from 'src/app/Models/catalogos/planes.model';
 import { PlanesService } from 'src/app/Services/Catalogos/planes.service';
 import { datoFiscal } from '../../../Models/procesos/datosFiscales.model';
 import { DatosFiscalesService } from 'src/app/Services/Procesos/datosFiscales.service';
+import { paqueteCliente, planClienteDetalle } from 'src/app/Models/procesos/paquetecliente.model';
+import { PaquetesClienteService } from 'src/app/Services/Procesos/paquetesCliente.service';
 
 @Component({
   selector: 'app-pagar-y-activar',
@@ -33,18 +35,23 @@ export class PagarYActivarComponent implements OnInit {
 
   _planCliente : plancliente = new plancliente(0,0,0,null,'',0,0,0,0,'',new Date(),null,null,null,null,new Date(),new Date(),0,'',0,false);
   _banco : banco = new banco(0,'','','','','',0,new Date(), new Date(), 0,0,0);
-  _plan : plan = new plan(0,'',0,0,0,'',0,new Date(),new Date(),0,0,0);
-  _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(),0,0,0);
+  _plan : plan = new plan(0,'',0,0,0,'','',null,null,'',0,new Date(),new Date(),0,0,0);
+  _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','','',0,new Date(),new Date(),0,0,0);
+
+  _paquetesCliente : paqueteCliente[] = [];
+  _paqueteCliente : paqueteCliente = new paqueteCliente(null,0,null,null,null,null,null,null,null,0,'',null,0,false);
+  //_planClienteDetalle! : planClienteDetalle;
 
   @ViewChild('myModalAceptarYPublicar') modalAceptarYPublicar : any;
   @ViewChild('myModalClose') modalClose : any;
 
   constructor(  private _activatedRoute: ActivatedRoute,
                 private _publicacionesService: PublicacionesService,
-                private _planClienteService: PlanesclienteService,
+                private _planClienteService: PlanesClienteService,
                 private _bancosService: BancosService,
                 private _loginService: LoginService,
                 private _planService : PlanesService,
+                private _paquetesClienteService : PaquetesClienteService,
                 private _datosfiscalesService : DatosFiscalesService,
                 private router: Router) {
 
@@ -126,6 +133,47 @@ export class PagarYActivarComponent implements OnInit {
 
   }
 
+  obtenerPaquetesCliente() {
+    let Id_Cliente = this._loginService.obtenerIdCliente();
+    this._paquetesClienteService.getPaquetesCliente(Id_Cliente, 16).subscribe(
+      (data) => {
+        //console.log('obtenerMisPaquetes', data);
+
+        data.forEach(item => {
+          item.Detalle?.forEach(itemDetalle => {
+            itemDetalle.Seleccionado = false;
+          })
+        });
+
+        this._paquetesCliente = data;
+
+        //this.limpiarFormulario();
+      },
+      (error: HttpErrorResponse) => {
+        //Error callback
+
+        switch (error.status) {
+          case 401:
+            Swal.fire({
+              icon: 'error',
+              title: 'Acceso no autorizado',
+              text: 'debera autenticarse',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            this._loginService.cerarSesion();
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+      }
+    );
+  }
+
   obtenerPlanesDisponibles() {
     debugger;
     this._planService.getPlanes(null, true).subscribe(
@@ -139,11 +187,11 @@ export class PagarYActivarComponent implements OnInit {
         data.forEach(item =>{
           if(this._publicacion.Id_TipoOperacion != 3){
             if ((item.Cantidad === 1) && (item.Id_Plan != 7)) {
-              this._planes.push(new plan(item.Id_Plan, item.Descripcion, item.Precio, item.Cantidad, item.VigenciaXUnidad, item.UrlImagen, item.Visible, item.FechaAlta, item.FechaModificacion, item.Id_Usuario, item.Id_Estatus, 0));
+              this._planes.push(new plan(item.Id_Plan, item.Descripcion, item.Precio, item.Cantidad, item.VigenciaXUnidad, item.Clave, item.ClaveProdServ, item.Id_Moneda, item.Id_Impuesto, item.UrlImagen, item.Visible, item.FechaAlta, item.FechaModificacion, item.Id_Usuario, item.Id_Estatus, 0));
             }
           }else if(this._publicacion.Id_TipoOperacion === 3){
             if (item.Id_Plan === 7){
-              this._planes.push(new plan(item.Id_Plan, item.Descripcion, item.Precio, item.Cantidad, item.VigenciaXUnidad, item.UrlImagen, item.Visible, item.FechaAlta, item.FechaModificacion, item.Id_Usuario, item.Id_Estatus, 0));
+              this._planes.push(new plan(item.Id_Plan, item.Descripcion, item.Precio, item.Cantidad, item.VigenciaXUnidad, item.Clave, item.ClaveProdServ, item.Id_Moneda, item.Id_Impuesto, item.UrlImagen, item.Visible, item.FechaAlta, item.FechaModificacion, item.Id_Usuario, item.Id_Estatus, 0));
             }
           }
         });
@@ -185,7 +233,7 @@ export class PagarYActivarComponent implements OnInit {
         //console.log('datos: ', data);
 
         data.forEach(item => {
-          this._datosFiscales.push( new datoFiscal(item.Id_DatosFiscales,item.Id_Cliente,item.Id_TipoPersona,item.NombreRazonSocial,item.RFC,item.DomicilioFiscal,item.Email,item.Predeterminada,item.FechaAlta,item.FechaModificacion,item.Id_Usuario,item.Id_Estatus,item.Predeterminada));
+          this._datosFiscales.push( new datoFiscal(item.Id_DatosFiscales,item.Id_Cliente,item.Id_TipoPersona,item.NombreRazonSocial,item.RFC,item.DomicilioFiscal, item.CodigoPostal, item.Email, item.Predeterminada,item.FechaAlta,item.FechaModificacion,item.Id_Usuario,item.Id_Estatus,item.Predeterminada));
           if (item.Predeterminada === 1){
             this._datoFiscal = item;
           }
@@ -267,6 +315,7 @@ export class PagarYActivarComponent implements OnInit {
             }
 
             this.obtenerPlanesCliente();
+            this.obtenerPaquetesCliente();
             this.obtenerPlanesDisponibles();
 
           },
@@ -324,15 +373,23 @@ export class PagarYActivarComponent implements OnInit {
 
   seleccionarPlanCliente(objPlanCliente : plancliente){
 
-    this._planesCliente.forEach(item=>{
+    this._planesCliente.forEach( item => {
       item.Seleccionado = 0;
-    })
-    this._planes.forEach(item=>{
+    });
+
+    this._planes.forEach( item => {
       item.Seleccionado = 0;
-    })
-    this._bancos.forEach(item=>{
+    });
+
+    this._bancos.forEach( item => {
       item.Seleccionado = 0;
-    })
+    });
+
+    this._paquetesCliente.forEach( item => {
+      item.Detalle?.forEach(itemDetalle=>{
+        itemDetalle.Seleccionado = false;
+      });
+    });
 
     objPlanCliente.Seleccionado = 1;
 
@@ -340,14 +397,37 @@ export class PagarYActivarComponent implements OnInit {
 
   }
 
+  seleccionarPlanPaqueteCliente(objPaqueteCliente : paqueteCliente){
+
+    objPaqueteCliente.Detalle!.forEach( item => {
+      if (item.Seleccionado === true){
+        this._paqueteCliente = objPaqueteCliente;
+      }
+    });
+
+    this._planesCliente.forEach( item => {
+      item.Seleccionado = 0;
+    });
+
+    this._planes.forEach( item=> {
+      item.Seleccionado = 0;
+    });
+
+    this._bancos.forEach( item=> {
+      item.Seleccionado = 0;
+    });
+
+  }
+
   seleccionarPlan(objPlan : plan){
 
     this._planes.forEach(item=>{
       item.Seleccionado = 0;
-    })
+    });
+
     this._planesCliente.forEach(item=>{
       item.Seleccionado = 0;
-    })
+    });
 
     objPlan.Seleccionado = 1;
 
@@ -356,10 +436,18 @@ export class PagarYActivarComponent implements OnInit {
 
   validarPlanYBanco(){
     debugger;
-    if ((this._planActualNuevo === false) && (this._planCliente.Seleccionado === 0)){
+
+    let Id_PaqueteDetalle : number | null = null;
+
+    this._paqueteCliente.Detalle?.forEach(item=>{
+        if (item.Seleccionado)
+          Id_PaqueteDetalle = item.Id_PaqueteDetalle;
+    });
+
+    if ((this._planActualNuevo === false) && (this._planCliente.Seleccionado === 0) && (Id_PaqueteDetalle === null)){
       Swal.fire({
         icon: 'warning',
-        title: 'Deberá de seleccionar uno de los planes que tiene disponibles para poder publicar su anuncio.',
+        title: 'Deberá de seleccionar uno de los planes o uno de los planes del paquete que tiene disponibles para poder publicar su anuncio.',
         showCancelButton: false,
         showDenyButton: false,
       });  
@@ -394,7 +482,16 @@ export class PagarYActivarComponent implements OnInit {
         return;
       }
     }
-    this._publicacionesService.putActivarPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente(), this._planCliente.Seleccionado === 1 ? this._planCliente.Id_PlanCliente : null, this._planCliente.Seleccionado === 1 ? this._planCliente.Id_Plan : this._plan.Id_Plan, intConFactura === 1 ? this._datoFiscal.Id_DatosFiscales : null, this._banco.Id_Banco === 0 ? null : this._banco.Id_Banco ).subscribe(
+    debugger;
+    let Id_PaqueteDetalle : number | null = null;
+    // Solo si es seleccionado uno de los planes de alguno de los paquetes mostrados en el fron end
+    this._paqueteCliente.Detalle?.forEach( item => { 
+      if ( item.Seleccionado === true ){
+        Id_PaqueteDetalle = item.Id_PaqueteDetalle;
+      }
+    });
+
+    this._publicacionesService.putActivarPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente(), this._planCliente.Seleccionado === 1 ? this._planCliente.Id_PlanCliente : null, this._planCliente.Seleccionado === 1 ? this._planCliente.Id_Plan : this._plan.Id_Plan, intConFactura === 1 ? this._datoFiscal.Id_DatosFiscales : null, this._banco.Id_Banco === 0 ? null : this._banco.Id_Banco, this._paqueteCliente.Id_Paquete, Id_PaqueteDetalle ).subscribe(
       (data) => {
 
         if (this._planActualNuevo === false){

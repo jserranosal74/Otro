@@ -1,0 +1,131 @@
+  <div class="">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="well well-sm">
+                  <form class="form-horizontal">
+                      <fieldset>
+                          <legend class="text-center text-primary mb-3"><h1 class="display-4">Cargar Archivos Fiscales .cer y .key</h1></legend>
+                          <div class="form-group row mb-3">
+                              <div class="col-md-10 p-0">
+                                  <a class="btn btn-primary btn-sm" style="border-radius:25px;" (click)="limpiarFormulario()" data-bs-toggle="modal" data-bs-target="#gridAgregarArchivosFiscales" >
+                                      <span class="col-md-1 col-md-offset-2 text-center">
+                                      <i class="fa fa-add bigicon" aria-hidden="true"></i>
+                                  </span></a>
+                              </div>
+                              <div class="col-md-2 p-0">
+                                  <td class="text-end">
+                                    <span class="text-primary">Total de registros: <strong>{{_archivosFiscales.length}}</strong></span>
+                                  </td>
+                              </div>
+                          </div>
+
+                          <div class="">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="well well-sm">
+                                      <div class="card-group justify-content-center">
+                                        <div class="form-group row" *ngFor="let archivoFiscal of _archivosFiscales">
+                                          <app-tarjetaarchivosfiscales class="row px-4 g-3" [_archivoFiscal]="archivoFiscal" (_sePresionaEliminar)="eliminarArchivosFiscales(archivoFiscal)"></app-tarjetaarchivosfiscales>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                      </fieldset>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+  
+  <div class="modal fade" id="gridAgregarArchivosFiscales" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content color-modal">
+          <div class="modal-header">
+            <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} Archivos Fiscales .Cer y .Key</h5>
+            <button type="button" class="btn-close" (click)="limpiarFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid bd-example-row">
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="well well-sm">
+                          <form class="form-horizontal" [formGroup]="formaArchivoFiscal">
+                              <fieldset>
+                                  <!-- <legend class="text-center text-primary mb-3"><h1 class="display-4">Mi perfil</h1></legend> -->
+                                  <div class="form-group row mb-3">
+                                      <span class="col-md-1 col-md-offset-2 text-primary text-center">
+                                        <i class="fa-solid fa-lock bigicon"></i></span>
+                                      <div class="col-md-8">
+                                          <input id="fileCer"
+                                                 formControlName="nombreArchivoCer" 
+                                                 type="file"
+                                                 accept=".cer"
+                                                 [class.is-invalid]="ArchivoCerNoValido"
+                                                 placeholder="Nombre de archivo .cer" 
+                                                 (change)="obtenerArchivoCer($event)"
+                                                 class="form-control text-primary color-text-box">
+                                      </div>
+                                      <div class="col-md-3 px-0">
+                                        <button for="fileCer" 
+                                                type="button"
+                                                onclick="$('#fileCer').click()" 
+                                                class="btn btn-outline-primary br25">Selecionar archivo .cer
+                                        </button>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group row mb-3">
+                                      <span class="col-md-1 col-md-offset-2 text-primary text-center">
+                                        <i class="fa-solid fa-lock bigicon"></i></span>
+                                      <div class="col-md-8">
+                                          <input id="fileKey"
+                                                 formControlName="nombreArchivoKey" 
+                                                 type="file"
+                                                 accept=".key"
+                                                 [class.is-invalid]="ArchivoKeyNoValido"
+                                                 placeholder="Nombre de archivo .key" 
+                                                 (change)="obtenerArchivoKey($event)"
+                                                 class="form-control text-primary color-text-box">
+                                      </div>
+                                      <div class="col-md-3 px-0">
+                                        <button for="fileKey" 
+                                                type="button"
+                                                onclick="$('#fileKey').click()" 
+                                                class="btn btn-outline-primary br25">Selecionar archivo .key
+                                        </button>
+                                      </div>
+                                  </div>
+
+                                  <div class="form-group row mb-3">
+                                      <span class="col-md-1 col-md-offset-2 text-primary text-center">
+                                        <i class="fa-solid fa-lock bigicon"></i></span>
+                                      <div class="col-md-8">
+                                          <input formControlName="password" 
+                                                 type="text"
+                                                 [class.is-invalid]="passwordNoValido"
+                                                 placeholder="Password" 
+                                                 class="form-control text-primary color-text-box">
+                                      </div>
+                                      <div class="col-md-3 px-0">
+                                          <small *ngIf="passwordNoValido" class="text-danger">
+                                            Requerido
+                                          </small>
+                                      </div>
+                                  </div>
+
+                              </fieldset>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" #myModalClose (click)="limpiarFormulario()" class="btn btn-secondary text-light" data-bs-dismiss="modal" >Cancelar</button>
+            <button type="button" class="btn btn-primary" (click)="guardarArchivosFiscales();">{{_textoAccion}}</button>
+          </div>
+        </div>
+      </div>
+    </div>  

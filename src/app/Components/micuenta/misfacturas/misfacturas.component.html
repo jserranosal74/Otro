@@ -1,18 +1,16 @@
-<div class="container animate__animated animate__fadeInRight p-0">
+<div class="">
     <div class="row">
-        <div class="col-md-12">
-            <div class="well well-sm">
-                <form class="form-horizontal" >
-                    <fieldset>
-                        <legend class="text-center text-primary mb-3"><h1 class="display-4">Mis facturas</h1></legend>
-                        <div class="card-group">
-                          <div class="form-group mb-4" *ngFor="let factura of _facturasCliente">
-                            <app-tarjetafactura class="row px-4 gy-2" [_factura]="factura"></app-tarjetafactura>
-                          </div>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
+        <form class="form-horizontal" >
+            <fieldset>
+                <legend class="text-center text-primary mb-3">
+                    <h1 class="display-4">Mis facturas</h1>
+                </legend>
+                <div class="card-group justify-content-center">
+                    <div class="form-group mb-4" *ngFor="let factura of _facturasCliente">
+                    <app-tarjetafactura class="row px-4 gy-2" [_facturaCliente]="factura" (_enviarFactura)="enviarFacturaCliente(factura)"></app-tarjetafactura>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
     </div>
 </div>

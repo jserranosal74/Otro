@@ -1,8 +1,8 @@
-<div class="card px-0 color-card" style="width: 14.5rem; border-radius: 15px;">
+<div class="card px-0 color-card" style="width: 17rem; border-radius: 15px;">
     <div class="card-header text-center bg-color-3 py-2" style="border-radius: 15px 15px 0px 0px;">
          <div class="row">
             <div class="col">
-                <h4 class="card-text text-primary text-center">{{_factura.Descripcion}}</h4>
+                <h4 class="card-text text-primary text-center">{{_facturaCliente.Descripcion}}</h4>
             </div>
             <!-- <div class="col px-0 text-end py-1">
               <button type="button" class="btn btn-outline-primary" (click)="elegirBanco()" [ngClass]="{' btn-primary': _banco.Seleccionado === 1, ' btn-outline-primary': _banco.Seleccionado === 0}" style="border-radius: 25px;">
@@ -12,32 +12,22 @@
         </div>
     </div>
     <div class="card-body">
-      <!-- <p class="card-text text-primary text-center mb-0">Descripción:</p>
-      <h4 class="card-text text-primary text-center">{{_factura.Descripcion}}</h4> -->
       <p class="card-text text-primary text-center mb-0">Monto facturado:</p>
-      <h4 class="card-text text-primary text-center">{{_factura.MontoFacturado | currency}}</h4>
-      <!-- <p class="card-text text-primary text-center">Fecha de pago:</p>
-      <h4 class="card-text text-primary text-center">{{_factura.FechaDePago | date:'dd/MM/yyyy'}}</h4> -->
-      <p class="card-text text-primary text-center">Fecha de facturación:</p>
-      <h4 class="card-text text-primary text-center">{{_factura.FechaFacturacion | date:'dd/MM/yyyy'}}</h4>
-      <p class="card-text text-primary text-center">Número de factura:</p>
-      <h4 class="card-text text-primary text-center">{{_factura.NumFactura}}</h4>
+      <h5 class="card-text text-primary text-center">{{_facturaCliente.MontoFacturado | currency}}</h5>
+      <p class="card-text text-primary text-center mb-0">Fecha de facturación:</p>
+      <h5 class="card-text text-primary text-center">{{_facturaCliente.FechaFacturacion | date:'dd/MM/yyyy'}}</h5>
+      <p class="card-text text-primary text-center mb-0">Email:</p>
+      <h5 class="card-text text-primary text-center">{{_facturaCliente.Email}}</h5>
+      <p class="card-text text-primary text-center mb-0">Número de factura:</p>
+      <h5 class="card-text text-primary text-center">{{_facturaCliente.NumFactura}}</h5>
     </div>
     <div class="card-footer text-end bg-color-3 p-1" style="border-radius: 0px 0px 15px 15px;">
         <div class="row">
             <div class="col-md-9"></div>
-            <!-- <div class="col-md-3 text-end px-0">
-                <button type="button" class="btn btn-primary br25" (click)="verDetalleFactura()">
-                <span class="text-center">
-                    <i class="fa fa-eye"></i>
-                </span>
-                </button>
-            </div> -->
             <div class="col-md-3 text-center m-0 px-0">
                 <button type="button" class="btn btn-primary br25" (click)="enviarFactura()">
-                <span class="text-center">
-                    <i class="fa fa-send"></i>
-                </span>
+                    <span *ngIf="!_facturaCliente.Enviando" class="col-md-1 text-center"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+                    <span *ngIf="_facturaCliente.Enviando" class="col-md-1 text-center"><i class="fa fa-sync fa-spin"></i></span>
                 </button>
             </div>
         </div>

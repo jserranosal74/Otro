@@ -404,6 +404,15 @@ export class PropiedadesComponent implements OnInit {
       return;
     }
 
+    let WhatssApp : string = '';
+        this._clienteVista.ClienteMedioContacto.forEach(item=>{
+          if(item.Id_MedioContacto === 2){
+            WhatssApp = item.Descripcion;
+          }
+        });
+
+    window.open('https://api.whatsapp.com/send/?phone=52' + WhatssApp + '&text=Hola me interesa mas información sobre esta propiedad: ' + objPubCliente.TituloPublicacion);
+
   }
 
   validarAutenticacion(){

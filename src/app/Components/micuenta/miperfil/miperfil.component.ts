@@ -168,7 +168,7 @@ export class MiperfilComponent implements OnInit {
   obtenerDatosPerfil() {
     //let Id_Usuario = this._loginService.obtenerIdCliente();
 
-    this._clienteService.getCliente(this._loginService.obtenerIdCliente()).subscribe(
+    this._clienteService.getCliente(this._loginService.obtenerIdCliente(), null).subscribe(
       (data) => {
         //Next callback
         //console.log('datos: ', data);

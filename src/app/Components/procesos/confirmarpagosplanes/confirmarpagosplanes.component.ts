@@ -1,14 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 import { LoginService } from '../../../Services/Catalogos/login.service';
-import { planClientePagos } from '../../../Models/procesos/plancliente.model';
+import { planesPaquetesPagos } from '../../../Models/procesos/plancliente.model';
 import { PlanesClientesPagosService } from 'src/app/Services/Procesos/planesClientesPagos.service';
 import { EstatusService } from 'src/app/Services/Catalogos/estatus.service';
 import { estatus } from 'src/app/Models/catalogos/estatus.model';
-import { datoFiscal } from 'src/app/Models/procesos/datosFiscales.model';
+import { PaquetesClientesPagosService } from 'src/app/Services/Procesos/paquetesClientesPagos.service';
 
 @Component({
   selector: 'app-confirmarpagosplanes',
@@ -18,20 +18,22 @@ import { datoFiscal } from 'src/app/Models/procesos/datosFiscales.model';
 export class ConfirmarPagosPlanesComponent implements OnInit {
   formaBusqueda = this.fb.group({});
 
-  _planesClientes : planClientePagos[] = [];
+  _planesClientes : planesPaquetesPagos[] = [];
   _estatusPlanesClientes : estatus[] = [];
-  _planCliente! : planClientePagos;
+  _planCliente! : planesPaquetesPagos;
   _confirmando : boolean = false;
+  _estatusSeleccionado : string = '';
 
   constructor( private fb: FormBuilder,
                private _loginService : LoginService,
                private _planesClienteService : PlanesClientesPagosService,
+               private _paquetesClienteService : PaquetesClientesPagosService,
                private _estatusService : EstatusService,
   ) {
 
     this.crearFormularioBusquda();
-    this.obtenerPlanesClientes();
-    this.obtenerEstatusPlanes();
+    this.obtenerPlanesYPaquetesClientes();
+    this.obtenerEstatusPlanesYPaquetes();
   }
 
   ngOnInit(): void {
@@ -45,7 +47,7 @@ export class ConfirmarPagosPlanesComponent implements OnInit {
     });
   }
 
-  obtenerPlanesClientes() {
+  obtenerPlanesYPaquetesClientes() {
     this._planesClienteService.getPlanesClientesFiltro(this.formaBusqueda.get('emailCliente')?.value, this.formaBusqueda.get('estatusPlanCliente')!.value).subscribe(
       (data) => {
         //Next callback
@@ -71,11 +73,12 @@ export class ConfirmarPagosPlanesComponent implements OnInit {
     );
   }
 
-  obtenerEstatusPlanes() {
+  obtenerEstatusPlanesYPaquetes() {
     this._estatusService.getEstatusProceso('PlanCliente').subscribe(
       (data) => {
         //Next callback
         this._estatusPlanesClientes = data;
+        this._estatusSeleccionado = '15';
       },
       (error: HttpErrorResponse) => {
         //Error callback
@@ -94,7 +97,13 @@ export class ConfirmarPagosPlanesComponent implements OnInit {
     );
   }
 
-  confirmarDesconfirmarPago(objPlanClientePago : planClientePagos ){
+  estatusSeleccionado(){
+    //debugger;
+    this._estatusSeleccionado = this.formaBusqueda.controls['estatusPlanCliente'].value;
+    this._planesClientes = [];
+  }
+
+  confirmarDesconfirmarPago(objPlanClientePago : planesPaquetesPagos ){
 
     if(objPlanClientePago.Id_Estatus != 15){
       Swal.fire({
@@ -108,55 +117,109 @@ export class ConfirmarPagosPlanesComponent implements OnInit {
 
     objPlanClientePago.Confirmando = true;
 
-    this._planesClienteService.putPlanClientePadado(objPlanClientePago.Id_PlanCliente, objPlanClientePago.Id_Plan, objPlanClientePago.Id_Cliente).subscribe(
-      (data) => {
-        objPlanClientePago.Confirmando = false;
-        Swal.fire({
-          icon: 'success',
-          title: 'El pago del plan ha sido confirmado.',
-          showConfirmButton: false,
-          timer: 15000
-        })
+    debugger;
 
-        this.obtenerPlanesClientes();
-
-      },
-      (error: HttpErrorResponse) => {
-        //Error callback
-        //console.log('Error del servicio: ', error.error['Descripcion']);
-
-        Swal.fire({
-          icon: 'error',
-          title: 'ERROR',
-          text: '',
-          showCancelButton: false,
-          showDenyButton: false,
-        });
-
-        switch (error.status) {
-          case 401:
-            Swal.fire({
-              icon: 'error',
-              title: 'Acceso no autorizado',
-              text: 'debera autenticarse',
-              showCancelButton: false,
-              showDenyButton: false,
-            });
-            this._loginService.cerarSesion();
-            break;
-          case 403:
-            //console.log('error 403');
-            break;
-          case 404:
-            //console.log('error 404');
-            break;
-          case 409:
-            //console.log('error 409');
-            break;
+    if (objPlanClientePago.Id_Paquete === 0){
+      this._planesClienteService.putPlanClientePadado(objPlanClientePago.Id_PlanCliente, objPlanClientePago.Id_Plan, objPlanClientePago.Id_Cliente).subscribe(
+        (data) => {
+          objPlanClientePago.Confirmando = false;
+          Swal.fire({
+            icon: 'success',
+            title: 'El pago del plan ha sido confirmado.',
+            showConfirmButton: false,
+            timer: 1500
+          })
+  
+          this.obtenerPlanesYPaquetesClientes();
+  
+        },
+        (error: HttpErrorResponse) => {
+          //Error callback
+          objPlanClientePago.Confirmando = false;
+  
+          Swal.fire({
+            icon: 'error',
+            title: 'ERROR',
+            text: '',
+            showCancelButton: false,
+            showDenyButton: false,
+          });
+  
+          switch (error.status) {
+            case 401:
+              Swal.fire({
+                icon: 'error',
+                title: 'Acceso no autorizado',
+                text: 'debera autenticarse',
+                showCancelButton: false,
+                showDenyButton: false,
+              });
+              this._loginService.cerarSesion();
+              break;
+            case 403:
+              break;
+            case 404:
+              break;
+            case 409:
+              break;
+          }
+  
         }
+      );
+    }
+    else{
+      this._paquetesClienteService.putPaquetesClientePagado(objPlanClientePago.Id_Paquete, objPlanClientePago.Id_Cliente).subscribe(
+        (data) => {
+          objPlanClientePago.Confirmando = false;
+          Swal.fire({
+            icon: 'success',
+            title: 'El pago del paquete ha sido confirmado.',
+            showConfirmButton: false,
+            timer: 1500
+          })
+  
+          this.obtenerPlanesYPaquetesClientes();
+  
+        },
+        (error: HttpErrorResponse) => {
+          //Error callback
+          //console.log('Error del servicio: ', error.error['Descripcion']);
+  
+          Swal.fire({
+            icon: 'error',
+            title: 'ERROR',
+            text: '',
+            showCancelButton: false,
+            showDenyButton: false,
+          });
+  
+          switch (error.status) {
+            case 401:
+              Swal.fire({
+                icon: 'error',
+                title: 'Acceso no autorizado',
+                text: 'debera autenticarse',
+                showCancelButton: false,
+                showDenyButton: false,
+              });
+              this._loginService.cerarSesion();
+              break;
+            case 403:
+              //console.log('error 403');
+              break;
+            case 404:
+              //console.log('error 404');
+              break;
+            case 409:
+              //console.log('error 409');
+              break;
+          }
+  
+        }
+      );
+    }
 
-      }
-    );
+    
   }
 
 }

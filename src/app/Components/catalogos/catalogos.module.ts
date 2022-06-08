@@ -22,6 +22,8 @@ import { TipoCaracteristicaPipe } from '../../pipes/TipoCaracteristica.pipe';
 import { UsuariosempresaComponent } from './usuariosempresa/usuariosempresa.component';
 import { BancosComponent } from './bancos/bancos.component';
 import { TarjetasModule } from '../tarjetas/tarjetas.module';
+import { PaquetesComponent } from './paquetes/paquetes.component';
+import { ArchivosFiscalesComponent } from './archivosfiscales/archivosfiscales.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { TarjetasModule } from '../tarjetas/tarjetas.module';
     CaracteristicasComponent,
     TipoCaracteristicaPipe,
     UsuariosempresaComponent,
-    BancosComponent
+    BancosComponent,
+    PaquetesComponent,
+    ArchivosFiscalesComponent
   ],
   imports: [
     CommonModule,
@@ -69,7 +73,9 @@ import { TarjetasModule } from '../tarjetas/tarjetas.module';
     CaracteristicasComponent,
     TipoCaracteristicaPipe,
     UsuariosempresaComponent,
-    BancosComponent
+    BancosComponent,
+    PaquetesComponent,
+    ArchivosFiscalesComponent
   ]
 })
 

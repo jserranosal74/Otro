@@ -2,54 +2,29 @@
     <div class="row">
         <div class="col-md-12">
             <div class="well well-sm">
-                        <legend class="text-center text-primary mb-3"><h1 class="display-4">Mis planes</h1></legend>
+                  <legend class="text-center text-primary mb-3"><h1 class="display-4">Mis planes y paquetes</h1></legend>
 
-                        <div class="form-group row mb-3 px-3">
-                          <div class="col-auto d-grid gap-2 mix-auto px-0">
-                              <a class="btn btn-primary btn-sm" style="border-radius:25px;" data-bs-toggle="modal" data-bs-target="#gridAgregarPlanCliente" >
-                                  <span class="col-md-1 col-md-offset-2 text-center">
-                                  <i class="fa fa-add bigicon" aria-hidden="true"> </i>
-                              </span></a>
-                          </div>
-                        </div>
-                        
-                        <div class="card-group">
-                          <div class="form-group row mb-3" *ngFor="let planCliente of _planesCliente">
-                            <app-tarjetaplanescliente class="row px-4 g-2" [_planCliente]="planCliente" [_tipoTarjeta]="'MisPlanes'" [_enviando]="planCliente.Enviando" (_enviarInfoPagoPlan)="enviarCorreo(planCliente)" (_eliminarPlanCliente)="eliminarPlanCliente(planCliente)"></app-tarjetaplanescliente>
-                          </div>
-                            <!-- <table class="table table-primary table-striped table-bordered border-primary text-primary">
-                                <thead>
-                                  <tr>
-                                    <th class="text-primary" scope="col">#</th>
-                                    <th class="text-primary" scope="col">Id Plan</th>
-                                    <th class="text-primary" scope="col">Descripción</th>
-                                    <th class="text-primary" scope="col">Pagados</th>
-                                    <th class="text-primary" scope="col">Utilizados</th>
-                                    <th class="text-primary" scope="col">Restantes</th>
-                                    <th class="text-primary" scope="col">Fecha de pago</th>
-                                    <th class="text-primary" scope="col">Ver detalle</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr *ngFor="let planCliente of _planesCliente; let i = index;">
-                                    <th class="text-primary text-center" scope="row">{{planCliente.Id_PlanCliente}}</th>
-                                    <td class="text-primary text-center">{{planCliente.Id_Plan}}</td>
-                                    <td class="text-primary">{{planCliente.Descripcion}}</td>
-                                    <td class="text-primary text-center">{{planCliente.Pagados}}</td>
-                                    <td class="text-primary text-center">{{planCliente.Utilizados}}</td>
-                                    <td class="text-primary text-center">{{planCliente.Restantes}}</td>
-                                    <td class="text-primary text-center">{{planCliente.FechaDePago | date:'yyyy-MM-dd HH:mm'}}</td>
-                                    <td>
-                                        <div class="col-auto d-grid gap-2 mix-auto px-0">
-                                            <a class="btn btn-primary px-1 btn-sm" (click)="obtenerDetallePlan(planCliente);"><span class="col-md-1 col-md-offset-2 text-center">
-                                                <i class="fa fa-eye"></i>
-                                            </span></a>
-                                          </div>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table> -->
-                        </div>
+                  <div class="form-group row mb-3 px-3">
+                    <div class="col-auto d-grid gap-2 mix-auto px-0">
+                        <a class="btn btn-primary btn-sm" style="border-radius:25px;" data-bs-toggle="modal" data-bs-target="#gridAgregarPlanCliente" >
+                            <span class="col-md-1 col-md-offset-2 text-center">
+                            <i class="fa fa-add bigicon" aria-hidden="true"> </i>
+                        </span></a>
+                    </div>
+                  </div>
+
+                  <div class="card-group justify-content-center">
+                    <div class="form-group row mb-3" *ngFor="let planCliente of _planesCliente">
+                      <app-tarjetaplanescliente class="row px-4 g-2" [_planCliente]="planCliente" [_tipoTarjeta]="'MisPlanes'" [_enviando]="planCliente.Enviando" (_enviarInfoPagoPlan)="enviarCorreoPlan(planCliente)" (_eliminarPlanCliente)="eliminarPlanCliente(planCliente)"></app-tarjetaplanescliente>
+                    </div>
+                  </div>
+        
+                  <div class="card-group justify-content-center">
+                    <div class="form-group row mb-3" *ngFor="let paqueteEmpresa of _paquetesCliente">
+                      <app-tarjetapaquetescliente class="row px-4 g-2" [_paqueteCliente]="paqueteEmpresa" [_tipoTarjeta]="'MisPlanes'" (_enviarInfoPagoPaquete)="enviarCorreoPaquete(paqueteEmpresa)" (_eliminarPaqueteCliente)="eliminarPaqueteCliente(paqueteEmpresa)"></app-tarjetapaquetescliente>
+                    </div>
+                  </div>
+                  
             </div>
         </div>
     </div>
@@ -59,26 +34,43 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content color-modal br15">
       <div class="modal-header">
-        <h5 class="modal-title text-primary" id="gridModalLabel">Comprar plan</h5>
+        <h5 *ngIf="!_planesOPaquetes" class="modal-title text-primary" id="gridModalLabel">Comprar Plan</h5>
+        <h5 *ngIf="_planesOPaquetes" class="modal-title text-primary" id="gridModalLabel">Comprar Paquete</h5>
         <button type="button" class="btn-close bg-color-5" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body py-2 px-0">
         <div class="container">
+
           <div class="row">
-              <div class="col-md-12">
-                  <div class="well well-sm">
-                    <div class="card-group justify-content-center">
-                      <div class="form-group row" *ngFor="let plan of _planes">
-                        <app-tarjetaplanes  class="row px-5 g-4" [_plan]="plan" [_origen]="'misPlanes'" (_sePresionaComprar)="comprarPlan(plan)"></app-tarjetaplanes>
-                      </div>
-                    </div>
-                  </div>
-              </div>
+            <div class="col-md-1"></div>
+            <div class="col d-grid">
+              <input type="radio" class="btn-check" name="options-outlined" id="planActual" autocomplete="off" [checked]="!_planesOPaquetes" (change)="cambiarPlanPaquete(0)">
+              <label class="btn btn-outline-primary br25" for="planActual">Planes</label>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col d-grid">
+              <input type="radio" class="btn-check" name="options-outlined" id="planNuevo" autocomplete="off" [checked]="_planesOPaquetes" (change)="cambiarPlanPaquete(1)">
+              <label class="btn btn-outline-primary br25" for="planNuevo">Paquetes</label>
+            </div>
+            <div class="col-md-1"></div>
           </div>
+          
+          <div *ngIf="!_planesOPaquetes" class="card-group justify-content-center">
+            <div class="form-group row" *ngFor="let plan of _planes">
+              <app-tarjetaplanes class="row px-4 g-3" [_plan]="plan" [_origen]="'misPlanes'" (_sePresionaComprar)="comprarPlan(plan)"></app-tarjetaplanes>
+            </div>
+          </div>
+
+          <div *ngIf="_planesOPaquetes" class="card-group justify-content-center">
+            <div class="form-group row" *ngFor="let paquete of _paquetesEmpresa">
+              <app-tarjetapaquetes class="row px-4 g-3" [_paquete]="paquete" [_origen]="'misPlanes'" (_sePresionaComprar)="comprarPaquete(paquete)"></app-tarjetapaquetes>
+            </div>
+          </div>
+
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" #myModalClose class="btn btn-secondary text-light" data-bs-dismiss="modal" >Cerrar</button>
+        <button type="button" #myModalClose class="btn btn-secondary text-light br25" data-bs-dismiss="modal" >Cerrar</button>
         <!-- <button type="button" class="btn btn-primary" (click)="guardarPlanCliente();">Pagar</button> -->
       </div>
     </div>
@@ -104,9 +96,9 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" #myModalCloseFacturas class="btn btn-secondary text-light" data-bs-dismiss="modal" >Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="guardarPagaryActivar(0)">Continuar sin Facturar</button>
-        <button type="button" class="btn btn-primary" (click)="guardarPagaryActivar(1)">Continuar y Facturar</button>
+        <button type="button" #myModalCloseFacturas class="btn btn-secondary text-light br25" data-bs-dismiss="modal" >Cancelar</button>
+        <button type="button" class="btn btn-primary br25" (click)="guardarPlanPaquete(0)">Continuar sin Facturar</button>
+        <button type="button" class="btn btn-primary br25" (click)="guardarPlanPaquete(1)">Continuar y Facturar</button>
       </div>
     </div>
   </div>

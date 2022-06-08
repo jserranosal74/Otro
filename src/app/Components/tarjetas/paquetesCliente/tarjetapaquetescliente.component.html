@@ -1,0 +1,105 @@
+<div class="card px-0 color-card" style="width: 20rem; border-radius: 15px;">
+    <div class="card-header text-center bg-color-3 py-0" style="border-radius: 15px 15px 0px 0px;">
+      <div class="row">
+        <div class="col">
+          <h3 class="card-title text-primary text-uppercase py-1 m-0">{{_paqueteCliente.Descripcion}}</h3>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p *ngIf="_paqueteCliente.NombreRazonSocial != null && _paqueteCliente.DescripcionEstatus === 'En espera de pago'" class="text-center text-primary mb-1">Se facturará a:</p>
+      <p *ngIf="_paqueteCliente.NombreRazonSocial != null && _paqueteCliente.DescripcionEstatus === 'En espera de pago'" class="text-center text-primary text-uppercase m-0"><strong>{{_paqueteCliente.NombreRazonSocial}}</strong></p>
+      <p *ngIf="_paqueteCliente.NombreRazonSocial === null && _paqueteCliente.DescripcionEstatus === 'En espera de pago'" class="text-center text-primary text-uppercase m-0"><strong>El pago de este paquete no será facturado</strong></p>
+      <p *ngIf="_paqueteCliente.DescripcionEstatus === 'Pagado'" class="card-text text-primary text-center">Te quedan:</p>
+      <p *ngIf="_paqueteCliente.DescripcionEstatus === 'En espera de pago'" class="card-text text-primary text-center">Con este pago obtendrás:</p>
+      <div *ngIf="_paqueteCliente.DescripcionEstatus === 'En espera de pago'" class="row">
+        <div class="br25" style="border:1px;">
+          <table class="table table-striped m-0 color-table br15">
+            <thead class="text-primary">
+              <tr class="text-primary">
+                <th class="text-primary text-center p-1" scope="col">Tipo</th>
+                <th class="text-primary text-center p-1" scope="col">Disp.</th>
+                <th class="text-primary text-center p-1" scope="col">Vig.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let plan of _paqueteCliente.Detalle; let i = index;">
+                <td class="p-1"><h6 class="card-text text-primary text-start">{{plan.Descripcion}}</h6></td>
+                <td class="p-1"><h6 class="card-text text-primary text-center">{{plan.Disponibles}}</h6></td>
+                <td class="p-1"><h6 class="card-text text-primary text-center">{{plan.VigenciaXUnidad}}</h6></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div *ngIf="_paqueteCliente.DescripcionEstatus === 'Pagado' && _tipoTarjeta != 'AlPagar'" class="row">
+        <div class="br25 px-1" style="border:1px;">
+          <table class="table table-striped m-0 color-table br15">
+            <thead class="text-primary">
+              <tr class="text-primary">
+                <th class="text-primary text-center p-1" scope="col">Tipo</th>
+                <th class="text-primary text-center p-1" scope="col">Disp.</th>
+                <th class="text-primary text-center p-1" scope="col">Util.</th>
+                <th class="text-primary text-center p-1" scope="col">Rest.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let planPaquete of _paqueteCliente.Detalle; let i = index;">
+                <td class="p-1"><h6 class="card-text text-primary text-start">{{planPaquete.Descripcion}}</h6></td>
+                <td class="p-1"><h6 class="card-text text-primary text-center">{{planPaquete.Disponibles}}</h6></td>
+                <td class="p-1"><h6 class="card-text text-primary text-center">{{planPaquete.Utilizados}}</h6></td>
+                <td class="p-1"><h6 class="card-text text-primary text-center">{{planPaquete.Restantes}}</h6></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div *ngIf="_paqueteCliente.DescripcionEstatus === 'Pagado' && _tipoTarjeta === 'AlPagar'" class="row">
+        <div class="br25 px-1" style="border:1px;">
+          <table class="table table-striped m-0 color-table br15">
+            <thead class="text-primary">
+              <tr class="text-primary">
+                <th class="text-primary text-center p-1" scope="col">Sel.</th>
+                <th class="text-primary text-center p-1" scope="col">Tipo</th>
+                <th class="text-primary text-center p-1" scope="col">Restantes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let planPaquete of _paqueteCliente.Detalle; let i = index;">
+                <td class="py-1 px-0">
+                  <div class="col d-grid text-start p-0" >
+                    <button type="button" class="btn btn-outline-primary m-0 p-0 br25" (click)="elegirPlanCliente(planPaquete)" [ngClass]="{' btn-primary': planPaquete.Seleccionado === true, ' btn-outline-primary': planPaquete.Seleccionado === false}" >
+                      <span class="col-md-1 text-start"><i class="fa fa-check" ></i></span>
+                    </button>
+                  </div>
+                </td>
+                <td class="p-1"><h6 class="card-text text-primary text-start">{{planPaquete.Descripcion}}</h6></td>
+                <td class="p-1"><h6 class="card-text text-primary text-center">{{planPaquete.Restantes}}</h6></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div *ngIf="_paqueteCliente.DescripcionEstatus === 'Pagado'">
+        <p class="card-text text-primary text-center mt-2">Fecha de pago:</p>
+        <h4 class="card-text text-primary text-center">{{_paqueteCliente.FechaDePago | date:'dd-MM-yyyy'}}</h4>
+      </div>
+    </div>
+    <div *ngIf="_tipoTarjeta === 'MisPlanes'" class="card-footer text-end bg-color-3 p-0" style="border-radius: 0px 0px 15px 15px;">
+      <div class="row">
+        <div class="col-md-12 px-0 py-1">
+          <h5 class="card-text text-primary text-center">{{_paqueteCliente.DescripcionEstatus}}</h5>
+        </div>
+        <div *ngIf="_paqueteCliente.DescripcionEstatus === 'En espera de pago'" class="col-md-12 text-center px-0 m-1">
+          <button type="button" class="btn btn-outline-primary br25" (click)="obtenerInfoPagoPlan()" [disabled]="_paqueteCliente.Enviando">
+            <span *ngIf="!_paqueteCliente.Enviando" class="col-md-1 text-center"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+            <span *ngIf="_paqueteCliente.Enviando" class="col-md-1 text-center"><i class="fa fa-sync fa-spin"></i></span>
+          </button>
+          <span class="px-2"></span>
+          <button type="button" class="btn btn-outline-primary br25" (click)="eliminarPaqueteCliente()" [disabled]="_paqueteCliente.Enviando">
+            <span class="col-md-1 text-center"><i class="fa fa-trash" aria-hidden="true"></i></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,6 +1,6 @@
 <div>
   <div class="row">
-    <div class="col-2">
+    <div class="col-md-2">
       <div class="sticky-md-top" style="top:70px; left:10px">
         <ul class="p-0 my-2">
           <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/miperfil']">
@@ -13,9 +13,9 @@
               <span>Mis datos fiscales</span>
             </li>
           </a>
-          <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/misplanes']">
+          <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/misplanesypaquetes']">
             <li>
-              <span>Mis planes</span>
+              <span>Mis planes y paquetes</span>
             </li>
           </a>
           <a class="btn btn-outline-secondary d-grid mb-2" style="border-width:0px 0px 2px 0px;" routerLinkActive="active" [routerLink]="['/micuenta/misanuncios']">
@@ -47,7 +47,7 @@
         </ul>
       </div>
     </div>
-    <div class="col">
+    <div class="col-md-10">
       <router-outlet></router-outlet>
     </div>
   </div>

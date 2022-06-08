@@ -1,80 +1,31 @@
-  <div class="container">
+  <div class="">
       <div class="row">
           <div class="col-md-12">
               <div class="well well-sm">
                   <form class="form-horizontal">
                       <fieldset>
-                          <legend class="text-center text-primary mb-3"><h1 class="display-4">Planes</h1></legend>
+                          <legend class="text-center text-primary mb-3"><h1 class="display-4">Paquetes</h1></legend>
+
                           <div class="form-group row mb-3">
                               <div class="col-md-10 p-0">
-                                  <a class="btn btn-primary btn-sm" style="border-radius:25px;" (click)="limpiarFormulario()" data-bs-toggle="modal" data-bs-target="#gridAgregarPlanes" >
+                                  <a class="btn btn-primary btn-sm" style="border-radius:25px;" (click)="limpiarFormularios()" data-bs-toggle="modal" data-bs-target="#gridAgregarPaquete" >
                                       <span class="col-md-1 col-md-offset-2 text-center">
                                       <i class="fa fa-add bigicon" aria-hidden="true"></i>
                                   </span></a>
                               </div>
                               <div class="col-md-2 p-0">
                                   <td class="text-end">
-                                    <span class="text-primary">Total de registros: <strong>{{_planes.length}}</strong></span>
+                                    <span class="text-primary">Total de registros: <strong>{{_paquetes.length}}</strong></span>
                                   </td>
                               </div>
                           </div>
 
-                          <div class="container">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="well well-sm">
-                                      <div class="card-group justify-content-center">
-                                        <div class="form-group row" *ngFor="let plan of _planes">
-                                          <app-tarjetaplanes class="row px-4 g-3" [_plan]="plan" [_origen]="'menuPlan'" (_sePresionaModificar)="obtenerPlan(plan)" (_sePresionaEliminar)="eliminarPlan(plan)"></app-tarjetaplanes>
-                                        </div>
-                                      </div>
-                                    </div>
-                                </div>
+                          <div class="card-group justify-content-center">
+                            <div class="form-group row" *ngFor="let paquete of _paquetes">
+                                <app-tarjetapaquetes class="row px-4 g-3" [_paquete]="paquete" [_origen]="'menuPaquetes'" (_sePresionaModificar)="obtenerPaquete(paquete)" (_sePresionaEliminar)="eliminarPaquete(paquete)"></app-tarjetapaquetes>
                             </div>
                           </div>
-                          <!-- <div class="form-group row mb-3">
-                              <table class="table table-primary table-striped table-bordered border-primary text-primary">
-                                  <thead>
-                                    <tr>
-                                      <th width="50px" class="text-primary text-center" scope="col">#</th>
-                                      <th width="190px" class="text-primary text-center"  scope="col">Descripción</th>
-                                      <th class="text-primary text-center" scope="col">Precio</th>
-                                      <th class="text-primary text-center" scope="col">Cantidad</th>
-                                      <th class="text-primary text-center" scope="col">Vigencia por unidad</th>
-                                      <th class="text-primary text-center" scope="col">Url Imagen</th>
-                                      <th width="150px" class="text-primary text-center" scope="col">Fecha de Alta</th>
-                                      <th width="150px" class="text-primary text-center" scope="col">Fecha de Modificación</th>
-                                      <th class="text-primary text-center" scope="col">Modificar</th>
-                                      <th class="text-primary text-center" scope="col">Eliminar</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr *ngFor="let plan of _planes; let i = index;">
-                                      <th class="text-primary text-center" scope="row">{{plan.Id_Plan}}</th>
-                                      <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{plan.Descripcion}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{plan.Descripcion}}</td>
-                                      <td class="text-primary text-end">{{plan.Precio | currency: 'USD'}}</td>
-                                      <td class="text-primary text-center">{{plan.Cantidad}}</td>
-                                      <td class="text-primary text-center">{{plan.VigenciaXUnidad}}</td>
-                                      <td class="text-primary">{{plan.UrlImagen}}</td>
-                                      <td class="text-primary text-center">{{plan.FechaAlta | date:'yyyy-MM-dd HH:mm'}}</td>
-                                      <td class="text-primary text-center">{{plan.FechaModificacion | date:'yyyy-MM-dd HH:mm'}}</td>
-                                      <td width="90px" class="p-1">
-                                          <div class="col-auto d-grid p-0 m-0" heigth="auto">
-                                              <a class="btn btn-primary" heigth="auto" (click)="obtenerPlan(plan);" data-bs-toggle="modal" data-bs-target="#gridAgregarPlanes"><span class="col-md-1 col-md-offset-2 text-center">
-                                                  <i class="fa fa-pencil"></i>
-                                              </span></a>
-                                          </div>
-                                      </td>
-                                      <td width="90px" class="p-1">
-                                      <div class="col-auto d-grid p-0 m-0">
-                                          <a class="btn btn-primary" heigth="auto" (click)="eliminarPlan(plan);" ><span class="col-md-1 col-md-offset-2 text-center">
-                                              <i class="fa fa-trash-can"></i>
-                                          </span></a>
-                                      </div></td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                          </div> -->
+
                       </fieldset>
                   </form>
               </div>
@@ -82,21 +33,35 @@
       </div>
   </div>
   
-  <div class="modal fade" id="gridAgregarPlanes" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+  <div class="modal fade" id="gridAgregarPaquete" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
       <div class="modal-dialog modal-lg">
         <div class="modal-content color-modal">
           <div class="modal-header">
-            <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} Plan</h5>
-            <button type="button" class="btn-close" (click)="limpiarFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} Paquete</h5>
+            <button type="button" class="btn-close" (click)="limpiarFormularios()" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="container-fluid bd-example-row">
               <div class="row">
                   <div class="col-md-12">
                       <div class="well well-sm">
-                          <form class="form-horizontal" [formGroup]="formaPlan">
+                          <form class="form-horizontal" [formGroup]="formaPaquete">
                               <fieldset>
-                                  <!-- <legend class="text-center text-primary mb-3"><h1 class="display-4">Mi perfil</h1></legend> -->
+
+                                <!-- <div class="form-group row mb-3">
+                                  <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-file-signature bigicon"></i></span>
+                                  <div class="col-md-8">
+                                    <select class="form-select form-select-md mb-3 br10 text-primary color-text-box"
+                                            aria-label="Default select example"
+                                            formControlName="empresa">
+                                            <option value="0" selected>[Todas las empresas]</option>
+                                            <option *ngFor="let empresa of _empresas; let i = index" [value]="empresa.Id_Empresa">
+                                              {{ empresa.Nombre }}
+                                            </option>
+                                    </select>
+                                  </div>
+                                </div> -->
+
                                   <div class="form-group row mb-3">
                                       <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-file-signature bigicon"></i></span>
                                       <div class="col-md-8">
@@ -130,79 +95,114 @@
                                   </div>
 
                                   <div class="form-group row mb-3">
-                                      <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-arrow-down-1-9 bigicon"></i></span>
-                                      <div class="col-md-8">
-                                          <input formControlName="cantidad" 
-                                                 type="number"
-                                                 [class.is-invalid]="cantidadNoValido"
-                                                 placeholder="Cantidad" 
-                                                 class="form-control text-primary color-text-box">
-                                      </div>
-                                      <div class="col-md-3 px-0">
-                                          <small *ngIf="cantidadNoValido" class="text-danger">
-                                            Cantidad no valido
-                                          </small>
-                                      </div>
+                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-calendar-days bigicon"></i></span>
+                                    <div class="col-md-8">
+                                        <input formControlName="clave" 
+                                               type="text"
+                                               [class.is-invalid]="claveNoValido"
+                                               placeholder="Clave interna del producto" 
+                                               class="form-control text-primary color-text-box">
+                                    </div>
+                                    <div class="col-md-3 px-0">
+                                        <small *ngIf="claveNoValido" class="text-danger">
+                                          Clave requerida
+                                        </small>
+                                    </div>
                                   </div>
 
                                   <div class="form-group row mb-3">
-                                      <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-calendar-days bigicon"></i></span>
-                                      <div class="col-md-8">
-                                          <input formControlName="vigenciaxunidad" 
-                                                 type="number"
-                                                 [class.is-invalid]="vigenciaxunidadNoValido"
-                                                 placeholder="Vigencia por unidad" 
-                                                 class="form-control text-primary color-text-box">
-                                      </div>
-                                      <div class="col-md-3 px-0">
-                                          <small *ngIf="vigenciaxunidadNoValido" class="text-danger">
-                                            Vigencia por unidad no valido
-                                          </small>
-                                      </div>
+                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-calendar-days bigicon"></i></span>
+                                    <div class="col-md-8">
+                                        <input formControlName="claveProdSAT" 
+                                               type="text"
+                                               [class.is-invalid]="claveProdSATNoValido"
+                                               placeholder="Clave del SAT requerida" 
+                                               class="form-control text-primary color-text-box">
+                                    </div>
+                                    <div class="col-md-3 px-0">
+                                        <small *ngIf="claveProdSATNoValido" class="text-danger">
+                                          Clave del SAT requerida
+                                        </small>
+                                    </div>
                                   </div>
 
-                                  <div class="form-group row mb-3">
-                                      <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-image bigicon"></i></span>
-                                      <div class="col-md-8">
-                                          <input formControlName="urlimagen" 
-                                                 type="text"
-                                                 [class.is-invalid]="urlimagenNoValido"
-                                                 placeholder="URL de la imagen" 
-                                                 class="form-control text-primary color-text-box">
-                                      </div>
-                                      <div class="col-md-3 px-0">
-                                          <small *ngIf="urlimagenNoValido" class="text-danger">
-                                            URL de la Imagen no valido
-                                          </small>
-                                      </div>
-                                  </div>
-
-                                  <!-- <div class="form-group row mb-3">
-                                      <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-image bigicon"></i></span>
-                                      <div class="col-md-8">
-                                        <select class="form-select form-select-md mb-3 text-primary color-text-box"
-                                                style="border-radius: 0.8em"
-                                                aria-label="Default select example"
-                                                name="tipoplanagregar"
-                                                formControlName="tipoplanagregar">
-                                        <option value="" selected disabled>Seleccione...</option>
-                                          <option *ngFor="let planFijo of _planesFijos; let i = index" [value]="planFijo.Id_Plan">{{ planFijo.Descripcion }}
-                                          </option>
-                                        </select>
-                                      </div>
-                                  </div> -->
-
-                                  <div class="form-group row mb-3">
-                                      <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-image bigicon"></i></span>
-                                      <div class="col-md-8">
-                                          <input formControlName="visible" 
-                                                 type="text"
-                                                 placeholder="0 para no visible y 1 para visible" 
-                                                 class="form-control text-primary color-text-box">
-                                      </div>
-                                  </div>
-          
                               </fieldset>
+                          </form>
+
+                          <form [formGroup]="formaPlan">
+                              <div class="form-group row mb-3">
+                                <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-file-signature bigicon"></i></span>
+                                <div class="col-md-3">
+                                  <select class="form-select form-select-md mb-3 br10 text-primary color-text-box"
+                                          aria-label="Default select example"
+                                          [class.is-invalid]="planNoValido"
+                                          formControlName="plan">
+                                          <option value={{null}} selected>[Ninguna]</option>
+                                          <option *ngFor="let plan of _planes; let i = index" [value]="plan.Id_Plan">
+                                            {{ plan.Descripcion }}
+                                          </option>
+                                  </select>
+                                </div>
+                                <div class="col-auto px-0">
+                                    <small *ngIf="planNoValido" class="text-danger">
+                                      *
+                                    </small>
+                                </div>
+                                <div class="col-md-3">
+                                    <input formControlName="cantidad" 
+                                          type="number"
+                                          [class.is-invalid]="cantidadNoValida"
+                                          placeholder="Cantidad" 
+                                          class="form-control text-primary color-text-box">
+                                </div>
+                                <div class="col-auto px-0">
+                                    <small *ngIf="cantidadNoValida" class="text-danger">
+                                      *
+                                    </small>
+                                </div>
+                                <div class="col-md-3">
+                                    <input formControlName="vigencia" 
+                                          type="number"
+                                          [class.is-invalid]="vigenciaNoValida"
+                                          placeholder="Vigencia" 
+                                          class="form-control text-primary color-text-box">
+                                </div>
+                                <div class="col-auto px-0">
+                                    <small *ngIf="vigenciaNoValida" class="text-danger">
+                                      *
+                                    </small>
+                                </div>
+                                <div class="col-auto">
+                                  <button class="btn btn-outline-primary d-grid br25" heigth="auto" (click)="agregarPlan();" >
+                                    <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-add"></i></span>
+                                  </button>
+                              </div>
+                            </div>
+
+                            <table class="table table-striped m-0 color-table br15">
+                              <thead class="text-primary">
+                                <tr class="text-primary">
+                                  <th class="text-primary text-center" scope="col">Cant.</th>
+                                  <th class="text-primary text-center" scope="col">Tipo</th>
+                                  <th class="text-primary text-center" scope="col">Vig.</th>
+                                  <th class="text-primary text-center" scope="col">Acción</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr  *ngFor="let plan of _paqueteDetalle; let i = index;">
+                                  <td  ><h6 class="card-text text-primary text-center">{{plan.Cantidad}}</h6></td>
+                                  <td ><h6 class="card-text text-primary text-center">{{plan.Descripcion}}</h6></td>
+                                  <td ><h6 class="card-text text-primary text-center">{{plan.VigenciaXUnidad}}</h6></td>
+                                  <td class="text-center p-1">
+                                    <div class="col-auto">
+                                        <a class="btn btn-outline-danger br25" heigth="auto" (click)="eliminarPlan(plan);" >
+                                          <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-trash-can"></i></span>
+                                        </a>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
                           </form>
                       </div>
                   </div>
@@ -210,8 +210,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" #myModalClose (click)="limpiarFormulario()" class="btn btn-secondary text-light" data-bs-dismiss="modal" >Cancelar</button>
-            <button type="button" class="btn btn-primary" (click)="guardarPlan();">{{_textoAccion}}</button>
+            <button type="button" #myModalClose (click)="limpiarFormularios()" class="btn btn-secondary text-light" data-bs-dismiss="modal" >Cancelar</button>
+            <button type="button" class="btn btn-primary" (click)="guardarPaquete();">{{_textoAccion}}</button>
           </div>
         </div>
       </div>

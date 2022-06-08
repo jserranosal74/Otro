@@ -25,13 +25,56 @@ export class MisfacturasComponent implements OnInit {
 
   ObtenerFacturasCliente() {
 
-    this._clientesFacturasService.getClienteFacturas(this._loginService.obtenerIdCliente(), new Date()).subscribe(
+    this._clientesFacturasService.getClienteFacturas(this._loginService.obtenerIdCliente(), null, null, null).subscribe(
       (data) => {
-        //console.log('datos: ', data);
+        console.log('datos: ', data);
         this._facturasCliente = data;
       },
       (error: HttpErrorResponse) => {
 
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+
+        //throw error;   //You can also throw the error to a global error handler
+      }
+    );
+  }
+
+  enviarFacturaCliente(objFactura : factura){
+    objFactura.Enviando = true;
+    this._clientesFacturasService.getEnviarFactura(this._loginService.obtenerIdCliente(), objFactura.Id_PlanCliente, objFactura.Id_PaqueteCliente).subscribe(
+      (data) => {
+        //console.log('datos: ', data);
+
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 1500,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        });
+        
+        Toast.fire({
+          icon: 'success',
+          title: 'La información se envió a su correo de manera correcta.'
+        });
+
+        objFactura.Enviando = false;
+      },
+      (error: HttpErrorResponse) => {
+        objFactura.Enviando = false;
         switch (error.status) {
           case 401:
             break;

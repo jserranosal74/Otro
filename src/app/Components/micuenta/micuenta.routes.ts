@@ -13,7 +13,7 @@ import { DatosfiscalesComponent } from './datosfiscales/datosfiscales.component'
 
 export const MICUENTA_CHILD_ROUTES: Routes = [
   { path: 'miperfil', component: MiperfilComponent, canActivate: [AuthGuard] },
-  { path: 'misplanes', component: MisplanesComponent, canActivate: [AuthGuard]  },
+  { path: 'misplanesypaquetes', component: MisplanesComponent, canActivate: [AuthGuard]  },
   { path: 'datosfiscales', component: DatosfiscalesComponent, canActivate: [AuthGuard]  },
   { path: 'misanuncios', component: MisanunciosComponent, canActivate: [AuthGuard]  },
   { path: 'misfavoritos', component: MisfavoritosComponent, canActivate: [AuthGuard]  },

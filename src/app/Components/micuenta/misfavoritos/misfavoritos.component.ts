@@ -14,7 +14,7 @@ import { favoritoCliente } from '../../../Models/procesos/favoritoCliente.model'
 })
 export class MisfavoritosComponent implements OnInit {
   _favoritosCliente : favoritoCliente[] = [];
-  //_misFavoritos : string = 'misFavoritos';
+  _mostrarFiltros : boolean = false;
 
   _paginadoDetalle : paginadoDetalle = new paginadoDetalle(0,0);
   _paginas: pagina[] = [];
@@ -206,6 +206,10 @@ export class MisfavoritosComponent implements OnInit {
         }
       }
     );
+  }
+
+  mostrarFiltros(){
+    this._mostrarFiltros = !this._mostrarFiltros;
   }
 
 }

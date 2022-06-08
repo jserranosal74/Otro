@@ -1,0 +1,63 @@
+<div class="card px-0 color-card" style="width: 20rem; border-radius: 15px;">
+    <div class="card-header text-center bg-color-3 py-0" style="border-radius: 15px 15px 0px 0px;">
+        <h3 class="card-title text-primary text-uppercase py-1 m-0">{{_paquete.Descripcion}}</h3>
+        <div class="col px-0 text-end py-1" *ngIf="_origen === 'AlPagar'">
+          <button type="button" class="btn btn-outline-primary br25" (click)="elegirPaqueteCliente()" [ngClass]="{' btn-primary': _paquete.Seleccionado === 1, ' btn-outline-primary': _paquete.Seleccionado === 0}">
+            <span class="col-md-1  text-center"><i class="fa fa-check" > </i></span>
+          </button>
+        </div>
+        <div class="col px-0 text-end py-1" *ngIf="_origen === 'menuAgregarPlanACliente'">
+          <button type="button" class="btn btn-outline-primary br25" (click)="elegirPaqueteCliente()" [ngClass]="{' btn-primary': _paquete.Seleccionado === 1, ' btn-outline-primary': _paquete.Seleccionado === 0}">
+            <span class="col-md-1 text-center"><i class="fa fa-check" > </i></span>
+          </button>
+        </div>
+    </div>
+    <div class="card-body">
+      <p class="card-text text-primary text-center mb-0">Precio:</p>
+      <h3 class="card-text text-primary text-center">{{_paquete.Precio | currency }}</h3>
+      <p *ngIf="_origen === 'menuPaquetes'" class="card-text text-primary text-center mb-0">Fecha de creación:</p>
+      <h3 *ngIf="_origen === 'menuPaquetes'" class="card-text text-primary text-center">{{_paquete.FechaAlta | date:'dd/MM/yyyy' }}</h3>
+      <p class="card-text text-primary text-center">Planes incluidos en este paquete:</p>
+      <div class="br25" style="border:1px;">
+        <table class="table table-striped m-0 color-table br15">
+          <thead class="text-primary">
+            <tr class="text-primary">
+              <th class="text-primary text-center p-1" scope="col">Cant.</th>
+              <th class="text-primary text-center p-1" scope="col">Tipo</th>
+              <th class="text-primary text-center p-1" scope="col">Vig.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let plan of _paquete.Detalle; let i = index;">
+              <td class="p-1"><h6 class="card-text text-primary text-center">{{plan.Cantidad}}</h6></td>
+              <td class="p-1"><h6 class="card-text text-primary text-center">{{plan.Descripcion}}</h6></td>
+              <td class="p-1"><h6 class="card-text text-primary text-center">{{plan.VigenciaXUnidad}}</h6></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="_origen === 'menuPaquetes' || _origen === 'misPlanes'" class="card-footer text-end bg-color-3" style="border-radius: 0px 0px 15px 15px;">
+      <div class="row">
+        <!-- <div class="col-md-8 px-1">
+          <h6 *ngIf="!_paquete.Nombre" class="card-text text-primary text-center">Para todas las empresas</h6>
+          <h6 *ngIf="_paquete.Nombre" class="card-text text-primary text-center">{{_paquete.Nombre}}</h6>
+        </div> -->
+        <div class="col-md-12 px-1">
+          <div *ngIf="_origen === 'menuPaquetes'" class="col text-end px-0">
+            <button type="button" class="btn btn-outline-primary" (click)="modificarPaquete()" data-bs-toggle="modal" data-bs-target="#gridAgregarPaquete"  style="border-radius: 25px;">
+              <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-pen" aria-hidden="true"></i></span>
+            </button>
+            <button type="button" class="btn btn-outline-danger mx-1" (click)="eliminarPaquete()" style="border-radius: 25px;">
+              <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-trash" aria-hidden="true"></i></span>
+            </button>
+          </div>
+          <div *ngIf="_origen === 'misPlanes'" class="col d-grid text-center">
+            <button type="button" class="btn btn-primary text-center" (click)="comprarPaquete()" style="border-radius: 10px;" data-bs-toggle="modal" data-bs-target="#gridAgregarFactura">
+              <span class="col-md-1 col-md-offset-2 text-center">Comprar</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

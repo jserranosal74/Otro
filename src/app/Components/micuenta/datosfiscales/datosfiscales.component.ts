@@ -16,7 +16,7 @@ import { TiposPersonaService } from 'src/app/Services/Catalogos/tiposPersonas.se
 })
 export class DatosfiscalesComponent implements OnInit {
   _datosFiscales : datoFiscal[] = [];
-  _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(), 0,0,0);
+  _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','','',0,new Date(),new Date(), 0,0,0);
   _tiposPersonas : tipoPersona[] = [];
   _tipoPersona : tipoPersona = new tipoPersona(0,'',new Date(), new Date(), 0,0,);
   _textoAccion ='';
@@ -24,13 +24,7 @@ export class DatosfiscalesComponent implements OnInit {
   _esNuevo : boolean = false;
   @ViewChild('myModalClose') modalClose : any;
 
-  formaDatosFiscales = this.fb.group({
-      tipopersona       : [ '', Validators.required],
-      nombrerazonsocial : [ '', Validators.required],
-      domiciliofiscal   : [ '', Validators.required],
-      rfc               : [ '', Validators.required],
-      email             : [ '', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ]
-  });
+  formaDatosFiscales = this.fb.group({});
 
   constructor( private fb: FormBuilder,
                private _loginService : LoginService,
@@ -53,9 +47,10 @@ export class DatosfiscalesComponent implements OnInit {
       nombrerazonsocial : [ '', Validators.required],
       domiciliofiscal   : [ '', Validators.required],
       rfc               : [ '', Validators.required],
-      email             : [ '', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ]
+      email             : [ '', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ],
+      codigopostal      : [ '', Validators.required]
     });
-    this._datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(),0,0,0);
+    this._datoFiscal = new datoFiscal(0,0,0,'','','','','',0,new Date(),new Date(),0,0,0);
   }
 
   limpiarFormulario() {
@@ -64,9 +59,10 @@ export class DatosfiscalesComponent implements OnInit {
       nombrerazonsocial : '',
       domiciliofiscal   : '',
       rfc               : '',
-      email             : ''
+      email             : '',
+      codigopostal      : ''
     });
-    this._datoFiscal = new datoFiscal(0,0,0,'','','','',0,new Date(),new Date(), 0,0,0);
+    this._datoFiscal = new datoFiscal(0,0,0,'','','','','',0,new Date(),new Date(), 0,0,0);
     this._textoAccion = 'Agregar'
   }
 
@@ -160,11 +156,12 @@ export class DatosfiscalesComponent implements OnInit {
         // console.log('datos: ', data);
 
         this.formaDatosFiscales.setValue({
-          tipopersona : data.Id_TipoPersona,
+          tipopersona       : data.Id_TipoPersona,
           nombrerazonsocial : data.NombreRazonSocial,
-          domiciliofiscal : data.DomicilioFiscal,
-          rfc : data.RFC,
-          email : data.Email,
+          domiciliofiscal   : data.DomicilioFiscal,
+          rfc               : data.RFC,
+          email             : data.Email,
+          codigopostal      : data.CodigoPostal,
         });
 
         // this.limpiarFormulario();
@@ -228,6 +225,7 @@ export class DatosfiscalesComponent implements OnInit {
       this._datoFiscal.DomicilioFiscal = this.formaDatosFiscales.get('domiciliofiscal')?.value;
       this._datoFiscal.RFC = this.formaDatosFiscales.get('rfc')?.value;
       this._datoFiscal.Email = this.formaDatosFiscales.get('email')?.value;
+      this._datoFiscal.CodigoPostal = this.formaDatosFiscales.get('codigopostal')?.value;
       this._datoFiscal.FechaAlta = new Date();
       this._datoFiscal.FechaModificacion = new Date();
       this._datoFiscal.Id_Usuario = 1;
@@ -244,6 +242,23 @@ export class DatosfiscalesComponent implements OnInit {
           (data) => {
             //Next callback
             //console.log('datos: ',data);
+
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            });
+            
+            Toast.fire({
+              icon: 'success',
+              title: 'La información se guardó de manera correcta.'
+            });
   
             this.modalClose.nativeElement.click();
   
@@ -286,6 +301,23 @@ export class DatosfiscalesComponent implements OnInit {
           (data) => {
             //Next callback
             //console.log('datos: ',data);
+
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            });
+            
+            Toast.fire({
+              icon: 'success',
+              title: 'La información se actualizó de manera correcta.'
+            });
   
             this.modalClose.nativeElement.click();
   
@@ -487,6 +519,10 @@ export class DatosfiscalesComponent implements OnInit {
 
   get tipopersonaNoValido() {
     return ( this.formaDatosFiscales.get('tipopersona')?.invalid && this.formaDatosFiscales.get('tipopersona')?.touched );
+  }
+
+  get codigopostalNoValido() {
+    return ( this.formaDatosFiscales.get('codigopostal')?.invalid && this.formaDatosFiscales.get('codigopostal')?.touched );
   }
 
 }

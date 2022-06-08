@@ -99,33 +99,33 @@
                 <div class="row">
                     <div class="row mb-3" *ngIf="_caracteristicasGenerales.length > 0">
                         <h5 class="text-primary">Amenidades</h5>
-                        <div class="col-md-3 mb-2" *ngFor="let cargen of _caracteristicasGenerales; let i = index;">
+                        <div class="col-md-3 mb-2 px-1" *ngFor="let cargen of _caracteristicasGenerales; let i = index;">
                             <kbd class="br25 bg-color-3 text-primary">
-                                {{cargen.Descripcion}}
+                                <i class="fa-solid fa-check"></i> {{cargen.Descripcion}}
                             </kbd>
                         </div>
                     </div>
                     <div class="row mb-3" *ngIf="_servicios.length > 0">
                         <h5 class="text-primary">Servicios</h5>
-                        <div class="col-md-3 mb-2" *ngFor="let servicio of _servicios; let i = index;">
+                        <div class="col-md-3 mb-2 px-1" *ngFor="let servicio of _servicios; let i = index;">
                             <kbd class="br25 bg-color-3 text-primary">
-                                {{servicio.Descripcion}}
+                                <i class="fa-solid fa-check"></i> {{servicio.Descripcion}}
                             </kbd>
                         </div>
                     </div>
                     <div class="row mb-3" *ngIf="_exteriores.length > 0">
                         <h5 class="text-primary">Exteriores</h5>
-                        <div class="col-md-3 mb-2" *ngFor="let exterior of _exteriores; let i = index;">
+                        <div class="col-md-3 mb-2 px-1" *ngFor="let exterior of _exteriores; let i = index;">
                             <kbd class="br25 bg-color-3 text-primary">
-                                {{exterior.Descripcion}}
+                                <i class="fa-solid fa-check"></i> {{exterior.Descripcion}}
                             </kbd>
                         </div>
                     </div>
                     <div class="row mb-3" *ngIf="_ambientes.length > 0">
                         <h5 class="text-primary">Ambientes</h5>
-                        <div class="col-md-3 mb-2" *ngFor="let ambiente of _ambientes; let i = index;">
+                        <div class="col-md-3 mb-2 px-1" *ngFor="let ambiente of _ambientes; let i = index;">
                             <kbd class="br25 bg-color-3 text-primary">
-                                {{ambiente.Descripcion}}
+                                <i class="fa-solid fa-check"></i> {{ambiente.Descripcion}}
                             </kbd>
                         </div>
                     </div>

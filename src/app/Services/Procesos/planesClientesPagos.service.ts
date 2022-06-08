@@ -3,9 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { URL_APIS } from '../global';
-import { planClientePagos } from '../../Models/procesos/plancliente.model';
+import { planesPaquetesPagos } from '../../Models/procesos/plancliente.model';
 import { LoginService } from '../Catalogos/login.service';
-import { factura } from 'src/app/Models/catalogos/factura.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,12 +22,12 @@ export class PlanesClientesPagosService {
     this.urlPlanesClientePagos = URL_APIS.urlPlanesClientePagos;
   }
 
-  public getPlanesClientesPagos(): Observable<planClientePagos[]> {
-    return this.http.get<planClientePagos[]>(this.urlPlanesClientePagos, this.httpOptions);
+  public getPlanesClientesPagos(): Observable<planesPaquetesPagos[]> {
+    return this.http.get<planesPaquetesPagos[]>(this.urlPlanesClientePagos, this.httpOptions);
   }
 
-  public getPlanesClientesFiltro(EmailCliente : string | null, Id_Estatus : number | null): Observable<planClientePagos[]> {
-    return this.http.get<planClientePagos[]>(this.urlPlanesClientePagos + '?EmailCliente=' + (EmailCliente === null?'':EmailCliente) + '&Id_Estatus=' + Id_Estatus, this.httpOptions);
+  public getPlanesClientesFiltro(EmailCliente : string | null, Id_Estatus : number | null): Observable<planesPaquetesPagos[]> {
+    return this.http.get<planesPaquetesPagos[]>(this.urlPlanesClientePagos + '?EmailCliente=' + (EmailCliente === null ? '' : EmailCliente) + '&Id_Estatus=' + Id_Estatus, this.httpOptions);
   }
   
   public putPlanClientePadado(Id_PlanCliente : number, Id_Plan : number, Id_Cliente : number): Observable<number> {

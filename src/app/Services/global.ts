@@ -1,6 +1,7 @@
 export const URL_APIS = {
     //Catalogos
     urlAmenidades: '/api/Amenidades/',
+    urlArchivosFiscales: '/api/ArchivosFiscales/',
     urlBancos: '/api/Bancos/',
     urlCaracteristicas: '/api/Caracteristicas/',
     urlAsentamientos: '/api/Asentamientos/',
@@ -15,6 +16,7 @@ export const URL_APIS = {
     urlMunicipios: '/api/Municipios/',
     urlPlanes: '/api/Planes/',
     urlPaquetes: '/api/Paquetes/',
+    urlPaquetesEmpresas: '/api/PaquetesEmpresas/',
     urlTipoOperacion: '/api/TipoOperacion/',
     urlTipoCaracteristica: '/api/TipoCaracteristica/',
     urlTipoPersona: '/api/TipoPersona/',
@@ -39,7 +41,9 @@ export const URL_APIS = {
     urlPublicacionMultimedia: '/api/PublicacionMultimedia/',
     urlMensajesPublicacion: '/api/MensajesPublicacion/',
     urlPlanesCliente: '/api/PlanesCliente/',
+    urlPaquetesCliente: '/api/PaquetesCliente/',
     urlPlanesClientePagos: '/api/PlanesClientePagos/',
+    urlPaquetesClientePagos: '/api/PaquetesClientePagos/',
     urlClientesFacturas: '/api/ClientesFacturas/',
     urlContacto: '/api/Contacto/',
     urlVistasUsuarios: '/api/VistasUsuarios/',

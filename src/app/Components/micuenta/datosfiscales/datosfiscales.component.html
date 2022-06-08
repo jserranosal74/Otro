@@ -16,43 +16,6 @@
                         <div class="card-group">
                           <div class="form-group row mb-3" *ngFor="let datoFiscal of _datosFiscales">
                                 <app-tarjetadatofiscal class="row px-4 gy-2" (_sePresionaEliminar)="eliminarDatosFiscales(datoFiscal)" (_sePresionaEditar)="obtenerDatoFiscal(datoFiscal)" (_sePresionaPredeterminado)="actualizarPredeterminado(datoFiscal)" [_datoFiscal]="datoFiscal" [_origen]="'MisDatosFiscales'"></app-tarjetadatofiscal>
-                              <!-- <table class="table table-primary table-striped table-bordered border-primary text-primary">
-                                  <thead>
-                                    <tr>
-                                      <th style="width: 50px;" class="text-primary text-center" scope="col">#</th>
-                                      <th class="text-primary text-center" scope="col">Nombre</th>
-                                      <th class="text-primary text-center" scope="col">Domicilio Fiscal</th>
-                                      <th class="text-primary text-center" scope="col">RFC</th>
-                                      <th class="text-primary text-center" scope="col">Email</th>
-                                      <th class="text-primary text-center" scope="col">Fecha de Alta</th>
-                                      <th class="text-primary text-center" scope="col">Modificar</th>
-                                      <th class="text-primary text-center" scope="col">Eliminar</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <tr *ngFor="let datofiscal of _datosFiscales; let i = index;">
-                                      <th class="text-primary text-center" scope="row">{{datofiscal.Id_DatosFiscales}}</th>
-                                      <td style="max-width: 150px;" class="text-primary text-truncate">{{datofiscal.NombreRazonSocial}}</td>
-                                      <td style="max-width: 150px;" class="text-primary text-center text-truncate">{{datofiscal.DomicilioFiscal}}</td>
-                                      <td style="max-width: 150px;" class="text-primary text-center text-truncate">{{datofiscal.RFC}}</td>
-                                      <td style="max-width: 150px;" class="text-primary text-center text-truncate">{{datofiscal.Email}}</td>
-                                      <td width="150px" class="text-primary text-center">{{datofiscal.FechaAlta | date:'yyyy-MM-dd HH:mm'}}</td>
-                                      <td width="90px" class="p-1">
-                                          <div class="col-auto d-grid p-0 m-0" heigth="auto">
-                                              <a class="btn btn-primary" heigth="auto" (click)="obtenerDatoFiscal(datofiscal);" data-bs-toggle="modal" data-bs-target="#gridAgregarDatosFiscales"><span class="col-md-1 col-md-offset-2 text-center">
-                                                  <i class="fa fa-pencil"></i>
-                                              </span></a>
-                                          </div>
-                                      </td>
-                                      <td width="90px" class="p-1">
-                                      <div class="col-auto d-grid p-0 m-0">
-                                          <a class="btn btn-primary" heigth="auto" (click)="eliminarDatosFiscales(datofiscal);" ><span class="col-md-1 col-md-offset-2 text-center">
-                                              <i class="fa fa-trash-can"></i>
-                                          </span></a>
-                                      </div></td>
-                                    </tr>
-                                  </tbody>
-                                </table> -->
                           </div>
                         </div>
                     </fieldset>
@@ -80,11 +43,10 @@
 
                                 <div class="form-group row mb-3">
                                   <div class="col-md-1">
-                                    <label class="text-primary">Tipo de persona:</label>
+                                    <label class="text-primary text-start">Persona:</label>
                                   </div>
-                                  <div class="col-md-5">
-                                    <select class="form-select form-select-lg mb-3 br15 text-primary color-text-box"
-                                            style="border-radius: 0.8em"
+                                  <div class="col-md-7">
+                                    <select class="form-select form-select-md br10 text-primary color-text-box"
                                             aria-label="Default select example"
                                             name="tipopersona"
                                             formControlName="tipopersona"
@@ -113,7 +75,7 @@
                                     </div>
                                     <div class="col-auto px-0">
                                         <small *ngIf="nombreNoValido" class="text-danger">
-                                          Nombre/Razón Social no valida
+                                          Nombre/Razón Social requerida
                                         </small>
                                     </div>
                                 </div>
@@ -130,7 +92,24 @@
                                     </div>
                                     <div class="col-auto px-0">
                                         <small *ngIf="domiciliofiscalNoValido" class="text-danger">
-                                          Nombre no valido
+                                          Domicilio requerido
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row mb-3">
+                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <div class="col-md-7">
+                                        <input formControlName="codigopostal" 
+                                               type="text" 
+                                               maxlength="10"
+                                               placeholder="Código Postal" 
+                                               [class.is-invalid]="codigopostalNoValido" 
+                                               class="form-control text-primary color-text-box">
+                                    </div>
+                                    <div class="col-auto px-0">
+                                        <small *ngIf="codigopostalNoValido" class="text-danger">
+                                          Codigo postal requerido
                                         </small>
                                     </div>
                                 </div>
@@ -177,8 +156,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" #myModalClose (click)="limpiarFormulario()" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
-          <button type="button" class="btn btn-primary" (click)="guardarDatosFiscales();">{{_textoAccion}}</button>
+          <button type="button" #myModalClose (click)="limpiarFormulario()" class="btn btn-secondary br25" data-bs-dismiss="modal" >Cerrar</button>
+          <button type="button" class="btn btn-primary br25" (click)="guardarDatosFiscales();">{{_textoAccion}}</button>
         </div>
       </div>
     </div>

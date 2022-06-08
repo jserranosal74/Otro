@@ -22,8 +22,8 @@ export class PlanesService {
     this.urlPlanes = URL_APIS.urlPlanes;
   }
 
-  public getPlan(Id_Plan : number): Observable<plan> {
-    return this.http.get<plan>(this.urlPlanes + '?Id_Plan=' + Id_Plan);
+  public getPlan(Id_Plan : number): Observable<plan[]> {
+    return this.http.get<plan[]>(this.urlPlanes + '?Id_Plan=' + Id_Plan + '&Visible=');
   }
 
   public getPlanes(Id_Plan : number | null, Visible : boolean | null): Observable<plan[]> {

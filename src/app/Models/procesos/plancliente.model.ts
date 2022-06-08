@@ -25,15 +25,19 @@ export class plancliente {
     }
   }
 
-  export class planClientePagos {
+  export class planesPaquetesPagos {
     constructor(
       public Id_PlanCliente     : number,
       public Id_Plan            : number,
+      public Id_Paquete         : number,
       public Id_Cliente         : number,
       public Id_DatosFiscales   : number | null,
       public Id_Publicacion     : number | null,
+      public Clave              : string,
+      public Referencia         : string,
       public Descripcion        : string,
       public Disponibles        : number,
+      public Monto              : number,
       public Email              : string,
       public Nombre             : string,
       public Apellidos          : string,

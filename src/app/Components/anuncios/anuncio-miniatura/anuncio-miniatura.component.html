@@ -5,11 +5,11 @@
     <div class="col-md-9 p-1 border" style="border-radius: 0px 15px 15px 0px;">
       <div class="row">
           <div class="row px-0">
-              <div class="col-md-9 px-4">
+              <div class="col-md-10 px-4">
                   <h3 *ngIf="_publicacion.TituloPublicacion != null" class="text-primary">{{_publicacion.TituloPublicacion}}</h3>
                   <h3 *ngIf="_publicacion.TituloPublicacion === null || _publicacion.TituloPublicacion === ''" class="text-danger">SIN TITULO</h3>
               </div>
-              <div *ngIf="_tipoBusqueda == 'misAnuncios'" class="col-md-3 px-0">
+              <div *ngIf="_tipoBusqueda == 'misAnuncios'" class="col-md-2 p-1">
                   <h6 class="text-primary text-end"><kbd class="bg-color-2" >{{_publicacion.Estatus}}</kbd></h6>
               </div>
           </div>
@@ -31,7 +31,7 @@
             <ng-template #misAnuncios>
 
                 <div *ngIf="_publicacion.Estatus === 'Borrador'">
-                    <div class="row m-0 p-0">
+                    <div class="row m-0 p-0" style="position:relative; bottom:0px;">
                         <div class="col text-end">
                             <a style="border-radius:25px;" class="btn btn-success" [href]="'publicar/operacion-tipo-inmueble?id_Publicacion=' + this._publicacion.Id_Publicacion">
                                 <span class="col-md-1 col-md-offset-2 text-center">
@@ -55,7 +55,7 @@
                 </div>
 
                 <div *ngIf="_publicacion.Estatus === 'Activada'">
-                    <div class="row m-0 p-0">
+                    <div class="row m-0 p-0" style="position:relative; bottom:0px;">
                         <div class="col text-primary px-0">
                             <br>
                             <span>Fecha inicio: <strong>{{_publicacion.FechaInicioPublicacion | date:'dd-MM-yyyy'}}</strong> / </span>
@@ -79,7 +79,7 @@
                 </div>
 
                 <div *ngIf="_publicacion.Estatus === 'Cancelada'">
-                    <div class="row m-0 p-0">
+                    <div class="row m-0 p-0" style="position:relative; bottom:0px;">
                         <div class="col text-end">
                             <a style="border-radius:25px;" class="btn btn-primary mx-1" [href]="'anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion">
                                 <span class="col-md-1 text-center">
@@ -90,7 +90,7 @@
                 </div>
 
                 <div *ngIf="_publicacion.Estatus === 'En espera de pago'">
-                    <div class="row m-0 p-0">
+                    <div class="row m-0 p-0" style="position:relative; bottom:0px;">
                         <div class="col text-end">
                             <!-- <button type="button" style="border-radius:25px;" class="btn btn-success" (click)="editarAnuncio()">
                                 <span class="col-md-1 col-md-offset-2 text-center">
@@ -111,7 +111,7 @@
             </ng-template>
 
             <ng-template #misFavoritos>
-                <div class="row m-0 p-0">
+                <div class="row m-0 p-0" style="position:relative; bottom:0px;">
                     <div class="col text-end">
                         <!-- <a class="btn btn-primary mx-1 br25" [href]="'anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion">
                             <span class="col-md-1 text-center">

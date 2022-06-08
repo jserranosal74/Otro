@@ -13,24 +13,14 @@ import { PlanesService } from 'src/app/Services/Catalogos/planes.service';
   styleUrls: ['./planes.component.css']
 })
 export class PlanesComponent implements OnInit {
+  formaPlan = this.fb.group({});
+
   _planes : plan[] = [];
-  //_planesFijos : plan[] = [];
-  _plan : plan = new plan(0,'',0,0,0,'',0,new Date(),new Date(),0,0,0);
+  _plan : plan = new plan(0,'',0,0,0,'','',null,null,'',0,new Date(),new Date(),0,0,0);
   _textoAccion ='';
 
   _esNuevo : boolean = false;
   @ViewChild('myModalClose') modalClose : any;
-  @ViewChild('descripcion') modaldescripcion : any;
-  // @ViewChild('verformaAmenidad') modalformaAmenidad : any;
-
-  formaPlan = this.fb.group({
-    descripcion     : ['', Validators.required],
-    precio          : ['', Validators.required],
-    cantidad        : ['', Validators.required],
-    vigenciaxunidad : ['', Validators.required],
-    urlimagen       : ['', Validators.required],
-    visible         : [0]
-  });
 
   constructor(
     private fb: FormBuilder,
@@ -52,11 +42,13 @@ export class PlanesComponent implements OnInit {
       descripcion     : ['', Validators.required],
       precio          : ['', Validators.required],
       cantidad        : ['', Validators.required],
+      clave           : ['', Validators.required],
+      claveProdSAT    : ['', Validators.required],
       vigenciaxunidad : ['', Validators.required],
-      urlimagen       : ['', Validators.required],
+      urlimagen       : [''],
       visible         : [0]
     });
-    this._plan = new plan(0,'',0,0,0,'',0,new Date(),new Date(),0,0,0);
+    this._plan = new plan(0,'',0,0,0,'','',null,null,'',0,new Date(),new Date(),0,0,0);
   }
 
   limpiarFormulario() {
@@ -65,11 +57,13 @@ export class PlanesComponent implements OnInit {
       descripcion     : '',
       precio          : '',
       cantidad        : '',
+      clave           : '',
+      claveProdSAT    : '',
       vigenciaxunidad : '',
       urlimagen       : '',
       visible         : 0
     });
-    this._plan = new plan(0,'',0,0,0,'',0,new Date(),new Date(),0,0,0);
+    this._plan = new plan(0,'',0,0,0,'','',null,null,'',0,new Date(),new Date(),0,0,0);
   }
 
   obtenerPlanes() {
@@ -124,19 +118,21 @@ export class PlanesComponent implements OnInit {
   obtenerPlan(objPlan : plan) {
     this._textoAccion = 'Modificar';
     this._plan = objPlan;
-
+debugger;
     this._planService.getPlan(objPlan.Id_Plan).subscribe(
       (data) => {
         //Next callback
-        //console.log('obtenerPlan: ', data);
+        console.log('obtenerPlan: ', data);
 
-        this.formaPlan.setValue({
-          descripcion     : data.Descripcion,
-          precio          : data.Precio,
-          cantidad        : data.Cantidad,
-          vigenciaxunidad : data.VigenciaXUnidad,
-          urlimagen       : data.UrlImagen,
-          visible         : data.Visible ? 1 : 0
+        this.formaPlan.patchValue({
+          descripcion     : data[0].Descripcion,
+          precio          : data[0].Precio,
+          cantidad        : data[0].Cantidad,
+          clave           : data[0].Clave,
+          claveProdSAT    : data[0].ClaveProdServ,
+          vigenciaxunidad : data[0].VigenciaXUnidad,
+          urlimagen       : data[0].UrlImagen,
+          visible         : data[0].Visible ? 1 : 0
         });
 
         // this.limpiarFormulario();
@@ -422,8 +418,16 @@ export class PlanesComponent implements OnInit {
     return ( this.formaPlan.get('vigenciaxunidad')?.invalid && this.formaPlan.get('vigenciaxunidad')?.touched );
   }
 
-  get urlimagenNoValido() {
-    return ( this.formaPlan.get('urlimagen')?.invalid && this.formaPlan.get('urlimagen')?.touched );
+  get visibleNoValido() {
+    return ( this.formaPlan.get('visible')?.invalid && this.formaPlan.get('visible')?.touched );
+  }
+
+  get claveNoValido() {
+    return ( this.formaPlan.get('clave')?.invalid && this.formaPlan.get('clave')?.touched );
+  }
+
+  get claveProdSATNoValido() {
+    return ( this.formaPlan.get('claveProdSAT')?.invalid && this.formaPlan.get('claveProdSAT')?.touched );
   }
 
 }

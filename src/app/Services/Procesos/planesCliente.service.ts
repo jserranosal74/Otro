@@ -9,7 +9,7 @@ import { LoginService } from '../Catalogos/login.service';
 @Injectable({
   providedIn: 'root',
 })
-export class PlanesclienteService {
+export class PlanesClienteService {
   public urlPlanesCliente: string;
 
   httpOptions = {
@@ -32,8 +32,9 @@ export class PlanesclienteService {
     return this.http.put<number>(this.urlPlanesCliente + '?Id_PlanCliente=' + Id_PlanCliente + '&Id_Plan=' + Id_Plan + '&Id_Cliente=' + Id_Cliente + '&Id_DatosFiscales=' + Id_DatosFiscales, this.httpOptions);
   }
 
-  public putEnviarCorreo(Id_Cliente : number, Id_PlanCliente : number, Id_Publicacion : number | null): Observable<number> {
-    return this.http.put<number>(this.urlPlanesCliente + '?Id_Cliente=' + Id_Cliente + '&Id_PlanCliente=' + Id_PlanCliente + '&Id_Publicacion=' + Id_Publicacion, '', this.httpOptions);
+  public putEnviarCorreoPlan(Id_Cliente : number, Id_PlanCliente : number, Id_Publicacion : number | null): Observable<number> {
+    return this.http.put<number>(this.urlPlanesCliente + '?Id_Cliente=' + Id_Cliente + '&Id_PlanCliente=' + Id_PlanCliente + '&Id_Publicacion=' + (Id_Publicacion === null ? '' : Id_Publicacion), '', this.httpOptions);
+
   }
 
   public postPlanesCliente(Id_Cliente : number, Id_Plan : number, Id_DatosFiscales : number | null): Observable<number> {
