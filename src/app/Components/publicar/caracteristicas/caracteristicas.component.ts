@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
@@ -34,29 +34,7 @@ export class CaracteristicasComponent implements OnInit {
   _esDesarrollo : boolean = false;
   _publicacionActivada : boolean = false;
 
-  formCaracteristicas = this.fb.group({
-    recamarasDesde                  : [ '' ],
-    recamarasHasta                  : [ '' ],
-    baniosCompDesde                 : [ '' ],
-    baniosCompHasta                 : [ '' ],
-    mediosbaniosDesde               : [ '' ],
-    mediosbaniosHasta               : [ '' ],
-    estacionamientoDesde            : [ '' ],
-    estacionamientoHasta            : [ '' ],
-    superficieConstruidaDesde       : [ '' ],
-    superficieConstruidaHasta       : [ '' ],
-    superficieTerreno               : [ '' ],
-    unidadesDisponibles             : [ '' ],
-    nivelesConstruidos              : [ '' ],
-    nivelPropiedad                  : [ '' ],
-    coutaMantenimiento              : [ '' ],
-    aniosAntiguedad                 : [ '' ],
-    precioDesde                     : [ '' ],
-    precioHasta                     : [ '' ],
-    precioNegociable                : [ '' ],
-    tituloPublicacion               : [ '' ],
-    descripcion                     : [ '' ]
-  });
+  formCaracteristicas = this.fb.group({});
 
   constructor(  private _activatedRoute: ActivatedRoute,
                 private _publicacionesService: PublicacionesService,
@@ -64,9 +42,9 @@ export class CaracteristicasComponent implements OnInit {
                 private _loginService: LoginService,
                 private fb: FormBuilder,
                 private router: Router) {
-
+debugger;
     this._activatedRoute.queryParams.subscribe(params => {
-      this._id_publicacion = params['id_Publicacion'];
+      this._id_publicacion = params['Id_Publicacion'];
       if (this._id_publicacion === undefined){
         this._id_publicacion = 0;
         setTimeout( () => { this.router.navigateByUrl('/publicar/operacion-tipo-inmueble'); }, 700 );
@@ -100,10 +78,10 @@ export class CaracteristicasComponent implements OnInit {
         nivelPropiedad            : [ '' ],
         coutaMantenimiento        : [ '' ],
         aniosAntiguedad           : [ '' ],
-        precioDesde               : [ '' ],
+        precioDesde               : [ '', [Validators.required] ],
         precioHasta               : [ '' ],
         precioNegociable          : [ '' ],
-        tituloPublicacion         : [ '' ],
+        tituloPublicacion         : [ '', [Validators.required] ],
         descripcion               : [ '' ]
       });
 
@@ -140,12 +118,12 @@ export class CaracteristicasComponent implements OnInit {
     this._numeroPaso = 2;
 
     //setTimeout( () => { this.router.navigateByUrl('/publicar/fotosyvideos'); }, 700 );
-    setTimeout( () => { this.router.navigate(['/publicar/ubicacion'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+    setTimeout( () => { this.router.navigate(['/publicar/ubicacion'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
   }
 
   pantallaSiguiente(){
     this._numeroPaso = 2;
-    setTimeout( () => { this.router.navigate(['/publicar/fotosyvideos'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+    setTimeout( () => { this.router.navigate(['/publicar/fotosyvideos'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
   }
 
   seleccionarAntiguedad(intAnios : number){
@@ -282,8 +260,19 @@ export class CaracteristicasComponent implements OnInit {
   }
 
   guardarCaracteristicas() {
+    debugger;
+    if ( this.formCaracteristicas.invalid ) {
+      return Object.values( this.formCaracteristicas.controls ).forEach( control => {
+        if ( control instanceof FormGroup ) {
+          Object.values( control.controls ).forEach( control => control.markAsTouched() );
+        } else {
+          control.markAsTouched();
+        }
+      });
+    }
+    else{
 
-    //Envio de la informacion al servidor
+      //Envio de la informacion al servidor
       //debugger;
       this._publicacion.Id_Publicacion = this._id_publicacion;
       this._publicacion.Id_Cliente = this._loginService.obtenerIdCliente();
@@ -375,7 +364,7 @@ export class CaracteristicasComponent implements OnInit {
 
 
           this._numeroPaso = 2;
-          setTimeout( () => { this.router.navigate(['/publicar/fotosyvideos'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+          setTimeout( () => { this.router.navigate(['/publicar/fotosyvideos'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
 
         },
         (error: HttpErrorResponse) => {
@@ -413,6 +402,9 @@ export class CaracteristicasComponent implements OnInit {
 
         }
       );
+
+    }
+    
   }
 
   cambiarMoneda(i : number){
@@ -537,6 +529,18 @@ export class CaracteristicasComponent implements OnInit {
 
       }
     );
+  }
+
+  verPublicacionCliente(objAnuncioHijo : publicacion){
+    window.open('publicar/caracteristicas?Id_Publicacion=' + objAnuncioHijo.Id_Publicacion);
+  }
+
+  get tituloNoValido() {
+    return ( this.formCaracteristicas.get('tituloPublicacion')?.invalid && this.formCaracteristicas.get('tituloPublicacion')?.touched );
+  }
+
+  get precioDesdeNoValido() {
+    return ( this.formCaracteristicas.get('precioDesde')?.invalid && this.formCaracteristicas.get('precioDesde')?.touched );
   }
 
 }

@@ -52,7 +52,7 @@ export class UbicacionComponent implements OnInit {
                private fb: FormBuilder) {
 
     this._activatedRoute.queryParams.subscribe(params => {
-      this._id_publicacion = params['id_Publicacion'];
+      this._id_publicacion = params['Id_Publicacion'];
       if (this._id_publicacion === undefined){
         this._id_publicacion = 0;
         setTimeout( () => { this.router.navigateByUrl('/publicar/operacion-tipo-inmueble'); }, 700 );
@@ -169,12 +169,12 @@ crearFormulario() {
     this._numeroPaso = 2;
 
     //setTimeout( () => { this.router.navigateByUrl('/publicar/operacion-tipo-inmueble'); }, 700 );
-    setTimeout( () => { this.router.navigate(['/publicar/operacion-tipo-inmueble'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+    setTimeout( () => { this.router.navigate(['/publicar/operacion-tipo-inmueble'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
   }
 
   pantallaSiguiente(){
     this._numeroPaso = 2;
-    setTimeout( () => { this.router.navigate(['/publicar/caracteristicas'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+    setTimeout( () => { this.router.navigate(['/publicar/caracteristicas'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
   }
 
   guardarUbicacion() {
@@ -223,7 +223,7 @@ crearFormulario() {
           });
 
           this._numeroPaso = 2;
-          setTimeout( () => { this.router.navigate(['/publicar/caracteristicas'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+          setTimeout( () => { this.router.navigate(['/publicar/caracteristicas'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
 
         },
         (error: HttpErrorResponse) => {

@@ -175,8 +175,8 @@
                             value="1"
                             [checked]="_checkAnios"
                             (change)="seleccionarAntiguedad(1)"
-                            id="flexRadioDefault1">
-                      <label class="form-check-label text-primary" for="flexRadioDefault1">
+                            id="flexRadioDefault3">
+                      <label class="form-check-label text-primary" for="flexRadioDefault3">
                         Años de antiguedad
                       </label>
                     </div>
@@ -184,7 +184,7 @@
                       <div class="col-md-12 p-0">
                         <input class="form-control color-text-box"
                               type="number"
-                              min="1"
+                              min="-1"
                               max="999"
                               [hidden]="_mostrarAniosAntiguedad"
                               formControlName="aniosAntiguedad"/>
@@ -212,7 +212,8 @@
                 <input  class="form-control text-primary color-text-box"
                         type="number"
                         min="0" 
-                        max="999999"
+                        max="999999999"
+                        [class.is-invalid]="precioDesdeNoValido"
                         formControlName="precioDesde" />
                 <span class="input-group-text text-primary">.00</span>
               </div>
@@ -284,12 +285,18 @@
             <div class="col-md-2"></div>
             <div class="col-md-8">
               <label class="col-md-12 col-form-label text-primary">Titulo del anuncio</label>
-              <div class="col-md-12 p-0">
+              <div class="col-md-9 p-0">
                 <input  class="form-control text-primary color-text-box"
                         type="text"
                         placeholder="El titulo debe de ser muy descriptivo, p.e. Casa en Venta en Celaya Guanajuato..."
                         formControlName="tituloPublicacion"
+                        [class.is-invalid]="tituloNoValido"
                 />
+              </div>
+              <div class="col-md-3 px-0">
+                  <small *ngIf="tituloNoValido" class="text-danger">
+                    Se requiere un título
+                  </small>
               </div>
             </div>
             <div class="col-md-2"></div>
@@ -506,7 +513,7 @@
                     <div class="col-md-12 p-0">
                       <input class="form-control color-text-box"
                              type="number"
-                             min="1"
+                             min="-1"
                              max="999"
                              [hidden]="_mostrarAniosAntiguedad"
                              formControlName="aniosAntiguedad"/>
@@ -545,10 +552,11 @@
               </div> -->
             </div>
       
-            <table class="table table-striped table-bordered border-primary color-table">
+            <table class="table table-striped text-primary color-table" style="border-radius:15px;">
               <thead class="thead-dark text-primary">
                 <tr>
                   <th class="text-primary text-center">Titulo</th>
+                  <th class="text-primary text-center">Tipo operación</th>
                   <th class="text-primary text-center">Precio</th>
                   <th class="text-primary text-center">Superficie m<sup>2</sup></th>
                   <th class="text-primary text-center">Recamaras</th>
@@ -560,11 +568,14 @@
               <tbody>
                 <tr class="py-5" *ngFor="let publicacionHija of _publicacionesHijas; let i = index">
                       <td class="text-primary text-truncate" style="max-width: 180px;">
-                        <a href="/publicar/caracteristicas?Id_Publicacion={{publicacionHija.Id_Publicacion}}">{{publicacionHija.TituloPublicacion === null ? 'No definido' : publicacionHija.TituloPublicacion }}</a>
+                        <a style="cursor:pointer; text-decoration: underline blue; max-width: 180px;" (click)="verPublicacionCliente(publicacionHija)" data-toggle="tooltip" data-placement="top">{{publicacionHija.TituloPublicacion === null ? 'No definido' : publicacionHija.TituloPublicacion }}</a>
                       </td>
-                      <td class="text-primary text-end" style="min-width: 100px;">
-                        <label class="text-primary">{{publicacionHija.PrecioDesde === null ? 'No definido' : publicacionHija.PrecioDesde | currency}}</label>
-                        <label class="text-primary px-1" style="font-size: 12px; font-weight: bold;">{{((publicacionHija.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label>
+                      <td class="text-primary text-center" style="min-width: 100px;">
+                        <label class="text-primary">{{publicacionHija.Id_TipoOperacion | DescripcionTO }}</label>
+                      </td>
+                      <td class="text-primary text-center" style="min-width: 100px;">
+                        <label class="text-primary">{{publicacionHija.PrecioDesde === null ? 'No definido' : publicacionHija.PrecioDesde | number : '1.0'}}</label>
+                        <label *ngIf="publicacionHija.PrecioDesde != null" class="text-primary px-1" style="font-size: 12px; font-weight: bold;">{{((publicacionHija.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label>
                       </td>
                       <td class="text-primary text-center">
                         <label class="text-primary">{{publicacionHija.SuperficieConstruidaDesde === null ? 'No definida' : publicacionHija.SuperficieConstruidaDesde }}</label>
@@ -579,7 +590,7 @@
                         <label class="text-primary">{{publicacionHija.EstacionamientosDesde === null ? 'No definido' : publicacionHija.EstacionamientosDesde }}</label>
                       </td>
                       <td *ngIf="!_publicacionActivada" class="text-end" width="auto" >
-                        <button class="btn d-grid mix-auto btn-outline-primary" 
+                        <button class="btn d-grid mix-auto btn-outline-primary" type="button"
                                 style="border-radius: 25px;"
                                 (click)="quitarPublicacionHija(publicacionHija)">
                                 <span _ngcontent-hso-c67="" class="col-md-1 col-md-offset-2 text-center">
@@ -601,15 +612,21 @@
         <div class="form-group row py-0">
           <div class="col-md-3">
             <label class="col-md-12 col-form-label text-primary">Precio desde</label>
-            <div class="col-md-12 p-0 input-group">
+            <div class="col-md-9 p-0 input-group">
               <span class="input-group-text text-primary">$</span>
               <input  class="form-control text-primary color-text-box"
                       type="number"
                       min="0" 
                       placeholder="Precio desde"
-                      max="999999"
+                      max="9999999999"
+                      [class.is-invalid]="precioDesdeNoValido"
                       formControlName="precioDesde" />
               <span class="input-group-text text-primary">.00</span>
+            </div>
+            <div class="col-md-3 px-0">
+              <!-- <small *ngIf="precioDesdeNoValido" class="text-danger">
+                *
+              </small> -->
             </div>
           </div>
           <div class="col-md-3">
@@ -620,7 +637,7 @@
                       type="number"
                       min="0" 
                       placeholder="Precio hasta"
-                      max="999999"
+                      max="9999999999"
                       formControlName="precioHasta" />
               <span class="input-group-text text-primary">.00</span>
             </div>
@@ -691,13 +708,21 @@
           <div class="col-md-2"></div>
           <div class="col-md-8">
             <label class="col-md-12 col-form-label text-primary">Titulo del anuncio</label>
-            <div class="col-md-12 p-0">
-              <input  class="form-control text-primary color-text-box"
-                      type="text"
-                      placeholder="El titulo debe de ser muy descriptivo, p.e. Casa en Venta en Celaya Guanajuato..."
-                      formControlName="tituloPublicacion"
-              />
-            </div>
+            <div class="row px-3">
+              <div class="col-md-9 p-0">
+                <input  class="form-control text-primary color-text-box"
+                        type="text"
+                        placeholder="El titulo debe de ser muy descriptivo, p.e. Casa en Venta en Celaya Guanajuato..."
+                        formControlName="tituloPublicacion"
+                        [class.is-invalid]="tituloNoValido"
+                />
+              </div>
+              <div class="col-md-3 px-3">
+                  <small *ngIf="tituloNoValido" class="text-danger">
+                    Se requiere un título
+                  </small>
+              </div>
+          </div>
           </div>
           <div class="col-md-2"></div>
           <div class="col-md-2"></div>

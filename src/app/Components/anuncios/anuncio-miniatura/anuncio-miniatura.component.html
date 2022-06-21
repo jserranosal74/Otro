@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-3 p-1 border" style="border-radius: 15px 0px 0px 15px;">
-      <img [src]="_publicacion.Url" alt="" width="100%" height="150px;" style="border-radius: 15px 0px 0px 15px;">
+      <img [src]="_publicacion.Url" alt="" width="100%" height="100%;" style="border-radius: 15px 0px 0px 15px;">
     </div>
     <div class="col-md-9 p-1 border" style="border-radius: 0px 15px 15px 0px;">
       <div class="row">
@@ -13,65 +13,87 @@
                   <h6 class="text-primary text-end"><kbd class="bg-color-2" >{{_publicacion.Estatus}}</kbd></h6>
               </div>
           </div>
-          <h6 *ngIf="_publicacion.Asentamiento != null " class="text-primary">{{_publicacion.Asentamiento}}, {{_publicacion.Municipio}}, {{_publicacion.Estado}}.</h6>
-          <h6 *ngIf="_publicacion.Asentamiento === null || _publicacion.Asentamiento === ''" class="text-danger">Tu anuncio no tiene una ubicación definida</h6>
-            <div class="row">
-                <div class="col">
+          <div class="row px-0">
+            <div class="col-md-10 px-4">
+                <p *ngIf="_publicacion.Asentamiento != null " class="text-primary">{{_publicacion.Asentamiento}}, {{_publicacion.Municipio}}, {{_publicacion.Estado}}.</p>
+                <p *ngIf="_publicacion.Asentamiento === null || _publicacion.Asentamiento === ''" class="text-danger">Tu anuncio no tiene una ubicación definida</p>
+            </div>
+            <div class="col-md-2  p-1">
+                <h6 class="text-primary text-end"><kbd style="background-color: #003cff;">{{_publicacion.TipoOperacion}}</kbd></h6>
+            </div>
+          </div>
+          <div *ngIf="_publicacion.TipoOperacion != 'Desarrollo'" class="row">
+              <div class="col">
                     <div class="row">
-                        <div class="col-auto text-primary"><h4>{{_publicacion.ClaveMoneda}}</h4></div>
+                        <div class="col-auto text-primary"><p>{{_publicacion.ClaveMoneda}}</p></div>
                         <div class="col-auto text-primary px-0"><h4>$ {{_publicacion.PrecioDesde | number : '1.0'}}</h4></div>
                     </div>
-                </div>
-                <div class="col-md-auto">
-                </div>
-            </div>
+              </div>
+              <div class="col text-end">
+                    <!-- <div *ngIf="_tipoBusqueda == 'misAnuncios'; then misAnuncios else misFavoritos"></div> -->
+              </div>
+          </div>
 
-            <div *ngIf="_tipoBusqueda == 'misAnuncios'; then misAnuncios else misFavoritos"></div>
+          <div *ngIf="_publicacion.TipoOperacion === 'Desarrollo'" class="row">
+              <div class="col">
+                  <div class="row">
+                      <div class="col-auto text-primary"><p>{{_publicacion.ClaveMoneda}}</p></div>
+                      <div class="col-auto text-primary px-2"><h4>$ {{_publicacion.PrecioDesde | number : '1.0'}} -</h4></div>
+                      <div class="col-auto text-primary px-0"> <h4>$ {{_publicacion.PrecioHasta | number : '1.0'}}</h4></div>
+                  </div>
+              </div>
+              <div class="col-md-auto">
+                    <!-- <div *ngIf="_tipoBusqueda == 'misAnuncios'; then misAnuncios else misFavoritos"></div> -->
+              </div>
+          </div>
+
+
 
             <ng-template #misAnuncios>
 
-                <div *ngIf="_publicacion.Estatus === 'Borrador'">
-                    <div class="row m-0 p-0" style="position:relative; bottom:0px;">
-                        <div class="col text-end">
-                            <a style="border-radius:25px;" class="btn btn-success" [href]="'publicar/operacion-tipo-inmueble?id_Publicacion=' + this._publicacion.Id_Publicacion">
+                <div *ngIf="_publicacion.Estatus === 'Borrador'" >
+                    <div class="row m-0 p-0" >
+                        <div class="col-md-7 text-start px-0">
+                            <span *ngIf="_publicacion.PerteneceADesarrollo === 1" class="text-primary">Este anuncio forma parte de un desarrollo</span>
+                        </div>
+                        <div class="col-md-5 text-end px-0">
+                            <a class="btn btn-success br25" [href]="'publicar/operacion-tipo-inmueble?Id_Publicacion=' + this._publicacion.Id_Publicacion">
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-pen" aria-hidden="true"> </i>
                             </span></a>
-                            <a style="border-radius:25px;" class="btn btn-primary mx-1" (click)="verPublicacionCliente()">
+                            <a class="btn btn-primary mx-1 br25" (click)="verPublicacionCliente()">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
                             </span></a>
-                            <a class="btn btn-success" style="border-radius:25px;" [href]="'publicar/pagar-y-activar?id_Publicacion=' + this._publicacion.Id_Publicacion">
+                            <a *ngIf="_publicacion.PerteneceADesarrollo === 0" class="btn btn-warning br25" [href]="'publicar/pagar-y-activar?Id_Publicacion=' + this._publicacion.Id_Publicacion">
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-arrow-up" aria-hidden="true"> </i>
                             </span></a>
-                            <button type="button" style="border-radius:25px;" class="btn btn-danger mx-1" (click)="eliminarAnuncio()">
+                            <button *ngIf="_publicacion.PerteneceADesarrollo === 0" type="button" class="btn btn-danger mx-1 br25" (click)="eliminarAnuncio()">
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-trash-can" aria-hidden="true"> </i>
                             </span></button>
                         </div>
-                    
                     </div>
                 </div>
 
                 <div *ngIf="_publicacion.Estatus === 'Activada'">
-                    <div class="row m-0 p-0" style="position:relative; bottom:0px;">
-                        <div class="col text-primary px-0">
-                            <br>
+                    <div class="row m-0 p-0" >
+                        <div class="col-md-8 text-primary px-0 mt-3">
                             <span>Fecha inicio: <strong>{{_publicacion.FechaInicioPublicacion | date:'dd-MM-yyyy'}}</strong> / </span>
                             <span>Fecha fin: <strong>{{_publicacion.FechaFinPublicacion | date:'dd-MM-yyyy'}}</strong></span>
                         </div>
-                        <div class="col text-end">
+                        <div class="col-md-4 text-end px-0">
                             <!-- <button type="button" style="border-radius:25px;" class="btn btn-success" (click)="editarAnuncio()">
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-pen" aria-hidden="true"> </i>
                             </span></button> -->
-                            <a style="border-radius:25px;" class="btn btn-primary mx-1" [href]="'anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion">
+                            <a class="btn btn-primary mx-1 br25" (click)="verPublicacionCliente()">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
                             </span></a>
-                            <button type="button" style="border-radius:25px;" class="btn text-white mx-1 bg-dark" (click)="eliminarAnuncio()">
-                                <span class="col-md-1 col-md-offset-2 text-center">
+                            <button type="button" class="btn btn-dark text-primary mx-1 br25" (click)="cancelarPublicacion()">
+                                <span class="col-md-1 text-center">
                                     <i class="fa fa-xmark" aria-hidden="true"> </i>
                             </span></button>
                         </div>
@@ -79,31 +101,52 @@
                 </div>
 
                 <div *ngIf="_publicacion.Estatus === 'Cancelada'">
-                    <div class="row m-0 p-0" style="position:relative; bottom:0px;">
-                        <div class="col text-end">
-                            <a style="border-radius:25px;" class="btn btn-primary mx-1" [href]="'anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion">
+                    <div class="row m-0 p-0">
+                        <div class="col-md-8 text-primary px-0 mt-3">
+                            <span>Fecha en que se canceló: <strong>{{_publicacion.FechaModificacion | date:'dd-MM-yyyy'}}</strong></span>
+                        </div>
+                        <div class="col-md-4 text-end px-0">
+                            <a class="btn btn-primary mx-1 br25" (click)="verPublicacionCliente()">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
+                            </span></a>
+                            <button class="btn btn-primary mx-1 br25" (click)="copiarPublicacion()">
+                                <span class="col-md-1 text-center">
+                                    <i class="fa-solid fa-copy"></i>
+                            </span></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="_publicacion.Estatus === 'Vencida'">
+                    <div class="row m-0 p-0" style="position:relative; bottom:0px; right:0px;">
+                        <div class="col-md-8 text-primary px-0 mt-3">
+                            <span>Fecha en que venció: <strong>{{_publicacion.FechaFinPublicacion | date:'dd-MM-yyyy'}}</strong></span>
+                        </div>
+                        <div class="col-md-4 text-end px-0">
+                            <a class="btn btn-primary mx-1 br25" (click)="copiarPublicacion()">
+                                <span class="col-md-1 text-center">
+                                    <i class="fa-solid fa-copy"></i>
                             </span></a>
                         </div>
                     </div>
                 </div>
 
                 <div *ngIf="_publicacion.Estatus === 'En espera de pago'">
-                    <div class="row m-0 p-0" style="position:relative; bottom:0px;">
+                    <div class="row m-0 p-0" style="position:relative; bottom:0px; right:-15px;">
                         <div class="col text-end">
                             <!-- <button type="button" style="border-radius:25px;" class="btn btn-success" (click)="editarAnuncio()">
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-pen" aria-hidden="true"> </i>
                             </span></button> -->
-                            <a style="border-radius:25px;" class="btn btn-primary mx-1" [href]="'anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion">
+                            <a class="btn btn-primary mx-1 br-25" (click)="verPublicacionCliente()">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
                             </span></a>
-                            <button type="button" style="border-radius:25px;" class="btn btn-danger mx-1" (click)="eliminarAnuncio()">
+                            <!-- <button type="button" class="btn btn-danger mx-1 br25" (click)="eliminarAnuncio()">
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-trash-can" aria-hidden="true"> </i>
-                            </span></button>
+                            </span></button> -->
                         </div>
                     </div>
                 </div>
@@ -111,17 +154,17 @@
             </ng-template>
 
             <ng-template #misFavoritos>
-                <div class="row m-0 p-0" style="position:relative; bottom:0px;">
+                <div class="row m-0 p-0" style="position:relative; bottom:0px; right:-15px;">
                     <div class="col text-end">
                         <!-- <a class="btn btn-primary mx-1 br25" [href]="'anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion">
                             <span class="col-md-1 text-center">
                                 <i class="fa fa-eye" aria-hidden="true"> </i>
                         </span></a> -->
-                        <a style="border-radius:25px;" class="btn btn-primary mx-1" (click)="verPublicacionCliente()">
+                        <a class="btn btn-primary mx-0 br25" (click)="verPublicacionCliente()">
                             <span class="col-md-1 text-center">
                                 <i class="fa fa-eye" aria-hidden="true"> </i>
                         </span></a>
-                        <button type="button" style="border-radius:25px; box-shadow: none;" class="btn" (click)="quitarFavorito()">
+                        <button type="button" style="box-shadow: none;" class="btn br25" (click)="quitarFavorito()">
                             <span class="col-md-1 text-danger">
                                 <i class="fa fa-heart" style="font-size: 25px;" aria-hidden="true"> </i>
                         </span></button>
@@ -130,6 +173,9 @@
                 </div>
             </ng-template>
 
+      </div>
+      <div style="position:relative; bottom:0px; bottom:0px; right:0px;">
+          <div *ngIf="_tipoBusqueda == 'misAnuncios'; then misAnuncios else misFavoritos"></div>
       </div>
     </div>
 </div>

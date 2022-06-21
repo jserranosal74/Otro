@@ -220,6 +220,10 @@
             </a>
             <ul class="dropdown-menu">
               <li>
+                <a class="dropdown-item text-primary text-primary" [routerLink]="['procesos', 'actualizarpublicacionesplanesypaquetes']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Actualizar publicaciones vencidas</span></a>
+              </li>
+              <li>
                 <a class="dropdown-item text-primary text-primary" [routerLink]="['catalogos', 'archivosfiscales']"><i class="fa-solid fa-house-chimney-window"></i>
                   <span style="padding: 10px;">Archivos Fiscales</span></a>
               </li>
@@ -308,22 +312,49 @@
 
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" routerLinkActive="active">
-          <a class="btn text-white btn-secondary" style="border-radius: 10px;" [routerLink]="['publicar']">
+          <a class="btn text-white btn-secondary br25" [routerLink]="['publicar']">
             Publicar</a>
         </li>
         <div *ngIf="usuarioAutenticado">
-        <li class="nav-item" routerLinkActive="active">
-          <div style="display:flex; align-items:center; max-width: 120px;">
-            <a class="btn btn-link" 
-              style="border:none; box-shadow: none;"
-              [routerLink]="['micuenta']">
-              <span *ngIf="!_urlFotoPerfil"><i class="fa-solid fa-circle-user medicon"></i></span>
-              <img *ngIf="_urlFotoPerfil" class="br25" width="25px" height="100%" [src]="_urlFotoPerfil" alt="">
-            </a>
-            <label class="text-white text-capitalize text-truncate" >{{_nombreUsuario}}</label>
-          </div>
+          <li class="nav-item dropdown" routerLinkActive="active">
+              <a class="btn btn-link" data-bs-toggle="dropdown"
+                style="border:none; box-shadow: none;"
+                [routerLink]="['micuenta']">
+                <span *ngIf="!_urlFotoPerfil"><i class="fa-solid fa-circle-user medicon"></i></span>
+                <img *ngIf="_urlFotoPerfil" class="br25" width="25px" height="100%" [src]="_urlFotoPerfil" alt="">
+              </a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'misanuncios']"><i class="fa-solid fa-house-chimney-window"></i>
+                    <span style="padding: 10px;">Mis anuncios</span></a>
+                </li>
+                <li>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'misplanesypaquetes']"><i class="fa-solid fa-house-chimney-window"></i>
+                    <span style="padding: 10px;">Mis planes y paquetes</span></a>
+                </li>
+                <li>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'misfavoritos']"><i class="fa-solid fa-house-chimney-window"></i>
+                    <span style="padding: 10px;">Mis favoritos</span></a>
+                </li>
+                <li>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mismensajes']"><i class="fa-solid fa-house-chimney-window"></i>
+                    <span style="padding: 10px;">Mis mensajes</span></a>
+                </li>
+                <li>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'misfacturas']"><i class="fa-solid fa-house-chimney-window"></i>
+                    <span style="padding: 10px;">Mis facturas</span></a>
+                </li>
+                <div class="dropdown-divider"></div>
+                <li>
+                  <a class="dropdown-item text-primary btn btn-link" (click)="cerrarSesion()"><i class="fa-solid fa-house-chimney-window"></i>
+                    <span style="padding: 10px;">Cerrar sesión</span></a>
+                </li>
+              </ul>
+          </li>
+        </div>
+        <li class="nav-item py-1" routerLinkActive="active">
+          <label class="text-white text-capitalize text-truncate" style="max-width:60px;">{{_nombreUsuario}}</label>
         </li>
-      </div>
         <div *ngIf="!usuarioAutenticado; then thenBlock else elseBlock"></div>
         <ng-template #thenBlock>
           <li class="nav-item">
@@ -332,7 +363,8 @@
                href="iniciarsesion">
                <i class="fa-solid fa-arrow-right-to-bracket medicon"></i>
             </a>
-          </li></ng-template>
+          </li>
+        </ng-template>
         <ng-template #elseBlock>
           <li class="nav-item">
             <a class="btn btn-link" 

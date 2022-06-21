@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from 'src/app/guards/auth.guard';
+import { AuthGuardAdmin } from 'src/app/guards/authAdmin.guard';
 
 import { AmenidadesComponent } from './amenidades/amenidades.component';
 import { ArchivosFiscalesComponent } from './archivosfiscales/archivosfiscales.component';
@@ -18,20 +18,20 @@ import { TiposasentaientoComponent } from './tiposasentamiento/tiposasentamiento
 import { UsuariosempresaComponent } from './usuariosempresa/usuariosempresa.component';
 
 export const CATALOGOS_CHILD_ROUTES: Routes = [
-  { path: 'archivosfiscales', component: ArchivosFiscalesComponent, canActivate: [AuthGuard] },
-  { path: 'amenidades', component: AmenidadesComponent, canActivate: [AuthGuard] },
-  { path: 'asentamientos', component: AsentamientosComponent, canActivate: [AuthGuard] },
-  { path: 'bancos', component: BancosComponent, canActivate: [AuthGuard] },
-  { path: 'caracteristicas', component: CaracteristicasComponent, canActivate: [AuthGuard] },
-  { path: 'empresas', component: EmpresasComponent, canActivate: [AuthGuard] },
-  { path: 'municipios', component: MunicipiosComponent, canActivate: [AuthGuard] },
-  { path: 'medioscontacto', component: MedioscontactoComponent, canActivate: [AuthGuard] },
-  { path: 'paquetes', component: PaquetesComponent, canActivate: [AuthGuard] },
-  { path: 'planes', component: PlanesComponent, canActivate: [AuthGuard] },
-  { path: 'subtipospropiedad', component: SubtipospropiedadComponent, canActivate: [AuthGuard] },
-  { path: 'tipospropiedad', component: TipopropiedadComponent, canActivate: [AuthGuard] },
-  { path: 'tiposoperacion', component: TipooperacionComponent, canActivate: [AuthGuard] },
-  { path: 'tiposasentamiento', component: TiposasentaientoComponent, canActivate: [AuthGuard] },
-  { path: 'usuariosempresa', component: UsuariosempresaComponent, canActivate: [AuthGuard] },
+  { path: 'archivosfiscales', component: ArchivosFiscalesComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'amenidades', component: AmenidadesComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'asentamientos', component: AsentamientosComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'bancos', component: BancosComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'caracteristicas', component: CaracteristicasComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'empresas', component: EmpresasComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'municipios', component: MunicipiosComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'medioscontacto', component: MedioscontactoComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'paquetes', component: PaquetesComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'planes', component: PlanesComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'subtipospropiedad', component: SubtipospropiedadComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'tipospropiedad', component: TipopropiedadComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'tiposoperacion', component: TipooperacionComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'tiposasentamiento', component: TiposasentaientoComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'usuariosempresa', component: UsuariosempresaComponent, canActivate: [AuthGuardAdmin] },
   { path: '**', pathMatch: 'full', redirectTo: 'medioscontacto'},
 ]

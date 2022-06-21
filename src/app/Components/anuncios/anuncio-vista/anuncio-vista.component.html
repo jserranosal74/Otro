@@ -37,7 +37,7 @@
                     <!-- <h3 class="text-primary text-uppercase">{{_publicacion.TituloPublicacion}}</h3> -->
                     <h1 class="text-primary" style="font-size:3em; font-weight: bolder;">{{_publicacion.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }} <label class="text-primary px-1" style="font-size: 2rem;">{{((_publicacion.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label></h1>
                     <div class="col text-end mb-3">
-                        <a (click)="abrirPaginaCliente()" class="text-end text-truncate" style="cursor:pointer;" >
+                        <a (click)="abrirPaginaCliente()" class="text-end text-truncate" style="cursor:pointer;" data-toggle="tooltip" data-placement="top" >
                             <img class="col-md-2 text-center" [src]="_clienteVista.UrlFotoPerfil" width="100%" height="100%" alt="fotoPefil">
                             <label class="text-primary text-truncate px-2" style="max-width:100px; cursor:pointer;">{{_clienteVista.Nombre}} {{_clienteVista.Apellidos}}</label><br>
                         </a>
@@ -221,11 +221,11 @@
             </div>
                 
             <!-- Se comenta de manera temporal la muestra del mapa -->
-            <!-- <google-map width="100%"
+            <google-map width="100%"
                         height="400px"
                         [center]="_gm_center"
                         [zoom]="_gm_zoom">
-            </google-map> -->
+            </google-map>
             <hr>
 
             <div class="col">

@@ -23,7 +23,8 @@ export class favoritoCliente {
       public FechaAlta              : Date,
       public FechaModificacion      : Date,
       public Estatus                : string,
-      public EsFavorito             : number
+      public EsFavorito             : number,
+      public PerteneceADesarrollo   : number
     ) {}
   }
 

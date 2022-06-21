@@ -7,11 +7,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { ConfirmarPagosPlanesComponent } from './confirmarpagosplanes/confirmarpagosplanes.component';
 import { AsignarPaqueteAClienteComponent } from './asignarpaqueteacliente/asignarpaqueteacliente.component';
 import { TarjetasModule } from '../tarjetas/tarjetas.module';
+import { ActualizarPublicacionesPlanesYPaquetesComponent } from './actualizarpublicacionesplanesypaquetes/actualizarpublicacionesplanesypaquetes.component';
 
 @NgModule({
   declarations: [
     ConfirmarPagosPlanesComponent,
-    AsignarPaqueteAClienteComponent
+    AsignarPaqueteAClienteComponent,
+    ActualizarPublicacionesPlanesYPaquetesComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { TarjetasModule } from '../tarjetas/tarjetas.module';
   ],
   exports: [
     ConfirmarPagosPlanesComponent,
-    AsignarPaqueteAClienteComponent
+    AsignarPaqueteAClienteComponent,
+    ActualizarPublicacionesPlanesYPaquetesComponent
   ]
 })
 

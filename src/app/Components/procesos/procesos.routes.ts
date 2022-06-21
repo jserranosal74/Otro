@@ -1,11 +1,13 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from 'src/app/guards/auth.guard';
+import { AuthGuardAdmin } from 'src/app/guards/authAdmin.guard';
 
 import { ConfirmarPagosPlanesComponent } from './confirmarpagosplanes/confirmarpagosplanes.component';
 import { AsignarPaqueteAClienteComponent } from './asignarpaqueteacliente/asignarpaqueteacliente.component';
+import { ActualizarPublicacionesPlanesYPaquetesComponent } from './actualizarpublicacionesplanesypaquetes/actualizarpublicacionesplanesypaquetes.component';
 
 export const PROCESOS_CHILD_ROUTES: Routes = [
-  { path: 'confirmarpagosplanes', component: ConfirmarPagosPlanesComponent, canActivate: [AuthGuard] },
-  { path: 'asignarpaqueteacliente', component: AsignarPaqueteAClienteComponent, canActivate: [AuthGuard] },
+  { path: 'actualizarpublicacionesplanesypaquetes', component: ActualizarPublicacionesPlanesYPaquetesComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'asignarpaqueteacliente', component: AsignarPaqueteAClienteComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'confirmarpagosplanes', component: ConfirmarPagosPlanesComponent, canActivate: [AuthGuardAdmin] },
   { path: '**', pathMatch: 'full', redirectTo: 'confirmarpagosplanes'},
 ]

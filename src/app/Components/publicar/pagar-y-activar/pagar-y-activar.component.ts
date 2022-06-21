@@ -40,7 +40,11 @@ export class PagarYActivarComponent implements OnInit {
 
   _paquetesCliente : paqueteCliente[] = [];
   _paqueteCliente : paqueteCliente = new paqueteCliente(null,0,null,null,null,null,null,null,null,0,'',null,0,false);
-  //_planClienteDetalle! : planClienteDetalle;
+  _esDesarrollo : boolean = false;
+  
+  _guardandoYpublicando : boolean = false;
+  _guardandoYpublicandoSF : boolean = false;
+  _guardandoYpublicandoCF : boolean = false;
 
   @ViewChild('myModalAceptarYPublicar') modalAceptarYPublicar : any;
   @ViewChild('myModalClose') modalClose : any;
@@ -56,7 +60,7 @@ export class PagarYActivarComponent implements OnInit {
                 private router: Router) {
 
     this._activatedRoute.queryParams.subscribe(params => {
-      this._id_publicacion = params['id_Publicacion'];
+      this._id_publicacion = params['Id_Publicacion'];
       if (this._id_publicacion === undefined){
         this._id_publicacion = 0;
         setTimeout( () => { this.router.navigateByUrl('/publicar/operacion-tipo-inmueble'); }, 700 );
@@ -75,25 +79,26 @@ export class PagarYActivarComponent implements OnInit {
   regresar(){
     this._numeroPaso = 2;
     //setTimeout( () => { this.router.navigateByUrl('/publicar/fotosyvideos'); }, 700 );
-    setTimeout( () => { this.router.navigate(['/publicar/adicionales'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+    setTimeout( () => { this.router.navigate(['/publicar/adicionales'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
   }
 
   pantallaSiguiente(){
     this._numeroPaso = 2;
-    setTimeout( () => { this.router.navigate(['/publicar/operacion-tipo-inmueble'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+    setTimeout( () => { this.router.navigate(['/publicar/operacion-tipo-inmueble'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
   }
 
   obtenerPlanesCliente(){
     let Id_Usuario = this._loginService.obtenerIdCliente();
-    this._planClienteService.getPlanesCliente(Id_Usuario, 16).subscribe(
+    this._planClienteService.getPlanesCliente(Id_Usuario, 16, null).subscribe(
       (data) => {
         //console.log('----datos---: ', data);
 
+        // Para un desarrollo solo se puede cargar el plan Premium
         data.forEach(item =>{
           if(this._publicacion.Id_TipoOperacion != 3){
             this._planesCliente.push(new plancliente(item.Id_PlanCliente, item.Id_Plan, item.Id_Cliente, item.Id_DatosFiscales, item.Descripcion, item.Disponibles, item.Utilizados, item.Restantes,  item.Id_Publicacion, item.TituloPublicacion, item.FechaDePago, item.FechaFacturacion, item.NombreRazonSocial, item.RFC, item.NumFactura, item.FechaAlta, item.FechaModificacion, item.Id_Estatus, item.DescripcionEstatus,0,false));
           }else if(this._publicacion.Id_TipoOperacion === 3){
-            if(item.Id_Plan === 7){
+            if(item.Id_Plan === 5){
               this._planesCliente.push(new plancliente(item.Id_PlanCliente, item.Id_Plan, item.Id_Cliente, item.Id_DatosFiscales, item.Descripcion, item.Disponibles, item.Utilizados, item.Restantes,  item.Id_Publicacion, item.TituloPublicacion, item.FechaDePago, item.FechaFacturacion, item.NombreRazonSocial, item.RFC, item.NumFactura, item.FechaAlta, item.FechaModificacion, item.Id_Estatus, item.DescripcionEstatus,0,false));
             }
           }
@@ -135,7 +140,7 @@ export class PagarYActivarComponent implements OnInit {
 
   obtenerPaquetesCliente() {
     let Id_Cliente = this._loginService.obtenerIdCliente();
-    this._paquetesClienteService.getPaquetesCliente(Id_Cliente, 16).subscribe(
+    this._paquetesClienteService.getPaquetesCliente(Id_Cliente, 16, null).subscribe(
       (data) => {
         //console.log('obtenerMisPaquetes', data);
 
@@ -183,14 +188,14 @@ export class PagarYActivarComponent implements OnInit {
           if(element.Id_Plan === 1) data.splice(index,1);
         });
 
-        // Solo se muestran los planes de Cantidad === 1, no los paquetes ya que se trata de solo una publicacion
+        // Solo se muestran los planes de Cantidad === 1
         data.forEach(item =>{
           if(this._publicacion.Id_TipoOperacion != 3){
             if ((item.Cantidad === 1) && (item.Id_Plan != 7)) {
               this._planes.push(new plan(item.Id_Plan, item.Descripcion, item.Precio, item.Cantidad, item.VigenciaXUnidad, item.Clave, item.ClaveProdServ, item.Id_Moneda, item.Id_Impuesto, item.UrlImagen, item.Visible, item.FechaAlta, item.FechaModificacion, item.Id_Usuario, item.Id_Estatus, 0));
             }
           }else if(this._publicacion.Id_TipoOperacion === 3){
-            if (item.Id_Plan === 7){
+            if (item.Id_Plan === 5){
               this._planes.push(new plan(item.Id_Plan, item.Descripcion, item.Precio, item.Cantidad, item.VigenciaXUnidad, item.Clave, item.ClaveProdServ, item.Id_Moneda, item.Id_Impuesto, item.UrlImagen, item.Visible, item.FechaAlta, item.FechaModificacion, item.Id_Usuario, item.Id_Estatus, 0));
             }
           }
@@ -310,13 +315,27 @@ export class PagarYActivarComponent implements OnInit {
             //console.log(data);
             this._publicacion = data;
 
-            if ((data.Id_Estatus === 13) || (data.Id_Estatus === 14)) {
-              setTimeout( () => { this.router.navigate(['/publicar/operacion-tipo-inmueble'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+            if(this._publicacion.Id_TipoOperacion === 3){
+              this._esDesarrollo = true;
+            }
+            else{
+              this._esDesarrollo = false;
             }
 
-            this.obtenerPlanesCliente();
-            this.obtenerPaquetesCliente();
-            this.obtenerPlanesDisponibles();
+            if ((data.Id_Estatus === 13) || (data.Id_Estatus === 14)) {
+              setTimeout( () => { this.router.navigate(['/publicar/operacion-tipo-inmueble'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
+            }
+
+            if (this._esDesarrollo){
+              this.obtenerPlanesCliente();
+              this.obtenerPlanesDisponibles();
+            }
+            else{
+              this.obtenerPlanesCliente();
+              this.obtenerPaquetesCliente();
+              this.obtenerPlanesDisponibles();
+            }
+           
 
           },
           (error: HttpErrorResponse) => {
@@ -398,6 +417,14 @@ export class PagarYActivarComponent implements OnInit {
   }
 
   seleccionarPlanPaqueteCliente(objPaqueteCliente : paqueteCliente){
+
+    this._paquetesCliente.forEach( item => {
+      if (item != objPaqueteCliente){
+        item.Detalle?.forEach(itemDetalle=>{
+          itemDetalle.Seleccionado = false;
+        });
+      }
+    });
 
     objPaqueteCliente.Detalle!.forEach( item => {
       if (item.Seleccionado === true){
@@ -491,6 +518,13 @@ export class PagarYActivarComponent implements OnInit {
       }
     });
 
+    this._guardandoYpublicando = true;
+
+    if(intConFactura === 0)
+      this._guardandoYpublicandoSF = true;
+    else
+      this._guardandoYpublicandoCF = true;
+
     this._publicacionesService.putActivarPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente(), this._planCliente.Seleccionado === 1 ? this._planCliente.Id_PlanCliente : null, this._planCliente.Seleccionado === 1 ? this._planCliente.Id_Plan : this._plan.Id_Plan, intConFactura === 1 ? this._datoFiscal.Id_DatosFiscales : null, this._banco.Id_Banco === 0 ? null : this._banco.Id_Banco, this._paqueteCliente.Id_Paquete, Id_PaqueteDetalle ).subscribe(
       (data) => {
 
@@ -512,6 +546,10 @@ export class PagarYActivarComponent implements OnInit {
             showDenyButton: false,
           });
         }
+
+        this._guardandoYpublicando = false;
+        this._guardandoYpublicandoSF = false;
+        this._guardandoYpublicandoCF = false;
 
         this.modalClose.nativeElement.click();
 

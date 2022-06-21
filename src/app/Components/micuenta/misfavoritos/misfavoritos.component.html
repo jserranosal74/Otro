@@ -4,47 +4,26 @@
       <legend class="text-center text-primary mb-3"><h1 class="display-4">Mis favoritos</h1></legend>
     </div>
     <div >
-      <div class="form-group row mb-3">
+      <div class="form-group row mb-3 px-2">
         <div class="col-auto d-grid gap-2 mix-auto px-0">
         </div>
         <div class="col-md-8 d-grid gap-2 mix-auto px-0"></div>
         <div class="col-md-4 p-0 text-end">
           <label class="text-primary text-end px-3">Total de registros: {{_paginadoDetalle.TotalRegistros}}</label>
-          <button class="btn btn-primary btn-sm br25" (click)="mostrarFiltros()">
+          <!-- <button class="btn btn-primary btn-sm br25" (click)="mostrarFiltros()">
               <span class="col-md-1 col-md-offset-2 text-center">
                 <i [ngClass]="{' fa-regular fa-eye': _mostrarFiltros, ' fa-solid fa-eye-slash': !_mostrarFiltros}" ></i>
               </span>
-          </button>
+          </button> -->
         </div>
       </div>
   
       <div class="row">
-        <div [ngClass]="{' col-md-9': _mostrarFiltros, ' col-md-12': !_mostrarFiltros}">
+
           <div class="row mb-3" *ngFor="let favoritoCliente of _favoritosCliente" >
               <app-anuncio-miniatura [_publicacion]="favoritoCliente" [_tipoBusqueda]="'misFavoritos'" (_seEliminaFavorito)="actualizarBusqueda()"></app-anuncio-miniatura>
           </div>
-        </div>
-        <div [ngClass]="{' col-md-3': _mostrarFiltros, ' col-md-0': !_mostrarFiltros}" >
-          <div class="sticky-md-top" style="top:70px; left:10px">
-            <div class="row px-3" >
-                <input type="text" 
-                      placeholder="Filtro 1" 
-                      class="form-control text-primary color-text-box br25 mb-3">
-                <input type="text" 
-                      placeholder="Filtro 1" 
-                      class="form-control text-primary color-text-box br25 mb-3">
-                <input type="text" 
-                      placeholder="Filtro 1" 
-                      class="form-control text-primary color-text-box br25 mb-3">
-                <input type="text" 
-                      placeholder="Filtro 1" 
-                      class="form-control text-primary color-text-box br25 mb-3">
-                <button class="btn btn-primary br25">
-                        <span>Buscar</span>
-                </button>
-            </div>
-          </div>
-        </div>
+        
       </div>
   
       <div *ngIf="_seRealizaBusqueda" class="d-flex justify-content-center">

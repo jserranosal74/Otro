@@ -14,7 +14,7 @@
       <p *ngIf="_paqueteCliente.DescripcionEstatus === 'En espera de pago'" class="card-text text-primary text-center">Con este pago obtendrás:</p>
       <div *ngIf="_paqueteCliente.DescripcionEstatus === 'En espera de pago'" class="row">
         <div class="br25" style="border:1px;">
-          <table class="table table-striped m-0 color-table br15">
+          <table class="table table-striped text-primary m-0 color-table br10">
             <thead class="text-primary">
               <tr class="text-primary">
                 <th class="text-primary text-center p-1" scope="col">Tipo</th>
@@ -34,7 +34,7 @@
       </div>
       <div *ngIf="_paqueteCliente.DescripcionEstatus === 'Pagado' && _tipoTarjeta != 'AlPagar'" class="row">
         <div class="br25 px-1" style="border:1px;">
-          <table class="table table-striped m-0 color-table br15">
+          <table class="table table-striped m-0 text-primary color-table br10">
             <thead class="text-primary">
               <tr class="text-primary">
                 <th class="text-primary text-center p-1" scope="col">Tipo</th>
@@ -56,7 +56,7 @@
       </div>
       <div *ngIf="_paqueteCliente.DescripcionEstatus === 'Pagado' && _tipoTarjeta === 'AlPagar'" class="row">
         <div class="br25 px-1" style="border:1px;">
-          <table class="table table-striped m-0 color-table br15">
+          <table class="table table-striped m-0 text-primary color-table br10">
             <thead class="text-primary">
               <tr class="text-primary">
                 <th class="text-primary text-center p-1" scope="col">Sel.</th>

@@ -9,6 +9,7 @@ import { banco } from 'src/app/Models/catalogos/banco.model';
 export class TarjetabancoComponent implements OnInit {
 
   @Input() _banco : banco = new banco(0,'','','','','',0,new Date(),new Date(),0,0,0);
+  @Input() _origen : string = '';
 
   @Output() _seEligeBanco = new EventEmitter<number>();
 

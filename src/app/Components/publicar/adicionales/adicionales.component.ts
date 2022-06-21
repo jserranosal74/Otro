@@ -38,7 +38,7 @@ export class AdicionalesComponent implements OnInit {
                 private router: Router) {
 
     this._activatedRoute.queryParams.subscribe(params => {
-      this._id_publicacion = params['id_Publicacion'];
+      this._id_publicacion = params['Id_Publicacion'];
       if (this._id_publicacion === undefined){
         this._id_publicacion = 0;
         setTimeout( () => { this.router.navigateByUrl('/publicar/operacion-tipo-inmueble'); }, 700 );
@@ -109,12 +109,12 @@ export class AdicionalesComponent implements OnInit {
     this._numeroPaso = 2;
 
     //setTimeout( () => { this.router.navigateByUrl('/publicar/fotosyvideos'); }, 700 );
-    setTimeout( () => { this.router.navigate(['/publicar/fotosyvideos'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+    setTimeout( () => { this.router.navigate(['/publicar/fotosyvideos'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
   }
 
   pantallaSiguiente(){
     this._numeroPaso = 2;
-    setTimeout( () => { this.router.navigate(['/publicar/pagar-y-activar'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+    setTimeout( () => { this.router.navigate(['/publicar/pagar-y-activar'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
   }
 
   // seleccionarAntiguedad(intAnios : number){
@@ -236,11 +236,11 @@ export class AdicionalesComponent implements OnInit {
 
           if(this._publicacionActivada){
             this._numeroPaso = 2;
-            setTimeout( () => { this.router.navigate(['/publicar/operaciontipoinmueble'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+            setTimeout( () => { this.router.navigate(['/publicar/operaciontipoinmueble'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
           }
           else{
             this._numeroPaso = 2;
-            setTimeout( () => { this.router.navigate(['/publicar/pagar-y-activar'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+            setTimeout( () => { this.router.navigate(['/publicar/pagar-y-activar'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
           }
 
         },

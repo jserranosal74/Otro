@@ -28,9 +28,6 @@ export class OperaciontipoinmuebleComponent implements OnInit {
   _esEmpresa : boolean = false;
 
   formaOTI = this.fb.group({
-    tipoOperacion : ['', [Validators.required] ],
-    tipoPropiedad : ['', [Validators.required] ],
-    subtipoPropiedad : [''],
   });
 
   constructor( private _activatedRoute: ActivatedRoute,
@@ -42,7 +39,7 @@ export class OperaciontipoinmuebleComponent implements OnInit {
                private router: Router ) {
 
     this._activatedRoute.queryParams.subscribe(params => {
-      this._id_publicacion = params['id_Publicacion'];
+      this._id_publicacion = params['Id_Publicacion'];
       if (this._id_publicacion === undefined){
         this._id_publicacion = 0;
       }
@@ -234,7 +231,7 @@ debugger;
             });
 
             this._numeroPaso = 2;
-            setTimeout( () => { this.router.navigate(['/publicar/ubicacion'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+            setTimeout( () => { this.router.navigate(['/publicar/ubicacion'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
 
             // this.limpiarFormulario();
           },
@@ -298,7 +295,7 @@ debugger;
             });
 
             this._numeroPaso = 2;
-            setTimeout( () => { this.router.navigate(['/publicar/ubicacion'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+            setTimeout( () => { this.router.navigate(['/publicar/ubicacion'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
   
             //this.limpiarFormulario();
           },
@@ -345,7 +342,7 @@ limpiarFormulario(){
 
 pantallaSiguiente(){
   this._numeroPaso = 2;
-  setTimeout( () => { this.router.navigate(['/publicar/ubicacion'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+  setTimeout( () => { this.router.navigate(['/publicar/ubicacion'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
 
 }
 

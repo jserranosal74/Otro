@@ -27,8 +27,19 @@
                   </div>
                 </div>
               </div>
+
             <div *ngIf="!_planActualNuevo">
-              <h4 class="text-center text-primary my-5">Actualmente dispones de los siguientes planes y puedes usar cualquiera de ellos</h4>
+              <h4 *ngIf="_planesCliente.length > 0 && _paquetesCliente.length > 0" class="text-center text-primary my-5">
+                Actualmente dispones de los siguientes planes y/o paquetes<br/>y puedes usar cualquiera de ellos
+              </h4>
+
+              <h4 *ngIf="_planesCliente.length === 0 && _paquetesCliente.length === 0 && !_esDesarrollo" class="display-4 text-center text-primary my-5">
+                No dispones de ningún plan adquirido. Puedes adquirir uno desde aquí
+              </h4>
+
+              <h4 *ngIf="_planesCliente.length === 0 && _paquetesCliente.length === 0 && _esDesarrollo" class="display-4 text-center text-primary my-5">
+                No dispones de ningún plan adquirido<br/>que pueda ser aplicado para publicar un desarrollo
+              </h4>
 
               <div class="card-group justify-content-center">
                 <div class="form-group row mb-3" *ngFor="let plancliente of _planesCliente">
@@ -61,7 +72,7 @@
               </h4>
               <div class="card-group justify-content-center">
                 <div class="form-group row mb-3" *ngFor="let banco of _bancos">
-                      <app-tarjetabanco class="row px-4 gy-2" [_banco]="banco" (_seEligeBanco)="seleccionarBanco(banco)"></app-tarjetabanco>
+                      <app-tarjetabanco class="row px-4 gy-2" [_banco]="banco" (_seEligeBanco)="seleccionarBanco(banco)" [_origen]="''"></app-tarjetabanco>
                 </div>
               </div>
 
@@ -91,7 +102,10 @@
                   <!-- <button type="button" style="border-radius: 0.8em;" (click)="guardarCaracteristicas()" class="btn btn-primary btn-lg align-items-right">Guardar</button> -->
               </div>
               <div class="col-md-3 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0px 0px 20px 20px; background: rgba(223, 126, 137, 0.15);">
-                  <button type="button" style="border-radius: 0.8em;" class="btn btn-primary btn-lg align-items-right" (click)="validarPlanYBanco()">Guardar y Publicar</button>
+                  <button type="button" style="border-radius: 0.8em;" class="btn btn-primary btn-lg align-items-right" (click)="validarPlanYBanco()" [disabled]="_guardandoYpublicando">
+                    <span *ngIf="_guardandoYpublicando"><i class="fa fa-sync fa-spin"></i> Espere por favor...</span>
+                    <span *ngIf="!_guardandoYpublicando">Guardar y Publicar</span>
+                  </button>
                   <button type="button" style="visibility: hidden;" #myModalAceptarYPublicar data-bs-toggle="modal" data-bs-target="#gridAgregarFactura" ></button>
               </div>
           </div>
@@ -105,6 +119,24 @@
         <h5 class="modal-title text-primary" id="gridModalLabel">Facturación</h5>
         <button type="button" class="btn-close bg-color-5" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+
+      <div *ngIf="_datosFiscales.length === 0" class="modal-body py-2 px-0">
+        <div class="container">
+          <div class="row">
+
+              <div class="card-group justify-content-center">
+                <div class="form-group row">
+                  <legend class="text-center text-primary mb-3">
+                    <h1 class="display-4 mb-4">No cuentas con información fiscal para poder facturar la compra.</h1>
+                    <p class="text-primary px-5">Puedes continuar sin facturar o puedes darde alta tus datos fiscales en la sección de <a href="/micuenta/datosfiscales">Mis datos fiscales</a> de tu cuenta.</p>
+                  </legend>
+                </div>
+              </div>
+
+          </div>
+        </div>
+      </div>
+
       <div class="modal-body py-2 px-0">
         <div class="container">
           <div class="row">
@@ -120,10 +152,17 @@
           </div>
         </div>
       </div>
+
       <div class="modal-footer">
-        <button type="button" #myModalClose class="btn btn-secondary text-light" data-bs-dismiss="modal" >Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="guardarPagaryActivar(0)">Continuar sin Facturar</button>
-        <button type="button" class="btn btn-primary" (click)="guardarPagaryActivar(1)">Continuar y Facturar</button>
+        <button type="button" #myModalClose class="btn btn-secondary text-light br25" data-bs-dismiss="modal" [disabled]="_guardandoYpublicando">Cancelar</button>
+        <button type="button" class="btn btn-primary br25" (click)="guardarPagaryActivar(0)" [disabled]="_guardandoYpublicando">
+          <span *ngIf="_guardandoYpublicandoSF"><i class="fa fa-sync fa-spin"></i> Espere por favor...</span>
+          <span *ngIf="!_guardandoYpublicandoSF">Continuar sin Facturar</span>
+        </button>
+        <button type="button" class="btn btn-primary br25" (click)="guardarPagaryActivar(1)" [disabled]="_guardandoYpublicando || _datosFiscales.length === 0 ">
+          <span *ngIf="_guardandoYpublicandoCF"><i class="fa fa-sync fa-spin"></i> Espere por favor...</span>
+          <span *ngIf="!_guardandoYpublicandoCF">Continuar y Facturar</span>
+        </button>
       </div>
     </div>
   </div>

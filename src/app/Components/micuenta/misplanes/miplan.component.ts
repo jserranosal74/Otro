@@ -6,7 +6,6 @@ import { DatosFiscalesService } from 'src/app/Services/Procesos/datosFiscales.se
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
 import { PlanesClienteService } from '../../../Services/Procesos/planesCliente.service';
 import { PlanesService } from 'src/app/Services/Catalogos/planes.service';
-import { PaquetesService } from 'src/app/Services/Catalogos/paquetes.service';
 import { PaquetesClienteService } from '../../../Services/Procesos/paquetesCliente.service';
 
 import { datoFiscal } from 'src/app/Models/procesos/datosFiscales.model';
@@ -14,6 +13,8 @@ import { paquete } from 'src/app/Models/catalogos/paquetes.model';
 import { paqueteCliente } from 'src/app/Models/procesos/paquetecliente.model';
 import { plan } from 'src/app/Models/catalogos/planes.model';
 import { plancliente } from '../../../Models/procesos/plancliente.model';
+import { Estatus, planesPaquetesClienteFiltros, TipoAnuncio, TipoPlan, verFiltros } from 'src/app/Models/procesos/planesPaquetesClienteFiltros.model';
+import { PlanesPaquetesClienteFiltrosService } from 'src/app/Services/Procesos/planesPaquetesClienteFiltros.service';
 
 @Component({
   selector: 'app-miplan',
@@ -29,12 +30,26 @@ export class MisplanesComponent implements OnInit {
   _datosFiscales : datoFiscal[] = [];
   _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','','',0,new Date(),new Date(),0,0,0);
   _planesOPaquetes : boolean = false;
+  _mostrarFiltros : boolean = sessionStorage.getItem('mf') === '1'? true : false;
+  _collapseFiltros = false;
 
   //_paquetes : paquete[] = [];
   _paquetesEmpresa : paquete[] = [];
   _paquetesCliente : paqueteCliente[] = [];
   _paqueteCliente : paqueteCliente = new paqueteCliente(0,0,null,null,null,null,null,null,null,0,'',null,0,false);
   _paquete! : paquete;
+
+  _planesPaquetesFiltros : planesPaquetesClienteFiltros = new planesPaquetesClienteFiltros([],[],[]);
+  _verFiltros : verFiltros = new verFiltros(true,true,true);
+  _filtrosSeleccionados : planesPaquetesClienteFiltros = new planesPaquetesClienteFiltros([],[],[]);
+
+  _colapseEstatus = false;
+  _colapseTipoPlan = false;
+  _colapseTipoAnuncio = false;
+
+  @ViewChild('myColapseFiltro1') colapseFiltro1 : any;
+  @ViewChild('myColapseFiltro2') colapseFiltro2 : any;
+  @ViewChild('myColapseFiltro3') colapseFiltro3 : any;
 
   _planSeleccionado : number = 0;
   // _loading : boolean = false;
@@ -45,7 +60,7 @@ export class MisplanesComponent implements OnInit {
   constructor(  private _planClienteService: PlanesClienteService,
                 private _loginService : LoginService,
                 private _planService : PlanesService,
-                //private _paquetesService : PaquetesService,
+                private _planesPaquetesClienteFiltrosService : PlanesPaquetesClienteFiltrosService,
                 private _paquetesClienteService : PaquetesClienteService,
                 private _datosfiscalesService : DatosFiscalesService,
   ) {
@@ -55,13 +70,16 @@ export class MisplanesComponent implements OnInit {
     this.obtenerPlanesDisponibles();
     this.obtenerPaquetesDisponibles();
     this.obtenerDatosFiscales();
+    this.obtenerFiltrosPublicaciones(null,null);
+    this._mostrarFiltros = sessionStorage.getItem('mf') === '1'? true : false;
   }
 
   ngOnInit(): void {}
 
   obtenerMisPlanes() {
+    debugger;
     let Id_Usuario = this._loginService.obtenerIdCliente();
-    this._planClienteService.getPlanesCliente(Id_Usuario, null).subscribe(
+    this._planClienteService.getPlanesCliente(Id_Usuario, (this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus), (this._filtrosSeleccionados.lstTiposPlanes[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPlanes[0].Id_Plan)).subscribe(
       (data) => {
         console.log('----datos---: ', data);
 
@@ -96,7 +114,7 @@ export class MisplanesComponent implements OnInit {
 
   obtenerMisPaquetes() {
     let Id_Cliente = this._loginService.obtenerIdCliente();
-    this._paquetesClienteService.getPaquetesCliente(Id_Cliente, null).subscribe(
+    this._paquetesClienteService.getPaquetesCliente(Id_Cliente, (this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus), (this._filtrosSeleccionados.lstTiposPlanes[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPlanes[0].Id_Plan)).subscribe(
       (data) => {
         console.log('obtenerMisPaquetes', data);
 
@@ -308,6 +326,7 @@ export class MisplanesComponent implements OnInit {
         //console.log('datos: ',data);
 
         this.obtenerMisPlanes();
+        this.obtenerFiltrosPublicaciones(null,null);
 
 //        this._loading= false;
         const Toast = Swal.mixin({
@@ -388,8 +407,79 @@ export class MisplanesComponent implements OnInit {
     );
   }
 
-  obtenerDatosFiscales() {
+  obtenerFiltrosPublicaciones(filtroSeleccionado : string | null, strAgregarQuitar : string | null){
+    debugger;
 
+    if (strAgregarQuitar === 'Agregar'){
+      switch (filtroSeleccionado) {
+        case 'Estatus':
+            this._verFiltros.Estatus = false;
+          break;
+        case 'TipoPlan':
+            this._verFiltros.TipoPlan = false;
+          break;
+        case 'TipoAnuncio':
+            this._verFiltros.TipoAnuncio = false;
+          break;
+        default:
+          break;
+      }
+    }
+    else {
+      switch (filtroSeleccionado) {
+        case null:
+            this._verFiltros = new verFiltros(true,true,true);
+          break;
+        case 'Estatus':
+            this._verFiltros.Estatus = true;
+          break;
+        case 'TipoPlan':
+            this._verFiltros.TipoPlan = true;
+          break;
+        case 'TipoAnuncio':
+            this._verFiltros.TipoAnuncio = true;
+          break;
+        default:
+          break;
+      }
+    }
+
+    this._planesPaquetesClienteFiltrosService.getPlanesPaquetesClienteFiltros(this._loginService.obtenerIdCliente(), this._filtrosSeleccionados.lstTiposAnuncios[0] === undefined ? null : this._filtrosSeleccionados.lstTiposAnuncios[0].Id_TipoAnuncio,
+                                                                                                                     this._filtrosSeleccionados.lstTiposPlanes[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPlanes[0].Id_Plan,
+                                                                                                                     this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus,).subscribe(
+      (data) => {
+        //Next callback
+        // this._opcionSeleccionada = 'Pausada';
+        this._planesPaquetesFiltros = data;
+        
+      },
+      (error: HttpErrorResponse) => {
+        Swal.fire({
+          icon: 'error',
+          title: error.error['Descripcion'],
+          text: '',
+          showCancelButton: false,
+          showDenyButton: false,
+        });
+
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+
+        //throw error;   //You can also throw the error to a global error handler
+      }
+    );
+  }
+
+  obtenerDatosFiscales() {
+    debugger;
     this._datosfiscalesService.getDatosFiscalesCliente(this._loginService.obtenerIdCliente()).subscribe(
       (data) => {
         //Next callback
@@ -581,6 +671,158 @@ export class MisplanesComponent implements OnInit {
 
   cambiarPlanPaquete(valor : number){
     this._planesOPaquetes = valor === 0 ? false : true;
+  }
+
+  mostrarFiltros(){
+    this._mostrarFiltros = !this._mostrarFiltros;
+    sessionStorage.setItem('mf', this._mostrarFiltros ? '1' : '0');
+  }
+
+  seleccionarFiltroEstatus(objEstatus : Estatus){
+
+    this._filtrosSeleccionados.lstEstatus.push(objEstatus);
+
+    this._planesPaquetesFiltros.lstEstatus.forEach((item,index) => {
+      if (item.Id_Estatus === objEstatus.Id_Estatus){
+        this._planesPaquetesFiltros.lstEstatus.splice(index,1); 
+      }
+    });
+
+    
+    this.ejecutarConsulta();
+    this.obtenerFiltrosPublicaciones('Estatus','Agregar');
+    
+  }
+
+  seleccionarFiltroTipoPlan(objTipoPlan : TipoPlan){
+
+    this._filtrosSeleccionados.lstTiposPlanes.push(objTipoPlan);
+
+    this._planesPaquetesFiltros.lstTiposPlanes.forEach((item,index) => {
+      if (item.Id_Plan === objTipoPlan.Id_Plan){
+        this._planesPaquetesFiltros.lstTiposPlanes.splice(index,1); 
+      }
+    });
+
+    this.ejecutarConsulta();
+    this.obtenerFiltrosPublicaciones('TipoPlan','Agregar');
+  }
+
+  seleccionarFiltroTipoAnuncio(objTipoAnuncio : TipoAnuncio){
+    this._filtrosSeleccionados.lstTiposAnuncios.push(objTipoAnuncio);
+
+    this._planesPaquetesFiltros.lstTiposAnuncios.forEach((item,index) => {
+      if (item.Id_TipoAnuncio === objTipoAnuncio.Id_TipoAnuncio){
+        this._planesPaquetesFiltros.lstTiposAnuncios.splice(index,1); 
+      }
+    });
+
+    this.ejecutarConsulta();
+    this.obtenerFiltrosPublicaciones('TipoAnuncio','Agregar');
+  }
+
+  ejecutarConsulta(){
+    debugger;
+    if (this._filtrosSeleccionados.lstTiposAnuncios[0] === undefined){
+      this.obtenerMisPlanes();
+      this.obtenerMisPaquetes();
+      return;
+    }
+    if(this._filtrosSeleccionados.lstTiposAnuncios[0].Id_TipoAnuncio === 1){
+      this._paquetesCliente = [];
+      this.obtenerMisPlanes();
+      return;
+    }
+    else if(this._filtrosSeleccionados.lstTiposAnuncios[0].Id_TipoAnuncio === 2){
+      this._planesCliente = [];
+      this.obtenerMisPaquetes();
+      return;
+    }
+  }
+
+  removerFiltroEstatus(objEstatus : Estatus){
+    // this._planesPaquetesFiltros.lstEstatus.push(objEstatus);
+
+    this._filtrosSeleccionados.lstEstatus.forEach((item,index) => {
+      if (item.Id_Estatus === objEstatus.Id_Estatus){
+        this._filtrosSeleccionados.lstEstatus.splice(index,1); 
+      }
+    });
+
+    this.ejecutarConsulta();
+    this.obtenerFiltrosPublicaciones('Estatus','Quitar');
+
+  }
+
+  removerFiltroTipoPlan(objTipoPlan : TipoPlan){
+    this._planesPaquetesFiltros.lstTiposPlanes.push(objTipoPlan);
+
+    this._filtrosSeleccionados.lstTiposPlanes.forEach((item,index) => {
+      if (item.Id_Plan === objTipoPlan.Id_Plan){
+        this._filtrosSeleccionados.lstTiposPlanes.splice(index,1); 
+      }
+    });
+
+    this.ejecutarConsulta();
+    this.obtenerFiltrosPublicaciones('TipoPlan','Quitar');
+
+  }
+
+  removerFiltroTipoAnuncio(objTipoAnuncio : TipoAnuncio){
+    this._planesPaquetesFiltros.lstTiposAnuncios.push(objTipoAnuncio);
+
+    this._filtrosSeleccionados.lstTiposAnuncios.forEach((item,index) => {
+      if (item.Id_TipoAnuncio === objTipoAnuncio.Id_TipoAnuncio){
+        this._filtrosSeleccionados.lstTiposAnuncios.splice(index,1); 
+      }
+    });
+
+    this.ejecutarConsulta();
+    this.obtenerFiltrosPublicaciones('TipoAnuncio','Quitar');
+  }
+
+  colapseEstatus(){
+    this._colapseEstatus = !this._colapseEstatus;
+  }
+
+  colapseTipoPlan(){
+    this._colapseTipoPlan = !this._colapseTipoPlan;
+  }
+
+  colapseTipoAnuncio(){
+    this._colapseTipoAnuncio = !this._colapseTipoAnuncio;
+  }
+
+  colapsarFiltros(){
+    debugger;
+    this._collapseFiltros = !this._collapseFiltros;
+
+    if (this._collapseFiltros){
+      if (!this._colapseEstatus)
+        this.colapseFiltro1.nativeElement.click();
+      if (!this._colapseTipoPlan)
+        this.colapseFiltro2.nativeElement.click();
+      if (!this._colapseTipoAnuncio)
+        this.colapseFiltro3.nativeElement.click();
+    }
+    else{
+      if (this._colapseEstatus)
+        this.colapseFiltro1.nativeElement.click();
+      if (this._colapseTipoPlan)
+        this.colapseFiltro2.nativeElement.click();
+      if (this._colapseTipoAnuncio)
+        this.colapseFiltro3.nativeElement.click();
+    }
+    
+  }
+
+  eliminarFiltros(){
+
+    this._filtrosSeleccionados = new planesPaquetesClienteFiltros([],[],[]);
+
+    this.ejecutarConsulta();
+    this.obtenerFiltrosPublicaciones(null,null);
+
   }
 
 }

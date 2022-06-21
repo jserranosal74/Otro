@@ -1,34 +1,206 @@
 <div class="">
-    <table class="table text-primary table-striped color-table">
-        <thead>
-          <tr>
-            <th class="text-center" scope="col" style="border-radius: 20px 0px 0px 0px;">#</th>
-            <th class="text-center" scope="col">Nombre</th>
-            <th class="text-center" scope="col">Mensaje</th>
-            <th class="text-center" scope="col">Fecha de envio</th>
-            <th class="text-center" scope="col" style="border-radius: 0px 20px 0px 0px;">Acción</th>
-          </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let mensaje of _mensajesUsuarios">
-                <td class="text-primary" >{{mensaje.Id_PublicacionMensaje}}</td>
-                <td class="text-primary" width="15%">{{mensaje.Nombre}}</td>
-                <td class="text-primary" width="40%">{{mensaje.Mensaje}}</td>
-                <td class="text-primary text-center">{{mensaje.FechaAlta | date:'dd-MM-yyyy'}}</td>
-                <td class="text-primary text-center">
-                    <button type="button" class="btn btn-outline-primary br25" (click)="responderMensaje()">
-                        <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o"></i></span>
-                    </button>
-                    <button type="button" class="btn btn-primary mx-1 br25" (click)="responderWhatsApp(mensaje)" style="background-color:#4fce5d; border:none !important">
-                        <span class="col-md-1 col-md-offset-2 text-center"><i class="fa-brands fa-whatsapp"></i></span>
-                    </button>
-                    <button type="button" class="btn btn-outline-primary br25" (click)="eliminarMensaje(mensaje)">
-                        <span class="col-md-1 col-md-offset-2 text-center"><i class="fa-solid fa-trash-can"></i></span>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-      </table>
+    <div class="row">
+
+        <legend class="text-center text-primary mb-3"><h1 class="display-4">Mis mensajes</h1></legend>
+
+        <div class="form-group row mb-3 px-2">
+            <div class="col-md-1 px-0">
+            </div>
+            <div class="col-md-8 px-0"></div>
+            <div class="col-md-3 p-0 text-end">
+              <label class="text-primary text-end px-3">Total de mensajes: {{_mensajesUsuarios.length}}</label>
+              <button class="btn btn-primary btn-sm br25" (click)="mostrarFiltros()">
+                  <span class="col-md-1 text-center">
+                    <i [ngClass]="{' fa-regular fa-eye': _mostrarFiltros, ' fa-solid fa-eye-slash': !_mostrarFiltros}" ></i>
+                  </span>
+              </button>
+            </div>
+          </div>
+
+        <div class="row">
+
+            <div [ngClass]="{' col-md-9': _mostrarFiltros, ' col-md-12': !_mostrarFiltros}">
+                <table class="table text-primary table-striped color-table br15">
+                    <thead>
+                    <tr>
+                        <th class="text-center" scope="col" style="border-radius: 20px 0px 0px 0px;">#</th>
+                        <th class="text-center" scope="col">Publicación</th>
+                        <th class="text-center" scope="col">Nombre</th>
+                        <th class="text-center" scope="col">Teléfono</th>
+                        <th class="text-center" scope="col">Email</th>
+                        <th class="text-center" scope="col">Fecha de envio</th>
+                        <th class="text-center" scope="col" style="border-radius: 0px 20px 0px 0px;">Acción</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let mensaje of _mensajesUsuarios">
+                            <td class="text-primary" >{{mensaje.Id_PublicacionMensaje}}</td>
+                            <td class="text-primary" width="20%">
+                                <a (click)="verPublicacionCliente(mensaje)" style="cursor:pointer;">
+                                    <kbd class="text-primary color-modal" >{{mensaje.TituloPublicacion}}</kbd>
+                                </a>
+                            </td>
+                            <td class="text-primary" width="20%">{{mensaje.Nombre}}</td>
+                            <td class="text-primary" width="15%">{{mensaje.Telefono}}</td>
+                            <td class="text-primary" width="15%">{{mensaje.Email}}</td>
+                            <td class="text-primary text-center">{{mensaje.FechaAlta | date:'dd-MM-yyyy'}}</td>
+                            <td class="text-primary text-center">
+                                <button type="button" class="btn btn-outline-primary br25" (click)="verMensaje()" style="width:30px; height:30px; line-height: 0 !important; border:none;">
+                                    <span class="text-center" style="position:relative; top:0px; left:-8px; top:0px"><i class="fa fa-eye" style="font-size: 20px;"></i></span>
+                                </button>
+                                <a class="btn btn-primary mx-1 br25" (click)="responderWhatsApp(mensaje)" style="width:30px; height:30px; line-height: 0 !important; background-color:#4fce5d; border:none !important; cursor:pointer !important;">
+                                    <span class="text-center" style="position:relative; top:0px; left:-3px; top:1px"><i class="fa-brands fa-whatsapp"></i></span>
+                                </a>
+                                <a class="btn btn-outline-primary mx-1 br25" (click)="responderEmail(mensaje)" style="width:30px; height:30px; line-height: 0 !important; border:none !important; cursor:pointer !important;">
+                                    <span class="text-center" style="position:relative; top:0px; left:-6px; top:1px"><i class="fa fa-reply"></i></span>
+                                </a>
+                                <button type="button" class="btn btn-outline-danger br25" (click)="eliminarMensaje(mensaje)" style="width:30px; height:30px; line-height: 0 !important; border:none;">
+                                    <span class="text-center" style="position:relative; top:0px; left:-4px; top:-1px"><i class="fa-solid fa-trash-can"></i></span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div [ngClass]="{' col-md-3': _mostrarFiltros, ' col-md-0': !_mostrarFiltros}" [ngStyle]="{'display': !_mostrarFiltros ? 'none' : 'inline' }" >
+                <div class="sticky-md-top text-primary br15" style="top:70px; left:10px; border: 1px solid">
+                  <div class="row px-3" >
+                      <div class="row">
+                        <div class="col-md-8">
+                          <h3 class="text-primary text-center">Filtros</h3>
+                        </div>
+                        <div class="col-md-2 py-1">
+                          <button class="btn btn-outline-primary btn-sm br25" type="button" (click)="colapsarFiltros()" style="border: 0px;">
+                            <span class="col-md-1 text-center">
+                              <i *ngIf="!_collapseFiltros" class="fa-solid fa-arrow-down"></i>
+                              <i *ngIf="_collapseFiltros" class="fa-solid fa-arrow-up"></i>
+                            </span>
+                          </button>
+                        </div>
+                        <div class="col-md-2 py-1">
+                          <button class="btn btn-outline-primary btn-sm br25" type="button" (click)="eliminarFiltros()" style="border: 0px;">
+                            <span class="col-md-1 text-center">
+                              <i class="fa-solid fa-eraser"></i>
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                      
+        
+                      <div *ngFor="let filtroEstatus of _filtrosSeleccionados.lstEstatus">
+                        <p class="text-primary" style="cursor: pointer; font-size:0.75em; font-weight: 700;">
+                          {{filtroEstatus.Descripcion}}
+                          <button type="button" class="btn btn-primary p-0 m-0 br25" (click)="removerFiltroEstatus(filtroEstatus)" style="width:20px; height:20px; line-height: 0 !important;">
+                            <i class="fa fa-xmark" style="font-size: 10px;" ></i>
+                          </button>
+                        </p>
+                      </div>
+        
+                      <div *ngFor="let filtroAccion of _filtrosSeleccionados.lstAcciones">
+                        <p class="text-primary" style="cursor: pointer; font-size:0.75em; font-weight: 700;">
+                          {{filtroAccion.Descripcion}}
+                          <button type="button" class="btn btn-primary p-0 m-0 br25" (click)="removerFiltroAccion(filtroAccion)" style="width:20px; height:20px; line-height: 0 !important;">
+                            <i class="fa fa-xmark" style="font-size: 10px;" ></i>
+                          </button>
+                        </p>
+                      </div>
+        
+                      <div *ngFor="let filtroPublicacion of _filtrosSeleccionados.lstPublicaciones">
+                        <p class="text-primary" style="cursor: pointer; font-size:0.75em; font-weight: 700;">
+                          {{filtroPublicacion.TituloPublicacion}}
+                          <button type="button" class="btn btn-primary p-0 m-0 br25" (click)="removerFiltroPublicacion(filtroPublicacion)" style="width:20px; height:20px; line-height: 0 !important;">
+                            <i class="fa fa-xmark" style="font-size: 10px;" ></i>
+                          </button>
+                        </p>
+                      </div>
+
+                      <div *ngFor="let filtroEmail of _filtrosSeleccionados.lstEmails">
+                        <p class="text-primary" style="cursor: pointer; font-size:0.75em; font-weight: 700;">
+                          {{filtroEmail.Email}}
+                          <button type="button" class="btn btn-primary p-0 m-0 br25" (click)="removerFiltroEmail(filtroEmail)" style="width:20px; height:20px; line-height: 0 !important;">
+                            <i class="fa fa-xmark" style="font-size: 10px;" ></i>
+                          </button>
+                        </p>
+                      </div>
+        
+                      <div class="accordion mb-2 p-1" id="accordionPanelsStayOpenExample">
+                        <div class="accordion-item color-modal" [ngStyle]="{'display': !_verFiltros.Estatus ? 'none' : '' }">
+                          <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <button #myColapseFiltro1 class="accordion-button p-2 text-primary color-collapse" type="button" (click)="colapseEstatus()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                              Estatus
+                            </button>
+                          </h2>
+                          <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                            <div class="accordion-body p-2">
+                              <div *ngFor="let item of _publicacionMensajesFiltros.lstEstatus">
+                                <p class="text-primary" (click)="seleccionarFiltroEstatus(item)" style="cursor: pointer; font-size:0.75em; font-weight: 700;" >
+                                    {{item.Descripcion}} ({{item.Cantidad}})
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+        
+                        <div class="accordion-item color-modal" [ngStyle]="{'display': !_verFiltros.Accion ? 'none' : '' }">
+                          <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                            <button #myColapseFiltro2 class="accordion-button p-2 text-primary color-collapse collapsed" type="button" (click)="colapseAccion()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                              Tipo contacto
+                            </button>
+                          </h2>
+                          <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                            <div class="accordion-body p-2">
+                              <div *ngFor="let item of _publicacionMensajesFiltros.lstAcciones">
+                                <p class="text-primary" (click)="seleccionarFiltroAccion(item)" style="cursor: pointer; font-size:0.75em; font-weight: 700;" >
+                                    {{item.Descripcion}} ({{item.Cantidad}})
+                                </p>
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+        
+                        <div class="accordion-item color-modal" [ngStyle]="{'display': !_verFiltros.Publicacion ? 'none' : '' }">
+                          <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                            <button #myColapseFiltro3 class="accordion-button p-2 text-primary color-collapse collapsed" type="button" (click)="colapsePublicacion()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                              Publicación
+                            </button>
+                          </h2>
+                          <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                            <div class="accordion-body p-2">
+                              <div *ngFor="let item of _publicacionMensajesFiltros.lstPublicaciones">
+                                <p class="text-primary" (click)="seleccionarFiltroPublicacion(item)" style="cursor: pointer; font-size:0.75em; font-weight: 700;" >
+                                    {{item.TituloPublicacion}} ({{item.Cantidad}})
+                                </p>
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="accordion-item color-modal" [ngStyle]="{'display': !_verFiltros.Email ? 'none' : '' }">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                              <button #myColapseFiltro4 class="accordion-button p-2 text-primary color-collapse collapsed" type="button" (click)="colapseEmail()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+                                Email
+                              </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
+                              <div class="accordion-body p-2">
+                                <div *ngFor="let item of _publicacionMensajesFiltros.lstEmails">
+                                  <p class="text-primary" (click)="seleccionarFiltroEmail(item)" style="cursor: pointer; font-size:0.75em; font-weight: 700;" >
+                                      {{item.Email}} ({{item.Cantidad}})
+                                  </p>
+                              </div>
+                              </div>
+                            </div>
+                          </div>
+
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+        </div>
+
+    </div>
     <!-- <div class="form-group row mb-1" *ngFor="let mensaje of _mensajesUsuarios">
         <app-mensajeusuario [_mensajeUsuario]="mensaje" (_ResponderMensaje)="responderMensaje()" (_ResponderWhatsApp)="responderWhatsApp(mensaje)" (_EliminarMensaje)="eliminarMensaje(mensaje)"></app-mensajeusuario>
         <hr>

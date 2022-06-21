@@ -36,6 +36,9 @@ export const URL_APIS = {
     urlPublicaciones: '/api/Publicaciones/',
     urlPublicacionDetalle: '/api/PublicacionDetalle/',
     urlPublicacionesMensajes: '/api/PublicacionesMensajes/',
+    urlPublicacionesClienteFiltros: '/api/PublicacionesClienteFiltros/',
+    urlPlanesPaquetesClienteFiltros: '/api/PlanesPaquetesClienteFiltros/',
+    urlPublicacionesMensajesFiltros: '/api/PublicacionesMensajesFiltros/',
     urlAmenidadesPublicacion: '/api/AmenidadesPublicacion/',
     urlFavoritosCliente: '/api/FavoritosCliente/',
     urlPublicacionMultimedia: '/api/PublicacionMultimedia/',
@@ -45,6 +48,7 @@ export const URL_APIS = {
     urlPlanesClientePagos: '/api/PlanesClientePagos/',
     urlPaquetesClientePagos: '/api/PaquetesClientePagos/',
     urlClientesFacturas: '/api/ClientesFacturas/',
+    urlFacturasClienteFiltros: '/api/FacturasClienteFiltros/',
     urlContacto: '/api/Contacto/',
     urlVistasUsuarios: '/api/VistasUsuarios/',
 

@@ -6,14 +6,14 @@ import { LoginService } from '../Services/Catalogos/login.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AuthGuardAdmin implements CanActivate {
 
   constructor(private _loginService : LoginService,
               private _router : Router){
   }
 
   canActivate(  ): boolean {
-      if (this._loginService.estaAutenticado()){
+      if (this._loginService.estaAutenticado() && this._loginService.obtenerRolUsuario() === 'Administrador'){
         return true;
       }
       else{

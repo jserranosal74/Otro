@@ -14,7 +14,7 @@ import { favoritoCliente } from '../../../Models/procesos/favoritoCliente.model'
 })
 export class MisfavoritosComponent implements OnInit {
   _favoritosCliente : favoritoCliente[] = [];
-  _mostrarFiltros : boolean = false;
+  //_mostrarFiltros : boolean = sessionStorage.getItem('mf') === '1'? true : false;
 
   _paginadoDetalle : paginadoDetalle = new paginadoDetalle(0,0);
   _paginas: pagina[] = [];
@@ -32,7 +32,7 @@ export class MisfavoritosComponent implements OnInit {
   ) {
 
     this.obtenerMisFavoritos();
-    //this.obtenerImagenesPublicaciones();
+    //this._mostrarFiltros = sessionStorage.getItem('mf') === '1'? true : false;
   }
 
   ngOnInit(): void {
@@ -208,8 +208,9 @@ export class MisfavoritosComponent implements OnInit {
     );
   }
 
-  mostrarFiltros(){
-    this._mostrarFiltros = !this._mostrarFiltros;
-  }
+  // mostrarFiltros(){
+  //   this._mostrarFiltros = !this._mostrarFiltros;
+  //   sessionStorage.setItem('mf', this._mostrarFiltros ? '1' : '0');
+  // }
 
 }

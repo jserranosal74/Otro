@@ -22,9 +22,9 @@ export class PlanesClienteService {
     this.urlPlanesCliente = URL_APIS.urlPlanesCliente;
   }
 
-  public getPlanesCliente(Id_Cliente : number, Id_Estatus : number | null): Observable<plancliente[]> {
+  public getPlanesCliente(Id_Cliente : number, Id_Estatus : number | null, Id_TipoPlan : number | null): Observable<plancliente[]> {
     return this.http.get<plancliente[]>(
-      this.urlPlanesCliente + 'obtenerporcliente?Id_Cliente=' + Id_Cliente + '&Id_Estatus=' + Id_Estatus, this.httpOptions
+      this.urlPlanesCliente + 'obtenerporcliente?Id_Cliente=' + Id_Cliente + '&Id_Estatus=' + Id_Estatus + '&Id_TipoPlan=' + Id_TipoPlan, this.httpOptions
     );
   }
 
@@ -40,6 +40,10 @@ export class PlanesClienteService {
   public postPlanesCliente(Id_Cliente : number, Id_Plan : number, Id_DatosFiscales : number | null): Observable<number> {
     return this.http.post<number>(this.urlPlanesCliente + '?Id_Cliente=' + Id_Cliente + '&Id_Plan=' + Id_Plan + '&Id_DatosFiscales=' + Id_DatosFiscales, '', this.httpOptions);
   }
+
+  // public postPlanesYPaquetesActualizar(): Observable<number> {
+  //   return this.http.post<number>(this.urlPlanesCliente, '', this.httpOptions);
+  // }
 
   public deletePlanCliente(Id_PlanCliente : number): Observable<number> {
     return this.http.delete<number>(this.urlPlanesCliente + '?Id_PlanCliente=' + Id_PlanCliente, this.httpOptions);

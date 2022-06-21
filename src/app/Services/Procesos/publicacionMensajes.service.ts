@@ -22,8 +22,8 @@ export class PublicacionMensajesService {
     this.urlPublicacionesMensajes = URL_APIS.urlPublicacionesMensajes;
   }
 
-  public getPublicacionesMensajes(Id_Cliente : number): Observable<publicacionMensaje[]> {
-    return this.http.get<publicacionMensaje[]>(this.urlPublicacionesMensajes + '?Id_Cliente=' + Id_Cliente + '&Accion=2' + '&Id_Publicacion=' + '&Id_Estatus=18', this.httpOptions);
+  public getPublicacionesMensajes(Id_Cliente : number, Id_Publicacion : number | null, Id_Accion : number | null, Id_Estatus : number | null, Email : string | null): Observable<publicacionMensaje[]> {
+    return this.http.get<publicacionMensaje[]>(this.urlPublicacionesMensajes + '?Id_Cliente=' + Id_Cliente + '&Id_Publicacion=' + Id_Publicacion + '&Id_Accion=' + Id_Accion + '&Id_Estatus=' + Id_Estatus + '&Email=' + (Email === null ? '' : Email), this.httpOptions);
   }
 
   public postPublicacionMensaje(objPublicacionMensaje : publicacionMensaje): Observable<number> {

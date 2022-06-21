@@ -32,22 +32,22 @@ export class MiperfilComponent implements OnInit {
 
   crearFormulario() {
     this.formaPerfil = this.fb.group({
-      nombre: ['', Validators.required],
-      apellidos: ['', Validators.required],
-      correo: ['', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ],
-      rfc: ['', Validators.required],
-      telefonoFijo: ['', Validators.required],
-      telefonoMovil: ['', Validators.required],
+      nombre        : ['', Validators.required],
+      apellidos     : ['', Validators.required],
+      correo        : ['', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ],
+      rfc           : [''],
+      telefonoFijo  : ['', Validators.required],
+      telefonoMovil  : ['', Validators.required],
     });
   }
 
   limpiarFormulario() {
     // Reseteo de la información
     this.formaPerfil.reset({
-      nombre    : '',
-      apellidos : '',
-      correo    : '',
-      rfc       : '',
+      nombre        : '',
+      apellidos     : '',
+      correo        : '',
+      rfc           : '',
       telefonoFijo  : '',
       telefonoMovil : ''
     });
@@ -175,12 +175,12 @@ export class MiperfilComponent implements OnInit {
         this._cliente = data;
 
         this.formaPerfil.setValue({
-          nombre: data.Nombre,
-          apellidos: data.Apellidos,
-          correo: data.Email,
-          rfc: data.RFC,
-          telefonoFijo: data.ClienteMedioContacto![0] != null ? data.ClienteMedioContacto![0].Descripcion : '',
-          telefonoMovil: data.ClienteMedioContacto![1] != null ? data.ClienteMedioContacto![1].Descripcion : '',
+          nombre        : data.Nombre,
+          apellidos     : data.Apellidos,
+          correo        : data.Email,
+          rfc           : data.RFC,
+          telefonoFijo  : data.ClienteMedioContacto![0] != null ? data.ClienteMedioContacto![0].Descripcion : '',
+          telefonoMovil : data.ClienteMedioContacto![1] != null ? data.ClienteMedioContacto![1].Descripcion : '',
         });
 
         // this.limpiarFormulario();
@@ -225,9 +225,9 @@ export class MiperfilComponent implements OnInit {
     return ( this.formaPerfil.get('correo')?.invalid && this.formaPerfil.get('correo')?.touched );
   }
 
-  get rfcNoValido() {
-    return ( this.formaPerfil.get('rfc')?.invalid && this.formaPerfil.get('rfc')?.touched );
-  }
+  // get rfcNoValido() {
+  //   return ( this.formaPerfil.get('rfc')?.invalid && this.formaPerfil.get('rfc')?.touched );
+  // }
 
   get telefonoFijoNoValido() {
     return ( this.formaPerfil.get('telefonoFijo')?.invalid && this.formaPerfil.get('telefonoFijo')?.touched );

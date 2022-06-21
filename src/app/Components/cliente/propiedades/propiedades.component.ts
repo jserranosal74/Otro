@@ -114,7 +114,7 @@ export class PropiedadesComponent implements OnInit {
 
   ObtenerPublicaciones(){
     //debugger;
-    this._publicacionesService.getPublicacionesMini(this._Id_Cliente, (this._loginService.obtenerIdCliente() === 0 ? null : this._loginService.obtenerIdCliente()), 0,10,'').subscribe(
+    this._publicacionesService.getPublicacionesMini(this._Id_Cliente, (this._loginService.obtenerIdCliente() === 0 ? null : this._loginService.obtenerIdCliente()), 0, 10, null,null,null,null,null,null).subscribe(
       (data) => {
         //Next callback
         console.log('getPublicacionesMini', data);
@@ -130,7 +130,7 @@ export class PropiedadesComponent implements OnInit {
         }
 
         // Se obtiene el numero de paginas totales y el numero de renglones(registros) en total de la busqueda
-        this._publicacionesService.getPublicacionesMiniPagDet(this._Id_Cliente, 10, '').subscribe(
+        this._publicacionesService.getPublicacionesMiniPagDet(this._Id_Cliente, 10, null,null,null,null,null,null).subscribe(
           (data) => {
             //Next callback
             //console.log('getPublicacionesMiniPagDet', data);
@@ -255,7 +255,7 @@ export class PropiedadesComponent implements OnInit {
   obtenerPagina(item : number){
     // alert(item);
     debugger;
-    this._publicacionesService.getPublicacionesMini(this._Id_Cliente, (this._loginService.obtenerIdCliente() === 0 ? null : this._loginService.obtenerIdCliente()), item, 10, '').subscribe(
+    this._publicacionesService.getPublicacionesMini(this._Id_Cliente, (this._loginService.obtenerIdCliente() === 0 ? null : this._loginService.obtenerIdCliente()), item, 10, null,null,null,null,null,null).subscribe(
       (data) => {
         //Next callback
 

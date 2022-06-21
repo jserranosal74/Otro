@@ -68,11 +68,11 @@
                                   <tr *ngFor="let empresaCliente of _empresaClientes; let i = index;">
                                     <th class="text-primary text-center" scope="row">{{empresaCliente.Id_Empresa}}</th>
                                     <th class="text-primary text-center" scope="row">{{empresaCliente.Id_Cliente}}</th>
-                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresaCliente.Email}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{empresaCliente.Email}}</td>
-                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresaCliente.Nombre}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{empresaCliente.Nombre}}</td>
-                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresaCliente.Apellidos}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{empresaCliente.Apellidos}}</td>
-                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresaCliente.Descripcion}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{empresaCliente.Descripcion}}</td>
-                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresaCliente.TipoEmpresa}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{empresaCliente.TipoEmpresa}}</td>
+                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresaCliente.Email}}" style="max-width: 150px;">{{empresaCliente.Email}}</td>
+                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresaCliente.Nombre}}" style="max-width: 150px;">{{empresaCliente.Nombre}}</td>
+                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresaCliente.Apellidos}}" style="max-width: 150px;">{{empresaCliente.Apellidos}}</td>
+                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresaCliente.Descripcion}}" style="max-width: 150px;">{{empresaCliente.Descripcion}}</td>
+                                    <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresaCliente.TipoEmpresa}}" style="max-width: 150px;">{{empresaCliente.TipoEmpresa}}</td>
                                     <td class="text-primary text-center">{{empresaCliente.FechaAlta | date:'yyyy-MM-dd HH:mm'}}</td>
                                     <td class="text-primary text-center">{{empresaCliente.FechaModificacion | date:'yyyy-MM-dd HH:mm'}}</td>
                                     <td width="90px" class="p-1">

@@ -17,17 +17,20 @@ import { favoritoClienteParams } from '../../../Models/procesos/favoritoCliente.
 export class AnuncioMiniaturaComponent implements OnInit {
   _ligaPublicacion : string = '';
 
-  @Input() _publicacion : publicacionInfoMini = new publicacionInfoMini(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),'',0);
+  @Input() _publicacion : publicacionInfoMini = new publicacionInfoMini(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),'',0,0);
   @Input() _tipoBusqueda : string = 'misAnuncios';    // Pueden ser: misAnuncios, misFavoritos
+
   @Output() _seEliminoPublicacion = new EventEmitter<boolean>();
+  @Output() _seCanceloPublicacion = new EventEmitter<boolean>();
   @Output() _seEliminaFavorito = new EventEmitter<boolean>();
+  @Output() _seEligeCopiar = new EventEmitter<boolean>();
 
   constructor( private _router : Router,
                private _loginService : LoginService,
                private _publicacionService : PublicacionesService,
                private _favoritosClienteService : FavoritosClienteService ) {
 
-    this._ligaPublicacion = '/publicar/operacion-tipo-inmueble?id_Publicacion=' + this._publicacion.Id_Publicacion;
+    this._ligaPublicacion = '/publicar/operacion-tipo-inmueble?Id_Publicacion=' + this._publicacion.Id_Publicacion;
 
    }
 
@@ -133,15 +136,19 @@ export class AnuncioMiniaturaComponent implements OnInit {
 
   }
 
-  // pagarYActivarAnuncio(){
-  //   this._router.navigateByUrl('publicar/pagar-y-activar?id_Publicacion=' + this._publicacion.Id_Publicacion);
-  // }
-
   verPublicacionCliente(){
     // this//._router.navigateByUrl('anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion);
     // [href]="'anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion"
     window.open('anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion);
     //window.open('https://api.whatsapp.com/send/?phone=52' + WhatssApp + '&text=Hola me interesa esta propiedad que vi en InmueblesMZ');
+  }
+
+  cancelarPublicacion(){
+    this._seCanceloPublicacion.emit(true);
+  }
+
+  copiarPublicacion(){
+    this._seEligeCopiar.emit(true);
   }
 
 }

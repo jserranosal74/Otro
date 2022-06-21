@@ -37,7 +37,7 @@ export class FotosyvideosComponent implements OnInit {
                 private router: Router) { 
 //debugger;
     this._activatedRoute.queryParams.subscribe(params => {
-      this._id_publicacion = params['id_Publicacion'];
+      this._id_publicacion = params['Id_Publicacion'];
       if (this._id_publicacion === undefined){
         this._id_publicacion = 0;
         setTimeout( () => { this.router.navigateByUrl('/publicar/adicionales'); }, 700 );
@@ -123,12 +123,12 @@ export class FotosyvideosComponent implements OnInit {
   regresar(){
     this._numeroPaso = 2;
     // setTimeout( () => { this.router.navigateByUrl('/publicar/ubicacion'); }, 700 );
-    setTimeout( () => { this.router.navigate(['/publicar/caracteristicas'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+    setTimeout( () => { this.router.navigate(['/publicar/caracteristicas'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
   }
 
   pantallaSiguiente(){
     this._numeroPaso = 2;
-    setTimeout( () => { this.router.navigate(['/publicar/adicionales'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+    setTimeout( () => { this.router.navigate(['/publicar/adicionales'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
   
   }
 
@@ -357,7 +357,7 @@ cambiarVideoPredeterminado(control : any){
 
         // Comentadas las siguientes 2 lineas de manera temporal
         this._numeroPaso = 2;
-        setTimeout( () => { this.router.navigate(['/publicar/adicionales'], { queryParams: { id_Publicacion: this._id_publicacion } }); }, 500 );
+        setTimeout( () => { this.router.navigate(['/publicar/adicionales'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
 
       },
       (error: HttpErrorResponse) => {

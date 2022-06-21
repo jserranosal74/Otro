@@ -28,8 +28,8 @@ export class PaquetesClienteService {
     return this.http.get<paquete[]>(this.urlPaquetesCliente + '?Id_Empresa=' + (Id_Empresa === null ? '' : Id_Empresa), this.httpOptions);
 
   }
-  public getPaquetesCliente(Id_Cliente : number, Id_Estatus : number | null): Observable<paqueteCliente[]> {
-    return this.http.get<paqueteCliente[]>(this.urlPaquetesCliente + '?Id_Cliente=' + Id_Cliente + '&Id_Estatus=' + Id_Estatus, this.httpOptions);
+  public getPaquetesCliente(Id_Cliente : number, Id_Estatus : number | null, Id_TipoPlan : number | null): Observable<paqueteCliente[]> {
+    return this.http.get<paqueteCliente[]>(this.urlPaquetesCliente + '?Id_Cliente=' + Id_Cliente + '&Id_Estatus=' + Id_Estatus + '&Id_TipoPlan=' + Id_TipoPlan, this.httpOptions);
   }
 
   public putPaquetesCliente(Id_PlanCliente : number, Id_Plan : number, Id_Cliente : number, Id_DatosFiscales : number | null): Observable<number> {

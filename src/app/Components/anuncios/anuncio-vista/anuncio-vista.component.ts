@@ -190,8 +190,9 @@ export class AnuncioVistaComponent implements OnInit {
   }
 
   CargarPublicacion(){
+    debugger;
     if (this._id_publicacion != 0) {
-        this._publicacionesService.getPublicacionVista(this._id_publicacion).subscribe(
+        this._publicacionesService.getPublicacionVista(this._id_publicacion, this._loginService.obtenerIdCliente() === 0 ? null : this._loginService.obtenerIdCliente() ).subscribe(
           (data) => {
             //console.log(data);
 

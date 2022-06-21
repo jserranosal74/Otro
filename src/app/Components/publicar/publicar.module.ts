@@ -11,6 +11,7 @@ import { CaracteristicasComponent } from './caracteristicas/caracteristicas.comp
 import { PagarYActivarComponent } from './pagar-y-activar/pagar-y-activar.component';
 import { AdicionalesComponent } from './adicionales/adicionales.component';
 import { TarjetasModule } from '../tarjetas/tarjetas.module';
+import { TipoOperacionPipe } from '../../pipes/TipoOperacion.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { TarjetasModule } from '../tarjetas/tarjetas.module';
     InformacionprincipalComponent,
     OperaciontipoinmuebleComponent,
     PagarYActivarComponent,
-    AdicionalesComponent
+    AdicionalesComponent,
+    TipoOperacionPipe
   ],
   imports: [
     CommonModule,
@@ -36,7 +38,8 @@ import { TarjetasModule } from '../tarjetas/tarjetas.module';
     InformacionprincipalComponent,
     OperaciontipoinmuebleComponent,
     PagarYActivarComponent,
-    AdicionalesComponent
+    AdicionalesComponent,
+    TipoOperacionPipe
   ]
 })
 

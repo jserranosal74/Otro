@@ -28,24 +28,28 @@ export class PublicacionesService {
     return this.http.get<publicacion>('/api/Publicaciones/' + '?Id_Cliente=' + Id_Cliente + '&Id_Estatus=&Id_Publicacion=' + Id_Publicacion, this.httpOptions);
   }
 
-  public getPublicacionVista(Id_Publicacion : number): Observable<publicacion> {
-    return this.http.get<publicacion>('/api/Publicaciones/' + '?Id_Publicacion=' + Id_Publicacion);
+  public getPublicacionVista(Id_Publicacion : number, Id_Cliente : number | null): Observable<publicacion> {
+    return this.http.get<publicacion>('/api/Publicaciones/' + '?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente);
   }
 
   public getPublicaciones(Id_Cliente : number, Id_Estatus : number | null): Observable<publicacion[]> {
     return this.http.get<publicacion[]>(this.urlPublicaciones + '?Id_Cliente=' + Id_Cliente + '&Id_Estatus=' + Id_Estatus + '&Id_Publicacion=', this.httpOptions);
   }
 
-  public getPublicacionesMini(Id_Cliente : number, Id_Usuario : number | null, NumPagina : number, NumRenglones: number, strFiltros: string): Observable<publicacionInfoMini[]> {
-    return this.http.get<publicacionInfoMini[]>(this.urlPublicaciones + '?Id_Cliente=' + Id_Cliente + '&Id_Usuario=' + Id_Usuario + '&NumPagina=' + NumPagina + '&NumRenglones=' + NumRenglones + '&strFiltros=' + strFiltros);
+  public getPublicacionesMini(Id_Cliente : number, Id_Usuario : number | null, NumPagina : number, NumRenglones: number, Id_Estatus : number | null, Id_TipoPropiedad : number | null, Id_TipoOperacion : number | null, Id_Estado : number | null, Id_Municipio : number | null, Id_Asentamiento : number | null): Observable<publicacionInfoMini[]> {
+    return this.http.get<publicacionInfoMini[]>(this.urlPublicaciones + '?Id_Cliente=' + Id_Cliente + '&Id_Usuario=' + Id_Usuario + '&NumPagina=' + NumPagina + '&NumRenglones=' + NumRenglones + '&Id_Estatus=' + Id_Estatus + '&Id_TipoPropiedad=' + Id_TipoPropiedad + '&Id_TipoOperacion=' + Id_TipoOperacion + '&Id_Estado=' + Id_Estado + '&Id_Municipio=' + Id_Municipio + '&Id_Asentamiento=' + Id_Asentamiento);
   }
 
-  public getPublicacionesMiniPagDet(Id_Cliente : number, NumRenglones: number, strFiltros: string): Observable<paginadoDetalle> {
-    return this.http.get<paginadoDetalle>(this.urlPublicaciones + 'Paginado?id_cliente=' + Id_Cliente + '&numRenglones=' + NumRenglones + '&strFiltros=' + strFiltros);
+  public getPublicacionesMiniPagDet(Id_Cliente : number, NumRenglones: number, Id_Estatus : number | null, Id_TipoPropiedad : number | null, Id_TipoOperacion : number | null, Id_Estado : number | null, Id_Municipio : number | null, Id_Asentamiento : number | null): Observable<paginadoDetalle> {
+    return this.http.get<paginadoDetalle>(this.urlPublicaciones + 'Paginado?id_cliente=' + Id_Cliente + '&numRenglones=' + NumRenglones + '&Id_Estatus=' + Id_Estatus + '&Id_TipoPropiedad=' + Id_TipoPropiedad + '&Id_TipoOperacion=' + Id_TipoOperacion + '&Id_Estado=' + Id_Estado + '&Id_Municipio=' + Id_Municipio + '&Id_Asentamiento=' + Id_Asentamiento);
   }
 
   public getPublicacionCaracteristicas(Id_Publicacion : number, Id_Cliente: number): Observable<publicacionCaracteristica[]> {
     return this.http.get<publicacionCaracteristica[]>(this.urlPublicaciones + 'Caracteristicas?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente);
+  }
+
+  public getPublicacionClienteCopiar(Id_Publicacion : number, Id_Cliente: number): Observable<number> {
+    return this.http.get<number>(this.urlPublicaciones + 'Copiar?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente, this.httpOptions);
   }
 
   public putPublicacion(objPublicacion: publicacion): Observable<publicacion> {
@@ -62,6 +66,10 @@ export class PublicacionesService {
 
   public postPublicacion(objPublicacion: publicacion): Observable<publicacion> {
     return this.http.post<publicacion>(this.urlPublicaciones, objPublicacion, this.httpOptions);
+  }
+
+  public postPublicacionActualizarEstatus(): Observable<number> {
+    return this.http.post<number>(this.urlPublicaciones + 'ActualizarVencimiento', '', this.httpOptions);
   }
 
   public deletePublicacion(Id_Publicacion : number, Id_Cliente : number): Observable<publicacion> {
