@@ -4,7 +4,7 @@
               <div class="well well-sm">
                   <form class="form-horizontal">
                       <fieldset>
-                          <legend class="text-center text-primary mb-3"><h1 class="display-4">Planes</h1></legend>
+                          <legend class="text-center text-primary mb-3"><h1 class="display-4 sombraTitulo">Planes</h1></legend>
                           <div class="form-group row mb-3">
                               <div class="col-md-10 p-0">
                                   <a class="btn btn-primary btn-sm" style="border-radius:25px;" (click)="limpiarFormulario()" data-bs-toggle="modal" data-bs-target="#gridAgregarPlanes" >
@@ -185,8 +185,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" #myModalClose (click)="limpiarFormulario()" class="btn btn-secondary text-light" data-bs-dismiss="modal" >Cancelar</button>
-            <button type="button" class="btn btn-primary" (click)="guardarPlan();">{{_textoAccion}}</button>
+            <button type="button" #myModalClose (click)="limpiarFormulario()" class="btn btn-secondary text-light br25" data-bs-dismiss="modal" >Cancelar</button>
+            <button type="button" class="btn btn-primary br25" (click)="guardarPlan();">{{_textoAccion}}</button>
           </div>
         </div>
       </div>

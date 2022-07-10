@@ -1,14 +1,14 @@
 <div class="">
     <div class="row">
 
-        <legend class="text-center text-primary mb-3"><h1 class="display-4">Mis mensajes</h1></legend>
+        <legend class="text-center text-primary mb-3"><h1 class="display-4" style="text-shadow: 3px 3px 7px black;">Mis mensajes y notificaciones</h1></legend>
 
         <div class="form-group row mb-3 px-2">
             <div class="col-md-1 px-0">
             </div>
             <div class="col-md-8 px-0"></div>
             <div class="col-md-3 p-0 text-end">
-              <label class="text-primary text-end px-3">Total de mensajes: {{_mensajesUsuarios.length}}</label>
+              <label class="text-primary text-end px-3">Total de mensajes: {{_paginadoDetalle.TotalRegistros}}</label>
               <button class="btn btn-primary btn-sm br25" (click)="mostrarFiltros()">
                   <span class="col-md-1 text-center">
                     <i [ngClass]="{' fa-regular fa-eye': _mostrarFiltros, ' fa-solid fa-eye-slash': !_mostrarFiltros}" ></i>
@@ -19,51 +19,120 @@
 
         <div class="row">
 
-            <div [ngClass]="{' col-md-9': _mostrarFiltros, ' col-md-12': !_mostrarFiltros}">
-                <table class="table text-primary table-striped color-table br15">
-                    <thead>
-                    <tr>
-                        <th class="text-center" scope="col" style="border-radius: 20px 0px 0px 0px;">#</th>
-                        <th class="text-center" scope="col">Publicación</th>
-                        <th class="text-center" scope="col">Nombre</th>
-                        <th class="text-center" scope="col">Teléfono</th>
-                        <th class="text-center" scope="col">Email</th>
-                        <th class="text-center" scope="col">Fecha de envio</th>
-                        <th class="text-center" scope="col" style="border-radius: 0px 20px 0px 0px;">Acción</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let mensaje of _mensajesUsuarios">
-                            <td class="text-primary" >{{mensaje.Id_PublicacionMensaje}}</td>
-                            <td class="text-primary" width="20%">
-                                <a (click)="verPublicacionCliente(mensaje)" style="cursor:pointer;">
-                                    <kbd class="text-primary color-modal" >{{mensaje.TituloPublicacion}}</kbd>
-                                </a>
-                            </td>
-                            <td class="text-primary" width="20%">{{mensaje.Nombre}}</td>
-                            <td class="text-primary" width="15%">{{mensaje.Telefono}}</td>
-                            <td class="text-primary" width="15%">{{mensaje.Email}}</td>
-                            <td class="text-primary text-center">{{mensaje.FechaAlta | date:'dd-MM-yyyy'}}</td>
-                            <td class="text-primary text-center">
-                                <button type="button" class="btn btn-outline-primary br25" (click)="verMensaje()" style="width:30px; height:30px; line-height: 0 !important; border:none;">
-                                    <span class="text-center" style="position:relative; top:0px; left:-8px; top:0px"><i class="fa fa-eye" style="font-size: 20px;"></i></span>
-                                </button>
-                                <a class="btn btn-primary mx-1 br25" (click)="responderWhatsApp(mensaje)" style="width:30px; height:30px; line-height: 0 !important; background-color:#4fce5d; border:none !important; cursor:pointer !important;">
-                                    <span class="text-center" style="position:relative; top:0px; left:-3px; top:1px"><i class="fa-brands fa-whatsapp"></i></span>
-                                </a>
-                                <a class="btn btn-outline-primary mx-1 br25" (click)="responderEmail(mensaje)" style="width:30px; height:30px; line-height: 0 !important; border:none !important; cursor:pointer !important;">
-                                    <span class="text-center" style="position:relative; top:0px; left:-6px; top:1px"><i class="fa fa-reply"></i></span>
-                                </a>
-                                <button type="button" class="btn btn-outline-danger br25" (click)="eliminarMensaje(mensaje)" style="width:30px; height:30px; line-height: 0 !important; border:none;">
-                                    <span class="text-center" style="position:relative; top:0px; left:-4px; top:-1px"><i class="fa-solid fa-trash-can"></i></span>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div [ngClass]="{' col-md-6': _mostrarFiltros, ' col-md-9': !_mostrarFiltros}">
+              <div class="row">
+                <div class="col-md-12">
+                  <table class="table text-primary table-striped color-table br15">
+                      <thead>
+                      <tr>
+                          <th class="text-center" scope="col" style="border-radius: 20px 0px 0px 0px; max-width: 100px;">#</th>
+                          <th class="text-center" scope="col">Publicación</th>
+                          <th class="text-center" scope="col">Fec. recibido</th>
+                          <th class="text-center" scope="col" style="border-radius: 0px 20px 0px 0px;">Acción</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let mensaje of _mensajesUsuarios">
+                              <td *ngIf="mensaje.Id_Estatus === 18" class="text-primary" style="width:auto;" ><strong>{{mensaje.Id_PublicacionMensaje}}</strong></td>
+                              <td *ngIf="mensaje.Id_Estatus != 18" class="text-primary" style="width:auto;" >{{mensaje.Id_PublicacionMensaje}}</td>
+                              <td *ngIf="mensaje.Id_Estatus === 18" class="text-primary text-truncate" width="70%" style="cursor:pointer; max-width: 50px;">
+                                  <a class="text-truncate" (click)="verPublicacionCliente(mensaje)" style="cursor:pointer;">
+                                      <p class="text-primary my-0"><strong>{{mensaje.TituloPublicacion}}</strong></p>
+                                  </a>
+                              </td>
+                              <td *ngIf="mensaje.Id_Estatus != 18" class="text-primary text-truncate" width="70%" style="cursor:pointer; max-width: 50px;">
+                                  <a class="text-truncate" (click)="verPublicacionCliente(mensaje)" style="cursor:pointer;">
+                                      <p class="text-primary my-0">{{mensaje.TituloPublicacion}}</p>
+                                  </a>
+                              </td>
+                              <td *ngIf="mensaje.Id_Estatus === 18" class="text-primary text-truncate" style="width:auto; min-width: 50px;" ><strong>{{mensaje.FechaAlta | date : 'dd/MM/yyyy HH:mm'}}</strong></td>
+                              <td *ngIf="mensaje.Id_Estatus != 18" class="text-primary text-truncate" style="width:auto; min-width: 50px;" >{{mensaje.FechaAlta | date : 'dd/MM/yyyy HH:mm'}}</td>
+                              <td class="text-primary text-center" style="width:auto; min-width:160px;">
+                                  <button type="button" class="btn btn-outline-primary br25" (click)="verMensaje(mensaje)" style="width:30px; height:30px; line-height: 0 !important; border:none;" >
+                                      <span class="text-center" style="position:relative; top:0px; left:-8px; top:0px"><i class="fa fa-eye" style="font-size: 20px;"></i></span>
+                                  </button>
+                                  <a class="btn btn-primary mx-1 br25" (click)="responderWhatsApp(mensaje)" style="width:30px; height:30px; line-height: 0 !important; background-color:#4fce5d; border:none !important; cursor:pointer !important;">
+                                      <span class="text-center" style="position:relative; top:0px; left:-3px; top:1px"><i class="fa-brands fa-whatsapp"></i></span>
+                                  </a>
+                                  <a class="btn btn-outline-primary mx-1 br25" (click)="responderEmail(mensaje)" style="width:30px; height:30px; line-height: 0 !important; border:none !important; cursor:pointer !important;">
+                                      <span class="text-center" style="position:relative; top:0px; left:-6px; top:1px"><i class="fa fa-reply"></i></span>
+                                  </a>
+                                  <button type="button" class="btn btn-outline-danger br25" (click)="eliminarMensaje(mensaje)" style="width:30px; height:30px; line-height: 0 !important; border:none;">
+                                      <span class="text-center" style="position:relative; top:0px; left:-4px; top:-1px"><i class="fa-solid fa-trash-can"></i></span>
+                                  </button>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                </div>
+
+                <div *ngIf="_seRealizaBusqueda" class="d-flex justify-content-center">
+                  <nav aria-label="Page navigation py-0 m-0">
+                    <ul class="pagination pagination">
+                      <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none'}" >
+                        <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
+                          <span><i class="fa-solid fa-arrow-left"></i></span>
+                        </button>
+                      </li>
+                      <li *ngFor="let pagina of _paginas" class="page-item mx-2">
+                        <button class="page-link color-text-box br25" style="width:40px; height:40px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : '', 'background-color': pagina.Activa ? 'rgba(223, 126, 137, .4)' : ''}" (click)="ejecutarConsulta(pagina.Pagina)" [disabled]="pagina.Activa">{{pagina.Pagina+1}}</button>
+                      </li>
+                      <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaSiguiente ? 'auto' : 'none'}" >
+                        <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
+                          <span><i class="fa-solid fa-arrow-right"></i></span>
+                        </button>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+
+
+              </div>
             </div>
 
-            <div [ngClass]="{' col-md-3': _mostrarFiltros, ' col-md-0': !_mostrarFiltros}" [ngStyle]="{'display': !_mostrarFiltros ? 'none' : 'inline' }" >
+            <div class="col-md-3 px-0">
+              <div class="sticky-md-top text-primary br15" style="top:70px; left:10px;">
+                <table class="table table-sm text-primary table-striped color-table br15">
+                  <thead>
+                  <tr>
+                      <th class="text-center" scope="col" style="border-radius: 20px 0px 0px 0px; max-width: 100px;">Contenido</th>
+                  </tr>
+                  </thead>
+                  <tbody *ngIf="_mensajeSeleccionado.Id_PublicacionMensaje != 0">
+                    <tr>
+                      <td><p class="text-primary my-0"><strong>Id:</strong> {{_mensajeSeleccionado.Id_PublicacionMensaje}}</p></td>
+                    </tr>
+                    <tr>
+                      <td><p class="text-primary my-0"><strong>Estatus publicación: </strong><kbd class="bg-color-2">{{_mensajeSeleccionado.EstatusPublicacion}}</kbd></p></td>
+                    </tr>
+                    <tr>
+                      <td><p class="text-primary my-0"><strong>Fecha recibido:</strong> {{_mensajeSeleccionado.FechaAlta | date : 'dd/MM/yyyy HH:mm'}}</p></td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="_mensajeSeleccionado.Id_Estatus === 20"><p class="text-primary my-0"><strong>Fecha lectura:</strong> {{_mensajeSeleccionado.FechaModificacion | date : 'dd/MM/yyyy HH:mm'}}</p></td>
+                    </tr>
+                    <tr>
+                      <td><p class="text-primary my-0"><strong>Teléfono:</strong> {{_mensajeSeleccionado.Telefono}}</p></td>
+                    </tr>
+                    <tr>
+                      <td><p class="text-primary my-0"><strong>Correo electrónico:</strong> {{_mensajeSeleccionado.Email}}</p></td>
+                    </tr>
+                    <tr>
+                      <td *ngIf="_mensajeSeleccionado.Id_Indicador === 1"><p class="text-primary text-center my-0"><strong>Vieron tu  número telefónico</strong></p></td>
+                      <td *ngIf="_mensajeSeleccionado.Id_Indicador === 2"><p class="text-primary my-0"><strong>Mensaje:</strong> {{_mensajeSeleccionado.Mensaje}}</p></td>
+                      <td *ngIf="_mensajeSeleccionado.Id_Indicador === 3"><p class="text-primary text-center my-0"><strong>Se contactaron contigo via WhatssApp</strong></p></td>
+                    </tr>
+                  </tbody>
+                  <tbody *ngIf="_mensajeSeleccionado.Id_PublicacionMensaje === 0">
+                    <tr>
+                      <td><p class="text-primary text-center my-0">Selecciona un mensaje para visualizar su contenido presionando el icono <i class="fa fa-eye"></i> que se encuentra a la izquierda del icono de Whatssapp.</p></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div style="padding:0rem 0rem 0rem 1rem;" [ngClass]="{' col-md-3': _mostrarFiltros, ' col-md-0': !_mostrarFiltros}" [ngStyle]="{'display': !_mostrarFiltros ? 'none' : 'inline' }" >
                 <div class="sticky-md-top text-primary br15" style="top:70px; left:10px; border: 1px solid">
                   <div class="row px-3" >
                       <div class="row">
@@ -97,10 +166,10 @@
                         </p>
                       </div>
         
-                      <div *ngFor="let filtroAccion of _filtrosSeleccionados.lstAcciones">
+                      <div *ngFor="let filtroIndicador of _filtrosSeleccionados.lstIndicadores">
                         <p class="text-primary" style="cursor: pointer; font-size:0.75em; font-weight: 700;">
-                          {{filtroAccion.Descripcion}}
-                          <button type="button" class="btn btn-primary p-0 m-0 br25" (click)="removerFiltroAccion(filtroAccion)" style="width:20px; height:20px; line-height: 0 !important;">
+                          {{filtroIndicador.Descripcion}}
+                          <button type="button" class="btn btn-primary p-0 m-0 br25" (click)="removerFiltroIndicador(filtroIndicador)" style="width:20px; height:20px; line-height: 0 !important;">
                             <i class="fa fa-xmark" style="font-size: 10px;" ></i>
                           </button>
                         </p>
@@ -108,7 +177,7 @@
         
                       <div *ngFor="let filtroPublicacion of _filtrosSeleccionados.lstPublicaciones">
                         <p class="text-primary" style="cursor: pointer; font-size:0.75em; font-weight: 700;">
-                          {{filtroPublicacion.TituloPublicacion}}
+                          {{filtroPublicacion.Id_Publicacion}} - {{filtroPublicacion.TituloPublicacion}}
                           <button type="button" class="btn btn-primary p-0 m-0 br25" (click)="removerFiltroPublicacion(filtroPublicacion)" style="width:20px; height:20px; line-height: 0 !important;">
                             <i class="fa fa-xmark" style="font-size: 10px;" ></i>
                           </button>
@@ -123,12 +192,21 @@
                           </button>
                         </p>
                       </div>
+
+                      <div *ngFor="let filtroFecha of _filtrosSeleccionados.lstFechas">
+                        <p class="text-primary" style="cursor: pointer; font-size:0.75em; font-weight: 700;">
+                          {{filtroFecha.FechaAlta | date : 'dd/MM/yyyy'}}
+                          <button type="button" class="btn btn-primary p-0 m-0 br25" (click)="removerFiltroFecha(filtroFecha)" style="width:20px; height:20px; line-height: 0 !important;">
+                            <i class="fa fa-xmark" style="font-size: 10px;" ></i>
+                          </button>
+                        </p>
+                      </div>
         
                       <div class="accordion mb-2 p-1" id="accordionPanelsStayOpenExample">
                         <div class="accordion-item color-modal" [ngStyle]="{'display': !_verFiltros.Estatus ? 'none' : '' }">
                           <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                            <button #myColapseFiltro1 class="accordion-button p-2 text-primary color-collapse" type="button" (click)="colapseEstatus()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
-                              Estatus
+                            <button #myColapseFiltro1 class="accordion-button p-2 text-primary color-collapse collapsed" type="button" (click)="colapseEstatus()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                              Estatus mensaje
                             </button>
                           </h2>
                           <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
@@ -142,16 +220,16 @@
                           </div>
                         </div>
         
-                        <div class="accordion-item color-modal" [ngStyle]="{'display': !_verFiltros.Accion ? 'none' : '' }">
+                        <div class="accordion-item color-modal" [ngStyle]="{'display': !_verFiltros.Indicador ? 'none' : '' }">
                           <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
                             <button #myColapseFiltro2 class="accordion-button p-2 text-primary color-collapse collapsed" type="button" (click)="colapseAccion()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                              Tipo contacto
+                              Tipo de contacto
                             </button>
                           </h2>
                           <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
                             <div class="accordion-body p-2">
-                              <div *ngFor="let item of _publicacionMensajesFiltros.lstAcciones">
-                                <p class="text-primary" (click)="seleccionarFiltroAccion(item)" style="cursor: pointer; font-size:0.75em; font-weight: 700;" >
+                              <div *ngFor="let item of _publicacionMensajesFiltros.lstIndicadores">
+                                <p class="text-primary" (click)="seleccionarFiltroIndicador(item)" style="cursor: pointer; font-size:0.75em; font-weight: 700;" >
                                     {{item.Descripcion}} ({{item.Cantidad}})
                                 </p>
                             </div>
@@ -166,10 +244,10 @@
                             </button>
                           </h2>
                           <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-                            <div class="accordion-body p-2">
+                            <div class="accordion-body p-2 overflow-auto" style="height:10rem;">
                               <div *ngFor="let item of _publicacionMensajesFiltros.lstPublicaciones">
                                 <p class="text-primary" (click)="seleccionarFiltroPublicacion(item)" style="cursor: pointer; font-size:0.75em; font-weight: 700;" >
-                                    {{item.TituloPublicacion}} ({{item.Cantidad}})
+                                  {{item.Id_Publicacion}} - {{item.TituloPublicacion}} ({{item.Cantidad}})
                                 </p>
                             </div>
                             </div>
@@ -191,18 +269,33 @@
                               </div>
                               </div>
                             </div>
-                          </div>
+                        </div>
+
+                        <div class="accordion-item color-modal" [ngStyle]="{'display': !_verFiltros.Fecha ? 'none' : '' }">
+                            <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                              <button #myColapseFiltro5 class="accordion-button p-2 text-primary color-collapse collapsed" type="button" (click)="colapseFecha()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
+                                Fecha recibido
+                              </button>
+                            </h2>
+                            <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFive">
+                              <div class="accordion-body p-2 overflow-auto" style="height:10rem;">
+                                <div *ngFor="let item of _publicacionMensajesFiltros.lstFechas">
+                                  <p class="text-primary" (click)="seleccionarFiltroFecha(item)" style="cursor: pointer; font-size:0.75em; font-weight: 700;" >
+                                      {{item.FechaAlta | date : 'dd/MM/yyyy'}} ({{item.Cantidad}})
+                                  </p>
+                              </div>
+                              </div>
+                            </div>
+                        </div>
 
                       </div>
                   </div>
                 </div>
-              </div>
+            </div>
 
         </div>
 
     </div>
-    <!-- <div class="form-group row mb-1" *ngFor="let mensaje of _mensajesUsuarios">
-        <app-mensajeusuario [_mensajeUsuario]="mensaje" (_ResponderMensaje)="responderMensaje()" (_ResponderWhatsApp)="responderWhatsApp(mensaje)" (_EliminarMensaje)="eliminarMensaje(mensaje)"></app-mensajeusuario>
-        <hr>
-    </div> -->
+
+
 </div>

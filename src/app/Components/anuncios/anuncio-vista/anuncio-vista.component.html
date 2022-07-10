@@ -1,44 +1,68 @@
 <div class="row">
-    <div class="col">
+    <div class="col-md-8">
         <h3 class="text-primary text-capitalize">{{_publicacion.TituloPublicacion}}</h3>
+    </div>
+    <div *ngIf="_usuarioAutenticado && _publicacion.Id_Cliente === _Id_Usuario_Actual" class="col-md-4 text-end">
+        <span class="px-2"><kbd class="bg-color-2 px-2">{{_publicacion.DescripcionEstatus}}</kbd></span>
+        <kbd style="background-color: #ffe600; color:black">{{_publicacion.DescripcionPlan}}</kbd>
+    </div>
+    <div class="col-12">
         <h6 class="text-primary text-capitalize">{{_asentamientoUbicacion.Asentamiento}}, {{_asentamientoUbicacion.Municipio}}, {{_asentamientoUbicacion.Estado}}.</h6>
         <hr>
     </div>
 </div>
 
-<div class="row mb-3 bg-color-rt" style="min-height: 500px;">
+<div class="row mb-3 bg-color-rt" style="min-height: 300px;">
+
     <div class="col-md-6 text-center">
-        <img class="img-fluid" style="max-height: 500px;" [src]="_fotosPrincipales[0]" alt="">
+        <img class="img-fluid" style="max-height: 400px;" [src]="_fotosPrincipales[0]" alt="" >
     </div>
+
     <div class="col-md-3 px-1" >
       <div class="mb-1 text-center">
-        <img class="img-fluid" style="max-height: 250px;" [src]="_fotosPrincipales[1]" alt="">
+        <img class="img-fluid" style="max-height: 200px;" [src]="_fotosPrincipales[1]" alt="">
       </div>
       <div class="text-center" >
-        <img class="img-fluid" style="max-height: 250px;" [src]="_fotosPrincipales[2]" alt="">
+        <img class="img-fluid" style="max-height: 200px;" [src]="_fotosPrincipales[2]" alt="">
       </div>
     </div>
+
     <div class="col-md-3 px-1" >
       <div class="mb-1 text-center" >
-        <img class="img-fluid" style="max-height: 250px;" [src]="_fotosPrincipales[3]" alt="">
+        <img class="img-fluid" style="max-height: 200px; max-width:fit-content;" [src]="_fotosPrincipales[3]" alt="">
       </div>
       <div class="text-center" >
-        <img class="img-fluid" style="max-height: 250px;" [src]="_fotosPrincipales[4]" alt="">
+        <img class="img-fluid" style="max-height: 200px; max-width:fit-content;" [src]="_fotosPrincipales[4]" alt="">
       </div>
     </div>
-  </div>
 
-<div>
-    
+    <div class="row" style="position:absolute; top:200px; right:50px">
+        <div class="col-md-10"></div>
+        <div class="col-md-2 text-end d-grid px-0">
+            <button type="button" class="btn btn-outline-primary text-light bg-color-4 br25" data-bs-toggle="modal" data-bs-target="#modalMultimedia" (click)="mostrarMultimedia(1)">
+                Ver más Fotos
+            </button>
+        </div>
+    </div>
+
+</div>
+
+
+
     <div class="row">
         <div class="col-md-9">
             <div class="col">
-                <div class="row row-cols-2">
+                <div class="row">
                     <!-- <h3 class="text-primary text-uppercase">{{_publicacion.TituloPublicacion}}</h3> -->
-                    <h1 class="text-primary" style="font-size:3em; font-weight: bolder;">{{_publicacion.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }} <label class="text-primary px-1" style="font-size: 2rem;">{{((_publicacion.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label></h1>
-                    <div class="col text-end mb-3">
+                    <div class="col-md-10">
+                        <h4 class="text-primary" style="font-size:2.5em; font-weight: bolder;">
+                            {{_publicacion.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }} <span class="text-primary px-1" style="font-size: 2rem;">{{((_publicacion.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</span>
+                            <span *ngIf="_publicacion.Id_TipoOperacion === 3">- {{_publicacion.PrecioHasta | currency : 'USD' : 'symbol' : '1.0-0' }} <span class="text-primary px-1" style="font-size: 2rem;">{{((_publicacion.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</span></span>
+                        </h4>
+                    </div>
+                    <div class="col-md-2 text-end mb-3 px-0">
                         <a (click)="abrirPaginaCliente()" class="text-end text-truncate" style="cursor:pointer;" data-toggle="tooltip" data-placement="top" >
-                            <img class="col-md-2 text-center" [src]="_clienteVista.UrlFotoPerfil" width="100%" height="100%" alt="fotoPefil">
+                            <img class="col-md-2 text-center br10" [src]="_clienteVista.UrlFotoPerfil" style="max-width:fit-content;" alt="fotoPerfil" onerror="this.src='https://i.ibb.co/7V042L1/7da75c370bc9.png';">
                             <label class="text-primary text-truncate px-2" style="max-width:100px; cursor:pointer;">{{_clienteVista.Nombre}} {{_clienteVista.Apellidos}}</label><br>
                         </a>
                     </div>
@@ -50,39 +74,51 @@
                     <h3 class="text-primary mb-3">Caracteristicas Generales</h3>
                 </div>    
                 <div class="row">
-                    <div class="col-md-3 m-2">
+                    <div class="col-md-3 mb-3">
                             <img src="/assets/anuncioVista/RECAMARA.png" />
                             <span class="text-primary px-2">
                                 Recamaras: {{_publicacion.RecamarasDesde}}
                             </span>
                     </div>
-                    <div class="col-md-3 m-2">
+                    <div class="col-md-3 mb-3">
                         <img src="/assets/anuncioVista/BANIO COMPLETO.png" />
                         <span class="text-primary px-2">
                             Baños completos: {{_publicacion.BaniosCompDesde}}
                         </span>
                     </div>
-                    <div class="col-md-3 m-2">
+                    <div class="col-md-3 mb-3">
                         <img src="/assets/anuncioVista/MEDIO BANIO.png" />
                         <span class="text-primary px-2">
                             &#189; baños: {{_publicacion.MedioBanioDesde}}
                         </span>
                     </div>
+                    <div class="col-md-3 mb-3">
+                        <img src="/assets/anuncioVista/ANTIGUEDAD.png" />
+                        <span *ngIf="_publicacion.Antiguedad! > 0" class="text-primary px-2">
+                            Antigüedad: {{_publicacion.Antiguedad}} año(s)
+                        </span>
+                        <span *ngIf="_publicacion.Antiguedad! === 0" class="text-primary px-2">
+                            Antigüedad: A Estrenar
+                        </span>
+                        <span *ngIf="_publicacion.Antiguedad! === -1" class="text-primary px-2">
+                            En construcción
+                        </span>
+                    </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3 m-2">
+                    <div class="col-md-3 mb-3">
                         <img src="/assets/anuncioVista/M2 CONSTRUCCION.png" />
                         <span class="text-primary px-2">
                             Sup. construida: {{_publicacion.SuperficieConstruidaDesde}} m<sup>2</sup>
                         </span>
                     </div>
-                    <div class="col-md-3 m-2">
+                    <div class="col-md-3 mb-3">
                         <img src="/assets/anuncioVista/M2 TERRENO.png" />
                         <span class="text-primary px-2">
                             Sup. Terreno: {{_publicacion.SuperficieTerreno}} m<sup>2</sup>
                         </span>
                     </div>
-                    <div class="col-md-3 m-2">
+                    <div class="col-md-3 mb-3">
                         <img src="/assets/anuncioVista/COCHERA.png" />
                         <span class="text-primary px-2">
                             Estacionamientos: {{_publicacion.EstacionamientosDesde}}
@@ -135,36 +171,49 @@
 
             <div *ngIf="_publicacion.Id_TipoOperacion === 3" class="col">
                 <div>
-                    <h3 class="text-primary mb-4">Unidades</h3>
+                    <h3 class="text-primary mb-4">Unidades del Desarrollo</h3>
                 </div>
-                <div *ngIf="_existenUnidadesVenta">
-                    <button class="btn btn-primary">Unidades en Venta</button>
-                    <div class="row text-primary br15" style="border: 1px solid;">
-                        <div class="row p-2 m-0" *ngFor="let pubDetalle of _publicacionDetalle">
-                            <div class="row" *ngIf="pubDetalle.DescripcionTO === 'Venta'">
+                <div *ngIf="_existenUnidadesVenta" class="mb-3">
+                    <div class="row text-center">
+                        <h3 class="text-primary bg-color-3 my-0" style="border-radius: 15px 15px 0 0;border: 1px solid;">En Venta</h3>
+                    </div>
+                    <div class="row text-primary" style="border-radius: 0 0 15px 15px; border: 1px solid;">
+                        <div *ngFor="let pubDetalle of _publicacionDetalle">
+                            <div class="row py-0 my-0" *ngIf="pubDetalle.DescripcionTO === 'Venta'">
                                 <div class="col-md-2 p-2">
-                                    <a [href]="'/anuncio/vista/' + (pubDetalle.TituloPublicacion)?.replaceAll(' ','-') + '-' + pubDetalle.Id_Publicacion">
-                                        <img class="br10" [src]="pubDetalle.UrlFotoPredeterminada" width="100%" height="80px"/>
-                                    </a>
+                                    <div class="row justify-content-center text-center">
+                                        <a (click)="verPublicacionCliente(pubDetalle)" style="cursor:pointer; text-decoration: underline blue;">
+                                            <img [src]="pubDetalle.UrlFotoPredeterminada" height="100px" style="border-radius: 0 0 0 10px; max-width:150px;"/>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="col-md-3 p-2">
                                     <label class="text-primary px-1" style="font-size: 1rem;">{{pubDetalle.DescripcionTP}}</label><br>
                                     <label class="text-primary" style="font-weight: bold;">{{pubDetalle.PrecioDesde === null ? 'No definido' : pubDetalle.PrecioDesde | currency}}</label>
                                     <label class="text-primary px-1" style="font-size: 0.8rem; font-weight: bold;">{{((pubDetalle.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label>
                                 </div>
-                                <div class="col-md-2 text-center p-2">
+                                <div class="col-md-2 text-center py-2 px-0">
+                                    <img src="/assets/anuncioVista/M2 CONSTRUCCION.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Superficie construida</label><br>
                                     <label class="text-primary " style="font-weight: bold;">{{pubDetalle.SuperficieConstruidaDesde === null ? 'No definida' : pubDetalle.SuperficieConstruidaDesde }} m<sup>2</sup></label>
                                 </div>
-                                <div class="col-md-2 text-center p-2">
+                                <div class="col-md-1 text-center py-2 px-0">
+                                    <img  src="/assets/anuncioVista/RECAMARA.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Recamaras</label><br>
                                     <label class="text-primary" style="font-weight: bold;">{{pubDetalle.RecamarasDesde === null ? 'No definido' : pubDetalle.RecamarasDesde }}</label>
                                 </div>
-                                <div class="col-md-1 text-center p-2">
+                                <div class="col-md-1 text-center py-2 px-0">
+                                    <img src="/assets/anuncioVista/BANIO COMPLETO.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Baños</label><br>
                                     <label class="text-primary" style="font-weight: bold;">{{pubDetalle.BaniosCompDesde === null ? 'No definido' : pubDetalle.BaniosCompDesde }}</label>
                                 </div>
-                                <div class="col-md-2 text-center p-2">
+                                <div class="col-md-1 text-center py-2 px-0">
+                                    <img src="/assets/anuncioVista/MEDIO BANIO.png"><br>
+                                    <label class="text-primary px-1" style="font-size: 1rem;">&#189; Baños</label><br>
+                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.MedioBanioDesde === null ? 'No definido' : pubDetalle.MedioBanioDesde }}</label>
+                                </div>
+                                <div class="col-md-2 text-center py-2 px-0">
+                                    <img src="/assets/anuncioVista/COCHERA.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Estacionamientos</label><br>
                                     <label class="text-primary" style="font-weight: bold;">{{pubDetalle.EstacionamientosDesde === null ? 'No definido' : pubDetalle.EstacionamientosDesde }}</label>
                                 </div>
@@ -174,33 +223,46 @@
                     </div>
                 </div>
                 <div *ngIf="_existenUnidadesRenta">
-                    <button class="btn btn-primary m-0">Unidades en Renta</button>
-                    <div class="row text-primary br15" style="border: 1px solid;">
-                        <div class="row p-2 m-0" *ngFor="let pubDetalle of _publicacionDetalle">
+                    <div class="row text-center">
+                        <h3 class="text-primary bg-color-3 my-0" style="border-radius: 15px 15px 0 0;border: 1px solid;">En Renta</h3>
+                    </div>
+                    <div class="row text-primary" style="border-radius: 0 0 15px 15px; border: 1px solid;">
+                        <div *ngFor="let pubDetalle of _publicacionDetalle">
                             <div class="row" *ngIf="pubDetalle.DescripcionTO === 'Renta'">
                                 <div class="col-md-2 p-2">
-                                    <a [href]="'anuncio/vista/' + (this.pubDetalle.TituloPublicacion)?.replaceAll(' ','-') + '-' + this.pubDetalle.Id_Publicacion">
-                                        <img class="br10" [src]="pubDetalle.UrlFotoPredeterminada" width="100%" height="80px"/>
-                                    </a>
+                                    <div class="row justify-content-center text-center">
+                                        <a (click)="verPublicacionCliente(pubDetalle)" style="cursor:pointer; text-decoration: underline blue;">
+                                            <img [src]="pubDetalle.UrlFotoPredeterminada" height="100px" style="border-radius: 0 0 0 10px; max-width:150px;"/>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="col-md-3 p-2">
                                     <label class="text-primary px-1" style="font-size: 1rem;">{{pubDetalle.DescripcionTP}}</label><br>
                                     <label class="text-primary" style="font-weight: bold;">{{pubDetalle.PrecioDesde === null ? 'No definido' : pubDetalle.PrecioDesde | currency}}</label>
                                     <label class="text-primary px-1" style="font-size: 0.8rem; font-weight: bold;">{{((pubDetalle.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label>
                                 </div>
-                                <div class="col-md-2 text-center p-2">
+                                <div class="col-md-2 text-center py-2 px-0">
+                                    <img src="/assets/anuncioVista/M2 CONSTRUCCION.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Superficie construida</label><br>
                                     <label class="text-primary " style="font-weight: bold;">{{pubDetalle.SuperficieConstruidaDesde === null ? 'No definida' : pubDetalle.SuperficieConstruidaDesde }} m<sup>2</sup></label>
                                 </div>
-                                <div class="col-md-2 text-center p-2">
+                                <div class="col-md-1 text-center py-2 px-0">
+                                    <img  src="/assets/anuncioVista/RECAMARA.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Recamaras</label><br>
                                     <label class="text-primary" style="font-weight: bold;">{{pubDetalle.RecamarasDesde === null ? 'No definido' : pubDetalle.RecamarasDesde }}</label>
                                 </div>
-                                <div class="col-md-1 text-center p-2">
+                                <div class="col-md-1 text-center py-2 px-0">
+                                    <img src="/assets/anuncioVista/BANIO COMPLETO.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Baños</label><br>
                                     <label class="text-primary" style="font-weight: bold;">{{pubDetalle.BaniosCompDesde === null ? 'No definido' : pubDetalle.BaniosCompDesde }}</label>
                                 </div>
-                                <div class="col-md-2 text-center p-2">
+                                <div class="col-md-1 text-center py-2 px-0">
+                                    <img src="/assets/anuncioVista/MEDIO BANIO.png"><br>
+                                    <label class="text-primary px-1" style="font-size: 1rem;">&#189; Baños</label><br>
+                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.MedioBanioDesde === null ? 'No definido' : pubDetalle.MedioBanioDesde }}</label>
+                                </div>
+                                <div class="col-md-2 text-center py-2 px-0">
+                                    <img src="/assets/anuncioVista/COCHERA.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Estacionamientos</label><br>
                                     <label class="text-primary" style="font-weight: bold;">{{pubDetalle.EstacionamientosDesde === null ? 'No definido' : pubDetalle.EstacionamientosDesde }}</label>
                                 </div>
@@ -221,11 +283,11 @@
             </div>
                 
             <!-- Se comenta de manera temporal la muestra del mapa -->
-            <google-map width="100%"
+            <!-- <google-map width="100%"
                         height="400px"
                         [center]="_gm_center"
                         [zoom]="_gm_zoom">
-            </google-map>
+            </google-map> -->
             <hr>
 
             <div class="col">
@@ -242,15 +304,83 @@
                 <hr>
             </div>
 
+            <div class="col br15 bg-color-rt text-primary" style="border:1px solid">
+                <div class="col py-2">
+                    <div class="text-center">
+                        <div class="col-auto mb-3">
+                            <span class="text-center" style="color:red;">¿Quieres reportar algún problema con este aviso?</span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div class="row mb-3">
+                            <div class="col-md-1"></div>
+                            <div class="col d-grid">
+                              <button type="button" class="btn btn-outline-primary br25" (click)="inmuebleRentadoOVendido()" [disabled]="_enviandoReporteRentaVenta || _enviandoReporteEstafa || _publicacion.Id_Cliente === _Id_Usuario_Actual">
+                                <span *ngIf="!_enviandoReporteRentaVenta"><i class="fa fa-send-o px-2" aria-hidden="true"></i> El inmueble ya está rentado o vendido</span>
+                                <span *ngIf="_enviandoReporteRentaVenta" class="col-md-1"><i class="fa fa-sync fa-spin"></i> Espere por favor...</span>
+                              </button>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col d-grid">
+                                <button type="button" class="btn btn-outline-primary br25" (click)="intentoEstafa()" [disabled]="_enviandoReporteEstafa || _enviandoReporteRentaVenta || _publicacion.Id_Cliente === _Id_Usuario_Actual">
+                                    <span *ngIf="!_enviandoReporteEstafa"><i class="fa fa-send-o px-2" aria-hidden="true"></i> Es un intento de estafa</span>
+                                    <span *ngIf="_enviandoReporteEstafa" class="col-md-1"><i class="fa fa-sync fa-spin"></i> Espere por favor...</span>
+                                </button>
+                            </div>
+                            <div class="col-md-1"></div>
+                          </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div class="col-md-3">
                 <div class="sticky-md-top text-primary" style="top:70px; left:1000px">
                     <div class="text-primary text-end" style="top:50px; left:1000px">
-                        <button type="button" style="border-radius:25px; box-shadow: none;" class="btn btn-link" (click)="compartirPublicacion()">
-                            <span class="col-md-1 text-danger">
-                                <i class="fa fa-share-nodes" style="font-size: 25px;" aria-hidden="true"> </i>
-                            </span>
-                        </button>
+                        <ul >
+                            <li>
+                                <span style="box-shadow: none; width:9rem;" class="btn br25 px-0" >
+                                    <span class="col-md-1 text-primary">
+                                        <i class="fa fa-share-nodes" style="font-size: 25px;" aria-hidden="true"> </i>
+                                    </span>
+                                </span>
+                              <ul>
+                                <li class="py-1" style="border-radius:10px 10px 0px 0px">
+                                    <div class="row px-3 mt-0">
+                                        <button type="button" class="btn btn-outline-primary br10" style="border:none;" (click)="seleccionCompartir(1)" [disabled]="_loading || (_usuarioAutenticado && _publicacion.Id_Cliente === _Id_Usuario_Actual)">
+                                            <i class="fa fa-link px-1"></i>
+                                            <span class="text-start px-1">Copiar link</span>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row px-3">
+                                        <button type="button" class="btn btn-outline-primary br10" style="border:none;" (click)="seleccionCompartir(2)" [disabled]="_loading || (_usuarioAutenticado && _publicacion.Id_Cliente === _Id_Usuario_Actual)">
+                                            <img src = 'https://i.ibb.co/JxJxf98/0bfa92d4fdab.png' width="25px" height="25px" >
+                                            <span class="text-start px-1">Facebook</span>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row px-3">
+                                        <button type="button" class="btn btn-outline-primary br10" style="border:none;" (click)="seleccionCompartir(3)" [disabled]="_loading || (_usuarioAutenticado && _publicacion.Id_Cliente === _Id_Usuario_Actual)">
+                                            <img src = 'https://i.ibb.co/TMVN6Fj/0d68d8bb2877.png' width="25px" height="25px" >
+                                            <span class="text-start px-1">WhatssApp</span>
+                                        </button>
+                                    </div>
+                                </li>
+                                <li class="py-1" style="border-radius:0px 0px 10px 10px">
+                                    <div class="row px-3 mb-0" >
+                                        <a class="btn btn-outline-primary br10" href="mailto:" target="_blank" style="border:none;" (click)="seleccionCompartir(4)" [ngStyle]="{'pointer-events': _loading || (_usuarioAutenticado && _publicacion.Id_Cliente === _Id_Usuario_Actual) ? 'none' : 'auto' }" >
+                                            <i class="fa fa-send px-1"></i>
+                                            <span class="text-start px-1">Correo</span>
+                                        </a>
+                                    </div>
+                                </li>
+                              </ul>
+                            </li>
+                        </ul>
+                        
                         <button type="button" style="visibility: hidden;" #myModalIniciarSesion data-bs-toggle="modal" data-bs-target="#modalLogin" ></button>
                         <button type="button" style="box-shadow: none;" class="btn btn-link br25" (click)="agregarFavorito()" >
                             <span class="col-md-1 text-danger">
@@ -282,7 +412,7 @@
                             <label for="telefonoContacto" 
                                    class="col-sm-3 col-form-label text-end">Teléfono</label>
                             <div class="col-sm-8 px-0">
-                                <input  type="text" 
+                                <input  type="number" 
                                         class="form-control text-primary color-text-box" 
                                         placeholder="Teléfono"
                                         formControlName="telefono"
@@ -302,9 +432,10 @@
                                 <input  type="text"
                                         class="form-control text-primary color-text-box" 
                                         placeholder="email"
+                                        [attr.disabled]="_usuarioAutenticado ? 'disabled' : null"
+                                        [ngStyle]="{'background-color': _usuarioAutenticado ? 'rgba(223, 126, 137, 0.15)' : ''}"
                                         formControlName="email"
                                         [class.is-invalid]="emailNoValido"
-                                        [readonly]="_usuarioAutenticado"
                                         id="emailContacto">
                             </div>
                             <div class="col-md-1 px-0 text-center">
@@ -333,7 +464,7 @@
                         <div class="row mb-3 br25 text-center">
                             <div class="col-md-3 text-center"></div>
                             <div class="col-md-8 text-center d-grid">
-                                <button type="button" class="btn btn-primary br25" (click)="enviarMensaje()" [disabled]="_loading">
+                                <button type="button" class="btn btn-primary br25" (click)="enviarMensaje()" [disabled]="_loading || (_usuarioAutenticado && _publicacion.Id_Cliente === _Id_Usuario_Actual)">
                                     <span *ngIf="!_loading"><i class="fa fa-send-o px-2" aria-hidden="true"></i>Enviar</span>
                                     <span *ngIf="_loading" class="col-md-1"><i class="fa fa-sync fa-spin"></i> Espere por favor...</span>
                                 </button>
@@ -343,7 +474,7 @@
                         <div class="row mb-3 br25 text-center">
                             <div class="col-md-3 text-center"></div>
                             <div class="col-md-8 text-center d-grid">
-                                <button type="button" class="btn btn-primary br25" (click)="abrirVentanaWhatsApp()" style="background-color:#4fce5d; border: none;">
+                                <button type="button" class="btn btn-primary br25" (click)="abrirVentanaWhatsApp()" style="background-color:#4fce5d; border: none;" [disabled]="(_usuarioAutenticado && _publicacion.Id_Cliente === _Id_Usuario_Actual)">
                                     <span class="col-md-1">
                                         <i class="fa fa-whatsapp" aria-hidden="true"></i>
                                     </span> Whatssapp
@@ -363,7 +494,7 @@
                             <div class="row row-cols-2">
                                 <div class=" col-auto text-start mb-2 px-2">
                                     <a (click)="abrirPaginaCliente()" class="text-truncate" style="cursor:pointer;">
-                                        <img class="text-primary br25" style="border:1px solid;" [src]="_clienteVista.UrlFotoPerfil" width="30px" height="30px" alt="fotoPefil">
+                                        <img class="text-primary br25" style="border:1px solid;" [src]="_clienteVista.UrlFotoPerfil" width="30px" height="30px" alt="fotoPerfil" onerror="this.src='https://i.ibb.co/7V042L1/7da75c370bc9.png';">
                                     </a>
                                 </div>
                                 <div class="text-start mb-2 p-0">
@@ -377,11 +508,10 @@
                                     <div class="col-md-6" style="display:flex; align-items : center;">
                                         <span class="text-center text-primary" [ngClass]="{' telefonoOculto': _telefonoOculto, ' telefonoCompleto': _telefonoOculto}"><i class="fa fa-phone" aria-hidden="true" > {{_telefono}}</i></span>
                                     </div>
-                                    <div class="col-md-6 text-end px-0" style="display:flex; align-items : center; cursor: pointer;">
+                                    <div *ngIf="_publicacion.Id_Cliente != _Id_Usuario_Actual" class="col-md-6 text-end px-0" style="display:flex; align-items : center; cursor: pointer;">
                                         <button type="button" style="visibility: hidden;" #myModalDatosUsuario data-bs-toggle="modal" data-bs-target="#modalDatosUsuarios" ></button>
-                                        <a class="link link-outline-primary text-end br25" 
-                                           style="border: none;"
-                                           (click)="verTelefonoContacto()">Ver teléfono</a>
+                                            <a class="link link-outline-primary text-end br25"
+                                               style="border: none;" (click)="verTelefonoContacto()">Ver teléfono</a>
                                     </div>
                                 </div>
                             </div>
@@ -391,7 +521,6 @@
                 </div>
         </div>
     </div>
-</div>
 
 
 <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
@@ -405,6 +534,7 @@
           <div class="container">
             <form [formGroup]="formIniciarsesion" autocomplete="on">
                 <fieldset>
+
                   <div class="form-group row py-3">
                     <label class="col-md-4 col-form-label text-primary text-end">Correo electrónico</label>
                     <div class="col-md-6 col-10 p-0">
@@ -449,16 +579,70 @@
                       </small>
                     </div>
                   </div>
-              
-                  <div class="text-center p-3">
-                    <a class="text-danger" href="/login">¿No tienes cuenta? Registrate aqui.</a>
-                  </div>
-                  <div class="text-center p-3">
-                    <a class="text-success" href="/recuperarpassword">¿Olvidaste tu contraseña? / Recuperar contraseña</a>
-                  </div>
                   
                 </fieldset>
               </form>
+
+
+              <div class="form-group row py-3">
+                <div class="col-md-3"></div>
+                <div class="col-md-5">
+                    <div id="g_id_onload"
+                        data-client_id="871188979190-53oa9ctrooeiv32eslaocarmn1rnif8a.apps.googleusercontent.com"
+                        data-context="signin"
+                        data-ux_mode="popup"
+                        [attr.data-login_uri]="_direccionPagina"
+                        data-auto_prompt="false">
+                    </div>
+        
+                    <div *ngIf="!_modoObscuro">
+                        <div class="g_id_signin"
+                            data-type="standard"
+                            data-shape="pill"
+                            data-theme="outline"
+                            data-text="$ {button.text}"
+                            data-size="large"
+                            data-logo_alignment="left">
+                        </div>
+                    </div>
+        
+                    <div *ngIf="_modoObscuro">
+                        <div class="g_id_signin"
+                            data-type="standard"
+                            data-shape="pill"
+                            data-theme="filled_blue"
+                            data-text="$ {button.text}"
+                            data-size="large"
+                            data-logo_alignment="left">
+                        </div> 
+                    </div>
+
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+  
+            <div class="form-group row py-3 text-center">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <button type="submit" style="background-color:#1877f2; border: none;"
+                            (click)="iniciarSesionFacebook()"
+                            tabindex="-1"
+                            class="btn btn-primary btn-md br25">
+                            <span><i class="fa-brands fa-facebook"></i>&nbsp;&nbsp;&nbsp;Iniciar con Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    </button>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+  
+      
+          <div class="text-center p-3">
+            <a class="text-danger" href="/login">¿No tienes cuenta? Registrate aqui.</a>
+          </div>
+          <div class="text-center p-3">
+            <a class="text-success" href="/recuperarpassword">¿Olvidaste tu contraseña? / Recuperar contraseña</a>
+          </div>
+
+
           </div>
         </div>
         <div class="modal-footer">
@@ -470,19 +654,19 @@
   </div>
 
 
-  <div class="modal fade" id="modalDatosUsuarios" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+<div class="modal fade" id="modalDatosUsuarios" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-md">
-      <div class="modal-content color-modal">
+        <div class="modal-content color-modal">
         <div class="modal-header">
-          <h5 class="modal-title text-primary" id="gridModalLabel">Información requerida</h5>
-          <button type="button" class="btn-close bg-color-5" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 class="modal-title text-primary" id="gridModalLabel">Información requerida</h5>
+            <button type="button" class="btn-close bg-color-5" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body py-2 px-0">
-          <div class="container">
-            <form [formGroup]="formaDatosUsuario" autocomplete="off" class="br15 bg-color-rt px-3 py-1">
+            <div class="container">
+            <form [formGroup]="formaDatosUsuario" autocomplete="off" class="br15 bg-color-rt px-3 py-3">
                 <div class="row mb-2 br25" >
                     <label for="nombreContacto" 
-                           class="col-sm-3 col-form-label text-primary text-end">Nombre</label>
+                            class="col-sm-3 col-form-label text-primary text-end">Nombre</label>
                     <div class="col-sm-8 px-0">
                         <input  type="text" autocomplete="off"
                                 class="form-control text-primary color-text-box" 
@@ -499,9 +683,10 @@
                 </div>
                 <div class="row mb-2 br25">
                     <label for="telefonoContacto" 
-                           class="col-sm-3 col-form-label text-primary text-end">Teléfono</label>
+                            class="col-sm-3 col-form-label text-primary text-end">Teléfono</label>
                     <div class="col-sm-8 px-0">
-                        <input  type="text" 
+                        <input  type="number"
+                                maxlength="10"
                                 class="form-control text-primary color-text-box" 
                                 placeholder="Teléfono"
                                 formControlName="telefonoDU"
@@ -516,7 +701,7 @@
                 </div>
                 <div class="row mb-2 br25">
                     <label for="emailContacto" 
-                           class="col-sm-3 col-form-label text-primary text-end">Email</label>
+                            class="col-sm-3 col-form-label text-primary text-end">Email</label>
                     <div class="col-sm-8 px-0">
                         <input  type="text"
                                 class="form-control text-primary color-text-box" 
@@ -533,16 +718,118 @@
                 </div>
                 <div class="row mb-2 br25 text-center">
                     <div class="col-md-12 text-center d-grid">
-                        <span class="text-primary" style="font-size: 10px;">Al hacer clic en <strong>Mostrar telefóno</strong> aceptas nuestros <a href="/legal/terminosycondicionesdeuso">Terminos, condiciones y politicas de privacidad.</a></span>
+                        <span class="text-primary" style="font-size: 10px;">Al hacer clic en <strong>{{_textoInformacionMuestra}}</strong> aceptas nuestros <a href="/legal/terminosycondicionesdeuso">Terminos, condiciones y politicas de privacidad.</a></span>
                     </div>
                 </div>
             </form>
-          </div>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" #myModalCloseDatosUsuario class="btn btn-secondary text-light br25" data-bs-dismiss="modal" >Cancelar</button>
-          <button type="button" class="btn btn-primary br25" (click)="mostrarTelefono()">Mostrar telefóno</button>
+            <div class="modal-footer">
+                <button type="button" #myModalCloseDatosUsuario class="btn btn-secondary text-light br25" data-bs-dismiss="modal" >Cancelar</button>
+                <button type="button" class="btn btn-primary br25" (click)="mostrarTelefonoReportarAnuncio()">{{_textoInformacionMuestra}}</button>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
+
+
+<div class="modal fade" id="modalMultimedia" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content color-modal">
+        <div class="modal-header">
+            <h5 class="modal-title text-primary" id="gridModalLabel">Multimedia</h5>
+            <button type="button" class="btn-close bg-color-5" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-2">
+            <div class="row my-3">
+                <div class="col-md-4 d-grid text-center">
+                    <input type="radio" class="btn-check" name="options-outlined" id="verFotos" autocomplete="off" [checked]="_fotografiasSeleccionado" (change)="mostrarMultimedia(1)" [disabled]="!_existenFotos">
+                    <label class="btn btn-outline-primary br25" for="verFotos">Fotografias</label>
+                </div>
+                <div class="col-md-4 d-grid text-center">
+                    <input type="radio" class="btn-check" name="options-outlined" id="verVideos" autocomplete="off" [checked]="_videosSeleccionado" (change)="mostrarMultimedia(2)" [disabled]="!_existenVideos">
+                    <label class="btn btn-outline-primary br25" for="verVideos">Videos</label>
+                </div>
+                <div class="col-md-4 d-grid text-center">
+                    <input type="radio" class="btn-check" name="options-outlined" id="verPlanos" autocomplete="off" [checked]="_planosSeleccionado" (change)="mostrarMultimedia(3)" [disabled]="!_existenPlanos">
+                    <label class="btn btn-outline-primary br25" for="verPlanos">Planos</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+                        <div class="carousel-inner">
+
+                            <div *ngIf="_multimediaSeleccionada.Id_TipoMultimedia === 1 || _multimediaSeleccionada.Id_TipoMultimedia === 3">
+                                <div class="carousel-item active text-center">
+                                    <div class="row justify-content-center">
+                                        <img [src]="_multimediaSeleccionada.Url" class="d-block w-100 br10" loading="lazy" alt="" style="max-width:fit-content; max-height:400px; min-height:auto;">
+                                    </div>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5 class="sombraTitulo text-capitalize">{{_multimediaSeleccionada.Descripcion}}</h5>
+                                    </div>
+                                </div>
+                                <div class="carousel-item" *ngFor="let item of _publicacionMultimediaSeleccionada">
+                                    <div class="row justify-content-center">
+                                        <img [src]="item.Url" class="d-block w-100 br10" loading="lazy" alt="" style="max-width:fit-content; max-height:400px; min-height:auto;">
+                                    </div>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h4 class="sombraTitulo text-capitalize">{{item.Descripcion}}</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="_multimediaSeleccionada.Id_TipoMultimedia === 2">
+                                <div class="carousel-item active text-center">
+                                    <div class="row justify-content-center">
+                                        <iframe class="m-0 p-0" alt="Video" width="100%" height="300px;" [src]="_multimediaSeleccionada.Url! | safe : 'resourceUrl'"></iframe>
+                                    </div>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5 class="sombraTitulo text-capitalize">{{_multimediaSeleccionada.Descripcion}}</h5>
+                                    </div>
+                                </div>
+                                <div class="carousel-item" *ngFor="let item of _publicacionMultimediaSeleccionada">
+                                    <div class="row justify-content-center">
+                                        <iframe class="form-control m-0 p-0" alt="Video" width="100%" height="300px;" [src]="item.Url! | safe : 'resourceUrl'"></iframe>
+                                    </div>
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <h5 class="sombraTitulo text-capitalize">{{item.Descripcion}}</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <button class="carousel-control-prev" type="button" style="height: 30px; width:40px; top: 45%; left:2%;" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon bg-color-2 br25" aria-hidden="true"></span>
+                          <span class="visually-hidden">Anterior</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" style="height: 30px; width:40px; top: 45%; right:2%;" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                          <span class="carousel-control-next-icon bg-color-2 br25" aria-hidden="true"></span>
+                          <span class="visually-hidden">Siguiente</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center" *ngIf="_multimediaSeleccionada.Id_TipoMultimedia === 1">
+                        <span class="text-primary">Total de fotografias: {{_publicacionMultimediaSeleccionada.length + 1}}</span>
+                    </div>
+                    <div class="text-center" *ngIf="_multimediaSeleccionada.Id_TipoMultimedia === 2">
+                        <span class="text-primary">Total de videos: {{_publicacionMultimediaSeleccionada.length + 1}}</span>
+                    </div>
+                    <div class="text-center" *ngIf="_multimediaSeleccionada.Id_TipoMultimedia === 3">
+                        <span class="text-primary">Total de planos: {{_publicacionMultimediaSeleccionada.length + 1}}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- <div class="row" *ngIf="_multimediaSeleccionada.Id_Multimedia != 0">
+                <img [src]="_multimediaSeleccionada.Url" loading="lazy" alt="" width="400px" height="400px" style="max-width:fit-content;">
+            </div> -->
+        </div>
+            <!-- <div class="modal-footer">
+                <button type="button" #myModalCloseDatosUsuario class="btn btn-secondary text-light br25" data-bs-dismiss="modal" >Cancelar</button>
+                <button type="button" class="btn btn-primary br25" (click)="mostrarTelefono()">Mostrar telefóno</button>
+            </div> -->
+        </div>
+    </div>
+</div>

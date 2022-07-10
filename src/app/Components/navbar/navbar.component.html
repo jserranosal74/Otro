@@ -55,7 +55,7 @@
 <!-- ============= COMPONENT ============== -->
 <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-dark fixed-top" style="background:#c3365e;">
   <div class="container-fluid" style="padding: 0px 10px;">
-    <a class="navbar-brand" routerLink="Inicio">Inmuebles Yuca</a>
+    <a class="navbar-brand" routerLink="Inicio">Inmuebles Meza</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -155,59 +155,36 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item dropdown" routerLinkActive="active">
-          <a class="nav-link dropdown-toggle" routerLink="desarrollos" data-bs-toggle="dropdown">
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link" routerLink="desarrollos">
             Desarrollos
           </a>
-          <ul class="dropdown-menu">
+          <!-- <ul class="dropdown-menu">
             <li>
               <a class="dropdown-item text-primary" [routerLink]="['desarrollos', 'departamento']">Departamento</a>
             </li>
             <li>
               <a class="dropdown-item text-primary" [routerLink]="['desarrollos', 'casa']">Casa</a>
             </li>
-          </ul>
+          </ul> -->
         </li>
         <li class="nav-item dropdown" routerLinkActive="active">
           <a
             class="nav-link dropdown-toggle"
             routerLink="desarrollos"
-            data-bs-toggle="dropdown"
-          >
-            Ayuda para tu hogar
+            data-bs-toggle="dropdown" >
+            Temas de interes
           </a>
           <ul class="dropdown-menu">
             <li>
               <a class="dropdown-item text-primary" [routerLink]="['ayudahogar/pintores']"
-                >Pintores</a
+                >Como obtener un crédito</a
               >
             </li>
             <li>
-              <a
-                class="dropdown-item text-primary"
+              <a class="dropdown-item text-primary"
                 [routerLink]="['ayudahogar/electricistas']"
-                >Electricistas</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item text-primary" [routerLink]="['ayudahogar/plomeros']"
-                >Plomeros</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item text-primary" [routerLink]="['ayudahogar/limpieza']"
-                >Limpieza</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item text-primary" [routerLink]="['ayudahogar/jardineros']"
-                >Jardinero</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item text-primary" [routerLink]="['ayudahogar/carpinteros']"
-                >Carpintero</a
-              >
+                >¿Sabías que?</a>
             </li>
           </ul>
         </li>
@@ -229,16 +206,21 @@
               </li>
               <li>
                 <a class="dropdown-item text-primary text-primary" [routerLink]="['procesos', 'asignarpaqueteacliente']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Agregar paquete a Empresa</span></a>
+                  <span style="padding: 10px;">Asignar paquete a Empresa</span></a>
               </li>
               <li>
                 <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'usuariosempresa']"><i class="fa-solid fa-house-chimney-window"></i>
                   <span style="padding: 10px;">Asignar usuario a Empresa</span></a>
               </li>
               <li>
+                <a class="dropdown-item text-primary text-primary" [routerLink]="['procesos', 'bloquearpublicacion']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Bloquear publicaciones</span></a>
+              </li>
+              <li>
                 <a class="dropdown-item text-primary text-primary" [routerLink]="['procesos', 'confirmarpagosplanes']"><i class="fa-solid fa-house-chimney-window"></i>
                   <span style="padding: 10px;">Confirmar pagos de clientes</span></a>
               </li>
+              <div class="dropdown-divider"></div>
               <li>
                 <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'asentamientos']"><i class="fa-solid fa-building"></i>
                   <span style="padding: 10px;"> Asentamientos</span></a>
@@ -254,6 +236,10 @@
               <li>
                 <a class="dropdown-item text-primary text-primary" [routerLink]="['catalogos', 'empresas']"><i class="fa-solid fa-house-chimney-window"></i>
                   <span style="padding: 10px;">Empresas</span></a>
+              </li>
+              <li>
+                <a class="dropdown-item text-primary text-primary" [routerLink]="['catalogos', 'indicadores']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <span style="padding: 10px;">Indicadores</span></a>
               </li>
               <li>
                 <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'medioscontacto']"><i class="fa-solid fa-building"></i>
@@ -319,34 +305,42 @@
           <li class="nav-item dropdown" routerLinkActive="active">
               <a class="btn btn-link" data-bs-toggle="dropdown"
                 style="border:none; box-shadow: none;"
-                [routerLink]="['micuenta']">
+                [routerLink]="['micuenta','mi-perfil']">
                 <span *ngIf="!_urlFotoPerfil"><i class="fa-solid fa-circle-user medicon"></i></span>
                 <img *ngIf="_urlFotoPerfil" class="br25" width="25px" height="100%" [src]="_urlFotoPerfil" alt="">
               </a>
               <ul class="dropdown-menu">
                 <li>
-                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'misanuncios']"><i class="fa-solid fa-house-chimney-window"></i>
-                    <span style="padding: 10px;">Mis anuncios</span></a>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-datosfiscales']"><i class="fa-solid fa-file-lines px-2"></i>
+                    <span style="padding: 10px;">Mis datos fiscales</span></a>
                 </li>
                 <li>
-                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'misplanesypaquetes']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-planesypaquetes']"><i class="fa-solid fa-file-lines px-2"></i>
                     <span style="padding: 10px;">Mis planes y paquetes</span></a>
                 </li>
                 <li>
-                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'misfavoritos']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-anuncios']"><i class="fa-solid fa-file-lines px-2"></i>
+                    <span style="padding: 10px;">Mis anuncios</span></a>
+                </li>
+                <li>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-favoritos']"><i class="fa-solid fa-file-lines px-2"></i>
                     <span style="padding: 10px;">Mis favoritos</span></a>
                 </li>
                 <li>
-                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mismensajes']"><i class="fa-solid fa-house-chimney-window"></i>
-                    <span style="padding: 10px;">Mis mensajes</span></a>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-mensajes']"><i class="fa-solid fa-file-lines px-2"></i>
+                    <span style="padding: 10px;">Mis mensajes y notifiaciones</span></a>
                 </li>
                 <li>
-                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'misfacturas']"><i class="fa-solid fa-house-chimney-window"></i>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-facturas']"><i class="fa-solid fa-file-lines px-2"></i>
                     <span style="padding: 10px;">Mis facturas</span></a>
+                </li>
+                <li>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-indicadores']"><i class="fa-solid fa-file-lines px-2"></i>
+                    <span style="padding: 10px;">Mis indicadores</span></a>
                 </li>
                 <div class="dropdown-divider"></div>
                 <li>
-                  <a class="dropdown-item text-primary btn btn-link" (click)="cerrarSesion()"><i class="fa-solid fa-house-chimney-window"></i>
+                  <a class="dropdown-item text-primary btn btn-link" (click)="cerrarSesion()"><i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <span style="padding: 10px;">Cerrar sesión</span></a>
                 </li>
               </ul>

@@ -4,7 +4,7 @@
             <div class="well well-sm">
                 <form [formGroup]="formaBusqueda" class="form-horizontal">
                     <fieldset>
-                        <legend class="text-center text-primary mb-3"><h1 class="display-4">Confirmar pagos de los planes</h1></legend>
+                        <legend class="text-center text-primary mb-3"><h1 class="display-4 sombraTitulo">Confirmar pagos de los planes</h1></legend>
                         <div class="form-group row mb-3">
                             <div class="col-md-4">
                                 <input  type="text"
@@ -42,16 +42,12 @@
                 </form>
 
                 <div class="row mb-3">
-                    <table class="table table-striped table-bordered border-primary color-table">
+                    <table class="table text-primary table-striped table-bordered border-primary color-table">
                         <thead>
                             <tr>
                             <th *ngIf="_estatusSeleccionado === '15'" width="50px" class="text-primary text-center" scope="col">Confirmar pago</th>
                             <th width="50px" class="text-primary text-center" scope="col">#PlanCli</th>
                             <th width="50px" class="text-primary text-center" scope="col">Referencia</th>
-                            <!-- <th width="50px" class="text-primary text-center" scope="col">#Plan</th>
-                            <th width="50px" class="text-primary text-center" scope="col">#Paquete</th>
-                            <th width="50px" class="text-primary text-center" scope="col">#Cli</th>
-                            <th width="50px" class="text-primary text-center" scope="col">#Publicacion</th> -->
                             <th width="100px" class="text-primary text-center" scope="col">Descripción</th>
                             <th width="200px" class="text-primary text-center" scope="col">Email cliente</th>
                             <th width="100px" class="text-primary text-center" scope="col">Disponibles</th>
@@ -73,13 +69,8 @@
                                     </span></button>
                                 </div>
                             </td>
-                            <!-- <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{planCliente.Clave}}" data-placement="top" title="Tooltip on top" style="max-width: 100%;">{{planCliente.Clave}}</td> -->
                             <td class="text-primary text-center" scope="row">{{planCliente.Id_PlanCliente}}</td>
                             <td class="text-primary text-start" style="max-width: 100%;">{{planCliente.Referencia}}</td>
-                            <!-- <td class="text-primary text-center" scope="row">{{planCliente.Id_Plan}}</td>
-                            <td class="text-primary text-center" scope="row">{{planCliente.Id_Paquete}}</td>
-                            <td class="text-primary text-center" scope="row">{{planCliente.Id_Cliente}}</td>
-                            <td class="text-primary text-center" scope="row">{{planCliente.Id_Publicacion}}</td> -->
                             <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{planCliente.Descripcion}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{planCliente.Descripcion}}</td>
                             <td class="text-primary" data-toggle="tooltip" data-placement="top" title="{{planCliente.Email}}" data-placement="top" title="Tooltip on top" >{{planCliente.Email}}</td>
                             <td class="text-primary text-center" scope="row">{{planCliente.Disponibles}}</td>

@@ -2,18 +2,18 @@
     <div class="row">
         <div class="col-md-12">
             <div class="well well-sm">
-                  <legend class="text-center text-primary mb-3"><h1 class="display-4">Mis planes y paquetes</h1></legend>
+                  <legend class="text-center text-primary mb-3"><h1 class="display-4" style="text-shadow: 3px 3px 7px black;">Mis planes y paquetes</h1></legend>
 
                   <div class="form-group row mb-3 px-2">
                     <div class="col-md-1 px-0">
-                        <a class="btn btn-primary btn-sm" style="border-radius:25px;" data-bs-toggle="modal" data-bs-target="#gridAgregarPlanCliente" >
+                        <a class="btn btn-primary btn-sm br25" data-bs-toggle="modal" data-bs-target="#gridAgregarPlanCliente" >
                             <span class="col-md-1 col-md-offset-2 text-center">
                             <i class="fa fa-add bigicon" aria-hidden="true"> </i>
                         </span></a>
                     </div>
-                    <div class="col-md-8 px-0"></div>
-                    <div class="col-md-3 p-0 text-end">
-                      <!-- <label class="text-primary text-end px-3">Total de registros: {{_datosFiscales.TotalRegistros}}</label> -->
+                    <div class="col-md-7 px-0"></div>
+                    <div class="col-md-4 p-0 text-end">
+                      <label class="text-primary text-end px-3">Total de planes: {{_planesCliente.length}} - Paquetes: {{_paquetesCliente.length}}</label>
                       <button class="btn btn-primary btn-sm br25" (click)="mostrarFiltros()">
                           <span class="col-md-1 text-center">
                             <i [ngClass]="{' fa-regular fa-eye': _mostrarFiltros, ' fa-solid fa-eye-slash': !_mostrarFiltros}" ></i>
@@ -93,7 +93,7 @@
                             <div class="accordion mb-2 p-1" id="accordionPanelsStayOpenExample">
                               <div class="accordion-item color-modal" [ngStyle]="{'display': !_verFiltros.Estatus ? 'none' : '' }">
                                 <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                  <button #myColapseFiltro1 class="accordion-button p-2 text-primary color-collapse" type="button" (click)="colapseEstatus()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                                  <button #myColapseFiltro1 class="accordion-button p-2 text-primary color-collapse collapsed" type="button" (click)="colapseEstatus()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
                                     Estatus planes y paquetes
                                   </button>
                                 </h2>
@@ -111,7 +111,7 @@
                               <div class="accordion-item color-modal" [ngStyle]="{'display': !_verFiltros.TipoPlan ? 'none' : '' }">
                                 <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
                                   <button #myColapseFiltro2 class="accordion-button p-2 text-primary color-collapse collapsed" type="button" (click)="colapseTipoPlan()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                    Tipo de plan o paquete
+                                    Tipo de plan
                                   </button>
                                 </h2>
                                 <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
@@ -128,7 +128,7 @@
                               <div class="accordion-item color-modal" [ngStyle]="{'display': !_verFiltros.TipoAnuncio ? 'none' : '' }">
                                 <h2 class="accordion-header" id="panelsStayOpen-headingThree">
                                   <button #myColapseFiltro3 class="accordion-button p-2 text-primary color-collapse collapsed" type="button" (click)="colapseTipoAnuncio()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                                    Tipo de Anuncio
+                                    Plan ó Paquete
                                   </button>
                                 </h2>
                                 <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">

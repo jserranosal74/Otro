@@ -1,5 +1,5 @@
 <div class="container p-0">
-  <legend class="text-center text-primary mb-3"><h1 class="display-4">Mis anuncios</h1></legend>
+  <legend class="text-center text-primary mb-3"><h1 class="display-4" style="text-shadow: 3px 3px 7px black;">Mis anuncios</h1></legend>
 
     <div class="form-group row mb-3 px-2">
       <div class="col-md-1 px-0">
@@ -10,7 +10,7 @@
       </div>
       <div class="col-md-8 px-0"></div>
       <div class="col-md-3 p-0 text-end">
-        <label class="text-primary text-end px-3">Total de registros: {{_paginadoDetalle.TotalRegistros}}</label>
+        <label class="text-primary text-end px-3">Total de anuncios: {{_paginadoDetalle.TotalRegistros}}</label>
         <button class="btn btn-primary btn-sm br25" (click)="mostrarFiltros()">
             <span class="col-md-1 text-center">
               <i [ngClass]="{' fa-regular fa-eye': _mostrarFiltros, ' fa-solid fa-eye-slash': !_mostrarFiltros}" ></i>
@@ -22,9 +22,31 @@
     <div class="row">
 
       <div [ngClass]="{' col-md-9': _mostrarFiltros, ' col-md-12': !_mostrarFiltros}">
-        <div class="row mb-3" *ngFor="let publicacion of _publicaciones" >
+
+        <div class="row mb-3" *ngFor="let publicacion of _publicacionesInfoMini" >
                 <app-anuncio-miniatura [_publicacion]="publicacion" [_tipoBusqueda]="_misAnuncios" (_seEliminoPublicacion)="ejecutarConsulta(0)" (_seCanceloPublicacion)="cancelarPublicacion(publicacion)" (_seEligeCopiar)="copiarAnuncio(publicacion)"></app-anuncio-miniatura>
         </div>
+
+        <div *ngIf="_seRealizaBusqueda" class="d-flex justify-content-center">
+          <nav aria-label="Page navigation py-0 m-0">
+            <ul class="pagination pagination">
+              <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none'}" >
+                <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
+                  <span><i class="fa-solid fa-arrow-left"></i></span>
+                </button>
+              </li>
+              <li *ngFor="let pagina of _paginas" class="page-item mx-2">
+                <button class="page-link color-text-box br25" style="width:40px; height:40px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : '', 'background-color': pagina.Activa ? 'rgba(223, 126, 137, .4)' : ''}" (click)="ejecutarConsulta(pagina.Pagina)" [disabled]="pagina.Activa">{{pagina.Pagina+1}}</button>
+              </li>
+              <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaSiguiente ? 'auto' : 'none'}" >
+                <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
+                  <span><i class="fa-solid fa-arrow-right"></i></span>
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
       </div>
 
       <div [ngClass]="{' col-md-3': _mostrarFiltros, ' col-md-0': !_mostrarFiltros}" [ngStyle]="{'display': !_mostrarFiltros ? 'none' : 'inline' }" >
@@ -53,64 +75,73 @@
               
 
               <div *ngFor="let filtroEstatus of _filtrosSeleccionados.lstEstatus">
-                <span class="badge text-primary">
+                <p class="text-primary my-1" style="cursor: pointer; font-size:0.75em; font-weight: 700;">
                   {{filtroEstatus.Descripcion}}
                   <button type="button" class="btn btn-primary p-0 m-0 br25" (click)="removerFiltroEstatus(filtroEstatus)" style="width:20px; height:20px; line-height: 0 !important;">
                     <i class="fa fa-xmark" style="font-size: 10px;" ></i>
                   </button>
-                </span>
+                </p>
               </div>
 
               <div *ngFor="let filtroTP of _filtrosSeleccionados.lstTiposPropiedad">
-                <span class="badge text-primary">
+                <p class="text-primary my-1" style="cursor: pointer; font-size:0.75em; font-weight: 700;">
                   {{filtroTP.Descripcion}}
                   <button type="button" class="btn btn-primary p-0 m-0 br25" (click)="removerFiltroTipoPropiedad(filtroTP)" style="width:20px; height:20px; line-height: 0 !important;">
                     <i class="fa fa-xmark" style="font-size: 10px;" ></i>
                   </button>
-                </span>
+                </p>
               </div>
 
               <div *ngFor="let filtroTO of _filtrosSeleccionados.lstTiposOperacion">
-                <span class="badge text-primary">
+                <p class="text-primary my-1" style="cursor: pointer; font-size:0.75em; font-weight: 700;">
                   {{filtroTO.Descripcion}}
                   <button type="button" class="btn btn-primary p-0 m-0 br25" (click)="removerFiltroTipoOperacion(filtroTO)" style="width:20px; height:20px; line-height: 0 !important;">
                     <i class="fa fa-xmark" style="font-size: 10px;" ></i>
                   </button>
-                </span>
+                </p>
+              </div>
+
+              <div *ngFor="let filtroTPl of _filtrosSeleccionados.lstTiposPlanes">
+                <p class="text-primary my-1" style="cursor: pointer; font-size:0.75em; font-weight: 700;">
+                  {{filtroTPl.Descripcion}}
+                  <button type="button" class="btn btn-primary p-0 m-0 br25" (click)="removerFiltroTipoPlan(filtroTPl)" style="width:20px; height:20px; line-height: 0 !important;">
+                    <i class="fa fa-xmark" style="font-size: 10px;" ></i>
+                  </button>
+                </p>
               </div>
 
               <div *ngFor="let filtroEstado of _filtrosSeleccionados.lstEstados">
-                <span class="badge text-primary">
+                <p class="text-primary my-1" style="cursor: pointer; font-size:0.75em; font-weight: 700;">
                   Estado: {{filtroEstado.Nombre}}
                   <button type="button" class="btn btn-primary p-0 m-0 br25" (click)="removerFiltroEstados(filtroEstado)" style="width:20px; height:20px; line-height: 0 !important;">
                     <i class="fa fa-xmark" style="font-size: 10px;" ></i>
                   </button>
-                </span>
+                </p>
               </div>
 
               <div *ngFor="let filtroMunicipio of _filtrosSeleccionados.lstMunicipios">
-                <span class="badge text-primary">
+                <p class="text-primary my-1" style="cursor: pointer; font-size:0.75em; font-weight: 700;">
                   Municipio: {{filtroMunicipio.Municipio}}
                   <button type="button" class="btn btn-primary p-0 m-0 br25" (click)="removerFiltroMunicipios(filtroMunicipio)" style="width:20px; height:20px; line-height: 0 !important;">
                     <i class="fa fa-xmark" style="font-size: 10px;" ></i>
                   </button>
-                </span>
+                </p>
               </div>
 
               <div *ngFor="let filtroAsentamiento of _filtrosSeleccionados.lstAsentamientos">
-                <span class="badge text-primary">
+                <p class="text-primary my-1" style="cursor: pointer; font-size:0.75em; font-weight: 700;">
                   Asentamiento: {{filtroAsentamiento.Asentamiento}}
                   <button type="button" class="btn btn-primary p-0 m-0 br25" (click)="removerFiltroAsentamientos(filtroAsentamiento)" style="width:20px; height:20px; line-height: 0 !important;">
                     <i class="fa fa-xmark" style="font-size: 10px;" ></i>
                   </button>
-                </span>
+                </p>
               </div>
 
               <div class="accordion mb-2 p-1" id="accordionPanelsStayOpenExample">
                 <div class="accordion-item color-modal" [ngStyle]="{'display': !_verFiltros.Estatus ? 'none' : '' }">
                   <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                    <button #myColapseFiltro1 class="accordion-button p-2 text-primary color-collapse" type="button" (click)="colapseEstatus()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
-                      Estatus del aviso
+                    <button #myColapseFiltro1 class="accordion-button p-2 text-primary color-collapse collapsed" type="button" (click)="colapseEstatus()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                      Estatus del anuncio
                     </button>
                   </h2>
                   <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
@@ -151,6 +182,23 @@
                     <div class="accordion-body p-2">
                       <div *ngFor="let item of _publicacionesFiltros.lstTiposOperacion">
                         <span class="badge text-primary" (click)="seleccionarFiltroTipoOperacion(item)" style="cursor: pointer" >
+                            {{item.Descripcion}} ({{item.Cantidad}})
+                        </span>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="accordion-item color-modal" [ngStyle]="{'display': !_verFiltros.TipoPlan ? 'none' : '' }">
+                  <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                    <button #myColapseFiltro7 class="accordion-button p-2 text-primary color-collapse collapsed" type="button" (click)="colapseTipoPlan()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseSeven" aria-expanded="false" aria-controls="panelsStayOpen-collapseSeven">
+                      Tipo plan
+                    </button>
+                  </h2>
+                  <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingSeven">
+                    <div class="accordion-body p-2">
+                      <div *ngFor="let item of _publicacionesFiltros.lstTiposPlanes">
+                        <span class="badge text-primary" (click)="seleccionarFiltroTipoPlan(item)" style="cursor: pointer" >
                             {{item.Descripcion}} ({{item.Cantidad}})
                         </span>
                     </div>
@@ -219,23 +267,5 @@
     </div>
     
 
-    <div *ngIf="_seRealizaBusqueda" class="d-flex justify-content-center">
-      <nav aria-label="Page navigation py-0 m-0">
-          <ul class="pagination pagination-lg">
-            <li class="page-item" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none'}" >
-              <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
-                <span>&larr;</span>
-              </button>
-            </li>
-            <li *ngFor="let pagina of _paginas" class="page-item mx-1" [class.disabled]="pagina.Activa">
-              <button class="page-link color-text-box" style="border-radius: 30px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : ''}" (click)="ejecutarConsulta(pagina.Pagina)">{{pagina.Pagina+1}}</button>
-            </li>
-            <li class="page-item" [ngStyle]="{'pointer-events': _mostrarPaginaSiguiente ? 'auto' : 'none'}" >
-              <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
-                <span>&rarr;</span>
-              </button>
-            </li>
-          </ul>
-        </nav>
-    </div>
+    
 </div>

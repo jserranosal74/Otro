@@ -12,7 +12,7 @@ import { favoritoCliente } from '../../../Models/procesos/favoritoCliente.model'
   templateUrl: './misfavoritos.component.html',
   styleUrls: ['./misfavoritos.component.css']
 })
-export class MisfavoritosComponent implements OnInit {
+export class MisFavoritosComponent implements OnInit {
   _favoritosCliente : favoritoCliente[] = [];
   //_mostrarFiltros : boolean = sessionStorage.getItem('mf') === '1'? true : false;
 

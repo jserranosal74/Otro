@@ -23,8 +23,8 @@ export class PublicacionMensajesFiltrosService {
     this.urlPublicacionesMensajesFiltros = URL_APIS.urlPublicacionesMensajesFiltros;
   }
 
-  public getPublicacionMensajesFiltros(Id_Cliente : number, Id_Publicacion : number | null, Id_Accion : number | null, Id_Estatus : number | null, Email : string | null): Observable<publicacionMensajesFiltros> {
-    return this.http.get<publicacionMensajesFiltros>(this.urlPublicacionesMensajesFiltros + '?Id_Cliente=' + Id_Cliente + '&Id_Publicacion=' + Id_Publicacion + '&Id_Accion=' + Id_Accion + '&Id_Estatus='+ Id_Estatus + '&Email=' + (Email === null ? '' : Email), this.httpOptions);
+  public getPublicacionMensajesFiltros(Id_Cliente : number, Id_Publicacion : number | null, Id_Indicador : number | null, Id_Estatus : number | null, Email : string | null, Fecha : Date | null): Observable<publicacionMensajesFiltros> {
+    return this.http.get<publicacionMensajesFiltros>(this.urlPublicacionesMensajesFiltros + '?Id_Cliente=' + Id_Cliente + '&Id_Publicacion=' + Id_Publicacion + '&Id_Indicador=' + Id_Indicador + '&Id_Estatus='+ Id_Estatus + '&Email=' + (Email === null ? '' : Email) + '&Fecha=' + (Fecha === null ? '' : Fecha), this.httpOptions);
   }
 
 }

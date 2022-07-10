@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 import { publicacion } from 'src/app/Models/procesos/publicacion.model';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
 import { imagenModel } from '../../../Models/procesos/publicacion.model';
-import { MultimediaPublicacionService } from '../../../Services/Procesos/FotosPublicacion.service';
+import { MultimediaPublicacionService } from '../../../Services/Procesos/MultimediaPublicacion.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -17,7 +17,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class FotosyvideosComponent implements OnInit {
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0);
   _id_publicacion : number = 0;
   _multimediaPublicacion : imagenModel[] = [];
   _loading = false;
@@ -30,7 +30,7 @@ export class FotosyvideosComponent implements OnInit {
   });
 
   constructor(  private _activatedRoute: ActivatedRoute,
-                private _fotosPublicacionService: MultimediaPublicacionService,
+                private _multimediaPublicacionService: MultimediaPublicacionService,
                 private _loginService: LoginService,
                 private fb: FormBuilder,
                 private sanitizer: DomSanitizer,
@@ -62,7 +62,7 @@ export class FotosyvideosComponent implements OnInit {
   CargarFotosPublicacion(){
     //debugger;
     if (this._id_publicacion != 0) {
-        this._fotosPublicacionService.getFotosPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
+        this._multimediaPublicacionService.getMultimediaPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente(), null).subscribe(
           (data) => {
 
             console.log(data);
@@ -326,7 +326,7 @@ cambiarVideoPredeterminado(control : any){
     });
 
 
-    this._fotosPublicacionService.postFotosPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente(), this._multimediaPublicacion).subscribe(
+    this._multimediaPublicacionService.postFotosPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente(), this._multimediaPublicacion).subscribe(
       (data) => {
         //Next callback
         console.log(data);

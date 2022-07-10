@@ -1,11 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
 import { FavoritosClienteService } from 'src/app/Services/Procesos/misFavoritos.service';
 import Swal from 'sweetalert2';
 
-import { publicacionInfoMini } from '../../../Models/procesos/publicacion.model';
+import { publicacionInfoMini, publicacionMultimedia } from '../../../Models/procesos/publicacion.model';
 import { PublicacionesService } from '../../../Services/Procesos/publicaciones.service';
 import { favoritoClienteParams } from '../../../Models/procesos/favoritoCliente.model';
 
@@ -16,8 +15,9 @@ import { favoritoClienteParams } from '../../../Models/procesos/favoritoCliente.
 })
 export class AnuncioMiniaturaComponent implements OnInit {
   _ligaPublicacion : string = '';
+  _listaFotografias : publicacionMultimedia[] = [];
 
-  @Input() _publicacion : publicacionInfoMini = new publicacionInfoMini(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),'',0,0);
+  @Input() _publicacion : publicacionInfoMini = new publicacionInfoMini(0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),'',0,0,[]);
   @Input() _tipoBusqueda : string = 'misAnuncios';    // Pueden ser: misAnuncios, misFavoritos
 
   @Output() _seEliminoPublicacion = new EventEmitter<boolean>();
@@ -25,8 +25,7 @@ export class AnuncioMiniaturaComponent implements OnInit {
   @Output() _seEliminaFavorito = new EventEmitter<boolean>();
   @Output() _seEligeCopiar = new EventEmitter<boolean>();
 
-  constructor( private _router : Router,
-               private _loginService : LoginService,
+  constructor( private _loginService : LoginService,
                private _publicacionService : PublicacionesService,
                private _favoritosClienteService : FavoritosClienteService ) {
 
@@ -35,11 +34,11 @@ export class AnuncioMiniaturaComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this._publicacion.lstMultimedia?.forEach(item=>{
+      if (item.Predeterminada === false)
+        this._listaFotografias.push(item);
+    });
   }
-
-  // editarAnuncio(){
-  //   this._router.navigateByUrl('publicar/operacion-tipo-inmueble?id_Publicacion=' + this._publicacion.Id_Publicacion);
-  // }
 
   eliminarAnuncio(){
 

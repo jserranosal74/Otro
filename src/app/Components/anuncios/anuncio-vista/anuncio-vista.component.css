@@ -13,3 +13,38 @@
 .telefonoCompleto{
     color: rgba(191,64,128,1);
 }
+
+ul {
+    display: inline;
+    margin: 0;
+    padding: 0;
+  }
+  ul li {display: inline-block;}
+  ul li:hover {
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
+  }
+  ul li:hover ul {
+    display: block;
+    border: 1px solid rgba(191,64,128,1);
+    border-radius: 10px;
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;}
+  ul li ul {
+    position: absolute;
+    width: 150px;
+    display: none;
+    left:100px;
+    top:35px;
+  }
+  ul li ul li { 
+    background-color: rgb(255, 199, 206);
+    display: block;
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
+  }
+  ul li ul li a {display:block !important;} 
+  

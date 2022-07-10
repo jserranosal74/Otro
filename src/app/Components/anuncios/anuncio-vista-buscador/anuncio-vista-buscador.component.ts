@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { publicacionInfoMini } from 'src/app/Models/procesos/publicacion.model';
+import { publicacionInfoMini, publicacionMultimedia } from 'src/app/Models/procesos/publicacion.model';
 
 @Component({
   selector: 'app-anuncio-vista-buscador',
@@ -8,6 +8,7 @@ import { publicacionInfoMini } from 'src/app/Models/procesos/publicacion.model';
 })
 export class AnuncioVistaBuscadorComponent implements OnInit {
   @Input() _publicacionCliente! : publicacionInfoMini;
+  _listaFotografias : publicacionMultimedia[] = [];
 
   @Output() _contactarPorWhatsApp = new EventEmitter<publicacionInfoMini>();
   @Output() _contactarPorMensaje = new EventEmitter<publicacionInfoMini>();
@@ -16,6 +17,10 @@ export class AnuncioVistaBuscadorComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this._publicacionCliente.lstMultimedia?.forEach(item=>{
+      if (item.Predeterminada === false)
+        this._listaFotografias.push(item);
+    });
   }
 
   contactarPorWhatsApp(){

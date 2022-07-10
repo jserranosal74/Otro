@@ -1,10 +1,10 @@
-  <div class="">
+  <div class="container">
       <div class="row">
           <div class="col-md-12">
               <div class="well well-sm">
                   <form class="form-horizontal">
                       <fieldset>
-                          <legend class="text-center text-primary mb-3"><h1 class="display-4">Paquetes</h1></legend>
+                          <legend class="text-center text-primary mb-3"><h1 class="display-4 sombraTitulo">Paquetes</h1></legend>
 
                           <div class="form-group row mb-3">
                               <div class="col-md-10 p-0">
@@ -13,10 +13,8 @@
                                       <i class="fa fa-add bigicon" aria-hidden="true"></i>
                                   </span></a>
                               </div>
-                              <div class="col-md-2 p-0">
-                                  <td class="text-end">
-                                    <span class="text-primary">Total de registros: <strong>{{_paquetes.length}}</strong></span>
-                                  </td>
+                              <div class="col-md-2 p-0 text-end">
+                                    <label class="text-primary">Total de paquetes: <strong>{{_paquetes.length}}</strong></label>
                               </div>
                           </div>
 
@@ -38,7 +36,7 @@
         <div class="modal-content color-modal">
           <div class="modal-header">
             <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} Paquete</h5>
-            <button type="button" class="btn-close" (click)="limpiarFormularios()" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button type="button" class="btn-close bg-color-5" (click)="limpiarFormularios()" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="container-fluid bd-example-row">
@@ -99,6 +97,7 @@
                                     <div class="col-md-8">
                                         <input formControlName="clave" 
                                                type="text"
+                                               maxlength="10"
                                                [class.is-invalid]="claveNoValido"
                                                placeholder="Clave interna del producto" 
                                                class="form-control text-primary color-text-box">
@@ -179,7 +178,7 @@
                               </div>
                             </div>
 
-                            <table class="table table-striped m-0 color-table br15">
+                            <table class="table table-sm table-striped text-primary m-0 color-table br15">
                               <thead class="text-primary">
                                 <tr class="text-primary">
                                   <th class="text-primary text-center" scope="col">Cant.</th>
@@ -195,7 +194,7 @@
                                   <td ><h6 class="card-text text-primary text-center">{{plan.VigenciaXUnidad}}</h6></td>
                                   <td class="text-center p-1">
                                     <div class="col-auto">
-                                        <a class="btn btn-outline-danger br25" heigth="auto" (click)="eliminarPlan(plan);" >
+                                        <a class="btn btn-sm btn-outline-danger br25" heigth="auto" (click)="eliminarPlan(plan);" >
                                           <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-trash-can"></i></span>
                                         </a>
                                     </div>
@@ -210,8 +209,8 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" #myModalClose (click)="limpiarFormularios()" class="btn btn-secondary text-light" data-bs-dismiss="modal" >Cancelar</button>
-            <button type="button" class="btn btn-primary" (click)="guardarPaquete();">{{_textoAccion}}</button>
+            <button type="button" #myModalClose (click)="limpiarFormularios()" class="btn btn-secondary text-light br25" data-bs-dismiss="modal" >Cancelar</button>
+            <button type="button" class="btn btn-primary br25" (click)="guardarPaquete();">{{_textoAccion}}</button>
           </div>
         </div>
       </div>

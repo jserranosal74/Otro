@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 import { PublicacionesService } from 'src/app/Services/Procesos/publicaciones.service';
-import { MultimediaPublicacionService } from 'src/app/Services/Procesos/FotosPublicacion.service';
+import { MultimediaPublicacionService } from 'src/app/Services/Procesos/MultimediaPublicacion.service';
 import { PublicacionDetalleService } from 'src/app/Services/Procesos/publicacionDetalle.service';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
 import { ClientesService } from '../../../Services/Catalogos/clientes.service';
@@ -18,8 +18,15 @@ import { publicacion, publicacionCaracteristica, publicacionMultimedia } from 's
 import { favoritoClienteParams } from 'src/app/Models/procesos/favoritoCliente.model';
 import { publicacionMensaje } from 'src/app/Models/procesos/publicacionMensaje.model';
 import { asentamientoUbicacion } from '../../../Models/catalogos/asentamiento.model';
-import { clienteVista } from 'src/app/Models/catalogos/cliente.model';
+import { cliente, clienteVista } from 'src/app/Models/catalogos/cliente.model';
 import { login } from 'src/app/Models/Auxiliares/login.model';
+import { SocialAuthService, SocialUser } from "angularx-social-login";
+import { FacebookLoginProvider } from "angularx-social-login";
+
+const fbLoginOptions = {
+  // scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
+  scope: 'email'
+}; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
 
 
 @Component({
@@ -34,9 +41,10 @@ export class AnuncioVistaComponent implements OnInit {
   formaDatosUsuario = this.fb.group([]);
   _infoURL : string = '';
   _id_publicacion : number = 0;
-  _publicacion : publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion : publicacion = new publicacion(0,0,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0);
   _publicacionDetalle : publicacionDetalleVista[] = [];
   _publicacionMultimedia : publicacionMultimedia[] = [];
+  _publicacionMultimediaSeleccionada : publicacionMultimedia[] = [];
   _caracteristicasGenerales : publicacionCaracteristica[] = [];
   _servicios : publicacionCaracteristica[] = [];
   _exteriores : publicacionCaracteristica[] = [];
@@ -45,8 +53,20 @@ export class AnuncioVistaComponent implements OnInit {
   _asentamientoUbicacion : asentamientoUbicacion = new asentamientoUbicacion(0,0,0,0,'','','','','',0,0);
   _clienteVista : clienteVista = new clienteVista(0,'','','','',[]);
   _usuarioVista : clienteVista = new clienteVista(0,'','','','',[]);
-  //_clienteMediosContacto : clienteMedioContacto[] = [];
-
+  _Id_Usuario_Actual = this._loginService.obtenerIdCliente();
+  _mostrarCompartir : boolean = false;
+  _barraDireccion = window.location.href;
+  _tipoMultimediaSeleccionada : number = 0;
+  _multimediaSeleccionada = new publicacionMultimedia(0,0,0,0,'','',false,null,null,0,0);
+  _existenFotos : boolean = false;
+  _existenVideos : boolean = false;
+  _existenPlanos : boolean = false;
+  _fotografiasSeleccionado : boolean = false;
+  _videosSeleccionado : boolean = false;
+  _planosSeleccionado : boolean = false;
+  _modoObscuro = ( localStorage.getItem('mo') === "true" ? true : false );
+  _tipoAutenticacion : number = 0;
+  _direccionPagina : string = '';
   _fotosPrincipales : string[] = [];
 
   _publicacionActivada : boolean = false;
@@ -58,16 +78,16 @@ export class AnuncioVistaComponent implements OnInit {
   _existenUnidadesRenta : boolean = false;
   _usuarioAutenticado : boolean = false;
   _loading : boolean = false;
+  _tipoProblemaAnuncio : boolean = false;
+  _enviandoReporteRentaVenta : boolean = false;
+  _enviandoReporteEstafa : boolean = false;
+  _textoInformacionMuestra : string = '';
 
   _gm_center = {lat: 21.89362, lng: -102.31281};
   _gm_zoom = 15;
   _gm_display?: google.maps.LatLngLiteral;
 
   obtenerTipo = 'password';
-  // formIniciarsesion = this.fb.group({
-  //   correo    : [ '', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ],
-  //   password1 : ['', Validators.required]
-  // });
 
   @ViewChild('myModalIniciarSesion') modalIniciarSesion : any;
   @ViewChild('myModalCloseLogin') modalCloseLogin : any;
@@ -75,6 +95,7 @@ export class AnuncioVistaComponent implements OnInit {
   @ViewChild('myModalCloseDatosUsuario') modalCloseDatosUsuario : any;
 
   constructor( private _activatedRoute : ActivatedRoute,
+               private authService : SocialAuthService,
                private router : Router,
                private fb: FormBuilder,
                private _publicacionesService: PublicacionesService,
@@ -94,6 +115,8 @@ export class AnuncioVistaComponent implements OnInit {
         setTimeout( () => { this.router.navigateByUrl('/micuenta/miperfil'); }, 700 );
       }
     });
+    //debugger;
+    this._direccionPagina = 'https://' + window.location.host + '/api/clientes/autenticargoogle?Id_Publicacion=' + this._id_publicacion;
 
     this.crearFormularioInicioSesion();
     this.crearFormularioMensaje();
@@ -181,7 +204,7 @@ export class AnuncioVistaComponent implements OnInit {
   }
 
   limpiarFormularioDatosUsuario() {
-    this.formaMensajeVendedor.reset({
+    this.formaDatosUsuario.reset({
       nombreDU   : '',
       telefonoDU : '',
       emailDU    : '',
@@ -287,6 +310,7 @@ export class AnuncioVistaComponent implements OnInit {
             this.CargarCaracteristicas();
             this.CargarMultimediaPublicacion();
             this.CargarCliente();
+            this.ObtenerMultimedia();
 
           },
           (error: HttpErrorResponse) => {
@@ -357,7 +381,7 @@ export class AnuncioVistaComponent implements OnInit {
   CargarMultimediaPublicacion(){
     //debugger;
     if (this._id_publicacion != 0) {
-        this._multimediaPublicacionService.getFotosPublicacion(this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente).subscribe(
+        this._multimediaPublicacionService.getMultimediaPublicacion(this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, null).subscribe(
           (data) => {
             //console.log(data);
             let index : number = 0;
@@ -404,8 +428,10 @@ export class AnuncioVistaComponent implements OnInit {
     if (!this._estaComoFavorito) {
       this._favoritosClienteService.postFavoritoCliente(new favoritoClienteParams(this._loginService.obtenerIdCliente(), this._publicacion.Id_Cliente, this._publicacion.Id_Publicacion)).subscribe(
         (data) => {
-  
-          this._estaComoFavorito = true;
+          //console.log('postFavoritoCliente',data);
+
+          if (data != 0)
+            this._estaComoFavorito = true;
   
         },
         (error: HttpErrorResponse) => {
@@ -426,8 +452,10 @@ export class AnuncioVistaComponent implements OnInit {
     else{
       this._favoritosClienteService.deleteFavoritoCliente(new favoritoClienteParams(this._loginService.obtenerIdCliente(), this._publicacion.Id_Cliente, this._publicacion.Id_Publicacion)).subscribe(
         (data) => {
-  
-          this._estaComoFavorito = false;
+          //console.log('deleteFavoritoCliente',data);
+
+          if (data != 0)
+            this._estaComoFavorito = false;
   
         },
         (error: HttpErrorResponse) => {
@@ -448,8 +476,127 @@ export class AnuncioVistaComponent implements OnInit {
     
   }
 
-  compartirPublicacion(){
+  // compartirPublicacion(){
+  //   this._mostrarCompartir = !this._mostrarCompartir;
+  // }
+
+  seleccionCompartir(tipoCompartir : number){
+
+    switch (tipoCompartir) {
+      case 1:
+        this.copiarDireccion();
+        break;
+      case 2:
+        
+        break;
+      case 3:
+        this.comartirPorWhatssApp();
+        window.open('https://web.whatsapp.com/');
+        break;
+      case 4:
+        this.comartirPorCorreo();
+        break;
     
+      default:
+        break;
+    }
+
+    this._mostrarCompartir = false;
+
+  }
+
+  copiarDireccion(){
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = this._barraDireccion;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    });
+
+    Toast.fire({
+      icon: 'success',
+      title: 'Enlace copiado al portapapeles'
+    });
+
+    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(), 11, 'anuncio-vista', '', '', '', '', 'Se copia link al portapapeles', new Date(),new Date(),0,0,'')).subscribe(
+      (data) => {
+
+        
+
+      },
+      (error: HttpErrorResponse) => {
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+      }
+    );
+
+  }
+
+  comartirPorWhatssApp(){
+    debugger;
+    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(), 13, 'anuncio-vista', '', '', '', '', 'Se comparte publicación por WhatssApp', new Date(),new Date(),0,0,'')).subscribe(
+      (dataVista) => {
+
+      },
+      (error: HttpErrorResponse) => {
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+      }
+    );
+  }
+
+  comartirPorCorreo(){
+    debugger;
+    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(), 17, 'anuncio-vista', '', '', '', '', 'Se comparte publicación por Correo', new Date(),new Date(),0,0,'')).subscribe(
+      (dataVista) => {
+
+      },
+      (error: HttpErrorResponse) => {
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+      }
+    );
   }
 
   enviarMensaje(){
@@ -469,7 +616,7 @@ export class AnuncioVistaComponent implements OnInit {
 
       this._loading = true;
 
-      let _publicacionMensaje : publicacionMensaje = new publicacionMensaje(0,0,0,0,0,'','','','','','',new Date(), new Date(),0,0);
+      let _publicacionMensaje : publicacionMensaje = new publicacionMensaje(0,0,0,0,0,'','','','','','',new Date(), new Date(),0,0,'');
 
       _publicacionMensaje.Id_Cliente = this._publicacion.Id_Cliente;
       _publicacionMensaje.Id_Publicacion = this._publicacion.Id_Publicacion;
@@ -478,7 +625,7 @@ export class AnuncioVistaComponent implements OnInit {
       _publicacionMensaje.Email = this.formaMensajeVendedor.get('email')?.value;
       _publicacionMensaje.Telefono = this.formaMensajeVendedor.get('telefono')?.value;
       _publicacionMensaje.Mensaje = this.formaMensajeVendedor.get('mensaje')?.value;
-      _publicacionMensaje.Accion = 2;
+      _publicacionMensaje.Id_Indicador = 2;
       _publicacionMensaje.Componente = 'anuncio-vista';
     
       this._publicacionMensajeService.postPublicacionMensaje(_publicacionMensaje).subscribe(
@@ -504,34 +651,6 @@ export class AnuncioVistaComponent implements OnInit {
             icon: 'success',
             title: 'Su mensaje ha sido enviado de manera satisfactoria'
           });
-
-
-
-          // this._vistaUsuarioService.postVistaUsuario(new vistaUsuario(this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),'Envió mensaje', 'anuncio-vista.html', new Date())).subscribe(
-          //   (dataVista) => {
-      
-          //     //console.log(dataVista);
-          //     this._loading = false;
-      
-          //   },
-          //   (error: HttpErrorResponse) => {
-          //     console.log('error: postVistaUsuario',error);
-          //     this._loading = false;
-          //     switch (error.status) {
-          //       case 401:
-          //         break;
-          //       case 403:
-          //         break;
-          //       case 404:
-          //         break;
-          //       case 409:
-          //         break;
-          //     }
-      
-          //     //throw error;   //You can also throw the error to a global error handler
-          //   }
-          // );
-
 
         },
         (error: HttpErrorResponse) => {
@@ -560,6 +679,8 @@ export class AnuncioVistaComponent implements OnInit {
     debugger;
     if (this._loginService.obtenerIdCliente() === 0){
       this.validarAutenticacion();
+      this._textoInformacionMuestra = 'Ver teléfono';
+      this.limpiarFormularioDatosUsuario();
       this.modalDatosUsuario.nativeElement.click();
       return;
     }else{
@@ -571,7 +692,7 @@ export class AnuncioVistaComponent implements OnInit {
           }
         })
   
-        this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),1,'anuncio-vista','',this.formaDatosUsuario.get('nombreDU')?.value, this.formaDatosUsuario.get('telefonoDU')?.value, this.formaDatosUsuario.get('emailDU')?.value, 'Se muestra telefono a usuario', new Date(),new Date(),0,0)).subscribe(
+        this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),1,'anuncio-vista','',this.formaDatosUsuario.get('nombreDU')?.value, this.formaDatosUsuario.get('telefonoDU')?.value, this.formaDatosUsuario.get('emailDU')?.value, 'Se muestra telefono a usuario', new Date(),new Date(),0,0,'')).subscribe(
           (dataVista) => {
   
             //console.log(dataVista);
@@ -719,7 +840,7 @@ export class AnuncioVistaComponent implements OnInit {
       }
     })
 
-    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),3,'anuncio-vista','',this.formaMensajeVendedor.get('nombre')?.value, this.formaMensajeVendedor.get('email')?.value, this.formaMensajeVendedor.get('telefono')?.value, this.formaMensajeVendedor.get('mensaje')?.value + '(WhatssApp)', new Date(),new Date(),0,0)).subscribe(
+    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),3,'anuncio-vista','',this.formaMensajeVendedor.get('nombre')?.value, this.formaMensajeVendedor.get('email')?.value, this.formaMensajeVendedor.get('telefono')?.value, this.formaMensajeVendedor.get('mensaje')?.value + '(WhatssApp)', new Date(),new Date(),0,0,'')).subscribe(
       (dataVista) => {
 
         //console.log(dataVista);
@@ -746,7 +867,7 @@ export class AnuncioVistaComponent implements OnInit {
 
   }
 
-mostrarTelefono(){
+  mostrarTelefonoReportarAnuncio(){
   debugger;
   if (this.formaDatosUsuario.invalid) {
     return Object.values(this.formaDatosUsuario.controls).forEach((control) => {
@@ -761,9 +882,28 @@ mostrarTelefono(){
   }
   else{
 
-    //this._loading = true;
+    let Id_Indicador : number = 0;
+    let textoMensaje : string = '';
 
-    let _publicacionMensaje : publicacionMensaje = new publicacionMensaje(0,0,0,0,0,'','','','','','',new Date(), new Date(),0,0);
+    switch (this._textoInformacionMuestra) {
+      case 'Ver teléfono':
+          Id_Indicador = 1;
+          textoMensaje = 'Se muestra teléfono a usuario.';
+        break;
+      case 'Reportar incidencia':
+          Id_Indicador = 16;
+          textoMensaje = 'El inmueble ya esta rentado o vendido';
+        break;
+      case 'Reportar posible estafa':
+          Id_Indicador = 15;
+          textoMensaje = 'Posible intento de estafa';
+        break;
+    
+      default:
+        break;
+    }
+
+    let _publicacionMensaje : publicacionMensaje = new publicacionMensaje(0,0,0,0,0,'','','','','','',new Date(), new Date(),0,0,'');
 
     _publicacionMensaje.Id_Cliente = this._publicacion.Id_Cliente;
     _publicacionMensaje.Id_Publicacion = this._publicacion.Id_Publicacion;
@@ -771,8 +911,8 @@ mostrarTelefono(){
     _publicacionMensaje.Nombre = this.formaDatosUsuario.get('nombreDU')?.value;
     _publicacionMensaje.Email = this.formaDatosUsuario.get('emailDU')?.value;
     _publicacionMensaje.Telefono = this.formaDatosUsuario.get('telefonoDU')?.value;
-    _publicacionMensaje.Mensaje = 'Se muestra telefono a usuario.';
-    _publicacionMensaje.Accion = 1;   // Vista
+    _publicacionMensaje.Mensaje = textoMensaje;
+    _publicacionMensaje.Id_Indicador = Id_Indicador;
     _publicacionMensaje.Componente = 'anuncio-vista';
   
     this._publicacionMensajeService.postPublicacionMensaje(_publicacionMensaje).subscribe(
@@ -788,34 +928,30 @@ mostrarTelefono(){
             }
           })
     
-          // this._vistaUsuarioService.postVistaUsuario(new vistaUsuario(this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),'Telefono Fijo', 'anuncio-vista.html', new Date())).subscribe(
-          //   (dataVista) => {
-    
-          //     //console.log(dataVista);
-      
-          //   },
-          //   (error: HttpErrorResponse) => {
-          //     switch (error.status) {
-          //       case 401:
-          //         break;
-          //       case 403:
-          //         break;
-          //       case 404:
-          //         break;
-          //       case 409:
-          //         break;
-          //     }
-      
-          //     //throw error;   //You can also throw the error to a global error handler
-          //   }
-          // );
-    
         }
 
+        if (_publicacionMensaje.Id_Indicador === 15)
+        {
+          Swal.fire({
+            icon: 'success',
+            title: 'Reporte enviado',
+            text: 'El equipo de Inmuebles Meza revisará la publicación para detectar dicho problema.',
+            showCancelButton: false,
+            showDenyButton: false,
+          });
+        }
+        else if (_publicacionMensaje.Id_Indicador === 16)
+        {
+          Swal.fire({
+            icon: 'success',
+            title: 'Reporte enviado',
+            text: 'Se le ha avisado al agente sobre el inconveniente.',
+            showCancelButton: false,
+            showDenyButton: false,
+          });
+        }
 
         this.limpiarFormularioDatosUsuario();
-
-       
 
       },
       (error: HttpErrorResponse) => {
@@ -890,13 +1026,6 @@ mostrarTelefono(){
 
           this.agregarFavorito();
 
-          // this.modalCloseLogin.nativeElement.click();
-
-          // this.formIniciarsesion.reset({
-          //   correo    : '',
-          //   password1 : ''
-          // });
-
           window.location.reload();
 
         },
@@ -929,6 +1058,279 @@ mostrarTelefono(){
 
   abrirPaginaCliente(){
     window.open('cliente/propiedades/' + (this._clienteVista.Nombre + '-' + this._clienteVista.Apellidos )?.replaceAll(' ','-') + '-' + this._clienteVista.Id_Cliente);
+  }
+
+  inmuebleRentadoOVendido(){
+    if (this._loginService.obtenerIdCliente() === 0) {
+      this.validarAutenticacion();
+      this._textoInformacionMuestra = 'Reportar incidencia';
+      this.limpiarFormularioDatosUsuario();
+      this.modalDatosUsuario.nativeElement.click();
+      return;
+    }
+    else {
+      this._enviandoReporteRentaVenta = true;
+      this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),16,'anuncio-vista','','','','', 'El inmueble ya esta rentado o vendido', new Date(),new Date(),0,0,'')).subscribe(
+        (data) => {
+
+          this._enviandoReporteRentaVenta = false;
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Reporte enviado',
+            text: 'Se le ha avisado al agente sobre el inconveniente.',
+            showCancelButton: false,
+            showDenyButton: false,
+          });
+  
+        },
+        (error: HttpErrorResponse) => {
+          this._enviandoReporteRentaVenta = false;
+          switch (error.status) {
+            case 401:
+              break;
+            case 403:
+              break;
+            case 404:
+              break;
+            case 409:
+              break;
+          }
+  
+          //throw error;   //You can also throw the error to a global error handler
+        }
+      );
+    }
+  }
+
+  intentoEstafa(){
+    if (this._loginService.obtenerIdCliente() === 0) {
+      this.validarAutenticacion();
+      this._textoInformacionMuestra = 'Reportar posible estafa';
+      this.limpiarFormularioDatosUsuario();
+      this.modalDatosUsuario.nativeElement.click();
+      return;
+    }
+    else {
+      this._enviandoReporteEstafa = true;
+      this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),15,'anuncio-vista','','','','', 'Posible intento de estafa', new Date(),new Date(),0,0,'')).subscribe(
+        (data) => {
+
+          this._enviandoReporteEstafa = false;
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Reporte enviado',
+            text: 'El equipo de Inmuebles Meza revisará la publicación para detectar dicho problema.',
+            showCancelButton: false,
+            showDenyButton: false,
+          });
+  
+        },
+        (error: HttpErrorResponse) => {
+          this._enviandoReporteEstafa = false;
+          switch (error.status) {
+            case 401:
+              break;
+            case 403:
+              break;
+            case 404:
+              break;
+            case 409:
+              break;
+          }
+  
+          //throw error;   //You can also throw the error to a global error handler
+        }
+      );
+    }
+  }
+
+  mostrarMultimedia(tipoMultimedia : number){
+    let Id_Indicador : number = 0;
+    let Texto_Indicador : string = '';
+    //debugger;
+    this._tipoMultimediaSeleccionada = tipoMultimedia;
+
+      switch (tipoMultimedia) {
+        case 1:
+          Id_Indicador = 6;
+          Texto_Indicador = 'Se observan las fotografias';
+          this._fotografiasSeleccionado = true;
+          this._videosSeleccionado = false;
+          this._planosSeleccionado = false;
+          break;
+        case 2:
+          Id_Indicador = 7;
+          Texto_Indicador = 'Se observan los videos';
+          this._fotografiasSeleccionado = false;
+          this._videosSeleccionado = true;
+          this._planosSeleccionado = false;
+          break;
+        case 3:
+          Id_Indicador = 18;
+          Texto_Indicador = 'Se observan los planos';
+          this._fotografiasSeleccionado = false;
+          this._videosSeleccionado = false;
+          this._planosSeleccionado = true;
+          break;
+      }
+
+      this._publicacionMultimediaSeleccionada = [];
+
+      this._publicacionMultimedia.forEach(item=>{
+        if ((item.Id_TipoMultimedia === tipoMultimedia) && (!item.Predeterminada)){
+          this._publicacionMultimediaSeleccionada.push(item);
+        }
+      });
+
+      this._publicacionMultimedia.forEach(item => {
+        if (item.Id_TipoMultimedia === tipoMultimedia && item.Predeterminada)
+          this._multimediaSeleccionada = item;
+      })
+
+      // Quiere decir que el usuario que esta viendo la publicacion es el propietario de la misma
+      // y salimos del procedimiento para que no ingrese informacion a las estadisticas
+      if(this._publicacion.Id_Cliente === this._Id_Usuario_Actual){
+        return;
+      }
+
+      this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(), Id_Indicador, 'anuncio-vista', '', '', '', '', Texto_Indicador, new Date(),new Date(),0,0,'')).subscribe(
+        (dataVista) => {
+
+  
+        },
+        (error: HttpErrorResponse) => {
+          switch (error.status) {
+            case 401:
+              break;
+            case 403:
+              break;
+            case 404:
+              break;
+            case 409:
+              break;
+          }
+        }
+      );
+  }
+
+  ObtenerMultimedia(){
+    this._multimediaPublicacionService.getMultimediaCliente(this._publicacion.Id_Cliente, this._publicacion.Id_Publicacion, null).subscribe(
+      (data) => {
+
+        this._publicacionMultimedia = data;
+
+        // Se desactivan botones en caso de que no exista la multimedia especificada
+        this._publicacionMultimedia.forEach(item => { 
+          if (item.Id_TipoMultimedia === 1)
+            this._existenFotos = true;
+          if (item.Id_TipoMultimedia === 2)
+            this._existenVideos = true;
+          if (item.Id_TipoMultimedia === 3)
+            this._existenPlanos = true;
+        });
+
+      },
+      (error: HttpErrorResponse) => {
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+      }
+    );
+  }
+
+  verPublicacionCliente(objAnuncioHijo : publicacionDetalleVista){
+    window.open('/anuncio/vista/' + (objAnuncioHijo.TituloPublicacion)?.replaceAll(' ','-') + '-' + objAnuncioHijo.Id_Publicacion);
+  }
+
+  iniciarSesionFacebook(){
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID, fbLoginOptions).then( datosUsuario => { 
+      this._tipoAutenticacion = 3; // Facebook
+      this.AgregarUsuario(datosUsuario);
+    });
+  }
+
+  AgregarUsuario(datosUsuario : SocialUser) {
+  
+    let _cliente = new cliente(0,1,2,null,this._tipoAutenticacion,datosUsuario.email,'',datosUsuario.firstName,datosUsuario.lastName,'',[],datosUsuario.photoUrl,0,0,0,'','',new Date(),new Date(),1,1,'');
+
+    debugger;
+
+    this._clienteService.postCliente(_cliente).subscribe(
+      (data) => {
+        //Next callback
+        console.log('Id_cliente',data);
+        
+        this._loginService.iniciarSesion(new login(_cliente.Email, _cliente.Password)).subscribe(
+          (data) => {
+            //debugger;
+            console.log('datos: ', data);
+  
+            localStorage.setItem('usuario', JSON.stringify(data));
+            
+            window.location.reload();
+  
+            //this.limpiarFormulario();
+          },
+          (error: HttpErrorResponse) => {
+            //Error callback
+            //console.log('Error del servicio: ', error);
+  
+            switch (error.status) {
+              case 401:
+                break;
+              case 403:
+                break;
+              case 404:
+                break;
+              case 409:
+                break;
+            }
+  
+          }
+        );
+
+        //this.iniciarSesion();
+
+        this.limpiarFormularioInicioSesion();
+
+        //this.router.navigateByUrl('/iniciarsesion');
+        //window.location.reload();
+
+      },
+      (error: HttpErrorResponse) => {
+        //Error callback
+
+        Swal.fire({
+          icon: 'error',
+          title: error.error,
+          text: '',
+          showCancelButton: false,
+          showDenyButton: false,
+        });
+        
+        switch (error.status) {
+          case 401:
+              break;
+          case 403:
+              break;
+          case 404:
+              break;
+          case 409:
+              break;
+      }
+
+        //throw error;   //You can also throw the error to a global error handler
+      }
+    );
   }
 
 }

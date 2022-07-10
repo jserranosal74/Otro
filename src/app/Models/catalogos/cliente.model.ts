@@ -20,7 +20,8 @@ export class cliente {
       public FechaAlta                  : Date,
       public FechaModificacion          : Date,
       public Id_Usuario                 : number,
-      public Id_Estatus                 : number 
+      public Id_Estatus                 : number,
+      public NombreEmpresa              : string
     ) {}
   }
 

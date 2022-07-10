@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './misalertas.component.html',
   styleUrls: ['./misalertas.component.css']
 })
-export class MisalertasComponent implements OnInit {
+export class MisAlertasComponent implements OnInit {
 
   constructor() { }
 

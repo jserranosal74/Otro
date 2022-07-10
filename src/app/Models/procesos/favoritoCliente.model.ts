@@ -1,3 +1,5 @@
+import { publicacionMultimedia } from "./publicacion.model";
+
 export class favoritoCliente {
     constructor(
       public Id_Publicacion         : number,
@@ -24,7 +26,8 @@ export class favoritoCliente {
       public FechaModificacion      : Date,
       public Estatus                : string,
       public EsFavorito             : number,
-      public PerteneceADesarrollo   : number
+      public PerteneceADesarrollo   : number,
+      public lstMultimedia          : publicacionMultimedia[] | null
     ) {}
   }
 

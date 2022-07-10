@@ -4,7 +4,7 @@ export class publicacionMensaje {
       public Id_Publicacion        : number,
       public Id_Cliente            : number,
       public Id_ClienteMensaje     : number | null,
-      public Accion                : number,
+      public Id_Indicador          : number,
       public Componente            : string,
       public TituloPublicacion     : string,
       public Nombre                : string,
@@ -14,7 +14,8 @@ export class publicacionMensaje {
       public FechaAlta             : Date,
       public FechaModificacion     : Date,
       public Id_Usuario            : number,
-      public Id_Estatus            : number
+      public Id_Estatus            : number,
+      public EstatusPublicacion    : string
     ) {
     }
   }

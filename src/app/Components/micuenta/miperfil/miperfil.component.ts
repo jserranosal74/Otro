@@ -13,7 +13,7 @@ import { LoginService } from '../../../Services/Catalogos/login.service';
   styleUrls: ['./miperfil.component.css'],
 })
 
-export class MiperfilComponent implements OnInit {
+export class MiPerfilComponent implements OnInit {
   formaPerfil = new FormGroup({});
   _cliente! : cliente;
   _clienteMedioContacto : clienteMedioContacto[] = [];
@@ -32,6 +32,7 @@ export class MiperfilComponent implements OnInit {
 
   crearFormulario() {
     this.formaPerfil = this.fb.group({
+      nombreEmpresa : [''],
       nombre        : ['', Validators.required],
       apellidos     : ['', Validators.required],
       correo        : ['', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ],
@@ -44,6 +45,7 @@ export class MiperfilComponent implements OnInit {
   limpiarFormulario() {
     // Reseteo de la información
     this.formaPerfil.reset({
+      nombreEmpresa : '',
       nombre        : '',
       apellidos     : '',
       correo        : '',
@@ -54,7 +56,7 @@ export class MiperfilComponent implements OnInit {
   }
 
   guardarPerfil() {
-    //debugger;
+    debugger;
     if (this.formaPerfil.invalid) {
       return Object.values(this.formaPerfil.controls).forEach((control) => {
         if (control instanceof FormGroup) {
@@ -99,7 +101,8 @@ export class MiperfilComponent implements OnInit {
         new Date(),
         new Date(),
         1,
-        1
+        1,
+        ''
       );
 
       this._actualizandoDatos = true;
@@ -171,10 +174,11 @@ export class MiperfilComponent implements OnInit {
     this._clienteService.getCliente(this._loginService.obtenerIdCliente(), null).subscribe(
       (data) => {
         //Next callback
-        //console.log('datos: ', data);
+        console.log('datos: ', data);
         this._cliente = data;
 
-        this.formaPerfil.setValue({
+        this.formaPerfil.patchValue({
+          nombreEmpresa : data.NombreEmpresa,
           nombre        : data.Nombre,
           apellidos     : data.Apellidos,
           correo        : data.Email,

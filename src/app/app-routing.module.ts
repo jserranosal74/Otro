@@ -39,7 +39,7 @@ const routes: Routes = [
   { path: 'iniciarsesion', component: IniciarsesionComponent },
   { path: 'recuperarpassword', component: RecuperarpasswordComponent },
   { path: 'restablecerpassword', component: RestablecerpasswordComponent },
-  { path: 'loadtk/:info', component: LoadtkComponent },
+  { path: 'loadtk/:info/:Id_Publicacion', component: LoadtkComponent },
   // { path: 'cliente', component: ActivarclienteComponent, children: [
   //   {
   //     path: 'activar',

@@ -10,7 +10,7 @@ import { EstatusService } from '../../../Services/Catalogos/estatus.service';
 import { publicacionInfoMini, publicacionMultimedia } from 'src/app/Models/procesos/publicacion.model';
 import { PublicacionesService } from '../../../Services/Procesos/publicaciones.service';
 import { LoginService } from '../../../Services/Catalogos/login.service';
-import { Asentamiento, Estado, Estatus, Municipio, publicacionClienteFiltros, TipoOperacion, TipoPropiedad, verFiltros } from '../../../Models/procesos/publicacionClienteFiltros.model';
+import { Asentamiento, Estado, Estatus, Municipio, publicacionClienteFiltros, TipoOperacion, TipoPlan, TipoPropiedad, verFiltros } from '../../../Models/procesos/publicacionClienteFiltros.model';
 import { PublicacionesClienteFiltrosService } from '../../../Services/Procesos/publicacionesClienteFiltros.service';
 
 @Component({
@@ -18,13 +18,13 @@ import { PublicacionesClienteFiltrosService } from '../../../Services/Procesos/p
   templateUrl: './misanuncios.component.html',
   styleUrls: ['./misanuncios.component.css']
 })
-export class MisanunciosComponent implements OnInit {
+export class MisAnunciosComponent implements OnInit {
   formaBusqueda =  this.fb.group({});
 
-  _publicaciones : publicacionInfoMini[] = [];
-  _publicacionesFiltros : publicacionClienteFiltros = new publicacionClienteFiltros([],[],[],[],[],[]);
-  _verFiltros : verFiltros = new verFiltros(true,true,true,true,false,false);
-  _filtrosSeleccionados : publicacionClienteFiltros = new publicacionClienteFiltros([],[],[],[],[],[]);
+  _publicacionesInfoMini : publicacionInfoMini[] = [];
+  _publicacionesFiltros : publicacionClienteFiltros = new publicacionClienteFiltros([],[],[],[],[],[],[]);
+  _verFiltros : verFiltros = new verFiltros(true,true,true,true,true,false,false);
+  _filtrosSeleccionados : publicacionClienteFiltros = new publicacionClienteFiltros([],[],[],[],[],[],[]);
   _listaEstatus : estatus[] = [];
   _estatus : estatus = new estatus(0,0,'','',new Date(), new Date());
   _misAnuncios = 'misAnuncios';
@@ -44,6 +44,7 @@ export class MisanunciosComponent implements OnInit {
   _colapseEstatus = false;
   _colapseTipoPropiedad = false;
   _colapseTipoOperacion = false;
+  _colapseTipoPlan = false;
   _colapseEstados = false;
   _colapseMunicipios = false;
   _colapseAsentamientos = false;
@@ -54,6 +55,7 @@ export class MisanunciosComponent implements OnInit {
   @ViewChild('myColapseFiltro4') colapseFiltro4 : any;
   @ViewChild('myColapseFiltro5') colapseFiltro5 : any;
   @ViewChild('myColapseFiltro6') colapseFiltro6 : any;
+  @ViewChild('myColapseFiltro7') colapseFiltro7 : any;
 
   constructor(  private router: Router,
                 private fb: FormBuilder,
@@ -89,77 +91,6 @@ export class MisanunciosComponent implements OnInit {
   agregarAnuncio(){
     setTimeout( () => { this.router.navigateByUrl('/publicar/operacion-tipo-inmueble'); }, 500 );
   }
-
-  // buscarPublicaciones(){
-  //   if (this.formaBusqueda.invalid) {
-  //     return Object.values(this.formaBusqueda.controls).forEach((control) => {
-  //       if (control instanceof FormGroup) {
-  //         Object.values(control.controls).forEach((control) =>
-  //           control.markAsTouched()
-  //         );
-  //       } else {
-  //         control.markAsTouched();
-  //       }
-  //     });
-  //   } else {
-
-  //     this._publicacionesService.getPublicacionesMini(this._loginService.obtenerIdCliente(), null, 0,10, null).subscribe(
-  //       (data) => {
-  //         //Next callback
-  //         //console.log('getPublicacionesMini', data);
-  //         this._publicaciones = data;
-  
-  //         if (data.length > 0) {
-  //           this._seRealizaBusqueda = true;
-  //         }
-
-  //         // Se obtiene el numero de paginas totales y el numero de renglones(registros) en total de la busqueda
-  //         this._publicacionesService.getPublicacionesMiniPagDet(this._loginService.obtenerIdCliente(), 10, null).subscribe(
-  //           (data) => {
-  //             //Next callback
-  //             //console.log('getPublicacionesMiniPagDet', data);
-  //             this._paginadoDetalle = data;
-
-  //             this.CargarPaginador(0);
-      
-  //           },
-  //           (error: HttpErrorResponse) => {
-              
-  //             switch (error.status) {
-  //               case 401:
-  //                 break;
-  //               case 403:
-  //                 break;
-  //               case 404:
-  //                 break;
-  //               case 409:
-  //                 break;
-  //             }
-      
-  //             //throw error;   //You can also throw the error to a global error handler
-  //           }
-  //         );
-
-  //       },
-  //       (error: HttpErrorResponse) => {
-  //         //Error callback
-          
-  //         switch (error.status) {
-  //           case 401:
-  //             break;
-  //           case 403:
-  //             break;
-  //           case 404:
-  //             this._publicaciones = [];
-  //             break;
-  //           case 409:
-  //             break;
-  //         }
-  
-  //       }
-  //     );
-  //   }
-  // }
 
   obtenerEstatusPublicacion(){
     this._estatusService.getEstatusProceso('Publicacion').subscribe(
@@ -213,6 +144,9 @@ export class MisanunciosComponent implements OnInit {
         case 'TipoOperacion':
             this._verFiltros.TipoOperacion = false;
           break;
+        case 'TipoPlan':
+            this._verFiltros.TipoPlan = false;
+          break;
         case 'Estado':
             this._verFiltros.Estado = false;
             this._verFiltros.Municipio = true;
@@ -235,7 +169,7 @@ export class MisanunciosComponent implements OnInit {
     else {
       switch (filtroSeleccionado) {
         case null:
-            this._verFiltros = new verFiltros(true,true,true,true,false,false);
+            this._verFiltros = new verFiltros(true,true,true,true,true,false,false);
           break;
         case 'Estatus':
             this._verFiltros.Estatus = true;
@@ -245,6 +179,9 @@ export class MisanunciosComponent implements OnInit {
           break;
         case 'TipoOperacion':
             this._verFiltros.TipoOperacion = true;
+          break;
+        case 'TipoPlan':
+            this._verFiltros.TipoPlan = true;
           break;
         case 'Estado':
             this._verFiltros.Estado = true;
@@ -269,6 +206,7 @@ export class MisanunciosComponent implements OnInit {
     this._publicacionesFiltrosService.getPublicacionClienteFiltros(this._loginService.obtenerIdCliente(), this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus, 
                                                                                                           this._filtrosSeleccionados.lstTiposPropiedad[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPropiedad[0].Id_TipoPropiedad,
                                                                                                           this._filtrosSeleccionados.lstTiposOperacion[0] === undefined ? null : this._filtrosSeleccionados.lstTiposOperacion[0].Id_TipoOperacion, 
+                                                                                                          this._filtrosSeleccionados.lstTiposPlanes[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPlanes[0].Id_Plan, 
                                                                                                           this._filtrosSeleccionados.lstEstados[0] === undefined ? null : this._filtrosSeleccionados.lstEstados[0].Id_Estado, 
                                                                                                           this._filtrosSeleccionados.lstMunicipios[0] === undefined ? null : this._filtrosSeleccionados.lstMunicipios[0].Id_Municipio, 
                                                                                                           this._filtrosSeleccionados.lstAsentamientos[0] === undefined ? null : this._filtrosSeleccionados.lstAsentamientos[0].Id_Asentamiento).subscribe(
@@ -372,7 +310,7 @@ export class MisanunciosComponent implements OnInit {
   }
 
   obtenerPaginaSiguiente(){
-    this.ejecutarConsulta(this._paginaActual - 1);
+    this.ejecutarConsulta(this._paginaActual + 1);
   }
 
   mostrarFiltros(){
@@ -424,10 +362,21 @@ export class MisanunciosComponent implements OnInit {
       }
     });
 
-    //this._verFiltros.TipoOperacion = false;
-
     this.ejecutarConsulta(0);
     this.obtenerFiltrosPublicaciones('TipoOperacion','Agregar');
+  }
+
+  seleccionarFiltroTipoPlan(objTipoPlan : TipoPlan){
+    this._filtrosSeleccionados.lstTiposPlanes.push(objTipoPlan);
+
+    this._publicacionesFiltros.lstTiposPlanes.forEach((item,index) => {
+      if (item.Id_Plan === objTipoPlan.Id_Plan){
+        this._publicacionesFiltros.lstTiposPlanes.splice(index,1); 
+      }
+    });
+
+    this.ejecutarConsulta(0);
+    this.obtenerFiltrosPublicaciones('TipoPlan','Agregar');
   }
 
   seleccionarFiltroEstado(objEstado : Estado){
@@ -485,16 +434,17 @@ export class MisanunciosComponent implements OnInit {
 
   ejecutarConsulta(numPagina : number){
     debugger;
-    this._publicacionesService.getPublicacionesMini(this._loginService.obtenerIdCliente(), null, numPagina, 10, this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus, 
+    this._publicacionesService.getPublicacionesMini(this._loginService.obtenerIdCliente(), this._loginService.obtenerIdCliente(), numPagina, 10, this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus, 
                                                                                                                 this._filtrosSeleccionados.lstTiposPropiedad[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPropiedad[0].Id_TipoPropiedad,
                                                                                                                 this._filtrosSeleccionados.lstTiposOperacion[0] === undefined ? null : this._filtrosSeleccionados.lstTiposOperacion[0].Id_TipoOperacion, 
+                                                                                                                this._filtrosSeleccionados.lstTiposPlanes[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPlanes[0].Id_Plan, 
                                                                                                                 this._filtrosSeleccionados.lstEstados[0] === undefined ? null : this._filtrosSeleccionados.lstEstados[0].Id_Estado, 
                                                                                                                 this._filtrosSeleccionados.lstMunicipios[0] === undefined ? null : this._filtrosSeleccionados.lstMunicipios[0].Id_Municipio, 
                                                                                                                 this._filtrosSeleccionados.lstAsentamientos[0] === undefined ? null : this._filtrosSeleccionados.lstAsentamientos[0].Id_Asentamiento).subscribe(
       (data) => {
         //Next callback
         //console.log('getPublicacionesMini', data);
-        this._publicaciones = data;
+        this._publicacionesInfoMini = data;
 
         if (data.length > 0) {
           this._seRealizaBusqueda = true;
@@ -503,7 +453,8 @@ export class MisanunciosComponent implements OnInit {
         // Se obtiene el numero de paginas totales y el numero de renglones(registros) en total de la busqueda
         this._publicacionesService.getPublicacionesMiniPagDet(this._loginService.obtenerIdCliente(), 10, this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus, 
                                                                                                          this._filtrosSeleccionados.lstTiposPropiedad[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPropiedad[0].Id_TipoPropiedad,
-                                                                                                         this._filtrosSeleccionados.lstTiposOperacion[0] === undefined ? null : this._filtrosSeleccionados.lstTiposOperacion[0].Id_TipoOperacion, 
+                                                                                                         this._filtrosSeleccionados.lstTiposOperacion[0] === undefined ? null : this._filtrosSeleccionados.lstTiposOperacion[0].Id_TipoOperacion,
+                                                                                                         this._filtrosSeleccionados.lstTiposPlanes[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPlanes[0].Id_Plan, 
                                                                                                          this._filtrosSeleccionados.lstEstados[0] === undefined ? null : this._filtrosSeleccionados.lstEstados[0].Id_Estado, 
                                                                                                          this._filtrosSeleccionados.lstMunicipios[0] === undefined ? null : this._filtrosSeleccionados.lstMunicipios[0].Id_Municipio, 
                                                                                                          this._filtrosSeleccionados.lstAsentamientos[0] === undefined ? null : this._filtrosSeleccionados.lstAsentamientos[0].Id_Asentamiento).subscribe(
@@ -513,6 +464,7 @@ export class MisanunciosComponent implements OnInit {
             this._paginadoDetalle = data;
 
             this.CargarPaginador(numPagina);
+            //this.obtenerFiltrosPublicaciones(null,null);
     
           },
           (error: HttpErrorResponse) => {
@@ -542,7 +494,7 @@ export class MisanunciosComponent implements OnInit {
           case 403:
             break;
           case 404:
-            this._publicaciones = [];
+            this._publicacionesInfoMini = [];
             break;
           case 409:
             break;
@@ -591,6 +543,19 @@ export class MisanunciosComponent implements OnInit {
 
     this.ejecutarConsulta(0);
     this.obtenerFiltrosPublicaciones('TipoOperacion','Quitar');
+  }
+
+  removerFiltroTipoPlan(objTipoPlan : TipoPlan){
+    this._publicacionesFiltros.lstTiposPlanes.push(objTipoPlan);
+
+    this._filtrosSeleccionados.lstTiposPlanes.forEach((item,index) => {
+      if (item.Id_Plan === objTipoPlan.Id_Plan){
+        this._filtrosSeleccionados.lstTiposPlanes.splice(index,1); 
+      }
+    });
+
+    this.ejecutarConsulta(0);
+    this.obtenerFiltrosPublicaciones('TipoPlan','Quitar');
   }
 
   removerFiltroEstados(objEstado : Estado){
@@ -668,6 +633,10 @@ export class MisanunciosComponent implements OnInit {
     this._colapseTipoOperacion = !this._colapseTipoOperacion;
   }
 
+  colapseTipoPlan(){
+    this._colapseTipoPlan = !this._colapseTipoPlan;
+  }
+
   colapseEstado(){
     this._colapseEstados = !this._colapseEstados;
   }
@@ -697,6 +666,8 @@ export class MisanunciosComponent implements OnInit {
         this.colapseFiltro5.nativeElement.click();
       if (!this._colapseAsentamientos)
         this.colapseFiltro6.nativeElement.click();
+      if (!this._colapseTipoPlan)
+        this.colapseFiltro7.nativeElement.click();
     }
     else{
       if (this._colapseEstatus)
@@ -711,13 +682,15 @@ export class MisanunciosComponent implements OnInit {
         this.colapseFiltro5.nativeElement.click();
       if (this._colapseAsentamientos)
         this.colapseFiltro6.nativeElement.click();
+      if (this._colapseTipoPlan)
+        this.colapseFiltro7.nativeElement.click();
     }
     
   }
 
   eliminarFiltros(){
 
-    this._filtrosSeleccionados = new publicacionClienteFiltros([],[],[],[],[],[]);
+    this._filtrosSeleccionados = new publicacionClienteFiltros([],[],[],[],[],[],[]);
 
     this.ejecutarConsulta(0);
     this.obtenerFiltrosPublicaciones(null,null);
@@ -761,7 +734,7 @@ export class MisanunciosComponent implements OnInit {
           case 403:
             break;
           case 404:
-            this._publicaciones = [];
+            this._publicacionesInfoMini = [];
             break;
           case 409:
             break;
@@ -798,7 +771,7 @@ export class MisanunciosComponent implements OnInit {
           (data) => {
             //Next callback
 
-            this._filtrosSeleccionados = new publicacionClienteFiltros([],[],[],[],[],[]);
+            this._filtrosSeleccionados = new publicacionClienteFiltros([],[],[],[],[],[],[]);
             this.ejecutarConsulta(0);
             this.obtenerFiltrosPublicaciones(null,null);
             

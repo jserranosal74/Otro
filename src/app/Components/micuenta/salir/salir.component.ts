@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from 'src/app/Services/Catalogos/login.service';
 
 @Component({
   selector: 'app-salir',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SalirComponent implements OnInit {
 
-  constructor() { }
+  constructor( private _loginService : LoginService ) { 
+    this._loginService.cerarSesion();
+  }
 
   ngOnInit(): void {
   }

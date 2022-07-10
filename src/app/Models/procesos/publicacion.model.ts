@@ -3,11 +3,14 @@ export class publicacion {
       public Id_Publicacion            : number,
       public Id_Cliente                : number,
       public Id_PlanCliente            : number | null,
+      public Id_PaqueteCliente         : number | null,
+      public Id_PaqueteDetalle         : number | null,
       public Id_TipoOperacion          : number | null,
       public Id_TipoPropiedad          : number | null,
       public Id_Moneda                 : number,
       public Id_SubtipoPropiedad       : number | null,
       public Id_Asentamiento           : number | null,
+      public Id_Banco                  : number | null,
       public TituloPublicacion         : string | null,
       public Descripcion               : string | null,
       public Direccion                 : string | null,
@@ -44,7 +47,10 @@ export class publicacion {
       public FechaAlta                 : Date,
       public FechaModificacion         : Date,
       public Id_Usuario                : number,
-      public Id_Estatus                : number
+      public Id_Estatus                : number,
+      public DescripcionEstatus        : string,
+      public DescripcionPlan           : string,
+      public PerteneceADesarrollo      : number
     ) {
     }
   }
@@ -76,7 +82,8 @@ export class publicacion {
       public FechaModificacion      : Date,
       public Estatus                : string,
       public EsFavorito             : number,
-      public PerteneceADesarrollo   : number
+      public PerteneceADesarrollo   : number,
+      public lstMultimedia          : publicacionMultimedia[] | null
     ) {
     }
   }
@@ -141,7 +148,7 @@ export class publicacion {
       public Id_Publicacion    : number,
       public Id_Cliente        : number,
       public Id_TipoMultimedia : number,
-      public Descripcion       : number | null,
+      public Descripcion       : string | null,
       public Url               : string | null,
       public Predeterminada    : boolean,
       public FechaAlta         : Date | null,

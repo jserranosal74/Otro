@@ -8,12 +8,14 @@ import { ConfirmarPagosPlanesComponent } from './confirmarpagosplanes/confirmarp
 import { AsignarPaqueteAClienteComponent } from './asignarpaqueteacliente/asignarpaqueteacliente.component';
 import { TarjetasModule } from '../tarjetas/tarjetas.module';
 import { ActualizarPublicacionesPlanesYPaquetesComponent } from './actualizarpublicacionesplanesypaquetes/actualizarpublicacionesplanesypaquetes.component';
+import { BloquearPublicacionComponent } from './bloquearpublicacion/bloquearpublicacion.component';
 
 @NgModule({
   declarations: [
     ConfirmarPagosPlanesComponent,
     AsignarPaqueteAClienteComponent,
-    ActualizarPublicacionesPlanesYPaquetesComponent
+    ActualizarPublicacionesPlanesYPaquetesComponent,
+    BloquearPublicacionComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { ActualizarPublicacionesPlanesYPaquetesComponent } from './actualizarpub
   exports: [
     ConfirmarPagosPlanesComponent,
     AsignarPaqueteAClienteComponent,
-    ActualizarPublicacionesPlanesYPaquetesComponent
+    ActualizarPublicacionesPlanesYPaquetesComponent,
+    BloquearPublicacionComponent
   ]
 })
 

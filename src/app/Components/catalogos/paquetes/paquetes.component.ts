@@ -58,7 +58,7 @@ export class PaquetesComponent implements OnInit {
       descripcion  : ['', Validators.required],
       precio       : ['', Validators.required],
       clave        : ['', Validators.required],
-      claveProdSAT : ['', Validators.required]
+      claveProdSAT : ['82101603', Validators.required]
     });
 
     this.formaPlan = this.fb.group({
@@ -77,7 +77,7 @@ export class PaquetesComponent implements OnInit {
       descripcion  : '',
       precio       : '',
       clave        : '',
-      claveProdSAT : ''
+      claveProdSAT : '82101603'
     });
     this._paquete = new paquete(0,'',0,'','',null,null,[],new Date(),new Date(),0,0,0);
     this.limpiarFormularioPlan();

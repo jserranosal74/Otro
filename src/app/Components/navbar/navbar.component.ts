@@ -17,14 +17,10 @@ export class NavbarComponent implements OnInit {
   _nombreUsuario : string = '';
   _urlFotoPerfil : string = '';
   _modoObscuro : boolean;
-  // _userSocial = new SocialUser();
-  // _loggedIn : boolean = false;
 
   @Output() _seCambiaModo = new EventEmitter<boolean>();
 
-  constructor( private _loginService : LoginService,
-               //private authService: SocialAuthService,
-               private _router : Router) {
+  constructor( private _loginService : LoginService) {
 
     this.usuarioAutenticado = this._loginService.estaAutenticado();
     this.usuarioRol = this._loginService.obtenerRolUsuario();
@@ -34,11 +30,6 @@ export class NavbarComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    // this.authService.authState.subscribe((user) => {
-    //   this._userSocial = user;
-    //   this._loggedIn = (user != null);
-    //   console.log(this._userSocial);
-    // });
   }
 
   cerrarSesion(){

@@ -21,7 +21,7 @@ import { PlanesPaquetesClienteFiltrosService } from 'src/app/Services/Procesos/p
   templateUrl: './miplan.component.html',
   styleUrls: ['./miplan.component.css'],
 })
-export class MisplanesComponent implements OnInit {
+export class MisPlanesYPaquetesComponent implements OnInit {
 
   _planes : plan[] = [];
   _plan : plan = new plan(0,'',0,0,0,'','',null,null,'',0,new Date(),new Date(),0,0,0);

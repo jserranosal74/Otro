@@ -130,6 +130,10 @@
   background-color: #bf4080;
 }
 
+.bg-color-6{
+  background-color: rgb(255, 199, 206);
+}
+
 .br25{
   border-radius: 25px;
 }
@@ -144,4 +148,33 @@
 
 .br10{
   border-radius: 10px;
+}
+
+.girar{
+  -webkit-transform: rotate(-90deg); 
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  height:4.5em;
+  display: table-cell;
+  vertical-align: middle;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.sombraTitulo{
+  text-shadow: 3px 3px 7px black;
+}
+
+.Ligth .coloreye{
+  color: #bf4080;
+  -webkit-transition: background-color 200ms linear;
+  -ms-transition: background-color 200ms linear;
+  transition: background-color 200ms linear;
+}
+
+.Dark .coloreye{
+  color: white;
+  -webkit-transition: background-color 200ms linear;
+  -ms-transition: background-color 200ms linear;
+  transition: background-color 200ms linear;
 }

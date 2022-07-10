@@ -23,12 +23,12 @@ export class MultimediaPublicacionService {
     this.urlPublicacionMultimedia = URL_APIS.urlPublicacionMultimedia;
   }
 
-  public getFotosPublicacion(Id_Publicacion : number, Id_Cliente: number): Observable<publicacionMultimedia[]> {
-    return this.http.get<publicacionMultimedia[]>(this.urlPublicacionMultimedia + '?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente);
+  public getMultimediaPublicacion(Id_Publicacion : number, Id_Cliente: number, Id_TipoMultimedia : number | null): Observable<publicacionMultimedia[]> {
+    return this.http.get<publicacionMultimedia[]>(this.urlPublicacionMultimedia + '?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente + '&Id_TipoMultimedia=' + Id_TipoMultimedia);
   }
   
   public getMultimediaCliente(Id_Cliente: number, Id_Publicacion : number | null, Solo_Pred : number | null): Observable<publicacionMultimedia[]> {
-    return this.http.get<publicacionMultimedia[]>(this.urlPublicacionMultimedia + '?Id_Cliente=' + Id_Cliente + '&Id_Publicacion=' + Id_Publicacion + '&Solo_Pred=' + Solo_Pred, this.httpOptions);
+    return this.http.get<publicacionMultimedia[]>(this.urlPublicacionMultimedia + '?Id_Cliente=' + Id_Cliente + '&Id_Publicacion=' + Id_Publicacion + '&Solo_Pred=' + Solo_Pred);
   }
 
   public postFotosPublicacion(Id_Publicacion : number, Id_Cliente: number, lstImagenes: imagenModel[]): Observable<number> {

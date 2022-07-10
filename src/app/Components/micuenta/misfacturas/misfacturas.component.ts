@@ -13,7 +13,7 @@ import { FacturasClienteFiltrosService } from '../../../Services/Procesos/factur
   templateUrl: './misfacturas.component.html',
   styleUrls: ['./misfacturas.component.css']
 })
-export class MisfacturasComponent implements OnInit {
+export class MisFacturasComponent implements OnInit {
   _facturasCliente : factura[] = [];
   _mostrarFiltros : boolean = sessionStorage.getItem('mf') === '1'? true : false;
 
@@ -209,7 +209,8 @@ export class MisfacturasComponent implements OnInit {
 
   ejecutarConsulta(numPagina : number){
     debugger;
-    this._clientesFacturasService.getClienteFacturas(this._loginService.obtenerIdCliente(), null, null, null, null).subscribe(
+    this._clientesFacturasService.getClienteFacturas(this._loginService.obtenerIdCliente(), null, null, this._filtrosSeleccionados.lstAnios[0] === undefined ? null : this._filtrosSeleccionados.lstAnios[0].Id_Anio, 
+                                                                                                        this._filtrosSeleccionados.lstMeses[0] === undefined ? null : this._filtrosSeleccionados.lstMeses[0].Id_Mes).subscribe(
       (data) => {
         //Next callback
         //console.log('getPublicacionesMini', data);

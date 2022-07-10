@@ -1,0 +1,210 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <form class="form-horizontal">
+                    <fieldset>
+                        <legend class="text-center text-primary mb-3"><h1 class="display-4 sombraTitulo">Indicadores</h1></legend>
+                        <div class="form-group row mb-3">
+                            <div class="col-md-10 p-0">
+                                <a class="btn btn-primary btn-sm br25" (click)="limpiarFormulario()" data-bs-toggle="modal" data-bs-target="#gridAgregarIndicador" >
+                                    <span class="col-md-1 col-md-offset-2 text-center">
+                                    <i class="fa fa-add bigicon" aria-hidden="true"></i>
+                                </span></a>
+                            </div>
+                            <div class="col-md-2 p-0 text-end">
+                              <label class="text-primary">Total de registros: <strong>{{_indicadores.length}}</strong></label>
+                            </div>
+                        </div>
+                        <div class="form-group row mb-3">
+                            <table class="table table-sm text-primary table-striped table-bordered border-primary color-table">
+                                <thead>
+                                  <tr>
+                                    <th width="50px" class="text-primary text-center" scope="col">#</th>
+                                    <!-- <th class="text-primary" scope="col">Id Cliente</th> -->
+                                    <th width="100px" class="text-primary text-center" scope="col">Clave</th>
+                                    <th width="300px" class="text-primary text-center" scope="col">Descripción Corta</th>
+                                    <th width="200px" class="text-primary text-center" scope="col">Descripción Larga</th>
+                                    <th width="150px" class="text-primary text-center" scope="col">Visible a cliente</th>
+                                    <th width="150px" class="text-primary text-center" scope="col">Enviar correo a cliente</th>
+                                    <th width="150px" class="text-primary text-center" scope="col">Enviar correo a usuario</th>
+                                    <th style="min-width: 140px;" class="text-primary text-center" scope="col">Fecha de Alta</th>
+                                    <th style="min-width: 140px;" class="text-primary text-center" scope="col">Fecha de Modificación</th>
+                                    <th class="text-primary text-center" scope="col">Modificar</th>
+                                    <th class="text-primary text-center" scope="col">Eliminar</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let indicador of _indicadores; let i = index;">
+                                    <th class="text-primary text-center text-center" scope="row">{{indicador.Id_Indicador}}</th>
+                                    <td class="text-primary text-center text-truncate" data-toggle="tooltip" data-placement="top" title="{{indicador.Clave}}" data-placement="top" title="Tooltip on top" style="max-width: 50px;">{{indicador.Clave}}</td>
+                                    <td class="text-primary text-center text-truncate" data-toggle="tooltip" data-placement="top" title="{{indicador.DescripcionCorta}}" data-placement="top" title="Tooltip on top" style="max-width: 100px;">{{indicador.DescripcionCorta}}</td>
+                                    <td class="text-primary text-center text-truncate" data-toggle="tooltip" data-placement="top" title="{{indicador.DescripcionLarga}}" data-placement="top" title="Tooltip on top" style="max-width: 200px;">{{indicador.DescripcionLarga}}</td>
+                                    <td class="text-primary text-center text-truncate" data-toggle="tooltip" data-placement="top" title="{{indicador.DescripcionLarga}}" data-placement="top" title="Tooltip on top" style="max-width: 100px;"><span *ngIf="indicador.VisibleCliente === 0">-</span><span *ngIf="indicador.VisibleCliente != 0">{{indicador.VisibleCliente}}</span></td>
+                                    <td class="text-primary text-center text-truncate" data-toggle="tooltip" data-placement="top" title="{{indicador.DescripcionLarga}}" data-placement="top" title="Tooltip on top" style="max-width: 100px;"><span *ngIf="indicador.EnviarCorreoACliente === 0">-</span><span *ngIf="indicador.EnviarCorreoACliente != 0">{{indicador.EnviarCorreoACliente}}</span></td>
+                                    <td class="text-primary text-center text-truncate" data-toggle="tooltip" data-placement="top" title="{{indicador.DescripcionLarga}}" data-placement="top" title="Tooltip on top" style="max-width: 100px;"><span *ngIf="indicador.EnviarCorreoAUsuario === 0">-</span><span *ngIf="indicador.EnviarCorreoAUsuario != 0">{{indicador.EnviarCorreoAUsuario}}</span></td>
+                                    <td class="text-primary text-center text-center" style="max-width: 180px;">{{indicador.FechaAlta | date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td class="text-primary text-center text-center" style="max-width: 180px;">{{indicador.FechaModificacion | date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td width="90px" class="p-1">
+                                      <div class="col-auto p-0 m-0 text-center">
+                                          <button class="btn btn-sm btn-outline-primary br25" (click)="obtenerIndicador(indicador);" data-bs-toggle="modal" data-bs-target="#gridAgregarIndicador">
+                                            <span class="col-md-1 col-md-offset-2 text-center m-0 p-0" >
+                                              <i class="fa fa-pencil"></i>
+                                            </span>
+                                          </button>
+                                      </div>
+                                    </td>
+                                    <td width="90px" class="p-1">
+                                      <div class="col-auto p-0 m-0 text-center">
+                                          <button class="btn btn-sm btn-outline-danger br25" (click)="eliminarIndicador(indicador);" ><span class="col-md-1 col-md-offset-2 text-center">
+                                              <i class="fa fa-trash-can"></i>
+                                          </span></button>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="gridAgregarIndicador" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content color-modal">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} Indicador</h5>
+        <button type="button" class="btn-close bg-color-5" (click)="limpiarFormulario()" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid bd-example-row">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="well well-sm">
+                      <form class="form-horizontal" [formGroup]="formaIndicador">
+                          <fieldset>
+                              <!-- <legend class="text-center text-primary mb-3"><h1 class="display-4">Mi perfil</h1></legend> -->
+
+                              <div class="form-group row">
+                                <div class="row">
+                                  <span class="col-md-1 text-primary text-center"><i class="fa fa-pen-square bigicon"></i></span>
+                                  <div class="col-md-8 ml-5 mb-3">
+                                      <input formControlName="clave"
+                                             maxlength="10"
+                                             type="text" 
+                                             placeholder="Clave" 
+                                             [class.is-invalid]="claveNoValida" 
+                                             class="form-control text-primary color-text-box">
+                                  </div>
+                                  <div class="col-md-3 px-0">
+                                      <small *ngIf="claveNoValida" class="text-danger">
+                                        Ingrese una Clave única
+                                      </small>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="form-group row">
+                                <div class="row">
+                                  <span class="col-md-1 text-primary text-center"><i class="fa fa-pen-square bigicon"></i></span>
+                                  <div class="col-md-8 ml-5 mb-3">
+                                      <input formControlName="descripcionCorta"
+                                             maxlength="100"
+                                             type="text" 
+                                             placeholder="Descripción corta del indicador" 
+                                             [class.is-invalid]="descripcionCortaNoValida" 
+                                             class="form-control text-primary color-text-box">
+                                  </div>
+                                  <div class="col-md-3 px-0">
+                                      <small *ngIf="descripcionCortaNoValida" class="text-danger">
+                                        Descripción corta requerida
+                                      </small>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="form-group row">
+                                <div class="row">
+                                  <span class="col-md-1 text-primary text-center"><i class="fa fa-pen-square bigicon"></i></span>
+                                  <div class="col-md-8 ml-5 mb-3">
+                                      <input formControlName="descripcionLarga"
+                                             maxlength="500"
+                                             type="textarea" 
+                                             placeholder="Descripción larga del indicador" 
+                                             class="form-control text-primary color-text-box">
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="form-group row">
+                                <div class="row">
+                                  <span class="col-md-1 text-primary text-center"><i class="fa fa-pen-square bigicon"></i></span>
+                                  <div class="col-md-8 ml-5 mb-3">
+                                      <input formControlName="visibleCliente"
+                                             type="number" 
+                                             placeholder="Indicador visible al cliente en las estadisticas" 
+                                             [class.is-invalid]="visibleClienteNoValida" 
+                                             class="form-control text-primary color-text-box">
+                                  </div>
+                                  <div class="col-md-3 px-0">
+                                      <small *ngIf="visibleClienteNoValida" class="text-danger">
+                                        Ingrese 1 ó 0
+                                      </small>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="form-group row">
+                                <div class="row">
+                                  <span class="col-md-1 text-primary text-center"><i class="fa fa-pen-square bigicon"></i></span>
+                                  <div class="col-md-8 ml-5 mb-3">
+                                      <input formControlName="enviarCorreoACliente"
+                                             type="number" 
+                                             placeholder="Enviar email al Cliente cuando este indicador se ingrese" 
+                                             [class.is-invalid]="enviarCorreoAClienteNoValida" 
+                                             class="form-control text-primary color-text-box">
+                                  </div>
+                                  <div class="col-md-3 px-0">
+                                      <small *ngIf="enviarCorreoAClienteNoValida" class="text-danger">
+                                        Ingrese 1 ó 0
+                                      </small>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="form-group row">
+                                <div class="row">
+                                  <span class="col-md-1 text-primary text-center"><i class="fa fa-pen-square bigicon"></i></span>
+                                  <div class="col-md-8 ml-5 mb-3">
+                                      <input formControlName="enviarCorreoAUsuario"
+                                             type="number" 
+                                             placeholder="Enviar email al Usuario cuando este indicador se ingrese" 
+                                             [class.is-invalid]="enviarCorreoAUsuarioNoValida" 
+                                             class="form-control text-primary color-text-box">
+                                  </div>
+                                  <div class="col-md-3 px-0">
+                                      <small *ngIf="enviarCorreoAUsuarioNoValida" class="text-danger">
+                                        Ingrese 1 ó 0
+                                      </small>
+                                  </div>
+                                </div>
+                              </div>
+
+                          </fieldset>
+                      </form>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" #myModalClose (click)="limpiarFormulario()" class="btn btn-secondary text-light br25" data-bs-dismiss="modal" >Cancelar</button>
+        <button type="button" class="btn btn-primary br25" (click)="guardarEmpresa();">{{_textoAccion}}</button>
+      </div>
+    </div>
+  </div>
+</div>

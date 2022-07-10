@@ -32,7 +32,7 @@ export class IniciarsesionComponent implements OnInit {
   user     : SocialUser = new SocialUser();
   loggedIn : boolean = false;
   _tipoAutenticacion : number = 0;
-  //_modoObscuro = ( localStorage.getItem('mo') === "true" ? true : false );
+  _modoObscuro = ( localStorage.getItem('mo') === "true" ? true : false );
 
   obtenerTipo = 'password';
   formIniciarsesion = this.fb.group({
@@ -181,7 +181,7 @@ export class IniciarsesionComponent implements OnInit {
 
   AgregarUsuario(datosUsuario : SocialUser) {
   
-    let _cliente = new cliente(0,1,2,null,this._tipoAutenticacion,datosUsuario.email,'',datosUsuario.firstName,datosUsuario.lastName,'',[],datosUsuario.photoUrl,0,0,0,'','',new Date(),new Date(),1,1);
+    let _cliente = new cliente(0,1,2,null,this._tipoAutenticacion,datosUsuario.email,'',datosUsuario.firstName,datosUsuario.lastName,'',[],datosUsuario.photoUrl,0,0,0,'','',new Date(),new Date(),1,1,'');
 
     //debugger;
 

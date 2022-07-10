@@ -114,7 +114,7 @@ export class PropiedadesComponent implements OnInit {
 
   ObtenerPublicaciones(){
     //debugger;
-    this._publicacionesService.getPublicacionesMini(this._Id_Cliente, (this._loginService.obtenerIdCliente() === 0 ? null : this._loginService.obtenerIdCliente()), 0, 10, null,null,null,null,null,null).subscribe(
+    this._publicacionesService.getPublicacionesMini(this._Id_Cliente, (this._loginService.obtenerIdCliente() === 0 ? null : this._loginService.obtenerIdCliente()), 0, 10, null,null,null,null,null,null,null).subscribe(
       (data) => {
         //Next callback
         console.log('getPublicacionesMini', data);
@@ -130,7 +130,7 @@ export class PropiedadesComponent implements OnInit {
         }
 
         // Se obtiene el numero de paginas totales y el numero de renglones(registros) en total de la busqueda
-        this._publicacionesService.getPublicacionesMiniPagDet(this._Id_Cliente, 10, null,null,null,null,null,null).subscribe(
+        this._publicacionesService.getPublicacionesMiniPagDet(this._Id_Cliente, 10, null,null,null,null,null,null,null).subscribe(
           (data) => {
             //Next callback
             //console.log('getPublicacionesMiniPagDet', data);
@@ -255,7 +255,7 @@ export class PropiedadesComponent implements OnInit {
   obtenerPagina(item : number){
     // alert(item);
     debugger;
-    this._publicacionesService.getPublicacionesMini(this._Id_Cliente, (this._loginService.obtenerIdCliente() === 0 ? null : this._loginService.obtenerIdCliente()), item, 10, null,null,null,null,null,null).subscribe(
+    this._publicacionesService.getPublicacionesMini(this._Id_Cliente, (this._loginService.obtenerIdCliente() === 0 ? null : this._loginService.obtenerIdCliente()), item, 10, null,null,null,null,null,null,null).subscribe(
       (data) => {
         //Next callback
 
@@ -270,16 +270,6 @@ export class PropiedadesComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         //Error callback
-        //console.log('Error del servicio: ', error.error['Descripcion']);
-
-        // Swal.fire({
-        //   icon: 'error',
-        //   title: error.error['Descripcion'],
-        //   text: '',
-        //   showCancelButton: false,
-        //   showDenyButton: false,
-        // });
-
         switch (error.status) {
           case 401:
             //console.log('error 401');
@@ -366,7 +356,7 @@ export class PropiedadesComponent implements OnInit {
       }
       else {
 
-        this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._pubClienteSeleccionada.Id_Publicacion, this._pubClienteSeleccionada.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),2,'anuncio-vista','',this.formaMensajeVendedor.get('nombreDU')?.value, this.formaMensajeVendedor.get('emailDU')?.value, this.formaMensajeVendedor.get('telefonoDU')?.value, this.formaMensajeVendedor.get('mensajeDU')?.value, new Date(),new Date(),0,0)).subscribe(
+        this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._pubClienteSeleccionada.Id_Publicacion, this._pubClienteSeleccionada.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),2,'anuncio-vista','',this.formaMensajeVendedor.get('nombreDU')?.value, this.formaMensajeVendedor.get('emailDU')?.value, this.formaMensajeVendedor.get('telefonoDU')?.value, this.formaMensajeVendedor.get('mensajeDU')?.value, new Date(),new Date(),0,0,'')).subscribe(
           (dataVista) => {
     
             //console.log(dataVista);

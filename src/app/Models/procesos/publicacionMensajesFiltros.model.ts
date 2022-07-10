@@ -1,9 +1,10 @@
 export class publicacionMensajesFiltros {
     constructor(
       public lstEstatus       : Estatus[],
-      public lstAcciones      : Accion[],
+      public lstIndicadores   : Indicador[],
       public lstPublicaciones : Publicacion[],
-      public lstEmails        : Email[]
+      public lstEmails        : Email[],
+      public lstFechas        : Fecha[]
     ) {
     }
   }
@@ -17,11 +18,11 @@ export class publicacionMensajesFiltros {
     }
   }
   
-  export class Accion {
+  export class Indicador {
     constructor(
-      public Id_Accion   : number,
-      public Descripcion : string,
-      public Cantidad    : number
+      public Id_Indicador : number,
+      public Descripcion  : string,
+      public Cantidad     : number
     ) {
     }
   }
@@ -43,12 +44,21 @@ export class publicacionMensajesFiltros {
     }
   }
 
+  export class Fecha {
+    constructor(
+      public FechaAlta : Date,
+      public Cantidad  : number
+    ) {
+    }
+  }
+
   export class verFiltros {
     constructor(
       public Estatus     : boolean,
-      public Accion      : boolean,
+      public Indicador   : boolean,
       public Publicacion : boolean,
-      public Email       : boolean
+      public Email       : boolean,
+      public Fecha       : boolean
     ) {
     }
   }

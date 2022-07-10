@@ -1,7 +1,7 @@
 <div class="container px-0">
   <div class="row">
     <div class="col-md-12">
-      <legend class="text-center text-primary mb-3"><h1 class="display-4">Mis favoritos</h1></legend>
+      <legend class="text-center text-primary mb-3"><h1 class="display-4" style="text-shadow: 3px 3px 7px black;">Mis favoritos</h1></legend>
     </div>
     <div >
       <div class="form-group row mb-3 px-2">
@@ -9,7 +9,7 @@
         </div>
         <div class="col-md-8 d-grid gap-2 mix-auto px-0"></div>
         <div class="col-md-4 p-0 text-end">
-          <label class="text-primary text-end px-3">Total de registros: {{_paginadoDetalle.TotalRegistros}}</label>
+          <label class="text-primary text-end px-3">Total de anuncios favoritos: {{_paginadoDetalle.TotalRegistros}}</label>
           <!-- <button class="btn btn-primary btn-sm br25" (click)="mostrarFiltros()">
               <span class="col-md-1 col-md-offset-2 text-center">
                 <i [ngClass]="{' fa-regular fa-eye': _mostrarFiltros, ' fa-solid fa-eye-slash': !_mostrarFiltros}" ></i>
@@ -28,23 +28,24 @@
   
       <div *ngIf="_seRealizaBusqueda" class="d-flex justify-content-center">
         <nav aria-label="Page navigation py-0 m-0">
-            <ul class="pagination pagination-lg">
-              <li class="page-item" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none'}" >
-                <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
-                  <span>&larr;</span>
-                </button>
-              </li>
-              <li *ngFor="let pagina of _paginas" class="page-item mx-1" [class.disabled]="pagina.Activa">
-                <button class="page-link color-text-box" style="border-radius: 30px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : ''}" (click)="obtenerPagina(pagina.Pagina)">{{pagina.Pagina+1}}</button>
-              </li>
-              <li class="page-item" [ngStyle]="{'pointer-events': _mostrarPaginaSiguiente ? 'auto' : 'none'}" >
-                <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
-                  <span>&rarr;</span>
-                </button>
-              </li>
-            </ul>
-          </nav>
+          <ul class="pagination pagination">
+            <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none'}" >
+              <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
+                <span><i class="fa-solid fa-arrow-left"></i></span>
+              </button>
+            </li>
+            <li *ngFor="let pagina of _paginas" class="page-item mx-2">
+              <button class="page-link color-text-box br25" style="width:40px; height:40px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : '', 'background-color': pagina.Activa ? 'rgba(223, 126, 137, .4)' : ''}" (click)="obtenerPagina(pagina.Pagina)" [disabled]="pagina.Activa">{{pagina.Pagina+1}}</button>
+            </li>
+            <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaSiguiente ? 'auto' : 'none'}" >
+              <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
+                <span><i class="fa-solid fa-arrow-right"></i></span>
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
+
     </div>
     
   </div>

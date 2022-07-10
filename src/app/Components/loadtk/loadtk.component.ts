@@ -8,12 +8,14 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class LoadtkComponent implements OnInit {
   info : string = '';
+  _Id_Publicacion : number | null = null;
 
   constructor(private _activatedRoute: ActivatedRoute) {
     this._activatedRoute.queryParams.subscribe((params) => {
       this.info = this._activatedRoute.snapshot.params['info'];
+      this._Id_Publicacion = this._activatedRoute.snapshot.params['Id_Publicacion'];
     });
-
+    debugger;
     this.cargarInfo();
   }
 
@@ -22,7 +24,12 @@ export class LoadtkComponent implements OnInit {
 
   cargarInfo(){
     localStorage.setItem('usuario', this.info);
-    window.location.href = '/inicio';
+    if (this._Id_Publicacion == 0){
+      window.location.href = '/inicio';
+    }
+    else{
+      window.location.href = '/anuncio/vista/publicacion-' + this._Id_Publicacion;
+    }
   }
 
 }

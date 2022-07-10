@@ -7,6 +7,7 @@ import { AsentamientosComponent } from './asentamientos/asentamientos.component'
 import { BancosComponent } from './bancos/bancos.component';
 import { CaracteristicasComponent } from './caracteristicas/caracteristicas.component';
 import { EmpresasComponent } from './empresas/empresas.component';
+import { IndicadoresComponent } from './indicadores/indicadores.component';
 import { MedioscontactoComponent } from './medioscontacto/medioscontacto.component';
 import { MunicipiosComponent } from './municipios/municipios.component';
 import { PaquetesComponent } from './paquetes/paquetes.component';
@@ -33,5 +34,6 @@ export const CATALOGOS_CHILD_ROUTES: Routes = [
   { path: 'tiposoperacion', component: TipooperacionComponent, canActivate: [AuthGuardAdmin] },
   { path: 'tiposasentamiento', component: TiposasentaientoComponent, canActivate: [AuthGuardAdmin] },
   { path: 'usuariosempresa', component: UsuariosempresaComponent, canActivate: [AuthGuardAdmin] },
+  { path: 'indicadores', component: IndicadoresComponent, canActivate: [AuthGuardAdmin] },
   { path: '**', pathMatch: 'full', redirectTo: 'medioscontacto'},
 ]

@@ -3,13 +3,13 @@
         <form class="form-horizontal" >
             <fieldset>
                 <legend class="text-center text-primary mb-3">
-                    <h1 class="display-4">Mis facturas</h1>
+                    <h1 class="display-4" style="text-shadow: 3px 3px 7px black;">Mis facturas</h1>
                 </legend>
 
                 <div class="form-group row mb-3 px-2">
                     <div class="col-md-9 px-0"></div>
                     <div class="col-md-3 p-0 text-end">
-                      <!-- <label class="text-primary text-end px-3">Total de registros: {{_datosFiscales.TotalRegistros}}</label> -->
+                      <label class="text-primary text-end px-3">Total de facturas: {{_facturasCliente.length}}</label>
                       <button class="btn btn-primary btn-sm br25" (click)="mostrarFiltros()">
                           <span class="col-md-1 text-center">
                             <i [ngClass]="{' fa-regular fa-eye': _mostrarFiltros, ' fa-solid fa-eye-slash': !_mostrarFiltros}" ></i>
@@ -74,7 +74,7 @@
                               <div class="accordion mb-2 p-1" id="accordionPanelsStayOpenExample">
                                 <div class="accordion-item color-modal" [ngStyle]="{'display': !_verFiltros.Anio ? 'none' : '' }">
                                   <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                    <button #myColapseFiltro1 class="accordion-button p-2 text-primary color-collapse" type="button" (click)="colapseAnio()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                                    <button #myColapseFiltro1 class="accordion-button p-2 text-primary color-collapse collapsed" type="button" (click)="colapseAnio()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
                                       Años
                                     </button>
                                   </h2>

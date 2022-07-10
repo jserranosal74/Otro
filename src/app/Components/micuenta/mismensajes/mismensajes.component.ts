@@ -6,39 +6,57 @@ import Swal from 'sweetalert2';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
 import { PublicacionMensajesService } from '../../../Services/Procesos/publicacionMensajes.service';
 import { publicacionMensaje } from '../../../Models/procesos/publicacionMensaje.model';
-import { Accion, Email, Estatus, Publicacion, publicacionMensajesFiltros, verFiltros } from 'src/app/Models/procesos/publicacionMensajesFiltros.model';
+import { Email, Estatus, Fecha, Publicacion, publicacionMensajesFiltros, verFiltros } from 'src/app/Models/procesos/publicacionMensajesFiltros.model';
 import { PublicacionMensajesFiltrosService } from 'src/app/Services/Procesos/publicacionMensajesFiltros.service';
+import { pagina, paginadoDetalle } from 'src/app/Models/catalogos/asentamiento.model';
+import { Indicador } from '../../../Models/procesos/publicacionMensajesFiltros.model';
 
 @Component({
   selector: 'app-mismensajes',
   templateUrl: './mismensajes.component.html',
   styleUrls: ['./mismensajes.component.css']
 })
-export class MismensajesComponent implements OnInit {
+export class MisMensajesComponent implements OnInit {
   _mensajesUsuarios : publicacionMensaje[] = [];
   _mostrarFiltros : boolean = sessionStorage.getItem('mf') === '1'? true : false;
   _collapseFiltros = false;
+  _mensajeSeleccionado : publicacionMensaje = new publicacionMensaje(0,0,0,0,0,'','','','','','',new Date(), new Date(),0,0,'');
 
-  _publicacionMensajesFiltros : publicacionMensajesFiltros = new publicacionMensajesFiltros([],[],[],[]);
-  _verFiltros : verFiltros = new verFiltros(true,true,true,true);
-  _filtrosSeleccionados : publicacionMensajesFiltros = new publicacionMensajesFiltros([],[],[],[]);
+  _publicacionMensajesFiltros : publicacionMensajesFiltros = new publicacionMensajesFiltros([],[],[],[],[]);
+  _verFiltros : verFiltros = new verFiltros(true,true,true,true,true);
+  _filtrosSeleccionados : publicacionMensajesFiltros = new publicacionMensajesFiltros([],[],[],[],[]);
+
+  // Paginador
+  _paginadoDetalle : paginadoDetalle = new paginadoDetalle(0,0);
+  _paginas: pagina[] = [];
+  _numeroPaginasMostrar = 5;
+  _paginaActual = 0;
+  _paginaInicial = 0;
+  _paginaFinal = 4;
+  _mostrarPaginaAnterior = true;
+  _mostrarPaginaSiguiente = true;
+  _seRealizaBusqueda = false;
 
   _colapseEstatus = false;
   _colapseAccion = false;
   _colapsePublicacion = false;
   _colapseEmail = false;
+  _colapseFecha = false;
 
   @ViewChild('myColapseFiltro1') colapseFiltro1 : any;
   @ViewChild('myColapseFiltro2') colapseFiltro2 : any;
   @ViewChild('myColapseFiltro3') colapseFiltro3 : any;
   @ViewChild('myColapseFiltro4') colapseFiltro4 : any;
+  @ViewChild('myColapseFiltro5') colapseFiltro5 : any;
+  @ViewChild('myModalCerrarMensaje') modalCerrarMensaje : any;
 
   constructor( private fb: FormBuilder,
                private _loginService : LoginService,
                private _publicacionMensajesService: PublicacionMensajesService,
                private _publicacionMensajesFiltrosService : PublicacionMensajesFiltrosService
   ) {
-    this.ejecutarConsulta();
+    this.ejecutarConsulta(0);
+    this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes(null,null);
     this._mostrarFiltros = sessionStorage.getItem('mf') === '1'? true : false;
   }
@@ -46,15 +64,98 @@ export class MismensajesComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  verMensaje(){
-    
+  verMensaje(objMensaje : publicacionMensaje){
+
+    this._mensajeSeleccionado = objMensaje;
+
+    if ((objMensaje.Id_Estatus != 20) && (objMensaje.Id_Estatus != 21)){
+      this._publicacionMensajesService.putPublicacionMensaje(new publicacionMensaje(objMensaje.Id_PublicacionMensaje, objMensaje.Id_Publicacion, objMensaje.Id_Cliente,null,0,'','','','','','',new Date(), new Date(),0,20,'')).subscribe(
+        (data) => {
+          //Next callback
+
+          this.ejecutarConsulta(0);
+          this.CargarDetallePaginador();
+          this.obtenerFiltrosMensajes(null,null);
+  
+        },
+        (error: HttpErrorResponse) => {
+          //Error callback
+          
+          switch (error.status) {
+            case 401:
+              break;
+            case 403:
+              break;
+            case 404:
+              break;
+            case 409:
+              break;
+          }
+        }
+      );
+    }
   }
 
   responderWhatsApp(objMensaje : publicacionMensaje){
+
+    if (objMensaje.Id_Estatus != 21){
+      this._publicacionMensajesService.putPublicacionMensaje(new publicacionMensaje(objMensaje.Id_PublicacionMensaje, objMensaje.Id_Publicacion, objMensaje.Id_Cliente,null,0,'','','','','','',new Date(), new Date(),0,21,'')).subscribe(
+        (data) => {
+          //Next callback
+
+          this.ejecutarConsulta(0);
+          this.CargarDetallePaginador();
+          this.obtenerFiltrosMensajes(null,null);
+  
+        },
+        (error: HttpErrorResponse) => {
+          //Error callback
+          
+          switch (error.status) {
+            case 401:
+              break;
+            case 403:
+              break;
+            case 404:
+              break;
+            case 409:
+              break;
+          }
+        }
+      );
+    }
+    
     window.open('https://api.whatsapp.com/send/?phone=52' + objMensaje.Telefono + '&text=Hola vi que estas interesado en esta propiedad: ' + objMensaje.TituloPublicacion + '. ¿Te puedo ayudar en algo?');
   }
 
   responderEmail(objMensaje : publicacionMensaje){
+    if (objMensaje.Id_Estatus != 21){
+      this._publicacionMensajesService.putPublicacionMensaje(new publicacionMensaje(objMensaje.Id_PublicacionMensaje, objMensaje.Id_Publicacion, objMensaje.Id_Cliente,null,0,'','','','','','',new Date(), new Date(),0,21,'')).subscribe(
+        (data) => {
+          //Next callback
+
+          this.ejecutarConsulta(0);
+          this.CargarDetallePaginador();
+          this.obtenerFiltrosMensajes(null,null);
+  
+        },
+        (error: HttpErrorResponse) => {
+          //Error callback
+          
+          switch (error.status) {
+            case 401:
+              break;
+            case 403:
+              break;
+            case 404:
+              break;
+            case 409:
+              break;
+          }
+        }
+      );
+    }
+    
     //window.open('https://api.whatsapp.com/send/?phone=52' + objMensaje.Telefono + '&text=Hola vi que estas interesado en esta propiedad: ' + objMensaje.TituloPublicacion + '. ¿Te puedo ayudar en algo?');
   }
 
@@ -106,7 +207,8 @@ export class MismensajesComponent implements OnInit {
               title: 'El mensaje se eliminó de manera satisfactoria'
             });
     
-            this.ejecutarConsulta();
+            this.ejecutarConsulta(0);
+            this.CargarDetallePaginador();
             this.obtenerFiltrosMensajes(null,null);
     
           },
@@ -138,6 +240,40 @@ export class MismensajesComponent implements OnInit {
     sessionStorage.setItem('mf', this._mostrarFiltros ? '1' : '0');
   }
 
+  CargarDetallePaginador(){
+    //debugger;
+    // Se obtiene el numero de paginas totales y el numero de renglones(registros) en total de la busqueda
+    this._publicacionMensajesService.getPublicacionesMensajesPagDet(this._loginService.obtenerIdCliente(), 10, this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
+                                                                                                                this._filtrosSeleccionados.lstIndicadores[0] === undefined ? null : this._filtrosSeleccionados.lstIndicadores[0].Id_Indicador,
+                                                                                                                this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus,
+                                                                                                                this._filtrosSeleccionados.lstEmails[0] === undefined ? null : this._filtrosSeleccionados.lstEmails[0].Email,
+                                                                                                                this._filtrosSeleccionados.lstFechas[0] === undefined ? null : this._filtrosSeleccionados.lstFechas[0].FechaAlta).subscribe(
+        (data) => {
+        //Next callback
+        //console.log('getPublicacionesMensajesPagDet', data);
+        this._paginadoDetalle = data;
+
+        this.CargarPaginador(0);
+
+        },
+        (error: HttpErrorResponse) => {
+
+        switch (error.status) {
+        case 401:
+        break;
+        case 403:
+        break;
+        case 404:
+        break;
+        case 409:
+        break;
+        }
+
+        //throw error;   //You can also throw the error to a global error handler
+        }
+        );
+  }
+
   seleccionarFiltroEstatus(objEstatus : Estatus){
 
     this._filtrosSeleccionados.lstEstatus.push(objEstatus);
@@ -148,22 +284,24 @@ export class MismensajesComponent implements OnInit {
       }
     });
     
-    this.ejecutarConsulta();
+    this.ejecutarConsulta(0);
+    this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Estatus','Agregar');
   }
 
-  seleccionarFiltroAccion(objAccion : Accion){
+  seleccionarFiltroIndicador(objIndicador : Indicador){
 
-    this._filtrosSeleccionados.lstAcciones.push(objAccion);
+    this._filtrosSeleccionados.lstIndicadores.push(objIndicador);
 
-    this._publicacionMensajesFiltros.lstAcciones.forEach((item,index) => {
-      if (item.Id_Accion === objAccion.Id_Accion){
-        this._publicacionMensajesFiltros.lstAcciones.splice(index,1); 
+    this._publicacionMensajesFiltros.lstIndicadores.forEach((item,index) => {
+      if (item.Id_Indicador === objIndicador.Id_Indicador){
+        this._publicacionMensajesFiltros.lstIndicadores.splice(index,1); 
       }
     });
 
-    this.ejecutarConsulta();
-    this.obtenerFiltrosMensajes('Accion','Agregar');
+    this.ejecutarConsulta(0);
+    this.CargarDetallePaginador();
+    this.obtenerFiltrosMensajes('Indicador','Agregar');
   }
 
   seleccionarFiltroPublicacion(objPublicacion : Publicacion){
@@ -175,7 +313,8 @@ export class MismensajesComponent implements OnInit {
       }
     });
 
-    this.ejecutarConsulta();
+    this.ejecutarConsulta(0);
+    this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Publicacion','Agregar');
   }
 
@@ -188,19 +327,42 @@ export class MismensajesComponent implements OnInit {
       }
     });
 
-    this.ejecutarConsulta();
+    this.ejecutarConsulta(0);
+    this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Email','Agregar');
   }
 
-  ejecutarConsulta(){
-    this._publicacionMensajesService.getPublicacionesMensajes(this._loginService.obtenerIdCliente(), this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
-                                                                                                     this._filtrosSeleccionados.lstAcciones[0] === undefined ? null : this._filtrosSeleccionados.lstAcciones[0].Id_Accion,
+  seleccionarFiltroFecha(objFecha : Fecha){
+    this._filtrosSeleccionados.lstFechas.push(objFecha);
+
+    this._publicacionMensajesFiltros.lstFechas.forEach((item,index) => {
+      if (item.FechaAlta === objFecha.FechaAlta){
+        this._publicacionMensajesFiltros.lstFechas.splice(index,1); 
+      }
+    });
+
+    this.ejecutarConsulta(0);
+    this.CargarDetallePaginador();
+    this.obtenerFiltrosMensajes('Fecha','Agregar');
+  }
+
+  ejecutarConsulta(numPagina : number){
+    //debugger;
+    this._publicacionMensajesService.getPublicacionesMensajes(this._loginService.obtenerIdCliente(), numPagina, 10, this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
+                                                                                                     this._filtrosSeleccionados.lstIndicadores[0] === undefined ? null : this._filtrosSeleccionados.lstIndicadores[0].Id_Indicador,
                                                                                                      this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus,
-                                                                                                     this._filtrosSeleccionados.lstEmails[0] === undefined ? null : this._filtrosSeleccionados.lstEmails[0].Email).subscribe(
+                                                                                                     this._filtrosSeleccionados.lstEmails[0] === undefined ? null : this._filtrosSeleccionados.lstEmails[0].Email,
+                                                                                                     this._filtrosSeleccionados.lstFechas[0] === undefined ? null : this._filtrosSeleccionados.lstFechas[0].FechaAlta).subscribe(
       (data) => {
         //Next callback
 
         this._mensajesUsuarios = data;
+
+        if (data.length > 0) {
+          this._seRealizaBusqueda = true;
+        }
+
+        this.CargarPaginador(numPagina);
 
       },
       (error: HttpErrorResponse) => {
@@ -219,6 +381,79 @@ export class MismensajesComponent implements OnInit {
         }
       }
     );
+    this.CargarDetallePaginador();
+  }
+
+  CargarPaginador(paginaActual : number){
+    //debugger;
+    this._paginas = [];
+
+    if ( this._paginadoDetalle.TotalPaginas <= this._numeroPaginasMostrar ){
+      for (let index = 0; index < this._paginadoDetalle.TotalPaginas; index++) {
+        if (index == paginaActual)
+          this._paginas.push(new pagina(true, index));
+        else
+          this._paginas.push(new pagina(false, index));
+      }
+      this._paginaInicial = 0;
+      this._paginaFinal = this._paginadoDetalle.TotalPaginas;
+    }
+    else if ( paginaActual <= (this._paginadoDetalle.TotalPaginas - this._numeroPaginasMostrar) ){
+      for (let index = paginaActual; index < (paginaActual + this._numeroPaginasMostrar); index++) {
+        if (index == paginaActual)
+          this._paginas.push(new pagina(true, index));
+        else
+          this._paginas.push(new pagina(false, index));
+      }
+      this._paginaInicial = paginaActual + 1;
+      this._paginaFinal = paginaActual + this._numeroPaginasMostrar;
+    }
+    else {
+        for (let index = (this._paginadoDetalle.TotalPaginas - this._numeroPaginasMostrar); index < this._paginadoDetalle.TotalPaginas; index++) {
+          if (index == paginaActual)
+          this._paginas.push(new pagina(true, index));
+        else
+          this._paginas.push(new pagina(false, index));
+        }
+        this._paginaInicial = (this._paginadoDetalle.TotalPaginas - this._numeroPaginasMostrar);
+        this._paginaFinal = this._paginadoDetalle.TotalPaginas;
+      }
+    
+    console.log(this._paginas);
+
+    if ( paginaActual == 0 && paginaActual <= this._numeroPaginasMostrar && this._numeroPaginasMostrar >= this._paginadoDetalle.TotalPaginas){
+      this._mostrarPaginaAnterior = false;
+      this._mostrarPaginaSiguiente = false;
+      console.log('Configuracion 1');
+    }
+    else if(paginaActual > 0 && this._paginaFinal < this._paginadoDetalle.TotalPaginas){
+      this._mostrarPaginaAnterior = true;
+      this._mostrarPaginaSiguiente = true;
+      console.log('Configuracion 2');
+    }
+    else if(paginaActual >= 0 && this._paginaFinal < this._paginadoDetalle.TotalPaginas){
+      this._mostrarPaginaAnterior = false;
+      this._mostrarPaginaSiguiente = true;
+      console.log('Configuracion 3');
+    }
+    else if(paginaActual > 0 && this._paginaFinal == this._paginadoDetalle.TotalPaginas){
+      this._mostrarPaginaAnterior = true;
+      this._mostrarPaginaSiguiente = false;
+      console.log('Configuracion 4');
+    }
+
+    console.log('paginaActual:' + paginaActual, 'this._paginaFinal:' + this._paginaFinal);
+
+    this._paginaActual = paginaActual;
+
+  }
+
+  obtenerPaginaAnterior(){
+    this.ejecutarConsulta(this._paginaActual - 1);
+  }
+
+  obtenerPaginaSiguiente(){
+    this.ejecutarConsulta(this._paginaActual + 1);
   }
 
   removerFiltroEstatus(objEstatus : Estatus){
@@ -230,22 +465,24 @@ export class MismensajesComponent implements OnInit {
       }
     });
 
-    this.ejecutarConsulta();
+    this.ejecutarConsulta(0);
+    this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Estatus','Quitar');
 
   }
 
-  removerFiltroAccion(objAccion : Accion){
-    this._publicacionMensajesFiltros.lstAcciones.push(objAccion);
+  removerFiltroIndicador(objIndicador : Indicador){
+    this._publicacionMensajesFiltros.lstIndicadores.push(objIndicador);
 
-    this._filtrosSeleccionados.lstAcciones.forEach((item,index) => {
-      if (item.Id_Accion === objAccion.Id_Accion){
-        this._filtrosSeleccionados.lstAcciones.splice(index,1); 
+    this._filtrosSeleccionados.lstIndicadores.forEach((item,index) => {
+      if (item.Id_Indicador === objIndicador.Id_Indicador){
+        this._filtrosSeleccionados.lstIndicadores.splice(index,1); 
       }
     });
 
-    this.ejecutarConsulta();
-    this.obtenerFiltrosMensajes('Accion','Quitar');
+    this.ejecutarConsulta(0);
+    this.CargarDetallePaginador();
+    this.obtenerFiltrosMensajes('Indicador','Quitar');
 
   }
 
@@ -258,7 +495,8 @@ export class MismensajesComponent implements OnInit {
       }
     });
 
-    this.ejecutarConsulta();
+    this.ejecutarConsulta(0);
+    this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Publicacion','Quitar');
   }
 
@@ -271,8 +509,23 @@ export class MismensajesComponent implements OnInit {
       }
     });
 
-    this.ejecutarConsulta();
+    this.ejecutarConsulta(0);
+    this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Email','Quitar');
+  }
+
+  removerFiltroFecha(objFecha : Fecha){
+    this._publicacionMensajesFiltros.lstFechas.push(objFecha);
+
+    this._filtrosSeleccionados.lstFechas.forEach((item,index) => {
+      if (item.FechaAlta === objFecha.FechaAlta){
+        this._filtrosSeleccionados.lstFechas.splice(index,1); 
+      }
+    });
+
+    this.ejecutarConsulta(0);
+    this.CargarDetallePaginador();
+    this.obtenerFiltrosMensajes('Fecha','Quitar');
   }
 
   colapseEstatus(){
@@ -291,8 +544,12 @@ export class MismensajesComponent implements OnInit {
     this._colapseEmail = !this._colapseEmail;
   }
 
+  colapseFecha(){
+    this._colapseFecha = !this._colapseFecha;
+  }
+
   colapsarFiltros(){
-    debugger;
+    //debugger;
     this._collapseFiltros = !this._collapseFiltros;
 
     if (this._collapseFiltros){
@@ -304,6 +561,8 @@ export class MismensajesComponent implements OnInit {
         this.colapseFiltro3.nativeElement.click();
       if (!this._colapseEmail)
         this.colapseFiltro4.nativeElement.click();
+      if (!this._colapseFecha)
+        this.colapseFiltro5.nativeElement.click();
     }
     else{
       if (this._colapseEstatus)
@@ -314,34 +573,40 @@ export class MismensajesComponent implements OnInit {
         this.colapseFiltro3.nativeElement.click();
       if (this._colapseEmail)
         this.colapseFiltro4.nativeElement.click();
+      if (this._colapseFecha)
+        this.colapseFiltro5.nativeElement.click();
     }
   }
 
   eliminarFiltros(){
 
-    this._filtrosSeleccionados = new publicacionMensajesFiltros([],[],[],[]);
+    this._filtrosSeleccionados = new publicacionMensajesFiltros([],[],[],[],[]);
 
-    this.ejecutarConsulta();
+    this.ejecutarConsulta(0);
+    this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes(null,null);
 
   }
 
   obtenerFiltrosMensajes(filtroSeleccionado : string | null, strAgregarQuitar : string | null){
-    debugger;
+    //debugger;
 
     if (strAgregarQuitar === 'Agregar'){
       switch (filtroSeleccionado) {
         case 'Estatus':
             this._verFiltros.Estatus = false;
           break;
-        case 'Accion':
-            this._verFiltros.Accion = false;
+        case 'Indicador':
+            this._verFiltros.Indicador = false;
           break;
         case 'Publicacion':
             this._verFiltros.Publicacion = false;
           break;
         case 'Email':
             this._verFiltros.Email = false;
+          break;
+        case 'Fecha':
+            this._verFiltros.Fecha = false;
           break;
         default:
           break;
@@ -350,13 +615,13 @@ export class MismensajesComponent implements OnInit {
     else {
       switch (filtroSeleccionado) {
         case null:
-            this._verFiltros = new verFiltros(true,true,true,true);
+            this._verFiltros = new verFiltros(true,true,true,true,true);
           break;
         case 'Estatus':
             this._verFiltros.Estatus = true;
           break;
-        case 'Accion':
-            this._verFiltros.Accion = true;
+        case 'Indicador':
+            this._verFiltros.Indicador = true;
           break;
         case 'Publicacion':
             this._verFiltros.Publicacion = true;
@@ -364,15 +629,19 @@ export class MismensajesComponent implements OnInit {
         case 'Email':
             this._verFiltros.Email = true;
           break;
+        case 'Fecha':
+            this._verFiltros.Fecha = true;
+          break;
         default:
           break;
       }
     }
-debugger;
+    debugger;
     this._publicacionMensajesFiltrosService.getPublicacionMensajesFiltros(this._loginService.obtenerIdCliente(), this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
-                                                                                                                 this._filtrosSeleccionados.lstAcciones[0] === undefined ? null : this._filtrosSeleccionados.lstAcciones[0].Id_Accion,
+                                                                                                                 this._filtrosSeleccionados.lstIndicadores[0] === undefined ? null : this._filtrosSeleccionados.lstIndicadores[0].Id_Indicador,
                                                                                                                  this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus,
-                                                                                                                 this._filtrosSeleccionados.lstEmails[0] === undefined ? null : this._filtrosSeleccionados.lstEmails[0].Email).subscribe(
+                                                                                                                 this._filtrosSeleccionados.lstEmails[0] === undefined ? null : this._filtrosSeleccionados.lstEmails[0].Email,
+                                                                                                                 this._filtrosSeleccionados.lstFechas[0] === undefined ? null : this._filtrosSeleccionados.lstFechas[0].FechaAlta).subscribe(
       (data) => {
         //Next callback
         //console.log('data',data);

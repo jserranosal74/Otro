@@ -18,14 +18,17 @@ import { subtipoPropiedad } from 'src/app/Models/catalogos/tipoPropiedadDetalle.
 })
 export class OperaciontipoinmuebleComponent implements OnInit {
   _tiposPropiedad : tipoPropiedad[] = [];
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0);
   _id_publicacion : number = 0;
   loading : boolean = false;
   _subtiposPropiedad : subtipoPropiedad[] = [];
   _numeroPaso : number = 1;
   _esNuevo : boolean = true;
   _rentaVentaDesarrollo : number | null = 0;
-  _esEmpresa : boolean = false;
+  _esDesarrollo : boolean = false;
+  _bloquearTipoOperacion = false;
+  _bloquearDesarrollo = false;
+  _bloquearSiPerteneceDesarrollo = false;
 
   formaOTI = this.fb.group({
   });
@@ -57,10 +60,10 @@ export class OperaciontipoinmuebleComponent implements OnInit {
 
   configurarSiEsEmpresa(){
     if (this._loginService.obtenerIdEmpresa() != null){
-      this._esEmpresa = true;
+      this._esDesarrollo = true;
     }
     else{
-      this._esEmpresa = false;
+      this._esDesarrollo = false;
     }
   }
 
@@ -97,11 +100,27 @@ export class OperaciontipoinmuebleComponent implements OnInit {
   }
 
   seleccionarOperacion(){
-    //console.log("this.formaOTI.controls['tipoOperacion'].value", this.formaOTI.controls['tipoOperacion'].value);
+    debugger;
     this._rentaVentaDesarrollo = this.formaOTI.controls['tipoOperacion'].value;
+
+    if (this._rentaVentaDesarrollo == 3){
+      this.formaOTI.patchValue({
+        tipoPropiedad : 12,
+        subtipoPropiedad : ''
+      });
+      this._bloquearDesarrollo = true;
+    }
+    else{
+      this.formaOTI.patchValue({
+        tipoPropiedad : 1,
+        subtipoPropiedad : ''
+      });
+      this._bloquearDesarrollo = false;
+    }
   }
 
   CargarPublicacion(){
+    debugger;
     if (this._id_publicacion != 0) {
         this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
           (data) => {
@@ -119,20 +138,24 @@ export class OperaciontipoinmuebleComponent implements OnInit {
               subtipoPropiedad : data.Id_SubtipoPropiedad
             });
 
+            // Si es desarrollo el que se carga se bloquea el cambio de tipo de operacion
+            if(data.Id_TipoOperacion === 3){
+                this._bloquearDesarrollo = true;
+                this._bloquearTipoOperacion = true;
+            }
+
+            // Bloquear boton de desarrollo si el anuncio ya pertenece a un desarrollo
+            if(data.PerteneceADesarrollo === 1)
+            {
+              this._bloquearSiPerteneceDesarrollo = true;
+            }
+
           },
           (error: HttpErrorResponse) => {
             //Error callback
 
             this._id_publicacion = 0;
             this.router.navigateByUrl('/publicar/operacion-tipo-inmueble');
-
-            // Swal.fire({
-            //   icon: 'error',
-            //   title: error.error['Descripcion'],
-            //   text: 'Error al cargar las tipos de propiedad',
-            //   showCancelButton: false,
-            //   showDenyButton: false,
-            // });
 
             switch (error.status) {
               case 401:

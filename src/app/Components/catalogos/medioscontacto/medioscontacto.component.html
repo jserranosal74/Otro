@@ -4,7 +4,7 @@
             <div class="well well-sm">
                 <form class="form-horizontal">
                     <fieldset>
-                        <legend class="text-center text-primary mb-3"><h1 class="display-4">Medios de contacto</h1></legend>
+                        <legend class="text-center text-primary mb-3"><h1 class="display-4 sombraTitulo">Medios de contacto</h1></legend>
                         <div class="form-group row mb-3">
                             <div class="col-md-10 p-0">
                                 <a class="btn btn-primary btn-sm" style="border-radius:25px;" (click)="limpiarFormulario()" data-bs-toggle="modal" data-bs-target="#gridAgregarAmenidad" >
@@ -12,18 +12,15 @@
                                     <i class="fa fa-add bigicon" aria-hidden="true"></i>
                                 </span></a>
                             </div>
-                            <div class="col-md-2 p-0">
-                                <td class="text-end">
-                                  <span class="text-primary">Total de registros: <strong>{{_mediosContacto.length}}</strong></span>
-                                </td>
+                            <div class="col-md-2 p-0 text-end">
+                              <label class="text-primary">Total de registros: <strong>{{_mediosContacto.length}}</strong></label>
                             </div>
                         </div>
                         <div class="form-group row mb-3">
-                            <table class="table table-striped table-bordered border-primary color-table">
+                            <table class="table table-sm text-primary table-striped table-bordered border-primary color-table">
                                 <thead>
                                   <tr>
                                     <th width="50px" class="text-primary text-center" scope="col">#</th>
-                                    <!-- <th class="text-primary" scope="col">Id Cliente</th> -->
                                     <th width="100px" class="text-primary text-center" scope="col">Clave</th>
                                     <th class="text-primary text-center"  scope="col">Descripción</th>
                                     <th width="150px" class="text-primary text-center" scope="col">Fecha de Alta</th>
@@ -35,23 +32,22 @@
                                 <tbody>
                                   <tr *ngFor="let medioContacto of _mediosContacto; let i = index;">
                                     <th class="text-primary text-center" scope="row">{{medioContacto.Id_MedioContacto}}</th>
-                                    <!-- <td class="text-primary text-center">{{inmobiliaria.Id_Cliente}}</td> -->
-                                    <td class="text-primary text-end">{{medioContacto.Clave}}</td>
+                                    <td class="text-primary text-start">{{medioContacto.Clave}}</td>
                                     <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{medioContacto.Descripcion}}" style="max-width: 150px;">{{medioContacto.Descripcion}}</td>
                                     <td class="text-primary text-center">{{medioContacto.FechaAlta | date:'yyyy-MM-dd HH:mm'}}</td>
                                     <td class="text-primary text-center">{{medioContacto.FechaModificacion | date:'yyyy-MM-dd HH:mm'}}</td>
                                     <td width="90px" class="p-1">
-                                        <div class="col-auto p-0 m-0 text-center" heigth="auto">
-                                            <a class="btn btn-primary br25" heigth="auto" (click)="obtenerMedioContacto(medioContacto);" data-bs-toggle="modal" data-bs-target="#gridAgregarAmenidad"><span class="col-md-1 col-md-offset-2 text-center">
+                                        <div class="col-auto p-0 m-0 text-center">
+                                            <button class="btn btn-sm btn-outline-primary br25"  (click)="obtenerMedioContacto(medioContacto);" data-bs-toggle="modal" data-bs-target="#gridAgregarAmenidad"><span class="col-md-1 col-md-offset-2 text-center">
                                                 <i class="fa fa-pencil"></i>
-                                            </span></a>
+                                            </span></button>
                                         </div>
                                     </td>
                                     <td width="90px" class="p-1">
                                     <div class="col-auto p-0 m-0 text-center">
-                                        <a class="btn btn-primary br25" heigth="auto" (click)="eliminarMedioContacto(medioContacto);" ><span class="col-md-1 col-md-offset-2 text-center">
+                                        <button class="btn btn-sm btn-outline-danger br25" (click)="eliminarMedioContacto(medioContacto);" ><span class="col-md-1 col-md-offset-2 text-center">
                                             <i class="fa fa-trash-can"></i>
-                                        </span></a>
+                                        </span></button>
                                     </div></td>
                                   </tr>
                                 </tbody>

@@ -25,7 +25,7 @@ import { PaquetesClienteService } from 'src/app/Services/Procesos/paquetesClient
 })
 export class PagarYActivarComponent implements OnInit {
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0);
   _id_publicacion : number = 0;
   _bancos : banco[] = [];
   _planesCliente : plancliente[] = [];
@@ -511,9 +511,11 @@ export class PagarYActivarComponent implements OnInit {
     }
     debugger;
     let Id_PaqueteDetalle : number | null = null;
+    let Id_PaqueteCliente : number | null = null;
     // Solo si es seleccionado uno de los planes de alguno de los paquetes mostrados en el fron end
     this._paqueteCliente.Detalle?.forEach( item => { 
       if ( item.Seleccionado === true ){
+        Id_PaqueteCliente = item.Id_PaqueteCliente;
         Id_PaqueteDetalle = item.Id_PaqueteDetalle;
       }
     });
@@ -525,7 +527,8 @@ export class PagarYActivarComponent implements OnInit {
     else
       this._guardandoYpublicandoCF = true;
 
-    this._publicacionesService.putActivarPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente(), this._planCliente.Seleccionado === 1 ? this._planCliente.Id_PlanCliente : null, this._planCliente.Seleccionado === 1 ? this._planCliente.Id_Plan : this._plan.Id_Plan, intConFactura === 1 ? this._datoFiscal.Id_DatosFiscales : null, this._banco.Id_Banco === 0 ? null : this._banco.Id_Banco, this._paqueteCliente.Id_Paquete, Id_PaqueteDetalle ).subscribe(
+      debugger;
+    this._publicacionesService.putActivarPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente(), this._planCliente.Seleccionado === 1 ? this._planCliente.Id_PlanCliente : null, this._planCliente.Seleccionado === 1 ? this._planCliente.Id_Plan : this._plan.Id_Plan, intConFactura === 1 ? this._datoFiscal.Id_DatosFiscales : null, this._banco.Id_Banco === 0 ? null : this._banco.Id_Banco, Id_PaqueteCliente, Id_PaqueteDetalle ).subscribe(
       (data) => {
 
         if (this._planActualNuevo === false){

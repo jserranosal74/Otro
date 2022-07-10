@@ -24,6 +24,7 @@ import { BancosComponent } from './bancos/bancos.component';
 import { TarjetasModule } from '../tarjetas/tarjetas.module';
 import { PaquetesComponent } from './paquetes/paquetes.component';
 import { ArchivosFiscalesComponent } from './archivosfiscales/archivosfiscales.component';
+import { IndicadoresComponent } from './indicadores/indicadores.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ArchivosFiscalesComponent } from './archivosfiscales/archivosfiscales.c
     UsuariosempresaComponent,
     BancosComponent,
     PaquetesComponent,
-    ArchivosFiscalesComponent
+    ArchivosFiscalesComponent,
+    IndicadoresComponent
   ],
   imports: [
     CommonModule,
@@ -75,7 +77,8 @@ import { ArchivosFiscalesComponent } from './archivosfiscales/archivosfiscales.c
     UsuariosempresaComponent,
     BancosComponent,
     PaquetesComponent,
-    ArchivosFiscalesComponent
+    ArchivosFiscalesComponent,
+    IndicadoresComponent
   ]
 })
 

@@ -10,11 +10,11 @@ import { tipoPersona } from '../../../Models/catalogos/tipoPersona.model';
 import { TiposPersonaService } from 'src/app/Services/Catalogos/tiposPersonas.service';
 
 @Component({
-  selector: 'app-datosfiscales',
-  templateUrl: './datosfiscales.component.html',
-  styleUrls: ['./datosfiscales.component.css']
+  selector: 'app-misdatosfiscales',
+  templateUrl: './misdatosfiscales.component.html',
+  styleUrls: ['./misdatosfiscales.component.css']
 })
-export class DatosfiscalesComponent implements OnInit {
+export class MisDatosFiscalesComponent implements OnInit {
   _datosFiscales : datoFiscal[] = [];
   _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','','',0,new Date(),new Date(), 0,0,0);
   _tiposPersonas : tipoPersona[] = [];
@@ -462,13 +462,13 @@ export class DatosfiscalesComponent implements OnInit {
           (error: HttpErrorResponse) => {
             //Error callback
     
-            Swal.fire({
-              icon: 'error',
-              title: error.error['Descripcion'],
-              text: '',
-              showCancelButton: false,
-              showDenyButton: false,
-            });
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: error.error['Descripcion'],
+            //   text: '',
+            //   showCancelButton: false,
+            //   showDenyButton: false,
+            // });
     
             switch (error.status) {
               case 401:
@@ -478,7 +478,15 @@ export class DatosfiscalesComponent implements OnInit {
                 //console.log('error 403');
                 break;
               case 404:
-                //console.log('error 404');
+
+                Swal.fire({
+                icon: 'error',
+                title: 'La información fiscal no se puede eliminar',
+                text: 'Primero elimine el plan o paquete que tiene pendiente de pagar.',
+                showCancelButton: false,
+                showDenyButton: false,
+              });
+        
                 break;
               case 409:
                 //console.log('error 409');
