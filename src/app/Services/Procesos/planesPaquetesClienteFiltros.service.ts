@@ -23,8 +23,8 @@ export class PlanesPaquetesClienteFiltrosService {
     this.urlPlanesPaquetesClienteFiltros = URL_APIS.urlPlanesPaquetesClienteFiltros;
   }
 
-  public getPlanesPaquetesClienteFiltros(Id_Cliente : number, Id_TipoAnuncio : number | null, Id_TipoPlan : number | null, Id_Estatus : number | null): Observable<planesPaquetesClienteFiltros> {
-    return this.http.get<planesPaquetesClienteFiltros>(this.urlPlanesPaquetesClienteFiltros + '?Id_Cliente=' + Id_Cliente + '&Id_TipoAnuncio='+ Id_TipoAnuncio + '&Id_TipoPlan=' + Id_TipoPlan + '&Id_Estatus=' + Id_Estatus, this.httpOptions);
+  public getPlanesPaquetesClienteFiltros(UID_Cliente : string, Id_TipoAnuncio : number | null, Id_TipoPlan : number | null, Id_Estatus : number | null): Observable<planesPaquetesClienteFiltros> {
+    return this.http.get<planesPaquetesClienteFiltros>(this.urlPlanesPaquetesClienteFiltros + '?Id_Cliente=' + UID_Cliente + '&Id_TipoAnuncio='+ Id_TipoAnuncio + '&Id_TipoPlan=' + Id_TipoPlan + '&Id_Estatus=' + Id_Estatus, this.httpOptions);
   }
 
 }

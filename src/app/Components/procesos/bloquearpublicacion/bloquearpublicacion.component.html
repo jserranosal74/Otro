@@ -1,4 +1,4 @@
-<div>
+<div class="container py-5">
     <div class="row">
         <div class="col-md-12">
             <div class="well well-sm">
@@ -69,8 +69,8 @@
                                 </thead>
                                 <tbody>
                                   <tr *ngFor="let publicacion of _publicacionVistaBloquear; let i = index;">
-                                    <th class="text-primary text-center" scope="row">{{publicacion.Id_Publicacion}}</th>
-                                    <th class="text-primary text-center" scope="row">{{publicacion.Id_Cliente}}</th>
+                                    <td class="text-primary text-center" scope="row">{{publicacion.Id_Publicacion}}</td>
+                                    <td class="text-primary text-center" scope="row">{{publicacion.Id_Cliente}}</td>
                                     <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{publicacion.Email}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{publicacion.Email}}</td>
                                     <td class="text-primary text-center text-truncate" data-toggle="tooltip" data-placement="top" title="{{publicacion.DescripcionOperacion}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{publicacion.DescripcionOperacion}}</td>
                                     <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{publicacion.DescripcionPropiedad}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{publicacion.DescripcionPropiedad}}</td>

@@ -25,16 +25,16 @@ export class FavoritosClienteService {
     this.urlFavoritosCliente = URL_APIS.urlFavoritosCliente;
   }
 
-  public getFavoritosCliente(Id_Cliente : number, NumPagina : number, NumRenglones : number): Observable<favoritoCliente[]> {
-    return this.http.get<favoritoCliente[]>(this.urlFavoritosCliente + '?Id_Cliente=' + Id_Cliente + '&NumPagina=' + NumPagina + '&NumRenglones=' + NumRenglones, this.httpOptions);
+  public getFavoritosCliente(UID_Cliente : string, NumPagina : number, NumRenglones : number): Observable<favoritoCliente[]> {
+    return this.http.get<favoritoCliente[]>(this.urlFavoritosCliente + '?Id_Cliente=' + UID_Cliente + '&NumPagina=' + NumPagina + '&NumRenglones=' + NumRenglones, this.httpOptions);
   }
 
-  public getFavoritoCliente(Id_Cliente_FavoritoCliente : number, Id_Cliente : number, Id_Publicacion : number): Observable<number> {
-    return this.http.get<number>(this.urlFavoritosCliente + '?Id_Cliente_FavoritoCliente=' + Id_Cliente_FavoritoCliente + '&Id_Cliente=' + Id_Cliente + '&Id_Publicacion=' + Id_Publicacion, this.httpOptions);
+  public getFavoritoCliente(Id_Cliente_FavoritoCliente : string, UID_Cliente : string, Id_Publicacion : number): Observable<number> {
+    return this.http.get<number>(this.urlFavoritosCliente + '?Id_Cliente_FavoritoCliente=' + Id_Cliente_FavoritoCliente + '&Id_Cliente=' + UID_Cliente + '&Id_Publicacion=' + Id_Publicacion, this.httpOptions);
   }
 
-  public getFavoritosClienteResumen(Id_Cliente : number, NumRenglones: number): Observable<paginadoDetalle> {
-    return this.http.get<paginadoDetalle>(this.urlFavoritosCliente + '?Id_Cliente=' + Id_Cliente + '&NumRenglones=' + NumRenglones, this.httpOptions);
+  public getFavoritosClienteResumen(UID_Cliente : string, NumRenglones: number): Observable<paginadoDetalle> {
+    return this.http.get<paginadoDetalle>(this.urlFavoritosCliente + '?Id_Cliente=' + UID_Cliente + '&NumRenglones=' + NumRenglones, this.httpOptions);
   }
 
   public postFavoritoCliente(objParametrosFC: favoritoClienteParams): Observable<number> {

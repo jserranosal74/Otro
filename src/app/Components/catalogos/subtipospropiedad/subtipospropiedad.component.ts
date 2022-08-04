@@ -16,24 +16,19 @@ import { subtipoPropiedad } from 'src/app/Models/catalogos/tipoPropiedadDetalle.
 export class SubtipospropiedadComponent implements OnInit {
   _tiposPropiedad : tipoPropiedad[] = [];
   _tiposPropiedadModal : tipoPropiedad[] = [];
-  // _tipoPropiedad : tipoPropiedad = new tipoPropiedad(0,'','',new Date(),new Date(),0,0);
   _subtiposPropiedad : subtipoPropiedad[] = [];
   _subtipoPropiedad : subtipoPropiedad = new subtipoPropiedad(0,0,'','',new Date(),new Date(),0,0);
   _textoAccion ='';
 
   _esNuevo : boolean = false;
   @ViewChild('myModalClose') modalClose : any;
-  // @ViewChild('descripcion') modaldescripcion : any;
-  // @ViewChild('verformaAmenidad') modalformaAmenidad : any;
 
-  formaBusqueda = this.fb.group({
-    tipopropiedad : ['', Validators.required]
-  });
+  formaBusqueda = this.fb.group({});
   
   formaSubtipoPropiedad = this.fb.group({
     tipopropiedadmodal : ['', Validators.required],
-    clave : ['', Validators.required],
-    descripcion:  ['', Validators.required]
+    clave              : ['', Validators.required],
+    descripcion        : ['', Validators.required]
   });
 
   constructor( private fb: FormBuilder,
@@ -65,8 +60,8 @@ export class SubtipospropiedadComponent implements OnInit {
     this._textoAccion = 'Agregar';
     this.formaSubtipoPropiedad.reset({
       tipopropiedadmodal : '',
-      clave         : '',
-      descripcion   : ''
+      clave              : '',
+      descripcion        : ''
     });
     // this._tipoPropiedad = new tipoPropiedad(0,'','',new Date(),new Date(),0,0);
   }
@@ -84,17 +79,24 @@ export class SubtipospropiedadComponent implements OnInit {
       (error: HttpErrorResponse) => {
         //Error callback
 
-        Swal.fire({
-          icon: 'error',
-          title: error.error['Descripcion'],
-          text: 'Error al cargar las tipos de propiedad',
-          showCancelButton: false,
-          showDenyButton: false,
-        });
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: error.error['Descripcion'],
+        //   text: 'Error al cargar las tipos de propiedad',
+        //   showCancelButton: false,
+        //   showDenyButton: false,
+        // });
 
         switch (error.status) {
           case 401:
-            //console.log('error 401');
+            Swal.fire({
+              icon: 'error',
+              title: 'Acceso no autorizado',
+              text: 'debera autenticarse',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            this._loginService.cerarSesion();
             break;
           case 403:
             //console.log('error 403');
@@ -145,7 +147,14 @@ export class SubtipospropiedadComponent implements OnInit {
   
           switch (error.status) {
             case 401:
-              //console.log('error 401');
+              Swal.fire({
+                icon: 'error',
+                title: 'Acceso no autorizado',
+                text: 'debera autenticarse',
+                showCancelButton: false,
+                showDenyButton: false,
+              });
+              this._loginService.cerarSesion();
               break;
             case 403:
               //console.log('error 403');
@@ -177,8 +186,8 @@ export class SubtipospropiedadComponent implements OnInit {
 
         this.formaSubtipoPropiedad.setValue({
           tipopropiedadmodal : data.Id_TipoPropiedad,
-          clave         : data.Clave,
-          descripcion   : data.Descripcion
+          clave              : data.Clave,
+          descripcion        : data.Descripcion
         });
 
         // this.limpiarFormulario();
@@ -186,17 +195,24 @@ export class SubtipospropiedadComponent implements OnInit {
       (error: HttpErrorResponse) => {
         //Error callback
 
-        Swal.fire({
-          icon: 'error',
-          title: error.error['Descripcion'],
-          text: '',
-          showCancelButton: false,
-          showDenyButton: false,
-        });
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: error.error['Descripcion'],
+        //   text: '',
+        //   showCancelButton: false,
+        //   showDenyButton: false,
+        // });
 
         switch (error.status) {
           case 401:
-            //console.log('error 401');
+            Swal.fire({
+              icon: 'error',
+              title: 'Acceso no autorizado',
+              text: 'debera autenticarse',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            this._loginService.cerarSesion();
             break;
           case 403:
             //console.log('error 403');
@@ -267,13 +283,13 @@ export class SubtipospropiedadComponent implements OnInit {
             //Error callback
             //console.log('Error del servicio: ', error.error['Descripcion']);
   
-            Swal.fire({
-              icon: 'error',
-              title: error.error['Descripcion'],
-              text: '',
-              showCancelButton: false,
-              showDenyButton: false,
-            });
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: error.error['Descripcion'],
+            //   text: '',
+            //   showCancelButton: false,
+            //   showDenyButton: false,
+            // });
   
             switch (error.status) {
               case 401:
@@ -321,13 +337,13 @@ export class SubtipospropiedadComponent implements OnInit {
             //Error callback
             //console.log('Error del servicio: ', error.error['Descripcion']);
   
-            Swal.fire({
-              icon: 'error',
-              title: 'ERROR',
-              text: '',
-              showCancelButton: false,
-              showDenyButton: false,
-            });
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: 'ERROR',
+            //   text: '',
+            //   showCancelButton: false,
+            //   showDenyButton: false,
+            // });
   
             switch (error.status) {
               case 401:
@@ -401,13 +417,13 @@ export class SubtipospropiedadComponent implements OnInit {
           (error: HttpErrorResponse) => {
             //Error callback
     
-            Swal.fire({
-              icon: 'error',
-              title: error.error['Descripcion'],
-              text: '',
-              showCancelButton: false,
-              showDenyButton: false,
-            });
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: error.error['Descripcion'],
+            //   text: '',
+            //   showCancelButton: false,
+            //   showDenyButton: false,
+            // });
     
             switch (error.status) {
               case 401:
@@ -457,6 +473,10 @@ export class SubtipospropiedadComponent implements OnInit {
 
   get descripcionNoValido() {
     return ( this.formaSubtipoPropiedad.get('descripcion')?.invalid && this.formaSubtipoPropiedad.get('descripcion')?.touched );
+  }
+
+  limpiarResultados(){
+    this.obtenerSubTiposPropiedad();
   }
 
 }

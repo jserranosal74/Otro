@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ComprarComponent implements OnInit {
   tipoPropiedad = '';
 
-  constructor(private _activatedRoute: ActivatedRoute) {}
+  constructor( private _activatedRoute : ActivatedRoute ) {}
 
   ngOnInit(): void {
     //console.log('ngOnInit');

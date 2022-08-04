@@ -392,10 +392,10 @@ export class AsentamientosComponent implements OnInit {
     this.obtenerPagina(this._paginaActual + 1);
   }
 
-  obtenerPagina(item : number){
+  obtenerPagina(numPagina : number){
     // alert(item);
 
-    this._asentamientosService.getAsentamientosPaginado(parseInt(this.formaBusqueda.controls['estado'].value),parseInt(this.formaBusqueda.controls['municipio'].value), item, 10).subscribe(
+    this._asentamientosService.getAsentamientosPaginado(parseInt(this.formaBusqueda.controls['estado'].value),parseInt(this.formaBusqueda.controls['municipio'].value), numPagina, 10).subscribe(
       (data) => {
         //Next callback
 
@@ -405,7 +405,7 @@ export class AsentamientosComponent implements OnInit {
           this._seRealizaBusqueda = true;
         }
 
-        this.CargarPaginador(item);
+        this.CargarPaginador(numPagina);
 
       },
       (error: HttpErrorResponse) => {

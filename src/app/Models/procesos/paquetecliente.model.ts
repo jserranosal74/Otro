@@ -2,6 +2,7 @@ export class paqueteCliente {
     constructor(
       public Id_Paquete         : number | null,
       public Id_Cliente         : number,
+      public UID_Cliente        : string | null,
       public Id_DatosFiscales   : number  | null,
       public Descripcion        : string  | null,
       public NumFactura         : string  | null,

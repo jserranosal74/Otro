@@ -109,7 +109,7 @@ export class IndicadoresComponent implements OnInit {
         this._esNuevo = true;
       }
 
-      this._indicador.Clave = this.formaIndicador.get('clave')?.value;
+      this._indicador.Clave = this.formaIndicador.get('clave')?.value.toUpperCase();
       this._indicador.DescripcionCorta = this.formaIndicador.get('descripcionCorta')?.value;
       this._indicador.DescripcionLarga = this.formaIndicador.get('descripcionLarga')?.value;
       this._indicador.VisibleCliente = this.formaIndicador.get('visibleCliente')?.value;

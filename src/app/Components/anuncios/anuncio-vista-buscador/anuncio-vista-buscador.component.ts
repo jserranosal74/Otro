@@ -17,6 +17,7 @@ export class AnuncioVistaBuscadorComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    //console.log('ngOnInit',this._publicacionCliente);
     this._publicacionCliente.lstMultimedia?.forEach(item=>{
       if (item.Predeterminada === false)
         this._listaFotografias.push(item);
@@ -36,7 +37,7 @@ export class AnuncioVistaBuscadorComponent implements OnInit {
   }
 
   seAbreVistaPropiedad(){
-    window.open('anuncio/vista/' + (this._publicacionCliente.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacionCliente.Id_Publicacion);
+    window.open('propiedad/' + (this._publicacionCliente.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacionCliente.Id_Publicacion);
   }
 
 }

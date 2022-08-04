@@ -23,11 +23,11 @@ export class PublicacionDetalleService {
     this.urlPublicacionDetalle = URL_APIS.urlPublicacionDetalle;
   }
 
-  public getPublicacionDetalle(Id_ClientePadre : number, Id_PublicacionPadre : number): Observable<publicacionDetalle[]> {
+  public getPublicacionDetalle(Id_ClientePadre : string, Id_PublicacionPadre : number): Observable<publicacionDetalle[]> {
     return this.http.get<publicacionDetalle[]>(this.urlPublicacionDetalle + '?Id_ClientePadre=' + Id_ClientePadre + '&Id_PublicacionPadre=' + Id_PublicacionPadre);
   }
 
-  public getPublicacionDetalleCompleta(Id_ClientePadre : number, Id_PublicacionPadre : number, SoloAgregadas : number): Observable<publicacion[]> {
+  public getPublicacionDetalleCompleta(Id_ClientePadre : string, Id_PublicacionPadre : number, SoloAgregadas : number): Observable<publicacion[]> {
     return this.http.get<publicacion[]>(this.urlPublicacionDetalle + '?Id_ClientePadre=' + Id_ClientePadre + '&Id_PublicacionPadre=' + Id_PublicacionPadre + '&SoloAgregadas=' + SoloAgregadas, this.httpOptions);
   }
 

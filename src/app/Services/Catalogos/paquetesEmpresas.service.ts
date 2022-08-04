@@ -22,12 +22,12 @@ export class PaquetesEmpresasService {
     this.urlPaquetesEmpresas = URL_APIS.urlPaquetesEmpresas;
   }
 
-  public getPaqueteEmpresa(Id_Paquete : number, Id_Empresa : number): Observable<paqueteEmpresa[]> {
-    return this.http.get<paqueteEmpresa[]>(this.urlPaquetesEmpresas + '?Id_Paquete=' + Id_Paquete + '&Id_Empresa=' + Id_Empresa, this.httpOptions);
-  }
+  // public getPaqueteEmpresa(Id_Paquete : number, Id_Empresa : number): Observable<paqueteEmpresa[]> {
+  //   return this.http.get<paqueteEmpresa[]>(this.urlPaquetesEmpresas + '?Id_Paquete=' + Id_Paquete + '&Id_Empresa=' + Id_Empresa, this.httpOptions);
+  // }
 
-  public getPaquetesEmpresas(Id_Empresa : number| null): Observable<paqueteEmpresa[]> {
-    return this.http.get<paqueteEmpresa[]>(this.urlPaquetesEmpresas + '?Id_Empresa=' + (Id_Empresa === null ? '' : Id_Empresa), this.httpOptions);
+  public getPaquetesEmpresas(Id_Empresa : number | null, Id_Paquete : number | null): Observable<paqueteEmpresa[]> {
+    return this.http.get<paqueteEmpresa[]>(this.urlPaquetesEmpresas + '?Id_Empresa=' + (Id_Empresa === null ? '' : Id_Empresa) + '&Id_Paquete=' + (Id_Paquete === null ? '' : Id_Paquete), this.httpOptions);
   }
 
   public putPaqueteEmpresa(objPaquete: paqueteEmpresa): Observable<number> {

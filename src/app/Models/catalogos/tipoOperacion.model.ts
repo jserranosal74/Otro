@@ -2,6 +2,7 @@ export class tipoOperacion {
     constructor(
       public Id_TipoOperacion  : number,
       public Descripcion       : string,
+      public Descripcion2      : string,
       public FechaAlta         : Date,
       public FechaModificacion : Date,
       public Id_Usuario        : number,

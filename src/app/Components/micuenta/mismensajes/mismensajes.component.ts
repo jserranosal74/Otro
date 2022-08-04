@@ -17,10 +17,12 @@ import { Indicador } from '../../../Models/procesos/publicacionMensajesFiltros.m
   styleUrls: ['./mismensajes.component.css']
 })
 export class MisMensajesComponent implements OnInit {
+  formaNumeroPagina = this.fb.group({});
+
   _mensajesUsuarios : publicacionMensaje[] = [];
   _mostrarFiltros : boolean = sessionStorage.getItem('mf') === '1'? true : false;
   _collapseFiltros = false;
-  _mensajeSeleccionado : publicacionMensaje = new publicacionMensaje(0,0,0,0,0,'','','','','','',new Date(), new Date(),0,0,'');
+  _mensajeSeleccionado : publicacionMensaje = new publicacionMensaje(0,0,0,'',null,0,'','','','','','',new Date(), new Date(),0,0,'');
 
   _publicacionMensajesFiltros : publicacionMensajesFiltros = new publicacionMensajesFiltros([],[],[],[],[]);
   _verFiltros : verFiltros = new verFiltros(true,true,true,true,true);
@@ -36,6 +38,7 @@ export class MisMensajesComponent implements OnInit {
   _mostrarPaginaAnterior = true;
   _mostrarPaginaSiguiente = true;
   _seRealizaBusqueda = false;
+  _numeroPagina = 0;
 
   _colapseEstatus = false;
   _colapseAccion = false;
@@ -55,13 +58,21 @@ export class MisMensajesComponent implements OnInit {
                private _publicacionMensajesService: PublicacionMensajesService,
                private _publicacionMensajesFiltrosService : PublicacionMensajesFiltrosService
   ) {
+    this.crearFormularioNumeroPagina();
     this.ejecutarConsulta(0);
-    this.CargarDetallePaginador();
+    //this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes(null,null);
+    //this.CargarPaginador(0);
     this._mostrarFiltros = sessionStorage.getItem('mf') === '1'? true : false;
   }
 
   ngOnInit(): void {
+  }
+
+  crearFormularioNumeroPagina() {
+    this.formaNumeroPagina = this.fb.group({
+      numeroPagina : ['', [Validators.required] ]
+    });
   }
 
   verMensaje(objMensaje : publicacionMensaje){
@@ -69,12 +80,12 @@ export class MisMensajesComponent implements OnInit {
     this._mensajeSeleccionado = objMensaje;
 
     if ((objMensaje.Id_Estatus != 20) && (objMensaje.Id_Estatus != 21)){
-      this._publicacionMensajesService.putPublicacionMensaje(new publicacionMensaje(objMensaje.Id_PublicacionMensaje, objMensaje.Id_Publicacion, objMensaje.Id_Cliente,null,0,'','','','','','',new Date(), new Date(),0,20,'')).subscribe(
+      this._publicacionMensajesService.putPublicacionMensaje(new publicacionMensaje(objMensaje.Id_PublicacionMensaje, objMensaje.Id_Publicacion, objMensaje.Id_Cliente, this._loginService.obtenerIdCliente()!, null,0,'','','','','','',new Date(), new Date(),0,20,'')).subscribe(
         (data) => {
           //Next callback
 
           this.ejecutarConsulta(0);
-          this.CargarDetallePaginador();
+          //this.CargarDetallePaginador();
           this.obtenerFiltrosMensajes(null,null);
   
         },
@@ -99,12 +110,12 @@ export class MisMensajesComponent implements OnInit {
   responderWhatsApp(objMensaje : publicacionMensaje){
 
     if (objMensaje.Id_Estatus != 21){
-      this._publicacionMensajesService.putPublicacionMensaje(new publicacionMensaje(objMensaje.Id_PublicacionMensaje, objMensaje.Id_Publicacion, objMensaje.Id_Cliente,null,0,'','','','','','',new Date(), new Date(),0,21,'')).subscribe(
+      this._publicacionMensajesService.putPublicacionMensaje(new publicacionMensaje(objMensaje.Id_PublicacionMensaje, objMensaje.Id_Publicacion, objMensaje.Id_Cliente, this._loginService.obtenerIdCliente()!, null,0,'','','','','','',new Date(), new Date(),0,21,'')).subscribe(
         (data) => {
           //Next callback
 
           this.ejecutarConsulta(0);
-          this.CargarDetallePaginador();
+          //this.CargarDetallePaginador();
           this.obtenerFiltrosMensajes(null,null);
   
         },
@@ -130,12 +141,12 @@ export class MisMensajesComponent implements OnInit {
 
   responderEmail(objMensaje : publicacionMensaje){
     if (objMensaje.Id_Estatus != 21){
-      this._publicacionMensajesService.putPublicacionMensaje(new publicacionMensaje(objMensaje.Id_PublicacionMensaje, objMensaje.Id_Publicacion, objMensaje.Id_Cliente,null,0,'','','','','','',new Date(), new Date(),0,21,'')).subscribe(
+      this._publicacionMensajesService.putPublicacionMensaje(new publicacionMensaje(objMensaje.Id_PublicacionMensaje, objMensaje.Id_Publicacion, objMensaje.Id_Cliente, this._loginService.obtenerIdCliente()!, null,0,'','','','','','',new Date(), new Date(),0,21,'')).subscribe(
         (data) => {
           //Next callback
 
           this.ejecutarConsulta(0);
-          this.CargarDetallePaginador();
+          //this.CargarDetallePaginador();
           this.obtenerFiltrosMensajes(null,null);
   
         },
@@ -160,7 +171,7 @@ export class MisMensajesComponent implements OnInit {
   }
 
   verPublicacionCliente(objMensaje : publicacionMensaje){
-    window.open('anuncio/vista/' + (objMensaje.TituloPublicacion)?.replaceAll(' ','-') + '-' + objMensaje.Id_Publicacion);
+    window.open('propiedad/' + (objMensaje.TituloPublicacion)?.replaceAll(' ','-') + '-' + objMensaje.Id_Publicacion);
   }
 
   eliminarMensaje(objMensaje : publicacionMensaje){
@@ -186,7 +197,7 @@ export class MisMensajesComponent implements OnInit {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
 
-        this._publicacionMensajesService.deletePublicacionMensaje(objMensaje.Id_PublicacionMensaje, objMensaje.Id_Publicacion, objMensaje.Id_Cliente).subscribe(
+        this._publicacionMensajesService.deletePublicacionMensaje(objMensaje.Id_PublicacionMensaje, objMensaje.Id_Publicacion, this._loginService.obtenerIdCliente()!).subscribe(
           (data) => {
             //Next callback
     
@@ -208,7 +219,7 @@ export class MisMensajesComponent implements OnInit {
             });
     
             this.ejecutarConsulta(0);
-            this.CargarDetallePaginador();
+            //this.CargarDetallePaginador();
             this.obtenerFiltrosMensajes(null,null);
     
           },
@@ -240,10 +251,10 @@ export class MisMensajesComponent implements OnInit {
     sessionStorage.setItem('mf', this._mostrarFiltros ? '1' : '0');
   }
 
-  CargarDetallePaginador(){
+  CargarDetallePaginador(numPagina : number){
     //debugger;
     // Se obtiene el numero de paginas totales y el numero de renglones(registros) en total de la busqueda
-    this._publicacionMensajesService.getPublicacionesMensajesPagDet(this._loginService.obtenerIdCliente(), 10, this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
+    this._publicacionMensajesService.getPublicacionesMensajesPagDet(this._loginService.obtenerIdCliente()!, 10, this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
                                                                                                                 this._filtrosSeleccionados.lstIndicadores[0] === undefined ? null : this._filtrosSeleccionados.lstIndicadores[0].Id_Indicador,
                                                                                                                 this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus,
                                                                                                                 this._filtrosSeleccionados.lstEmails[0] === undefined ? null : this._filtrosSeleccionados.lstEmails[0].Email,
@@ -253,7 +264,7 @@ export class MisMensajesComponent implements OnInit {
         //console.log('getPublicacionesMensajesPagDet', data);
         this._paginadoDetalle = data;
 
-        this.CargarPaginador(0);
+        this.CargarPaginador(numPagina);
 
         },
         (error: HttpErrorResponse) => {
@@ -285,7 +296,7 @@ export class MisMensajesComponent implements OnInit {
     });
     
     this.ejecutarConsulta(0);
-    this.CargarDetallePaginador();
+    //this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Estatus','Agregar');
   }
 
@@ -300,7 +311,7 @@ export class MisMensajesComponent implements OnInit {
     });
 
     this.ejecutarConsulta(0);
-    this.CargarDetallePaginador();
+    //this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Indicador','Agregar');
   }
 
@@ -314,7 +325,7 @@ export class MisMensajesComponent implements OnInit {
     });
 
     this.ejecutarConsulta(0);
-    this.CargarDetallePaginador();
+    //this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Publicacion','Agregar');
   }
 
@@ -328,7 +339,7 @@ export class MisMensajesComponent implements OnInit {
     });
 
     this.ejecutarConsulta(0);
-    this.CargarDetallePaginador();
+    //this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Email','Agregar');
   }
 
@@ -342,13 +353,22 @@ export class MisMensajesComponent implements OnInit {
     });
 
     this.ejecutarConsulta(0);
-    this.CargarDetallePaginador();
+    //this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Fecha','Agregar');
   }
 
-  ejecutarConsulta(numPagina : number){
-    //debugger;
-    this._publicacionMensajesService.getPublicacionesMensajes(this._loginService.obtenerIdCliente(), numPagina, 10, this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
+  ejecutarConsulta(numPagina : number | null){
+    debugger;
+    
+    if(numPagina === null){
+      numPagina = this.formaNumeroPagina.get('numeroPagina')!.value - 1;
+      if (numPagina! > this._paginadoDetalle.TotalPaginas)
+          numPagina = this._paginadoDetalle.TotalPaginas - 1;
+      if (numPagina! < 1)
+          numPagina = 0
+    }
+
+    this._publicacionMensajesService.getPublicacionesMensajes(this._loginService.obtenerIdCliente()!, numPagina!, 10, this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
                                                                                                      this._filtrosSeleccionados.lstIndicadores[0] === undefined ? null : this._filtrosSeleccionados.lstIndicadores[0].Id_Indicador,
                                                                                                      this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus,
                                                                                                      this._filtrosSeleccionados.lstEmails[0] === undefined ? null : this._filtrosSeleccionados.lstEmails[0].Email,
@@ -362,7 +382,13 @@ export class MisMensajesComponent implements OnInit {
           this._seRealizaBusqueda = true;
         }
 
-        this.CargarPaginador(numPagina);
+        this.formaNumeroPagina.patchValue({
+          numeroPagina : numPagina! + 1
+        });
+
+        this.CargarDetallePaginador(numPagina!);
+
+        //this.CargarPaginador(numPagina);
 
       },
       (error: HttpErrorResponse) => {
@@ -381,11 +407,11 @@ export class MisMensajesComponent implements OnInit {
         }
       }
     );
-    this.CargarDetallePaginador();
+    //this.CargarDetallePaginador();
   }
 
   CargarPaginador(paginaActual : number){
-    //debugger;
+    debugger;
     this._paginas = [];
 
     if ( this._paginadoDetalle.TotalPaginas <= this._numeroPaginasMostrar ){
@@ -449,10 +475,12 @@ export class MisMensajesComponent implements OnInit {
   }
 
   obtenerPaginaAnterior(){
+    debugger;
     this.ejecutarConsulta(this._paginaActual - 1);
   }
 
   obtenerPaginaSiguiente(){
+    debugger;
     this.ejecutarConsulta(this._paginaActual + 1);
   }
 
@@ -466,7 +494,7 @@ export class MisMensajesComponent implements OnInit {
     });
 
     this.ejecutarConsulta(0);
-    this.CargarDetallePaginador();
+    //this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Estatus','Quitar');
 
   }
@@ -481,7 +509,7 @@ export class MisMensajesComponent implements OnInit {
     });
 
     this.ejecutarConsulta(0);
-    this.CargarDetallePaginador();
+    //this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Indicador','Quitar');
 
   }
@@ -496,7 +524,7 @@ export class MisMensajesComponent implements OnInit {
     });
 
     this.ejecutarConsulta(0);
-    this.CargarDetallePaginador();
+    //this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Publicacion','Quitar');
   }
 
@@ -510,7 +538,7 @@ export class MisMensajesComponent implements OnInit {
     });
 
     this.ejecutarConsulta(0);
-    this.CargarDetallePaginador();
+    //this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Email','Quitar');
   }
 
@@ -524,7 +552,7 @@ export class MisMensajesComponent implements OnInit {
     });
 
     this.ejecutarConsulta(0);
-    this.CargarDetallePaginador();
+    //this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes('Fecha','Quitar');
   }
 
@@ -583,7 +611,7 @@ export class MisMensajesComponent implements OnInit {
     this._filtrosSeleccionados = new publicacionMensajesFiltros([],[],[],[],[]);
 
     this.ejecutarConsulta(0);
-    this.CargarDetallePaginador();
+    //this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes(null,null);
 
   }
@@ -637,7 +665,7 @@ export class MisMensajesComponent implements OnInit {
       }
     }
     debugger;
-    this._publicacionMensajesFiltrosService.getPublicacionMensajesFiltros(this._loginService.obtenerIdCliente(), this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
+    this._publicacionMensajesFiltrosService.getPublicacionMensajesFiltros(this._loginService.obtenerIdCliente()!, this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
                                                                                                                  this._filtrosSeleccionados.lstIndicadores[0] === undefined ? null : this._filtrosSeleccionados.lstIndicadores[0].Id_Indicador,
                                                                                                                  this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus,
                                                                                                                  this._filtrosSeleccionados.lstEmails[0] === undefined ? null : this._filtrosSeleccionados.lstEmails[0].Email,

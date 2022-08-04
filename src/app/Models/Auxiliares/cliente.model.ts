@@ -1,6 +1,6 @@
 export class usuario {
     constructor(
-      public Id_Cliente    : number,
+      public UID_Cliente   : string | null,
       public Id_Empresa    : number | null,
       public NombreUsuario : string,
       public UrlFotoPerfil : string,

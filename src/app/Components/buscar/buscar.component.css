@@ -1,0 +1,13 @@
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgb(117, 117, 117);
+    opacity: 1; /* Firefox */
+  }
+
+  input[type="text"] {
+    background-color: rgba(223, 126, 137, .8);
+  }
+
+  h1 {
+    text-align: center;
+  }
+  

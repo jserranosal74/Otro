@@ -1,6 +1,7 @@
 export class cliente {
     constructor(
       public Id_Cliente                 : number,
+      public UID_Cliente                : string | null,
       public Id_TipoPersona             : number | null, // 1 = Moral, 2 = Fisica, null no definido
       public Id_Rol                     : number | null,         // Rol
       public Id_Empresa                 : number | null,
@@ -39,7 +40,7 @@ export class cliente {
   export class clienteMedioContacto {
     constructor(
         public Id_MedioContacto : number,
-        public Id_Cliente       : number,
+        public UID_Cliente      : string | null,
         public Descripcion      : string
     ) {}
   }

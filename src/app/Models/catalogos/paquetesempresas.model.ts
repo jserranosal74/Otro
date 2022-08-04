@@ -1,6 +1,7 @@
 export class paqueteEmpresa {
     constructor(
       public Id_Paquete        : number,
+      public ClavePaquete      : string,
       public Paquete           : string,
       public Precio            : number,
       public Id_Empresa        : number,

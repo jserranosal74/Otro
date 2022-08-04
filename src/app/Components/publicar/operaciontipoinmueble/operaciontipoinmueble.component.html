@@ -1,95 +1,113 @@
-
-<div class="container animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}">
-<form autocomplete="off" [formGroup]="formaOTI" class="py-3">
-  <fieldset>
-    <div class="container" >
-      <div class="row px-0" >
-          <div class="col-md-10" >
-            <legend class="text-center text-primary mb-3 "><h1 class="display-4">Operación y tipo de inmueble</h1></legend>
-          </div>
-          <div *ngIf="_id_publicacion != 0" class="col-md-2 d-grid py-3" style="border-width:1px 1px 0px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 20px 20px 0px 0px; background: rgba(223, 126, 137, 0.15);">
-              <button type="button" style="border-radius: 0.8em;" (click)="pantallaSiguiente()" class="btn btn-primary btn-lg align-items-right">Siguiente</button>
-          </div>
-      </div>
-    </div>
-
-      <div class="container" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0 20px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
-        <div class="form-group row py-5">
-          <div class="col-md-2">
-            <label class="text-primary">Tipo de operación</label>
-          </div>
-          <div class="col-md-auto px-3">
-            <div class="btn-group btn-group-lg"  role="group" aria-label="Basic radio toggle button group">
-              <input type="radio" class="btn-check" id="v1" name="tipoOperacion" value="1" formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion ? 'disabled' : null"/>
-              <label class="btn btn-outline-primary" [ngClass]="{'active' : _rentaVentaDesarrollo == 1, 'inactive' : _rentaVentaDesarrollo === 2 || _rentaVentaDesarrollo === 3 }" for="v1">Venta</label>
-
-              <input type="radio" class="btn-check" id="r1" name="tipoOperacion" value="2"  formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion ? 'disabled' : null"/>
-              <label class="btn btn-outline-primary" [ngClass]="{'active' : _rentaVentaDesarrollo == 2, 'inactive' : _rentaVentaDesarrollo === 1 || _rentaVentaDesarrollo === 3}" for="r1">Renta</label>
-
-              <input *ngIf="_esDesarrollo" type="radio" class="btn-check" id="d1" name="tipoOperacion" value="3"  formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion || _bloquearSiPerteneceDesarrollo ? 'disabled' : null"/>
-              <label *ngIf="_esDesarrollo" class="btn btn-outline-primary" [ngClass]="{'active' : _rentaVentaDesarrollo == 3, 'inactive' : _rentaVentaDesarrollo === 1 || _rentaVentaDesarrollo === 2}" for="d1">Desarrollo</label>
-            </div>
-          </div>
-          <div class="col-md-3 px-0">
-            <small *ngIf="tipoOperacionNoValido" class="text-danger">
-              Seleccione el tipo de operación
-            </small>
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-md-2 py-4">
-            <label class="text-primary">Tipo de inmueble</label>  
-          </div>
-          <div class="col-md-10 py-4 px-0">
-              <div class="row">
-                <div class="col-auto" *ngIf="_tiposPropiedad.length > 0">
-                    <select class="form-select form-select-lg mb-3 br10 text-primary color-text-box" 
-                            aria-label="Default select example" 
-                            formControlName="tipoPropiedad" 
-                            [attr.disabled]="_bloquearDesarrollo ? 'disabled' : null"
-                            [class.is-invalid]="tipoPropiedadValido"
-                            (change)="obtenerSubTiposPropiedad(0)">
-                        <option value="" selected disabled>Seleccione...</option>
-                        <option *ngFor="let tipopropiedad of _tiposPropiedad; let i = index" [value]="tipopropiedad.Id_TipoPropiedad" >{{tipopropiedad.Descripcion}}</option>
-                    </select>
-                </div>
-                <div class="col-md-1 px-0">
-                  <small *ngIf="tipoPropiedadValido" class="text-danger">
-                    Seleccione el tipo de inmueble
-                  </small>
-                </div>
-                <div class="col-auto px-0">
-                    <label class="text-primary">Subtipo de inmueble</label>  
-                  </div>
-                <div class="col-auto">
-                    <select class="form-select form-select-lg mb-3 text-primary br10 color-text-box" 
-                            formControlName="subtipoPropiedad" 
-                            [attr.disabled]="_bloquearDesarrollo ? 'disabled' : null"
-                            aria-label="Default select example">
-                            <option value="" selected disabled>Seleccione...</option>
-                      <option *ngFor="let item of _subtiposPropiedad; let i = index" [value]="item.Id_SubtipoPropiedad" >{{item.Descripcion}}</option>
-                    </select>
-                </div>
-          </div>
-        </div>
-        </div>
-      </div>
-
+  <div class="container py-5 animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}">
+  <form autocomplete="off" [formGroup]="formaOTI" class="py-3">
+    <fieldset>
       <div class="container" >
-        
-            <div class="row px-0" >
-                <div class="col-md-2 d-grid py-3" >
-                  <!-- <button type="button" style="border-radius: 0.8em;" (click)="regresar()" class="btn btn-primary btn-lg align-items-right">Atras</button> -->
-                </div>
-                <div class="col-md-4"></div>
-                <div class="col-md-3 d-grid py-3" >
-                    <!-- <button type="button" style="border-radius: 0.8em;" (click)="guardarOTI()" class="btn btn-primary btn-lg align-items-right">Guardar</button> -->
-                </div>
-                <div class="col-md-3 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0px 0px 20px 20px; background: rgba(223, 126, 137, 0.15);">
-                    <button type="button" style="border-radius: 0.8em;" (click)="guardarOTI()" class="btn btn-primary btn-lg align-items-right">Guardar y Continuar</button>
-                </div>
+        <div class="row px-0" >
+            <div class="col-md-10" >
+              <legend class="text-center text-primary mb-3 "><h1 class="display-4">Operación y tipo de inmueble</h1></legend>
             </div>
+            <div *ngIf="_id_publicacion != 0" class="col-md-2 d-grid py-3 bg-color-7" 
+                 style="border-width:1px 1px 0px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 20px 20px 0px 0px;">
+                <button type="button" 
+                (click)="pantallaSiguiente()" 
+                [disabled]="_loading"
+                class="btn btn-primary btn-lg align-items-right br25 ">Siguiente
+                <i class="fa fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
       </div>
-  </fieldset>
-</form>
-</div>
+
+        <div class="container bg-color-7" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0 20px; border-color: rgba(223, 126, 137, 0.8);">
+          <div class="form-group row py-5">
+            <div class="col-md-2 text-end">
+              <label class="text-primary">Tipo de operación:</label>
+            </div>
+            <div class="col-md-auto px-0">
+              <div class="btn-group btn-group-lg"  role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" id="venta" name="tipoOperacion" value="1" formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion ? 'disabled' : null"/>
+                <label class="btn btn-outline-primary" [ngClass]="{'active' : _RenVenDesRemEven == 1, 'inactive' : _RenVenDesRemEven === 2 || _RenVenDesRemEven === 3 || _RenVenDesRemEven === 4 || _RenVenDesRemEven === 5}" for="venta">Venta</label>
+
+                <input type="radio" class="btn-check" id="renta" name="tipoOperacion" value="2"  formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion ? 'disabled' : null"/>
+                <label class="btn btn-outline-primary" [ngClass]="{'active' : _RenVenDesRemEven == 2, 'inactive' : _RenVenDesRemEven === 1 || _RenVenDesRemEven === 3 || _RenVenDesRemEven === 4 || _RenVenDesRemEven === 5}" for="renta">Renta</label>
+
+                <input *ngIf="_esDesarrollo" type="radio" class="btn-check" id="desarrollo" name="tipoOperacion" value="3"  formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion || _bloquearSiPerteneceDesarrollo ? 'disabled' : null"/>
+                <label *ngIf="_esDesarrollo" class="btn btn-outline-primary" [ngClass]="{'active' : _RenVenDesRemEven == 3, 'inactive' : _RenVenDesRemEven === 1 || _RenVenDesRemEven === 2 || _RenVenDesRemEven === 4 || _RenVenDesRemEven === 5}" for="desarrollo">Desarrollo</label>
+
+                <input type="radio" class="btn-check" id="remate" name="tipoOperacion" value="4"  formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion ? 'disabled' : null"/>
+                <label class="btn btn-outline-primary" [ngClass]="{'active' : _RenVenDesRemEven == 4, 'inactive' : _RenVenDesRemEven === 1 || _RenVenDesRemEven === 2 || _RenVenDesRemEven === 3 || _RenVenDesRemEven === 5}" for="remate">Remate</label>
+
+                <input type="radio" class="btn-check" id="eventual" name="tipoOperacion" value="5"  formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion ? 'disabled' : null"/>
+                <label class="btn btn-outline-primary" [ngClass]="{'active' : _RenVenDesRemEven == 5, 'inactive' : _RenVenDesRemEven === 1 || _RenVenDesRemEven === 2 || _RenVenDesRemEven === 3 || _RenVenDesRemEven === 4}" for="eventual">Eventual</label>
+              </div>
+            </div>
+            <div class="col-md-3 px-2">
+              <small *ngIf="tipoOperacionNoValido" class="text-danger">
+                Seleccione el tipo de operación
+              </small>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-md-2 py-4 text-end">
+              <label class="text-primary">Tipo de inmueble:</label>  
+            </div>
+            <div class="col-md-10 py-4 px-0">
+                <div class="row">
+                  <div class="col-md-3" *ngIf="_tiposPropiedad.length > 0">
+                      <select class="form-select form-select-lg mb-3 br10 text-primary color-text-box" 
+                              aria-label="Default select example" 
+                              formControlName="tipoPropiedad" 
+                              [attr.disabled]="_bloquearDesarrollo ? 'disabled' : null"
+                              [class.is-invalid]="tipoPropiedadValido"
+                              (change)="obtenerSubTiposPropiedad(0)">
+                          <option value="" selected disabled>Seleccione...</option>
+                          <option *ngFor="let tipopropiedad of _tiposPropiedad; let i = index" [value]="tipopropiedad.Id_TipoPropiedad" >{{tipopropiedad.Descripcion}}</option>
+                      </select>
+                  </div>
+                  <div class="col-md-1 px-0">
+                    <small *ngIf="tipoPropiedadValido" class="text-danger">
+                      Seleccione el tipo de inmueble
+                    </small>
+                  </div>
+                  <div class="col-auto px-0">
+                      <label class="text-primary">Subtipo de inmueble:</label>  
+                    </div>
+                  <div class="col-md-3">
+                      <select class="form-select form-select-lg mb-3 text-primary br10 color-text-box" 
+                              formControlName="subtipoPropiedad" 
+                              [attr.disabled]="_bloquearDesarrollo ? 'disabled' : null"
+                              aria-label="Default select example">
+                              <option value="" selected disabled>Seleccione...</option>
+                        <option *ngFor="let item of _subtiposPropiedad; let i = index" [value]="item.Id_SubtipoPropiedad" >{{item.Descripcion}}</option>
+                      </select>
+                  </div>
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <div class="container" >
+          
+              <div class="row px-0" >
+                  <div class="col-md-2 d-grid py-3" >
+                    <!-- <button type="button" style="border-radius: 0.8em;" (click)="regresar()" class="btn btn-primary btn-lg align-items-right">Atras</button> -->
+                  </div>
+                  <div class="col-md-4"></div>
+                  <div class="col-md-3 d-grid py-3" >
+                      <!-- <button type="button" style="border-radius: 0.8em;" (click)="guardarOTI()" class="btn btn-primary btn-lg align-items-right">Guardar</button> -->
+                  </div>
+                  <div class="col-md-3 d-grid py-3 bg-color-7" 
+                       style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0px 0px 20px 20px;">
+                      <button type="button"
+                              (click)="guardarOTI()" 
+                              [disabled]="_loading"
+                              class="btn btn-primary btn-lg align-items-right br25">
+                              <span *ngIf="_loading"><i class="fa fa-sync fa-spin"></i> Espere por favor...</span>
+                              <span *ngIf="!_loading">Guardar y Continuar</span>
+                      </button>
+                  </div>
+              </div>
+        </div>
+    </fieldset>
+  </form>
+  </div>

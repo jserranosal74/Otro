@@ -1,4 +1,4 @@
-<div class="container animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}">
+<div class="container py-5 animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}">
     <form [formGroup]="formAdicionales">
       <fieldset>
   
@@ -8,7 +8,12 @@
                 <legend class="text-center text-primary mb-3 "><h1 class="display-4">Adicionales</h1></legend>
               </div>
               <div *ngIf="_publicacionActivada === false" class="col-md-2 d-grid py-3" style="border-width:1px 1px 0px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 20px 20px 0px 0px; background: rgba(223, 126, 137, 0.15);">
-                  <button type="button" style="border-radius: 0.8em;" (click)="pantallaSiguiente()" class="btn btn-primary btn-lg align-items-right">Siguiente</button>
+                  <button type="button" 
+                          (click)="pantallaSiguiente()" 
+                          [disabled]="_loading" 
+                          class="btn btn-primary btn-lg align-items-right br25">Siguiente
+                          <i class="fa fa-arrow-right"></i>
+                  </button>
               </div>
           </div>
         </div>
@@ -104,14 +109,26 @@
         <div class="container" >
           <div class="row px-0" >
             <div class="col-md-2 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0 0 20px 20px; background: rgba(223, 126, 137, 0.15);">
-              <button type="button" style="border-radius: 0.8em;" (click)="regresar()" class="btn btn-primary btn-lg align-items-right">Atras</button>
+              <button type="button" 
+                      (click)="regresar()" 
+                      [disabled]="_loading" 
+                      class="btn btn-primary btn-lg align-items-right br25">
+                      <i class="fa fa-arrow-left"></i>
+                      Atras
+              </button>
             </div>
             <div class="col-md-4"></div>
               <div class="col-md-3 d-grid py-3" >
                   <!-- <button type="button" style="border-radius: 0.8em;" (click)="guardarCaracteristicas()" class="btn btn-primary btn-lg align-items-right">Guardar</button> -->
               </div>
               <div class="col-md-3 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0px 0px 20px 20px; background: rgba(223, 126, 137, 0.15);">
-                  <button type="button" style="border-radius: 0.8em;" (click)="guardarCaracteristicas()" class="btn btn-primary btn-lg align-items-right">Guardar y Continuar</button>
+                  <button type="button" 
+                          (click)="guardarCaracteristicas()"
+                          [disabled]="_loading" 
+                          class="btn btn-primary btn-lg align-items-right br25">
+                          <span *ngIf="_loading"><i class="fa fa-sync fa-spin"></i> Espere por favor...</span>
+                          <span *ngIf="!_loading">Guardar y Continuar</span>
+                  </button>
               </div>
           </div>
         </div>

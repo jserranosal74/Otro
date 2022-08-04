@@ -24,12 +24,13 @@ export class PaquetesClienteService {
     this.urlPaquetesCliente = URL_APIS.urlPaquetesCliente;
   }
 
-  public getPaquetesEmpresa(Id_Empresa : number): Observable<paquete[]> {
+  public getPaquetesEmpresa(Id_Empresa : string): Observable<paquete[]> {
     return this.http.get<paquete[]>(this.urlPaquetesCliente + '?Id_Empresa=' + (Id_Empresa === null ? '' : Id_Empresa), this.httpOptions);
 
   }
-  public getPaquetesCliente(Id_Cliente : number, Id_Estatus : number | null, Id_TipoPlan : number | null): Observable<paqueteCliente[]> {
-    return this.http.get<paqueteCliente[]>(this.urlPaquetesCliente + '?Id_Cliente=' + Id_Cliente + '&Id_Estatus=' + Id_Estatus + '&Id_TipoPlan=' + Id_TipoPlan, this.httpOptions);
+  
+  public getPaquetesCliente(UID_Cliente : string, Id_Estatus : number | null, Id_TipoPlan : number | null): Observable<paqueteCliente[]> {
+    return this.http.get<paqueteCliente[]>(this.urlPaquetesCliente + '?Id_Cliente=' + UID_Cliente + '&Id_Estatus=' + Id_Estatus + '&Id_TipoPlan=' + Id_TipoPlan, this.httpOptions);
   }
 
   public putPaquetesCliente(Id_PlanCliente : number, Id_Plan : number, Id_Cliente : number, Id_DatosFiscales : number | null): Observable<number> {
@@ -44,8 +45,8 @@ export class PaquetesClienteService {
     return this.http.put<number>(this.urlPaquetesCliente + '?Id_Cliente=' + Id_Cliente + '&Id_PaqueteCliente=' + Id_PaqueteCliente + '&Id_Publicacion=' + (Id_Publicacion === null ? '' : Id_Publicacion), '', this.httpOptions);
   }
 
-  public postPaqueteCliente(Id_Cliente : number, Id_Paquete : number, Id_DatosFiscales : number | null): Observable<number> {
-    return this.http.post<number>(this.urlPaquetesCliente + '?Id_Cliente=' + Id_Cliente + '&Id_Paquete=' + Id_Paquete + '&Id_DatosFiscales=' + Id_DatosFiscales, '', this.httpOptions);
+  public postPaqueteCliente(UID_Cliente : string, Id_Paquete : number, Id_DatosFiscales : number | null): Observable<number> {
+    return this.http.post<number>(this.urlPaquetesCliente + '?UID_Cliente=' + UID_Cliente + '&Id_Paquete=' + Id_Paquete + '&Id_DatosFiscales=' + Id_DatosFiscales, '', this.httpOptions);
   }
 
   public deletePaqueteCliente(Id_Paquete : number | null, Id_Cliente : number): Observable<number> {

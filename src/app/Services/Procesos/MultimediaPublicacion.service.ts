@@ -23,16 +23,16 @@ export class MultimediaPublicacionService {
     this.urlPublicacionMultimedia = URL_APIS.urlPublicacionMultimedia;
   }
 
-  public getMultimediaPublicacion(Id_Publicacion : number, Id_Cliente: number, Id_TipoMultimedia : number | null): Observable<publicacionMultimedia[]> {
-    return this.http.get<publicacionMultimedia[]>(this.urlPublicacionMultimedia + '?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente + '&Id_TipoMultimedia=' + Id_TipoMultimedia);
+  public getMultimediaPublicacion(Id_Publicacion : number, UID_Cliente: string, Id_TipoMultimedia : number | null): Observable<publicacionMultimedia[]> {
+    return this.http.get<publicacionMultimedia[]>(this.urlPublicacionMultimedia + '?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + UID_Cliente + '&Id_TipoMultimedia=' + Id_TipoMultimedia);
   }
   
-  public getMultimediaCliente(Id_Cliente: number, Id_Publicacion : number | null, Solo_Pred : number | null): Observable<publicacionMultimedia[]> {
-    return this.http.get<publicacionMultimedia[]>(this.urlPublicacionMultimedia + '?Id_Cliente=' + Id_Cliente + '&Id_Publicacion=' + Id_Publicacion + '&Solo_Pred=' + Solo_Pred);
+  public getMultimediaCliente(UID_Cliente: string, Id_Publicacion : number | null, Solo_Pred : number | null): Observable<publicacionMultimedia[]> {
+    return this.http.get<publicacionMultimedia[]>(this.urlPublicacionMultimedia + '?Id_Cliente=' + UID_Cliente + '&Id_Publicacion=' + Id_Publicacion + '&Solo_Pred=' + Solo_Pred);
   }
 
-  public postFotosPublicacion(Id_Publicacion : number, Id_Cliente: number, lstImagenes: imagenModel[]): Observable<number> {
-    return this.http.post<number>(this.urlPublicacionMultimedia + '?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + Id_Cliente, lstImagenes, this.httpOptions);
+  public postFotosPublicacion(Id_Publicacion : number, UID_Cliente: string, lstImagenes: imagenModel[]): Observable<number> {
+    return this.http.post<number>(this.urlPublicacionMultimedia + '?Id_Publicacion=' + Id_Publicacion + '&Id_Cliente=' + UID_Cliente, lstImagenes, this.httpOptions);
   }
 
 }

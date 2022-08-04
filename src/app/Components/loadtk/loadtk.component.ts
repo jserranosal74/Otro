@@ -25,7 +25,7 @@ export class LoadtkComponent implements OnInit {
   cargarInfo(){
     localStorage.setItem('usuario', this.info);
     if (this._Id_Publicacion == 0){
-      window.location.href = '/inicio';
+      window.location.href = '/';
     }
     else{
       window.location.href = '/anuncio/vista/publicacion-' + this._Id_Publicacion;

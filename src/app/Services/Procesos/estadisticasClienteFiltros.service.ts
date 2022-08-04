@@ -22,8 +22,8 @@ export class EstadisticasClienteFiltrosService {
     this.urlEstadisticasClienteFiltros = URL_APIS.urlEstadisticasClienteFiltros;
   }
 
-  public getEstadisticasClienteFiltros(Id_Cliente : number, Id_Publicacion : number | null, Id_Estatus : number | null, Email : string | null, FechaInicioPublicacion : Date | null): Observable<estadisticasClienteFiltros> {
-    return this.http.get<estadisticasClienteFiltros>(this.urlEstadisticasClienteFiltros + '?Id_Cliente=' + Id_Cliente + '&Id_Publicacion=' + Id_Publicacion + '&Id_Estatus=' + Id_Estatus + '&Email=' + (Email === null ? '' : Email) + '&FechaInicioPublicacion=' + FechaInicioPublicacion, this.httpOptions);
+  public getEstadisticasClienteFiltros(UID_Cliente : string, Id_Publicacion : number | null, Id_Estatus : number | null, Email : string | null, FechaInicioPublicacion : Date | null): Observable<estadisticasClienteFiltros> {
+    return this.http.get<estadisticasClienteFiltros>(this.urlEstadisticasClienteFiltros + '?Id_Cliente=' + UID_Cliente + '&Id_Publicacion=' + Id_Publicacion + '&Id_Estatus=' + Id_Estatus + '&Email=' + (Email === null ? '' : Email) + '&FechaInicioPublicacion=' + FechaInicioPublicacion, this.httpOptions);
   }
 
 }

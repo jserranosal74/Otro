@@ -120,7 +120,7 @@ export class ConfirmarPagosPlanesComponent implements OnInit {
     debugger;
 
     if (objPlanClientePago.Id_Paquete === 0){
-      this._planesClienteService.putPlanClientePadado(objPlanClientePago.Id_PlanCliente, objPlanClientePago.Id_Plan, objPlanClientePago.Id_Cliente).subscribe(
+      this._planesClienteService.putPlanClientePadado(objPlanClientePago.Id_PlanCliente, objPlanClientePago.Id_Plan, objPlanClientePago.UID_Cliente).subscribe(
         (data) => {
           objPlanClientePago.Confirmando = false;
           Swal.fire({

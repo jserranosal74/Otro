@@ -24,11 +24,15 @@ export class ClientesService {
     this.urlClientes = URL_APIS.urlClientes;
   }
 
-  public getCliente(Id_Cliente : number | null, Email : string | null): Observable<cliente> {
-    return this.http.get<cliente>(this.urlClientes + '?Id_Cliente=' + Id_Cliente + '&Email=' + (Email === null ? '' : Email) + '&Id_Estatus=', this.httpOptions);
+  public getCliente(UID_Cliente : string | null, Email : string | null): Observable<cliente> {
+    return this.http.get<cliente>(this.urlClientes + '?Id_Cliente=' + UID_Cliente + '&Email=' + (Email === null ? '' : Email) + '&Id_Estatus=', this.httpOptions);
   }
 
-  public getClienteVista(Id_Cliente : number | null, Email : string | null): Observable<clienteVista> {
+  public getClienteVista(UID_Cliente : string | null, Email : string | null): Observable<clienteVista> {
+    return this.http.get<clienteVista>(this.urlClientes + '?UID_Cliente=' + UID_Cliente + '&Email=' + (Email === null ? '' : Email));
+  }
+
+  public getClienteVistaCliente(Id_Cliente : number, Email : string | null): Observable<clienteVista> {
     return this.http.get<clienteVista>(this.urlClientes + '?Id_Cliente=' + Id_Cliente + '&Email=' + (Email === null ? '' : Email));
   }
 

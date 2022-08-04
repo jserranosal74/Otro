@@ -6,7 +6,6 @@ import Swal from 'sweetalert2';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
 import { CaracteristicasService } from 'src/app/Services/Catalogos/caracteristicas.service';
 import { caracteristica, tipoCaracteristica } from '../../../Models/catalogos/caracteristicas.model';
-import { TipoCaracteristicaPipe }  from '../../../pipes/TipoCaracteristica.pipe'
 
 @Component({
   selector: 'app-caracteristicas',

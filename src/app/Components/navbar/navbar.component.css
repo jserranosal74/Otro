@@ -1,4 +1,8 @@
 @media all and (min-width: 992px) {
+  .navbar{
+    padding-bottom: 0rem;
+  }
+
   .navbar .dropdown-menu-end {
     right: 0;
     left: auto;
@@ -7,8 +11,9 @@
     display: block;
     opacity: 0;
     visibility: hidden;
-    transition: 0.3s;
-    margin-top: 0;
+    transition: 0.2s;
+    margin-top: 0px;
+    
   }
   .navbar .nav-item:hover .nav-link {
     color: #fff;
@@ -22,7 +27,7 @@
     top: 180%;
   }
   .navbar .nav-item:hover .dropdown-menu {
-    transition: 0.3s;
+    transition: 0.2s;
     opacity: 1;
     visibility: visible;
     top: 100%;
@@ -30,37 +35,28 @@
   }
 }
 
-.img{
-    margin:10px auto;
-    border-radius:5px;
-    border: 1px solid #999;
-    padding:13px;
-    width:auto;
-    height:100%;
-    background-size: 100% 100%;
-    background-repeat:no-repeat;
-    background-image: url("https://d3te2s0dmhk13a.cloudfront.net/home/1/Guillermo Prieto ok3.jpg");
-    background-size:auto;
-    }
-  .img img{
-    width: 100%;
+.navbar .megamenu{ padding: 1rem; }
+
+/* ============ desktop view ============ */
+@media all and (min-width: 992px) {
+
+  .navbar .has-megamenu{position:static!important;}
+  .navbar .megamenu{left:5%; right:0; width:90%; margin-top:0px;}
+
+}	
+/* ============ desktop view .end// ============ */
+
+/* ============ mobile view ============ */
+@media(max-width: 991px){
+  .navbar.fixed-top .navbar-collapse, .navbar.sticky-top .navbar-collapse{
+    overflow-y: auto;
+      max-height: 90vh;
+      margin-top: 10px;
   }
-  @media all and (min-width: 500px) and (max-width: 1000px)
-  {  
-  .img{
-    margin:20px auto;
-    border-radius:5px;
-    border: 1px solid #999;
-    padding:13px;
-    width:auto;
-    height:100%;
-    background-size: 100% 100%;
-    background-repeat:no-repeat;
-    background-image: url("https://d3te2s0dmhk13a.cloudfront.net/home/1/Guillermo Prieto ok3.jpg");
-    background-size: auto;
-    
-    }
-  }
-  .img img{
-     width:100%;
-  }
+}
+
+.selector:hover{
+  color:red;
+  background-color: transparent;
+  text-decoration: underline;
+}

@@ -29,11 +29,11 @@ export class UbicacionComponent implements OnInit {
   _municipioSeleccionado : number = 0;
   _asentamientoSeleccionado : number = 0;
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0,0);
   _id_publicacion : number = 0;
   _mostrarUbicacionExacta : boolean =false;
 
-  loading : boolean = false;
+  _loading = false;
 
   formaUbicacion = this.fb.group({
     estado : ['', Validators.required ],
@@ -74,7 +74,7 @@ export class UbicacionComponent implements OnInit {
     //console.log('obtenerEstados' + this.loading);
     this._estadoService.getEstados(1).subscribe((data) => {
       this._estados = data;
-      this.loading = true;
+      this._loading = false;
       this._municipios = [];
       // return 0;
     });
@@ -194,9 +194,9 @@ crearFormulario() {
     }
     else{
       //Envio de la informacion al servidor
-      debugger;
+      this._loading = true;
       this._publicacion.Id_Publicacion = this._id_publicacion;
-      this._publicacion.Id_Cliente = this._loginService.obtenerIdCliente();
+      this._publicacion.UID_Cliente = this._loginService.obtenerIdCliente();
       this._publicacion.Id_Asentamiento = this.formaUbicacion.get('asentamiento')?.value;
       this._publicacion.Direccion = this.formaUbicacion.get('calleynumero')?.value;
       this._publicacion.MostrarDireccionExacta = this._mostrarUbicacionExacta === true ? 1 : 0;
@@ -221,6 +221,8 @@ crearFormulario() {
             icon: 'success',
             title: 'La información se guardo de manera correcta.'
           });
+
+          this._loading = false;
 
           this._numeroPaso = 2;
           setTimeout( () => { this.router.navigate(['/publicar/caracteristicas'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
@@ -269,10 +271,13 @@ crearFormulario() {
   CargarPublicacion(){
     //debugger;
       if (this._id_publicacion != 0) {
-          this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
+          this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()!).subscribe(
             (data) => {
               //Next callback
-              //console.log(data);
+              
+              if ((data.Id_Estatus === 13) || (data.Id_Estatus === 14)) {
+                this.router.navigateByUrl('/micuenta/mis-anuncios');
+              }
 
               this._mostrarUbicacionExacta = data.MostrarDireccionExacta === 0 ? false : true;
 

@@ -1,3 +1,35 @@
 h1 {
   text-align: center;
 }
+
+.page-item.disabled .page-link{
+  color: #bf4080;
+  font-weight: bold;
+}
+
+#btnPaginador:hover {
+  background-color: rgba(223, 126, 137, .8);
+}
+
+.fondoInicio { 
+  position: relative; 
+  height: 100vh;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background-image: url('https://i.ibb.co/dt5rP3y/e9a505e0312e.png');
+  box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);
+  background-size: cover;
+  z-index: 1;
+  border-radius: 15px;
+}
+
+.fondoInicio::before {
+  content: "";
+  position: relative;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.3);
+}

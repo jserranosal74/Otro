@@ -16,7 +16,7 @@ import { TiposPersonaService } from 'src/app/Services/Catalogos/tiposPersonas.se
 })
 export class MisDatosFiscalesComponent implements OnInit {
   _datosFiscales : datoFiscal[] = [];
-  _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','','',0,new Date(),new Date(), 0,0,0);
+  _datoFiscal : datoFiscal = new datoFiscal(0,0,null,0,'','','','','',0,new Date(),new Date(), 0,0,0);
   _tiposPersonas : tipoPersona[] = [];
   _tipoPersona : tipoPersona = new tipoPersona(0,'',new Date(), new Date(), 0,0,);
   _textoAccion ='';
@@ -50,7 +50,7 @@ export class MisDatosFiscalesComponent implements OnInit {
       email             : [ '', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ],
       codigopostal      : [ '', Validators.required]
     });
-    this._datoFiscal = new datoFiscal(0,0,0,'','','','','',0,new Date(),new Date(),0,0,0);
+    this._datoFiscal = new datoFiscal(0,0,null,0,'','','','','',0,new Date(),new Date(),0,0,0);
   }
 
   limpiarFormulario() {
@@ -62,7 +62,7 @@ export class MisDatosFiscalesComponent implements OnInit {
       email             : '',
       codigopostal      : ''
     });
-    this._datoFiscal = new datoFiscal(0,0,0,'','','','','',0,new Date(),new Date(), 0,0,0);
+    this._datoFiscal = new datoFiscal(0,0,null,0,'','','','','',0,new Date(),new Date(), 0,0,0);
     this._textoAccion = 'Agregar'
   }
 
@@ -106,7 +106,7 @@ export class MisDatosFiscalesComponent implements OnInit {
 
   obtenerDatosFiscales() {
 
-    this._datosfiscalesService.getDatosFiscalesCliente(this._loginService.obtenerIdCliente()).subscribe(
+    this._datosfiscalesService.getDatosFiscalesCliente(this._loginService.obtenerIdCliente()!).subscribe(
       (data) => {
         //Next callback
         //console.log('datos: ', data);
@@ -150,7 +150,7 @@ export class MisDatosFiscalesComponent implements OnInit {
     this._textoAccion = 'Modificar';
     this._datoFiscal = objDatoFiscal;
     //debugger;
-        this._datosfiscalesService.getDatoFiscalCliente(objDatoFiscal.Id_Cliente, objDatoFiscal.Id_DatosFiscales).subscribe(
+        this._datosfiscalesService.getDatoFiscalCliente(this._loginService.obtenerIdCliente()!, objDatoFiscal.Id_DatosFiscales).subscribe(
       (data) => {
         //Next callback
         // console.log('datos: ', data);
@@ -219,7 +219,7 @@ export class MisDatosFiscalesComponent implements OnInit {
         this._esNuevo = true;
       }
 
-      this._datoFiscal.Id_Cliente = this._loginService.obtenerIdCliente();
+      this._datoFiscal.UID_Cliente = this._loginService.obtenerIdCliente();
       this._datoFiscal.Id_TipoPersona = this.formaDatosFiscales.get('tipopersona')?.value;
       this._datoFiscal.NombreRazonSocial = this.formaDatosFiscales.get('nombrerazonsocial')?.value;
       this._datoFiscal.DomicilioFiscal = this.formaDatosFiscales.get('domiciliofiscal')?.value;
@@ -435,7 +435,7 @@ export class MisDatosFiscalesComponent implements OnInit {
       if (result.isConfirmed) {
 
 
-        this._datosfiscalesService.deleteDatosFiscales(this._loginService.obtenerIdCliente(), objDatoFiscal.Id_DatosFiscales).subscribe(
+        this._datosfiscalesService.deleteDatosFiscales(this._loginService.obtenerIdCliente()!, objDatoFiscal.Id_DatosFiscales).subscribe(
           (data) => {
             //Next callback
             

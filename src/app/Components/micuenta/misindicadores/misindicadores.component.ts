@@ -10,6 +10,7 @@ import { EstadisticasClienteFiltrosService } from 'src/app/Services/Procesos/est
 import { Email, Indicador, indicadoresColumnas } from '../../../Models/procesos/estadisticasClienteFiltros.model';
 import { pagina, paginadoDetalle } from 'src/app/Models/catalogos/asentamiento.model';
 import { IndicadoresService } from '../../../Services/Catalogos/indicadores.service';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-misindicadores',
@@ -27,6 +28,7 @@ export class MisIndicadoresComponent implements OnInit {
   _filtrosSeleccionados : estadisticasClienteFiltros = new estadisticasClienteFiltros([],[],[],[]);
 
   // Paginador
+  formaNumeroPagina = this.fb.group({});
   _paginadoDetalle : paginadoDetalle = new paginadoDetalle(0,0);
   _paginas: pagina[] = [];
   _numeroPaginasMostrar = 5;
@@ -53,9 +55,10 @@ export class MisIndicadoresComponent implements OnInit {
   constructor( private _estadisticasClienteService : EstadisticasClienteService,
                private _estadisticasClienteFiltrosService : EstadisticasClienteFiltrosService,
                private _indicadoresService : IndicadoresService,
+               private fb: FormBuilder,
                private _loginService : LoginService ) { 
 
-    //this.ObtenerEstadisticasCliente();
+    this.crearFormularioNumeroPagina();
     this.ejecutarConsulta(0);
     this.obtenerFiltrosEstadisticas(null,null);
     this.ObtenerIndicadores();
@@ -64,6 +67,12 @@ export class MisIndicadoresComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  crearFormularioNumeroPagina() {
+    this.formaNumeroPagina = this.fb.group({
+      numeroPagina : ['', [Validators.required] ]
+    });
   }
 
   ObtenerIndicadores() {
@@ -136,7 +145,7 @@ export class MisIndicadoresComponent implements OnInit {
       }
     }
 
-    this._estadisticasClienteFiltrosService.getEstadisticasClienteFiltros(this._loginService.obtenerIdCliente(), this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
+    this._estadisticasClienteFiltrosService.getEstadisticasClienteFiltros(this._loginService.obtenerIdCliente()!, this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
                                                                                                                  this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus,
                                                                                                                  this._filtrosSeleccionados.lstEmails[0] === undefined ? null : this._filtrosSeleccionados.lstEmails[0].Email,
                                                                                                                  this._filtrosSeleccionados.lstFechasInicioPublicacion[0] === undefined ? null : this._filtrosSeleccionados.lstFechasInicioPublicacion[0].FechaInicioPublicacion).subscribe(
@@ -180,7 +189,7 @@ export class MisIndicadoresComponent implements OnInit {
   CargarDetallePaginador(){
     //debugger;
     // Se obtiene el numero de paginas totales y el numero de renglones(registros) en total de la busqueda
-    this._estadisticasClienteService.getEstadisticasClientePagDet(this._loginService.obtenerIdCliente(), 10, this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
+    this._estadisticasClienteService.getEstadisticasClientePagDet(this._loginService.obtenerIdCliente()!, 10, this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
                                                                                                                 this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus,
                                                                                                                 this._filtrosSeleccionados.lstEmails[0] === undefined ? null : this._filtrosSeleccionados.lstEmails[0].Email,
                                                                                                                 this._filtrosSeleccionados.lstFechasInicioPublicacion[0] === undefined ? null : this._filtrosSeleccionados.lstFechasInicioPublicacion[0].FechaInicioPublicacion).subscribe(
@@ -277,22 +286,35 @@ export class MisIndicadoresComponent implements OnInit {
     this.obtenerFiltrosEstadisticas('FechaInicioPublicacion','Agregar');
   }
 
-  ejecutarConsulta(numPagina : number){
+  ejecutarConsulta(numPagina : number | null){
     debugger;
-    this._estadisticasClienteService.getEstadisticasCliente(this._loginService.obtenerIdCliente(), numPagina, 10, this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
+
+    if(numPagina === null){
+      numPagina = this.formaNumeroPagina.get('numeroPagina')!.value - 1;
+      if (numPagina! > this._paginadoDetalle.TotalPaginas)
+          numPagina = this._paginadoDetalle.TotalPaginas - 1;
+      if (numPagina! < 1)
+          numPagina = 0
+    }
+
+    this._estadisticasClienteService.getEstadisticasCliente(this._loginService.obtenerIdCliente()!, numPagina, 10, this._filtrosSeleccionados.lstPublicaciones[0] === undefined ? null : this._filtrosSeleccionados.lstPublicaciones[0].Id_Publicacion,
                                                                                                     this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus,
                                                                                                     this._filtrosSeleccionados.lstEmails[0] === undefined ? null : this._filtrosSeleccionados.lstEmails[0].Email,
                                                                                                     this._filtrosSeleccionados.lstFechasInicioPublicacion[0] === undefined ? null : this._filtrosSeleccionados.lstFechasInicioPublicacion[0].FechaInicioPublicacion).subscribe(
       (data) => {
         //Next callback
-        console.log('getEstadisticasCliente', data);
+        //console.log('getEstadisticasCliente', data);
         this._estadisticasCliente = data;
 
         if (data.length > 0) {
           this._seRealizaBusqueda = true;
         }
 
-        this.CargarPaginador(numPagina);
+        this.formaNumeroPagina.patchValue({
+          numeroPagina : numPagina! + 1
+        });
+
+        this.CargarPaginador(numPagina!);
 
       },
       (error: HttpErrorResponse) => {
@@ -511,7 +533,7 @@ export class MisIndicadoresComponent implements OnInit {
   }
 
   verPublicacionCliente(objEstadistica : estadisticasCliente){
-    window.open('anuncio/vista/' + (objEstadistica.TituloPublicacion)?.replaceAll(' ','-') + '-' + objEstadistica.Id_Publicacion);
+    window.open('propiedad/' + (objEstadistica.TituloPublicacion)?.replaceAll(' ','-') + '-' + objEstadistica.Id_Publicacion);
   }
 
 }

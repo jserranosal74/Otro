@@ -34,12 +34,11 @@ export class PaquetesComponent implements OnInit {
   formaPaquete = this.fb.group({});
   formaPlan = this.fb.group({});
 
-  constructor(
-    private fb: FormBuilder,
-    private _empresasService: EmpresasService,
-    private _planesService: PlanesService,
-    private _paquetesService: PaquetesService,
-    private _loginService : LoginService,
+  constructor( private fb: FormBuilder,
+               private _empresasService: EmpresasService,
+               private _planesService: PlanesService,
+               private _paquetesService: PaquetesService,
+               private _loginService : LoginService,
   ) {
     //debugger;
     this.crearFormularios();
@@ -258,6 +257,7 @@ export class PaquetesComponent implements OnInit {
       }
 
       this._paquete.Descripcion = this.formaPaquete.get('descripcion')?.value;
+      this._paquete.Clave = this.formaPaquete.get('clave')?.value.toUpperCase();
       this._paquete.Precio = this.formaPaquete.get('precio')?.value;
       this._paquete.Detalle = this._paqueteDetalle;
       // this._paquete.FechaAlta = new Date();
@@ -286,16 +286,6 @@ export class PaquetesComponent implements OnInit {
             this.limpiarFormularios();
           },
           (error: HttpErrorResponse) => {
-            //Error callback
-            //console.log('Error del servicio: ', error.error['Descripcion']);
-  
-            // Swal.fire({
-            //   icon: 'error',
-            //   title: error.error['Descripcion'],
-            //   text: '',
-            //   showCancelButton: false,
-            //   showDenyButton: false,
-            // });
   
             switch (error.status) {
               case 401:
@@ -315,7 +305,13 @@ export class PaquetesComponent implements OnInit {
                 //console.log('error 404');
                 break;
               case 409:
-                //console.log('error 409');
+                Swal.fire({
+                  icon: 'error',
+                  title: 'No se pudo actualizar información',
+                  text: 'La clave ya existe o el paquete no existe',
+                  showCancelButton: false,
+                  showDenyButton: false,
+                });
                 break;
             }
   
@@ -340,17 +336,7 @@ export class PaquetesComponent implements OnInit {
             this.limpiarFormularios();
           },
           (error: HttpErrorResponse) => {
-            //Error callback
-            //console.log('Error del servicio: ', error.error['Descripcion']);
-  
-            // Swal.fire({
-            //   icon: 'error',
-            //   title: 'ERROR',
-            //   text: '',
-            //   showCancelButton: false,
-            //   showDenyButton: false,
-            // });
-  
+
             switch (error.status) {
               case 401:
                 Swal.fire({
@@ -369,7 +355,13 @@ export class PaquetesComponent implements OnInit {
                 //console.log('error 404');
                 break;
               case 409:
-                //console.log('error 409');
+                Swal.fire({
+                  icon: 'error',
+                  title: 'No se pudo actualizar información',
+                  text: 'La clave ya existe o el paquete no existe',
+                  showCancelButton: false,
+                  showDenyButton: false,
+                });
                 break;
             }
   

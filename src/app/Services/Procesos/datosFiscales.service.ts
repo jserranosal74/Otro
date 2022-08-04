@@ -24,12 +24,12 @@ export class DatosFiscalesService {
     this.urlDatosFiscales = URL_APIS.urlDatosFiscales;
   }
 
-  public getDatosFiscalesCliente(Id_Cliente : number): Observable<datoFiscal[]> {
-    return this.http.get<datoFiscal[]>(this.urlDatosFiscales + '?id_cliente=' + Id_Cliente + '&id_datofiscal=', this.httpOptions);
+  public getDatosFiscalesCliente(UID_Cliente : string): Observable<datoFiscal[]> {
+    return this.http.get<datoFiscal[]>(this.urlDatosFiscales + '?id_cliente=' + UID_Cliente + '&id_datofiscal=', this.httpOptions);
   }
 
-  public getDatoFiscalCliente(Id_Cliente : number, Id_DatosFiscales : number): Observable<datoFiscal> {
-    return this.http.get<datoFiscal>(this.urlDatosFiscales + '?id_cliente=' + Id_Cliente + '&id_datofiscal=' + Id_DatosFiscales, this.httpOptions);
+  public getDatoFiscalCliente(UID_Cliente : string, Id_DatosFiscales : number): Observable<datoFiscal> {
+    return this.http.get<datoFiscal>(this.urlDatosFiscales + '?id_cliente=' + UID_Cliente + '&id_datofiscal=' + Id_DatosFiscales, this.httpOptions);
   }
 
   public putDatosFiscales(objDatosFiscales: datoFiscal): Observable<datoFiscal> {
@@ -40,8 +40,8 @@ export class DatosFiscalesService {
     return this.http.post<datoFiscal>(this.urlDatosFiscales, objDatosFiscales, this.httpOptions);
   }
 
-  public deleteDatosFiscales(Id_Cliente : number, Id_DatosFiscales : number): Observable<datoFiscal> {
-    return this.http.delete<datoFiscal>(this.urlDatosFiscales + '?Id_Cliente=' + Id_Cliente + '&Id_DatosFiscales=' + Id_DatosFiscales, this.httpOptions);
+  public deleteDatosFiscales(UID_Cliente : string, Id_DatosFiscales : number): Observable<datoFiscal> {
+    return this.http.delete<datoFiscal>(this.urlDatosFiscales + '?Id_Cliente=' + UID_Cliente + '&Id_DatosFiscales=' + Id_DatosFiscales, this.httpOptions);
   }
 
 }

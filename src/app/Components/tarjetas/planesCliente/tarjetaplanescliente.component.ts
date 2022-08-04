@@ -12,7 +12,7 @@ declare var bootstrap: any;
 
 export class TarjetaPlanesClienteComponent implements OnInit {
 
-  @Input() _planCliente : plancliente = new plancliente(0,0,0,null,'',0,0,0,0,'',new Date(),null,null,null,null,new Date(),new Date(),0,'',0,false);
+  @Input() _planCliente : plancliente = new plancliente(0,0,0,null,null,'',0,0,0,0,'',new Date(),null,null,null,null,new Date(),new Date(),0,'',0,false);
   @Input() _tipoTarjeta : string = '';
   @Input() _enviando : boolean = false;
 

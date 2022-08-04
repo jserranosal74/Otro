@@ -1,0 +1,8 @@
+.page-item.disabled .page-link{
+    color: #bf4080;
+    font-weight: bold;
+}
+
+#btnPaginador:hover {
+    background-color: rgba(223, 126, 137, .8);
+}

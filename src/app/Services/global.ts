@@ -26,6 +26,7 @@ export const URL_APIS = {
     urlTiposAsentamiento    : '/api/TiposAsentamiento/',
     urlTiposFoto            : '/api/TiposFoto/',
     urlEstatus              : '/api/Estatus/',
+    urlConfiguracion        : '/api/Configuracion/',
     
     //Busquedas especiales
     urlBusquedasEstado      : '/api/Estados/Municipio/',

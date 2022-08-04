@@ -2,6 +2,7 @@ export class publicacion {
     constructor(
       public Id_Publicacion            : number,
       public Id_Cliente                : number,
+      public UID_Cliente               : string | null,
       public Id_PlanCliente            : number | null,
       public Id_PaqueteCliente         : number | null,
       public Id_PaqueteDetalle         : number | null,
@@ -50,16 +51,19 @@ export class publicacion {
       public Id_Estatus                : number,
       public DescripcionEstatus        : string,
       public DescripcionPlan           : string,
-      public PerteneceADesarrollo      : number
+      public PerteneceADesarrollo      : number,
+      public DiasPublicado             : number
     ) {
     }
   }
 
-  // Usada para la vista en miniatura de 'Mis mensajes', 'cliente/propiedades'
+  // Usada para la vista en miniatura de 'Mis mensajes', 'usuario/propiedades'
   export class publicacionInfoMini {
     constructor(
       public Id_Publicacion         : number,
       public Id_Cliente             : number,
+      public Id_Moneda              : number,
+      public UID_Cliente            : string | null,
       public PlanCliente            : string | null,    // Gratis, simple, destacado, superdestacado, etc...
       public TipoOperacion          : string | null,
       public TipoPropiedad          : string | null,
@@ -72,10 +76,17 @@ export class publicacion {
       public Direccion              : string | null,
       public PrecioDesde            : number | null,
       public PrecioHasta            : number | null,
+      public RecamarasDesde         : number | null,
+      public RecamarasHasta         : number | null,
+      public BaniosCompDesde        : number | null,
+      public BaniosCompHasta        : number | null,
+      public SuperficieConstruidaDesde : number | null,
+      public SuperficieTerreno      : number | null,
       public ClaveMoneda            : string | null,
       public UnidadesDisponibles    : number | null,
       public Vistas                 : number | null,
       public Url                    : string | null,
+      public UrlFotoPerfil          : string | null,
       public FechaInicioPublicacion : Date   | null,
       public FechaFinPublicacion    : Date   | null,
       public FechaAlta              : Date,
@@ -150,6 +161,8 @@ export class publicacion {
       public Id_TipoMultimedia : number,
       public Descripcion       : string | null,
       public Url               : string | null,
+      public Url_Medium        : string | null,
+      public Url_Thumb         : string | null,
       public Predeterminada    : boolean,
       public FechaAlta         : Date | null,
       public FechaModificacion : Date | null,
@@ -164,6 +177,8 @@ export class publicacion {
       public Id_Multimedia     : number,
       public Id_TipoMultimedia : number,
       public Url               : string,
+      public Url_Medium        : string | null,
+      public Url_Thumb         : string | null,
       public ImagenBase64      : string,
       public Descripcion       : string,
       public Predeterminada    : number,

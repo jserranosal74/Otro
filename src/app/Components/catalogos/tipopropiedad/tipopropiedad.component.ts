@@ -14,25 +14,19 @@ import { TiposPropiedadService } from 'src/app/Services/Catalogos/tiposPropiedad
 })
 export class TipopropiedadComponent implements OnInit {
   _tiposPropiedad : tipoPropiedad[] = [];
-  _tipoPropiedad : tipoPropiedad = new tipoPropiedad(0,'','',new Date(),new Date(),0,0);
+  _tipoPropiedad : tipoPropiedad = new tipoPropiedad(0,'','','',0,new Date(),new Date(),0,0);
   _textoAccion ='';
 
   _esNuevo : boolean = false;
   @ViewChild('myModalClose') modalClose : any;
   @ViewChild('descripcion') modaldescripcion : any;
-  // @ViewChild('verformaAmenidad') modalformaAmenidad : any;
 
-  formaTipoPropiedad = this.fb.group({
-    clave: ['', Validators.required],
-    descripcion: ['', Validators.required]
-  });
+  formaTipoPropiedad = this.fb.group({});
 
-  constructor(
-    private fb: FormBuilder,
-    private _tiposPropiedadService: TiposPropiedadService,
-    private _loginService : LoginService,
+  constructor( private fb: FormBuilder,
+               private _tiposPropiedadService: TiposPropiedadService,
+               private _loginService : LoginService,
   ) {
-
     this.crearFormulario();
     this.limpiarFormulario();
     this.obtenerTiposPropiedad();
@@ -44,23 +38,25 @@ export class TipopropiedadComponent implements OnInit {
 
   crearFormulario() {
     this.formaTipoPropiedad = this.fb.group({
-      clave: ['', Validators.required],
-      descripcion: ['', Validators.required]
+      clave        : ['', Validators.required],
+      descripcion  : ['', Validators.required],
+      descripcion2 : ['', Validators.required]
     });
-    this._tipoPropiedad = new tipoPropiedad(0,'','',new Date(),new Date(),0,0);
+    this._tipoPropiedad = new tipoPropiedad(0,'','','',0,new Date(),new Date(),0,0);
   }
 
   limpiarFormulario() {
     this._textoAccion = 'Agregar';
     this.formaTipoPropiedad.reset({
-      clave: '',
-      descripcion: ''
+      clave        : '',
+      descripcion  : '',
+      descripcion2 : ''
     });
-    this._tipoPropiedad = new tipoPropiedad(0,'','',new Date(),new Date(),0,0);
+    this._tipoPropiedad = new tipoPropiedad(0,'','','',0,new Date(),new Date(),0,0);
   }
 
   obtenerTiposPropiedad() {
-    let Id_Usuario = this._loginService.obtenerIdCliente();
+    //let Id_Usuario = this._loginService.obtenerIdCliente();
 
     this._tiposPropiedadService.getTiposPropiedades().subscribe(
       (data) => {
@@ -111,11 +107,12 @@ export class TipopropiedadComponent implements OnInit {
     this._tiposPropiedadService.getTipoPropiedad(objTipoPropiedad.Id_TipoPropiedad).subscribe(
       (data) => {
         //Next callback
-        console.log('datos: ', data);
+        //console.log('datos: ', data);
 
         this.formaTipoPropiedad.setValue({
-          clave: data.Clave,
-          descripcion: data.Descripcion
+          clave        : data.Clave,
+          descripcion  : data.Descripcion,
+          descripcion2 : data.Descripcion2
         });
 
         // this.limpiarFormulario();
@@ -175,6 +172,7 @@ export class TipopropiedadComponent implements OnInit {
 
       this._tipoPropiedad.Clave = this.formaTipoPropiedad.get('clave')?.value;
       this._tipoPropiedad.Descripcion = this.formaTipoPropiedad.get('descripcion')?.value;
+      this._tipoPropiedad.Descripcion2 = this.formaTipoPropiedad.get('descripcion2')?.value;
       this._tipoPropiedad.FechaAlta = new Date();
       this._tipoPropiedad.FechaModificacion = new Date();
       this._tipoPropiedad.Id_Usuario = 1;
@@ -189,7 +187,7 @@ export class TipopropiedadComponent implements OnInit {
 
             Swal.fire({
               icon: 'success',
-              title: 'El tipo de propiedad se agrego de manera correcta.',
+              title: 'El tipo de propiedad se agregó de manera correcta.',
               showConfirmButton: false,
               timer: 1000
             })
@@ -204,13 +202,13 @@ export class TipopropiedadComponent implements OnInit {
             //Error callback
             //console.log('Error del servicio: ', error.error['Descripcion']);
   
-            Swal.fire({
-              icon: 'error',
-              title: error.error['Descripcion'],
-              text: '',
-              showCancelButton: false,
-              showDenyButton: false,
-            });
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: error.error['Descripcion'],
+            //   text: '',
+            //   showCancelButton: false,
+            //   showDenyButton: false,
+            // });
   
             switch (error.status) {
               case 401:
@@ -258,13 +256,13 @@ export class TipopropiedadComponent implements OnInit {
             //Error callback
             //console.log('Error del servicio: ', error.error['Descripcion']);
   
-            Swal.fire({
-              icon: 'error',
-              title: 'ERROR',
-              text: '',
-              showCancelButton: false,
-              showDenyButton: false,
-            });
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: 'ERROR',
+            //   text: '',
+            //   showCancelButton: false,
+            //   showDenyButton: false,
+            // });
   
             switch (error.status) {
               case 401:
@@ -338,13 +336,13 @@ export class TipopropiedadComponent implements OnInit {
           (error: HttpErrorResponse) => {
             //Error callback
     
-            Swal.fire({
-              icon: 'error',
-              title: error.error['Descripcion'],
-              text: '',
-              showCancelButton: false,
-              showDenyButton: false,
-            });
+            // Swal.fire({
+            //   icon: 'error',
+            //   title: error.error['Descripcion'],
+            //   text: '',
+            //   showCancelButton: false,
+            //   showDenyButton: false,
+            // });
     
             switch (error.status) {
               case 401:
@@ -382,6 +380,10 @@ export class TipopropiedadComponent implements OnInit {
 
   get descripcionNoValido() {
     return ( this.formaTipoPropiedad.get('descripcion')?.invalid && this.formaTipoPropiedad.get('descripcion')?.touched );
+  }
+
+  get descripcion2NoValido() {
+    return ( this.formaTipoPropiedad.get('descripcion2')?.invalid && this.formaTipoPropiedad.get('descripcion2')?.touched );
   }
       
   get claveNoValido() {

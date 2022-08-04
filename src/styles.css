@@ -134,6 +134,14 @@
   background-color: rgb(255, 199, 206);
 }
 
+.bg-color-7{
+  background: rgba(223, 126, 137, 0.15);
+}
+
+.bg-color-8{
+  background-color: rgba(195, 36, 94, 0.9);
+}
+
 .br25{
   border-radius: 25px;
 }
@@ -167,14 +175,41 @@
 
 .Ligth .coloreye{
   color: #bf4080;
-  -webkit-transition: background-color 200ms linear;
+  /* -webkit-transition: background-color 200ms linear;
   -ms-transition: background-color 200ms linear;
-  transition: background-color 200ms linear;
+  transition: background-color 200ms linear; */
+  -webkit-transition: color 200ms linear;
+  -ms-transition: color 200ms linear;
+  transition: color 200ms linear;
 }
 
 .Dark .coloreye{
   color: white;
-  -webkit-transition: background-color 200ms linear;
+  /* -webkit-transition: background-color 200ms linear;
   -ms-transition: background-color 200ms linear;
-  transition: background-color 200ms linear;
+  transition: background-color 200ms linear; */
+  -webkit-transition: color 200ms linear;
+  -ms-transition: color 200ms linear;
+  transition: color 200ms linear;
 }
+
+/* .fondoPublicar { 
+  position: relative; 
+  height: 100vh;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  background-image: url('https://i.ibb.co/dt5rP3y/e9a505e0312e.png');
+  background-size: cover;
+  z-index: 1;
+}
+
+.fondoPublicar::before {
+  content: "";
+  position: relative;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.1);
+} */

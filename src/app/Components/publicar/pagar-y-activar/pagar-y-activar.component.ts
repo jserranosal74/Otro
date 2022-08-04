@@ -25,7 +25,7 @@ import { PaquetesClienteService } from 'src/app/Services/Procesos/paquetesClient
 })
 export class PagarYActivarComponent implements OnInit {
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0,0);
   _id_publicacion : number = 0;
   _bancos : banco[] = [];
   _planesCliente : plancliente[] = [];
@@ -33,13 +33,13 @@ export class PagarYActivarComponent implements OnInit {
   _planActualNuevo : boolean = false;
   _datosFiscales : datoFiscal[] = [];
 
-  _planCliente : plancliente = new plancliente(0,0,0,null,'',0,0,0,0,'',new Date(),null,null,null,null,new Date(),new Date(),0,'',0,false);
+  _planCliente : plancliente = new plancliente(0,0,0,null,null,'',0,0,0,0,'',new Date(),null,null,null,null,new Date(),new Date(),0,'',0,false);
   _banco : banco = new banco(0,'','','','','',0,new Date(), new Date(), 0,0,0);
   _plan : plan = new plan(0,'',0,0,0,'','',null,null,'',0,new Date(),new Date(),0,0,0);
-  _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','','',0,new Date(),new Date(),0,0,0);
+  _datoFiscal : datoFiscal = new datoFiscal(0,0,null,0,'','','','','',0,new Date(),new Date(),0,0,0);
 
   _paquetesCliente : paqueteCliente[] = [];
-  _paqueteCliente : paqueteCliente = new paqueteCliente(null,0,null,null,null,null,null,null,null,0,'',null,0,false);
+  _paqueteCliente : paqueteCliente = new paqueteCliente(null,0,null,null,null,null,null,null,null,null,0,'',null,0,false);
   _esDesarrollo : boolean = false;
   
   _guardandoYpublicando : boolean = false;
@@ -88,18 +88,19 @@ export class PagarYActivarComponent implements OnInit {
   }
 
   obtenerPlanesCliente(){
-    let Id_Usuario = this._loginService.obtenerIdCliente();
-    this._planClienteService.getPlanesCliente(Id_Usuario, 16, null).subscribe(
+    let UID_Cliente = this._loginService.obtenerIdCliente()!;
+
+    this._planClienteService.getPlanesCliente(UID_Cliente, 16, null).subscribe(
       (data) => {
         //console.log('----datos---: ', data);
 
         // Para un desarrollo solo se puede cargar el plan Premium
         data.forEach(item =>{
           if(this._publicacion.Id_TipoOperacion != 3){
-            this._planesCliente.push(new plancliente(item.Id_PlanCliente, item.Id_Plan, item.Id_Cliente, item.Id_DatosFiscales, item.Descripcion, item.Disponibles, item.Utilizados, item.Restantes,  item.Id_Publicacion, item.TituloPublicacion, item.FechaDePago, item.FechaFacturacion, item.NombreRazonSocial, item.RFC, item.NumFactura, item.FechaAlta, item.FechaModificacion, item.Id_Estatus, item.DescripcionEstatus,0,false));
+            this._planesCliente.push(new plancliente(item.Id_PlanCliente, item.Id_Plan, item.Id_Cliente, item.UID_Cliente, item.Id_DatosFiscales, item.Descripcion, item.Disponibles, item.Utilizados, item.Restantes,  item.Id_Publicacion, item.TituloPublicacion, item.FechaDePago, item.FechaFacturacion, item.NombreRazonSocial, item.RFC, item.NumFactura, item.FechaAlta, item.FechaModificacion, item.Id_Estatus, item.DescripcionEstatus,0,false));
           }else if(this._publicacion.Id_TipoOperacion === 3){
             if(item.Id_Plan === 5){
-              this._planesCliente.push(new plancliente(item.Id_PlanCliente, item.Id_Plan, item.Id_Cliente, item.Id_DatosFiscales, item.Descripcion, item.Disponibles, item.Utilizados, item.Restantes,  item.Id_Publicacion, item.TituloPublicacion, item.FechaDePago, item.FechaFacturacion, item.NombreRazonSocial, item.RFC, item.NumFactura, item.FechaAlta, item.FechaModificacion, item.Id_Estatus, item.DescripcionEstatus,0,false));
+              this._planesCliente.push(new plancliente(item.Id_PlanCliente, item.Id_Plan, item.Id_Cliente, item.UID_Cliente, item.Id_DatosFiscales, item.Descripcion, item.Disponibles, item.Utilizados, item.Restantes,  item.Id_Publicacion, item.TituloPublicacion, item.FechaDePago, item.FechaFacturacion, item.NombreRazonSocial, item.RFC, item.NumFactura, item.FechaAlta, item.FechaModificacion, item.Id_Estatus, item.DescripcionEstatus,0,false));
             }
           }
         });
@@ -139,8 +140,8 @@ export class PagarYActivarComponent implements OnInit {
   }
 
   obtenerPaquetesCliente() {
-    let Id_Cliente = this._loginService.obtenerIdCliente();
-    this._paquetesClienteService.getPaquetesCliente(Id_Cliente, 16, null).subscribe(
+    let UID_Cliente = this._loginService.obtenerIdCliente()!;
+    this._paquetesClienteService.getPaquetesCliente(UID_Cliente, 16, null).subscribe(
       (data) => {
         //console.log('obtenerMisPaquetes', data);
 
@@ -232,13 +233,13 @@ export class PagarYActivarComponent implements OnInit {
 
   obtenerDatosFiscales() {
 
-    this._datosfiscalesService.getDatosFiscalesCliente(this._loginService.obtenerIdCliente()).subscribe(
+    this._datosfiscalesService.getDatosFiscalesCliente(this._loginService.obtenerIdCliente()!).subscribe(
       (data) => {
         //Next callback
         //console.log('datos: ', data);
 
         data.forEach(item => {
-          this._datosFiscales.push( new datoFiscal(item.Id_DatosFiscales,item.Id_Cliente,item.Id_TipoPersona,item.NombreRazonSocial,item.RFC,item.DomicilioFiscal, item.CodigoPostal, item.Email, item.Predeterminada,item.FechaAlta,item.FechaModificacion,item.Id_Usuario,item.Id_Estatus,item.Predeterminada));
+          this._datosFiscales.push( new datoFiscal(item.Id_DatosFiscales,item.Id_Cliente,item.UID_Cliente,item.Id_TipoPersona,item.NombreRazonSocial,item.RFC,item.DomicilioFiscal, item.CodigoPostal, item.Email, item.Predeterminada,item.FechaAlta,item.FechaModificacion,item.Id_Usuario,item.Id_Estatus,item.Predeterminada));
           if (item.Predeterminada === 1){
             this._datoFiscal = item;
           }
@@ -310,7 +311,7 @@ export class PagarYActivarComponent implements OnInit {
 
   CargarPublicacion(){
     if (this._id_publicacion != 0) {
-        this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
+        this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()!).subscribe(
           (data) => {
             //console.log(data);
             this._publicacion = data;
@@ -323,7 +324,8 @@ export class PagarYActivarComponent implements OnInit {
             }
 
             if ((data.Id_Estatus === 13) || (data.Id_Estatus === 14)) {
-              setTimeout( () => { this.router.navigate(['/publicar/operacion-tipo-inmueble'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
+              //setTimeout( () => { this.router.navigate(['/publicar/operacion-tipo-inmueble'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
+              this.router.navigateByUrl('/micuenta/mis-anuncios');
             }
 
             if (this._esDesarrollo){
@@ -528,7 +530,7 @@ export class PagarYActivarComponent implements OnInit {
       this._guardandoYpublicandoCF = true;
 
       debugger;
-    this._publicacionesService.putActivarPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente(), this._planCliente.Seleccionado === 1 ? this._planCliente.Id_PlanCliente : null, this._planCliente.Seleccionado === 1 ? this._planCliente.Id_Plan : this._plan.Id_Plan, intConFactura === 1 ? this._datoFiscal.Id_DatosFiscales : null, this._banco.Id_Banco === 0 ? null : this._banco.Id_Banco, Id_PaqueteCliente, Id_PaqueteDetalle ).subscribe(
+    this._publicacionesService.putActivarPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()!, this._planCliente.Seleccionado === 1 ? this._planCliente.Id_PlanCliente : null, this._planCliente.Seleccionado === 1 ? this._planCliente.Id_Plan : this._plan.Id_Plan, intConFactura === 1 ? this._datoFiscal.Id_DatosFiscales : null, this._banco.Id_Banco === 0 ? null : this._banco.Id_Banco, Id_PaqueteCliente, Id_PaqueteDetalle ).subscribe(
       (data) => {
 
         if (this._planActualNuevo === false){

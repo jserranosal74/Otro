@@ -23,12 +23,12 @@ export class EstadisticasClienteService {
     this.urlEstadisticasCliente = URL_APIS.urlEstadisticasCliente;
   }
 
-  public getEstadisticasCliente(Id_Cliente : number, Num_Pagina : number, Num_Renglones : number, Id_Publicacion : number | null, Id_Estatus : number | null, Email : string | null, FechaInicioPublicacion : Date | null): Observable<estadisticasCliente[]> {
-    return this.http.get<estadisticasCliente[]>(this.urlEstadisticasCliente + '?Id_Cliente=' + Id_Cliente + '&Num_Pagina=' + Num_Pagina + '&Num_Renglones=' + Num_Renglones + '&Id_Publicacion=' + Id_Publicacion + '&Id_Estatus=' + Id_Estatus + '&Email=' + (Email === null ? '' : Email) + '&FechaInicioPublicacion=' + FechaInicioPublicacion, this.httpOptions);
+  public getEstadisticasCliente(UID_Cliente : string, Num_Pagina : number, Num_Renglones : number, Id_Publicacion : number | null, Id_Estatus : number | null, Email : string | null, FechaInicioPublicacion : Date | null): Observable<estadisticasCliente[]> {
+    return this.http.get<estadisticasCliente[]>(this.urlEstadisticasCliente + '?Id_Cliente=' + UID_Cliente + '&Num_Pagina=' + Num_Pagina + '&Num_Renglones=' + Num_Renglones + '&Id_Publicacion=' + Id_Publicacion + '&Id_Estatus=' + Id_Estatus + '&Email=' + (Email === null ? '' : Email) + '&FechaInicioPublicacion=' + FechaInicioPublicacion, this.httpOptions);
   }
 
-  public getEstadisticasClientePagDet(Id_Cliente : number,  Num_Renglones : number, Id_Publicacion : number | null, Id_Estatus : number | null, Email : string | null, FechaInicioPublicacion : Date | null): Observable<paginadoDetalle> {
-    return this.http.get<paginadoDetalle>(this.urlEstadisticasCliente + '?Id_Cliente=' + Id_Cliente + '&Num_Renglones=' + Num_Renglones + '&Id_Publicacion=' + Id_Publicacion + '&Id_Estatus=' + Id_Estatus + '&Email=' + (Email === null ? '' : Email) + '&FechaInicioPublicacion=' + (FechaInicioPublicacion === null ? '' : FechaInicioPublicacion), this.httpOptions);
+  public getEstadisticasClientePagDet(UID_Cliente : string,  Num_Renglones : number, Id_Publicacion : number | null, Id_Estatus : number | null, Email : string | null, FechaInicioPublicacion : Date | null): Observable<paginadoDetalle> {
+    return this.http.get<paginadoDetalle>(this.urlEstadisticasCliente + '?Id_Cliente=' + UID_Cliente + '&Num_Renglones=' + Num_Renglones + '&Id_Publicacion=' + Id_Publicacion + '&Id_Estatus=' + Id_Estatus + '&Email=' + (Email === null ? '' : Email) + '&FechaInicioPublicacion=' + (FechaInicioPublicacion === null ? '' : FechaInicioPublicacion), this.httpOptions);
   }
 
 }

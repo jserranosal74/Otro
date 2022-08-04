@@ -23,7 +23,7 @@
                     <div [ngClass]="{' col-md-9': _mostrarFiltros, ' col-md-12': !_mostrarFiltros}">
                         <div class="row">
                           <div class="col-md-12 table-responsive-sm">
-                            <table class="table table-sm text-primary table-striped border-primary table-hover color-table br15">
+                            <table class="table table-sm text-primary table-striped border-primary table-hover color-table br15" style="box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
                                 <thead>
                                 <tr>
                                     <th class="text-center" scope="col" style="border-radius: 20px 0px 0px 0px; max-width: 100px;">#</th>
@@ -81,19 +81,34 @@
           
                           <div *ngIf="_seRealizaBusqueda" class="d-flex justify-content-center">
                             <nav aria-label="Page navigation py-0 m-0">
-                              <ul class="pagination pagination">
-                                <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none'}" >
-                                  <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
+                              <ul class="pagination">
+                                <li class="page-item mx-1" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none', 'visibility': _mostrarPaginaAnterior && _paginadoDetalle.TotalPaginas > _numeroPaginasMostrar ? 'visible' : 'hidden'}">
+                                  <button id="btnPaginador" class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
                                     <span><i class="fa-solid fa-arrow-left"></i></span>
                                   </button>
                                 </li>
-                                <li *ngFor="let pagina of _paginas" class="page-item mx-2">
-                                  <button class="page-link color-text-box br25" style="width:40px; height:40px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : '', 'background-color': pagina.Activa ? 'rgba(223, 126, 137, .4)' : ''}" (click)="ejecutarConsulta(pagina.Pagina)" [disabled]="pagina.Activa">{{pagina.Pagina+1}}</button>
+                                <li *ngFor="let pagina of _paginas" class="page-item mx-1">
+                                  <button id="btnPaginador" class="page-link color-text-box br25" style="width:40px; height:40px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : '', 'background-color': pagina.Activa ? 'rgba(223, 126, 137, .4)' : ''}" (click)="ejecutarConsulta(pagina.Pagina)" [disabled]="pagina.Activa">{{pagina.Pagina+1}}</button>
                                 </li>
-                                <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaSiguiente ? 'auto' : 'none'}" >
-                                  <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
+                                <li class="page-item mx-1" [ngStyle]="{'pointer-events': _mostrarPaginaSiguiente ? 'auto' : 'none', 'visibility': _mostrarPaginaSiguiente && _paginadoDetalle.TotalPaginas > _numeroPaginasMostrar ? 'visible' : 'hidden'}">
+                                  <button id="btnPaginador" class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
                                     <span><i class="fa-solid fa-arrow-right"></i></span>
                                   </button>
+                                </li>
+                                <li class="page-item mx-1">
+                                  <form [formGroup]="formaNumeroPagina">
+                                    <div class="row">
+                                      <div class="col-md-5">
+                                        <input type="number" 
+                                               class="form-control text-primary color-text-box br25"
+                                               formControlName="numeroPagina">
+                                      </div>
+                                      <div class="col p-0">
+                                        <button type="submit" class="btn btn-sm btn-primary br25" style="position: relative; top: 50%;transform: translateY(-50%);" (click)="ejecutarConsulta(null)">
+                                          <span><i class="fa-solid fa-angles-right"></i></span></button>
+                                      </div>
+                                    </div>
+                                  </form>
                                 </li>
                               </ul>
                             </nav>
@@ -109,25 +124,25 @@
               
                             <div class="accordion mb-2 p-1" id="accordionPanelsStayOpenExample">
 
-                              <div class="accordion-item color-modal">
+                              <div class="accordion-item color-modal" style="box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
                                 <h2 class="accordion-header" id="panelsStayOpen-headingFive">
                                   <button #myColapseFiltro5 class="accordion-button p-2 text-primary color-collapse collapsed" type="button" (click)="colapseIndicador()" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
-                                    Indicador
+                                    Indicadores
                                   </button>
                                 </h2>
                                 <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFive">
                                   <div class="accordion-body p-0 py-1 overflow-auto" style="height:10rem;">
                                     <div class="py-2">
-                                      <span class="br25 px-2" style="position:relative; left:2px; cursor: pointer; font-size:1em; border:none; height:0px;" (click)="mostrarIndicadores()" >
+                                      <span class="br25 px-1" style="position:relative; left:2px; cursor: pointer; font-size:1em; border:none; height:0px;" (click)="mostrarIndicadores()" >
                                         <i *ngIf="_mostrarIndicadores" class="fa fa-eye coloreye coloreye"></i> <span *ngIf="_mostrarIndicadores" class="badge text-primary"> - TODOS</span>
                                         <i *ngIf="!_mostrarIndicadores" class="fa fa-eye-slash coloreye"></i> <span *ngIf="!_mostrarIndicadores" class="badge text-primary"> - NINGUNO</span>
                                       </span>
                                     </div>
                                     <div *ngFor="let indicador of _indicadoresColumnas.lstIndicadores">
-                                      <span *ngIf="indicador.Mostrar" class="badge text-primary text-truncate py-0" style="cursor: pointer; font-size:0.75em; font-weight: 700; max-width: 230px;" data-toggle="tooltip" data-placement="top" title="{{indicador.Clave}} - {{indicador.DescripcionCorta}}" (click)="seleccionarColumnaIndicador(indicador)">
+                                      <span *ngIf="indicador.Mostrar" class="badge text-primary text-truncate py-0" style="cursor: pointer; font-size:0.75em; font-weight: 700; max-width: 220px;" data-toggle="tooltip" data-placement="top" title="{{indicador.Clave}} - {{indicador.DescripcionCorta}}" (click)="seleccionarColumnaIndicador(indicador)">
                                           <i class="fa fa-eye-slash mx-1 coloreye"></i>{{indicador.Clave}} - {{indicador.DescripcionCorta}}
                                       </span>
-                                      <span *ngIf="!indicador.Mostrar" class="badge text-primary text-truncate py-0" style="cursor: pointer; font-size:0.75em; font-weight: 700; max-width: 230px;" data-toggle="tooltip" data-placement="top" title="{{indicador.Clave}} - {{indicador.DescripcionCorta}}" (click)="seleccionarColumnaIndicador(indicador)">
+                                      <span *ngIf="!indicador.Mostrar" class="badge text-primary text-truncate py-0" style="cursor: pointer; font-size:0.75em; font-weight: 700; max-width: 220px;" data-toggle="tooltip" data-placement="top" title="{{indicador.Clave}} - {{indicador.DescripcionCorta}}" (click)="seleccionarColumnaIndicador(indicador)">
                                           <i class="fa fa-eye mx-1 coloreye"></i>{{indicador.Clave}} - {{indicador.DescripcionCorta}}
                                       </span>
                                   </div>
@@ -138,7 +153,7 @@
                             </div>
 
 
-                            <div class="row mx-1 text-primary br15 px-1" style="border: 1px solid" >
+                            <div class="row mx-1 text-primary br15 px-1" style="border: 1px solid; box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
                               <div class="row">
                                 <div class="col-md-8">
                                   <h3 class="text-primary text-center">Filtros</h3>

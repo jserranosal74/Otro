@@ -8,7 +8,7 @@ import { datoFiscal } from '../../../Models/procesos/datosFiscales.model';
 })
 export class TarjetaDatoFiscalComponent implements OnInit {
 
-  @Input() _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','','',0,new Date(),new Date(),0,0,0);
+  @Input() _datoFiscal : datoFiscal = new datoFiscal(0,0,null,0,'','','','','',0,new Date(),new Date(),0,0,0);
   @Input() _origen : string = '';
 
   @Output() _sePresionaEliminar = new EventEmitter<boolean>();

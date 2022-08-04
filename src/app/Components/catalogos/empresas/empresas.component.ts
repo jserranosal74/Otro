@@ -21,7 +21,7 @@ import { MunicipiosService } from 'src/app/Services/Catalogos/municipios.service
 export class EmpresasComponent implements OnInit {
   formaEmpresa : FormGroup = new FormGroup({});
   _empresas : empresa[] = [];
-  _empresa : empresa = new empresa(0,0,0,0,'','',null,new Date(),new Date(),0,0);
+  _empresa : empresa = new empresa(0,null,0,0,0,'','',null,new Date(),new Date(),0,0);
   _mediosContacto : medioContacto[] = [];
   _estados : estado[] = [];
   _municipios : municipio[] = [];
@@ -58,7 +58,7 @@ export class EmpresasComponent implements OnInit {
       tipoEmpresa : ['', Validators.required],
       listaMediosContacto : this.fb.array([])
     });
-    this._empresa = new empresa(0,0,0,0,'','',null,new Date(),new Date(),0,0);
+    this._empresa = new empresa(0,null,0,0,0,'','',null,new Date(),new Date(),0,0);
   }
 
   limpiarFormulario() {
@@ -73,7 +73,7 @@ export class EmpresasComponent implements OnInit {
       tipoEmpresa : 'Inmobiliaria',
       listaMediosContacto : this.mediosContacto
     });
-    this._empresa = new empresa(0,0,0,0,'','',null,new Date(),new Date(),0,0);
+    this._empresa = new empresa(0,null,0,0,0,'','',null,new Date(),new Date(),0,0);
   }
 
   obtenerEmpresas() {

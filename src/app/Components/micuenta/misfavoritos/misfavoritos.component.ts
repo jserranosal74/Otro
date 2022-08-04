@@ -43,7 +43,7 @@ export class MisFavoritosComponent implements OnInit {
   }
 
   obtenerMisFavoritos(){
-    this._favoritosClienteServide.getFavoritosCliente(this._loginService.obtenerIdCliente(),0,10).subscribe(
+    this._favoritosClienteServide.getFavoritosCliente(this._loginService.obtenerIdCliente()!,0,10).subscribe(
       (data) => {
         //Next callback
 
@@ -54,7 +54,7 @@ export class MisFavoritosComponent implements OnInit {
         }
 
         // Se obtiene el numero de paginas totales y el numero de renglones(registros) en total de la busqueda
-        this._favoritosClienteServide.getFavoritosClienteResumen(this._loginService.obtenerIdCliente(), 10).subscribe(
+        this._favoritosClienteServide.getFavoritosClienteResumen(this._loginService.obtenerIdCliente()!, 10).subscribe(
           (data) => {
             //Next callback
             //console.log('getFavoritosClienteResumen', data);
@@ -178,7 +178,7 @@ export class MisFavoritosComponent implements OnInit {
   obtenerPagina(item : number){
     // alert(item);
 
-    this._favoritosClienteServide.getFavoritosCliente(this._loginService.obtenerIdCliente(), item, 10).subscribe(
+    this._favoritosClienteServide.getFavoritosCliente(this._loginService.obtenerIdCliente()!, item, 10).subscribe(
       (data) => {
         //Next callback
 

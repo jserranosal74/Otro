@@ -38,7 +38,7 @@ export class MiPerfilComponent implements OnInit {
       correo        : ['', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'), ], ],
       rfc           : [''],
       telefonoFijo  : ['', Validators.required],
-      telefonoMovil  : ['', Validators.required],
+      telefonoMovil : ['', Validators.required],
     });
   }
 
@@ -81,6 +81,7 @@ export class MiPerfilComponent implements OnInit {
       }
 
       let _cliente = new cliente(
+        0,
         this._loginService.obtenerIdCliente(),
         null,  // Tipo persona Cliente- Agente
         0,  // Rol
@@ -169,7 +170,7 @@ export class MiPerfilComponent implements OnInit {
   }
 
   obtenerDatosPerfil() {
-    //let Id_Usuario = this._loginService.obtenerIdCliente();
+    debugger;
 
     this._clienteService.getCliente(this._loginService.obtenerIdCliente(), null).subscribe(
       (data) => {

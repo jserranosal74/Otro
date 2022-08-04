@@ -26,9 +26,9 @@ export class MisPlanesYPaquetesComponent implements OnInit {
   _planes : plan[] = [];
   _plan : plan = new plan(0,'',0,0,0,'','',null,null,'',0,new Date(),new Date(),0,0,0);
   _planesCliente : plancliente[] = [];
-  _planCliente : plancliente = new plancliente(0,0,0,null,'',0,0,0,0,'',new Date(),null,null,null,null,new Date(),new Date(),0,'',0,false);
+  _planCliente : plancliente = new plancliente(0,0,0,null,null,'',0,0,0,0,'',new Date(),null,null,null,null,new Date(),new Date(),0,'',0,false);
   _datosFiscales : datoFiscal[] = [];
-  _datoFiscal : datoFiscal = new datoFiscal(0,0,0,'','','','','',0,new Date(),new Date(),0,0,0);
+  _datoFiscal : datoFiscal = new datoFiscal(0,0,null,0,'','','','','',0,new Date(),new Date(),0,0,0);
   _planesOPaquetes : boolean = false;
   _mostrarFiltros : boolean = sessionStorage.getItem('mf') === '1'? true : false;
   _collapseFiltros = false;
@@ -36,7 +36,7 @@ export class MisPlanesYPaquetesComponent implements OnInit {
   //_paquetes : paquete[] = [];
   _paquetesEmpresa : paquete[] = [];
   _paquetesCliente : paqueteCliente[] = [];
-  _paqueteCliente : paqueteCliente = new paqueteCliente(0,0,null,null,null,null,null,null,null,0,'',null,0,false);
+  _paqueteCliente : paqueteCliente = new paqueteCliente(0,0,null,null,null,null,null,null,null,null,0,'',null,0,false);
   _paquete! : paquete;
 
   _planesPaquetesFiltros : planesPaquetesClienteFiltros = new planesPaquetesClienteFiltros([],[],[]);
@@ -78,8 +78,9 @@ export class MisPlanesYPaquetesComponent implements OnInit {
 
   obtenerMisPlanes() {
     debugger;
-    let Id_Usuario = this._loginService.obtenerIdCliente();
-    this._planClienteService.getPlanesCliente(Id_Usuario, (this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus), (this._filtrosSeleccionados.lstTiposPlanes[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPlanes[0].Id_Plan)).subscribe(
+    let UID_Usuario = this._loginService.obtenerIdCliente()!;
+
+    this._planClienteService.getPlanesCliente(UID_Usuario, (this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus), (this._filtrosSeleccionados.lstTiposPlanes[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPlanes[0].Id_Plan)).subscribe(
       (data) => {
         console.log('----datos---: ', data);
 
@@ -113,8 +114,9 @@ export class MisPlanesYPaquetesComponent implements OnInit {
   }
 
   obtenerMisPaquetes() {
-    let Id_Cliente = this._loginService.obtenerIdCliente();
-    this._paquetesClienteService.getPaquetesCliente(Id_Cliente, (this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus), (this._filtrosSeleccionados.lstTiposPlanes[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPlanes[0].Id_Plan)).subscribe(
+    let UID_Cliente = this._loginService.obtenerIdCliente()!;
+
+    this._paquetesClienteService.getPaquetesCliente(UID_Cliente, (this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus), (this._filtrosSeleccionados.lstTiposPlanes[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPlanes[0].Id_Plan)).subscribe(
       (data) => {
         console.log('obtenerMisPaquetes', data);
 
@@ -189,7 +191,7 @@ export class MisPlanesYPaquetesComponent implements OnInit {
   obtenerPaquetesDisponibles() {
     //let Id_Usuario = this._loginService.obtenerIdCliente();
     //debugger;
-    this._paquetesClienteService.getPaquetesEmpresa(this._loginService.obtenerIdEmpresa()).subscribe(
+    this._paquetesClienteService.getPaquetesEmpresa(this._loginService.obtenerIdEmpresa()!).subscribe(
       (data) => {
 
         this._paquetesEmpresa = data;
@@ -236,7 +238,7 @@ export class MisPlanesYPaquetesComponent implements OnInit {
   enviarCorreoPlan(objplanCliente : plancliente){
     debugger;
     objplanCliente.Enviando = true;
-    this._planClienteService.putEnviarCorreoPlan(objplanCliente.Id_Cliente, objplanCliente.Id_PlanCliente, ( objplanCliente.Id_Publicacion === 0 ? null : objplanCliente.Id_Publicacion ) ).subscribe(
+    this._planClienteService.putEnviarCorreoPlan(this._loginService.obtenerIdCliente()!, objplanCliente.Id_PlanCliente, ( objplanCliente.Id_Publicacion === 0 ? null : objplanCliente.Id_Publicacion ) ).subscribe(
       (data) => {
         //console.log('datos: ',data);
         objplanCliente.Enviando = false;
@@ -444,7 +446,7 @@ export class MisPlanesYPaquetesComponent implements OnInit {
       }
     }
 
-    this._planesPaquetesClienteFiltrosService.getPlanesPaquetesClienteFiltros(this._loginService.obtenerIdCliente(), this._filtrosSeleccionados.lstTiposAnuncios[0] === undefined ? null : this._filtrosSeleccionados.lstTiposAnuncios[0].Id_TipoAnuncio,
+    this._planesPaquetesClienteFiltrosService.getPlanesPaquetesClienteFiltros(this._loginService.obtenerIdCliente()!, this._filtrosSeleccionados.lstTiposAnuncios[0] === undefined ? null : this._filtrosSeleccionados.lstTiposAnuncios[0].Id_TipoAnuncio,
                                                                                                                      this._filtrosSeleccionados.lstTiposPlanes[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPlanes[0].Id_Plan,
                                                                                                                      this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus,).subscribe(
       (data) => {
@@ -480,13 +482,13 @@ export class MisPlanesYPaquetesComponent implements OnInit {
 
   obtenerDatosFiscales() {
     debugger;
-    this._datosfiscalesService.getDatosFiscalesCliente(this._loginService.obtenerIdCliente()).subscribe(
+    this._datosfiscalesService.getDatosFiscalesCliente(this._loginService.obtenerIdCliente()!).subscribe(
       (data) => {
         //Next callback
         console.log('obtenerDatosFiscales ', data);
 
         data.forEach(item => {
-          this._datosFiscales.push( new datoFiscal(item.Id_DatosFiscales,item.Id_Cliente,item.Id_TipoPersona,item.NombreRazonSocial,item.RFC,item.DomicilioFiscal, item.CodigoPostal, item.Email, item.Predeterminada,item.FechaAlta,item.FechaModificacion,item.Id_Usuario,item.Id_Estatus,item.Predeterminada));
+          this._datosFiscales.push( new datoFiscal(item.Id_DatosFiscales,item.Id_Cliente,item.UID_Cliente,item.Id_TipoPersona,item.NombreRazonSocial,item.RFC,item.DomicilioFiscal, item.CodigoPostal, item.Email, item.Predeterminada,item.FechaAlta,item.FechaModificacion,item.Id_Usuario,item.Id_Estatus,item.Predeterminada));
           if (item.Predeterminada === 1){
             this._datoFiscal = item;
           }
@@ -543,7 +545,8 @@ export class MisPlanesYPaquetesComponent implements OnInit {
     debugger;
 
     if (!this._planesOPaquetes){
-      this._planCliente.Id_Cliente = this._loginService.obtenerIdCliente();
+      //this._planCliente.Id_Cliente = this._loginService.obtenerIdCliente();
+      this._planCliente.UID_Cliente = this._loginService.obtenerIdCliente();
       this._planCliente.Id_Plan = this._plan.Id_Plan;
   
       if ( intConFactura === 0 )
@@ -551,7 +554,7 @@ export class MisPlanesYPaquetesComponent implements OnInit {
       else
         this._planCliente.Id_DatosFiscales = this._datoFiscal.Id_DatosFiscales;
   
-      this._planClienteService.postPlanesCliente(this._planCliente.Id_Cliente, this._planCliente.Id_Plan, this._planCliente.Id_DatosFiscales).subscribe(
+      this._planClienteService.postPlanesCliente(this._planCliente.UID_Cliente!, this._planCliente.Id_Plan, this._planCliente.Id_DatosFiscales).subscribe(
         (data) => {
           //console.log('datos: ',data);
   
@@ -600,7 +603,7 @@ export class MisPlanesYPaquetesComponent implements OnInit {
     }
     else{
 
-      this._paqueteCliente.Id_Cliente = this._loginService.obtenerIdCliente();
+      this._paqueteCliente.UID_Cliente = this._loginService.obtenerIdCliente();
       this._paqueteCliente.Id_Paquete = this._paquete.Id_Paquete;
   
       if ( intConFactura === 0 )
@@ -608,7 +611,7 @@ export class MisPlanesYPaquetesComponent implements OnInit {
       else
         this._paqueteCliente.Id_DatosFiscales = this._datoFiscal.Id_DatosFiscales;
   
-      this._paquetesClienteService.postPaqueteCliente(this._paqueteCliente.Id_Cliente, this._paquete.Id_Paquete, this._paqueteCliente.Id_DatosFiscales).subscribe(
+      this._paquetesClienteService.postPaqueteCliente(this._paqueteCliente.UID_Cliente!, this._paquete.Id_Paquete, this._paqueteCliente.Id_DatosFiscales).subscribe(
         (data) => {
           //console.log('datos: ',data);
   

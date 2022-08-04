@@ -53,9 +53,11 @@
 </script>
 
 <!-- ============= COMPONENT ============== -->
-<nav class="navbar navbar-fixed-top navbar-expand-lg navbar-dark fixed-top" style="background:#c3365e;">
-  <div class="container-fluid" style="padding: 0px 10px;">
-    <a class="navbar-brand" routerLink="Inicio">Inmuebles Meza</a>
+<nav class="navbar navbar-expand-lg fixed-top" style="background-image: linear-gradient(to right, #ffc3d4,#c3365e); box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
+  <div class="container-fluid">
+    <a class="navbar-brand p-0" routerLink="">
+      <img src="/assets/logoMeza/Logo_IMZ_1.png" width="80px" height="45px" />
+    </a>
     <button
       class="navbar-toggler"
       type="button"
@@ -71,92 +73,156 @@
         <!-- <li class="nav-item" routerLinkActive="active">
               <a class="nav-link" routerLink="inicio">Inicio</a>
             </li> -->
-        <li class="nav-item dropdown" routerLinkActive="active">
-          <a
-            class="nav-link dropdown-toggle"
-            routerLink="comprar"
-            data-bs-toggle="dropdown"
-          >
-            Comprar
-          </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a
-                class="dropdown-item text-primary"
-                [routerLink]="['comprar', 'departamento']"
-                >Departamento</a
-              >
+            <li class="nav-item dropdown has-megamenu">
+              <a class="nav-link dropdown-toggle mb-2" href="#" data-bs-toggle="dropdown" style="color:black;">Comprar</a>
+              <div class="dropdown-menu megamenu bg-color-8" style="border-radius: 0px 0px 15px 15px;" role="menu">
+                <div class="row g-3">
+                  <div class="col-lg-2 col-6 text-center">
+                    <div class="col-megamenu">
+                      <h4 class="text-light">Estado</h4>
+                      <ul class="list-unstyled">
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Ciudad de México</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Estado de México</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Jalisco</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Querétaro</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Guanajuato</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Nuevo Léon</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Yucatán</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Veracruz</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Puebla</a></li>
+                      </ul>
+                    </div>  <!-- col-megamenu.// -->
+                  </div>
+                  <div class="col-lg-3 col-6 text-center">
+                    <div class="col-megamenu">
+                      <h4 class="text-light">Tipo de propiedad</h4>
+                      <ul class="list-unstyled">
+                        <li class="py-1" *ngFor="let item of _tiposPropiedad">
+                          <a class="text-light text-decoration-none selector" href="{{item.Descripcion2}}-en-venta">{{item.Descripcion}}</a>
+                        </li>
+                      </ul>
+                    </div>  <!-- col-megamenu.// -->
+                  </div>
+                  <div class="col-lg-2 col-6 text-center">
+                    <div class="col-megamenu">
+                      <h4 class="text-light">Recámaras</h4>
+                      <ul class="list-unstyled">
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">1 recámara</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">2 recámaras</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">3 recámaras</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">4 recámaras</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">5 o más recámaras</a></li>
+                      </ul>
+                    </div>  <!-- col-megamenu.// -->
+                  </div>    
+                  <div class="col-lg-3 col-6 text-center">
+                    <div class="col-megamenu">
+                      <h4 class="text-light">Caracteristicas</h4>
+                      <ul class="list-unstyled">
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">1 o más baños</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">2 o más baños</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">1 o más estacionamientos</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">2 o más estacionamientos</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">A estrenar</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Hasta 5 años</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Seguridad privada</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Mascotas</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Alberca</a></li>
+                      </ul>
+                    </div>  <!-- col-megamenu.// -->
+                  </div>
+                  <div class="col-lg-2 col-6 text-center">
+                    <div class="col-megamenu">
+                      <h4 class="text-light">Ayuda</h4>
+                      <ul class="list-unstyled">
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
+                      </ul>
+                    </div>  <!-- col-megamenu.// -->
+                  </div>
+                </div>
+              </div>
             </li>
-            <li>
-              <a class="dropdown-item text-primary" [routerLink]="['comprar', 'casa']"
-                >Casa</a
-              >
-            </li>
-            <li>
-              <a
-                class="dropdown-item text-primary"
-                [routerLink]="['comprar', 'rematebancario']"
-                >Remates Bancarios</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item text-primary" [routerLink]="['comprar', 'terreno']"
-                >Terrenos</a
-              >
-            </li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown" routerLinkActive="active">
-          <a
-            class="nav-link dropdown-toggle"
-            routerLink="rentar"
-            data-bs-toggle="dropdown"
-          >
-            Rentar
-          </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a class="dropdown-item text-primary" [routerLink]="['rentar', 'departamento']"
-                ><i class="fa-solid fa-building"></i>
-                <span style="padding: 10px;"> Departamento</span></a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item text-primary" [routerLink]="['rentar', 'casa']"
-                ><i class="fa-solid fa-house-chimney-window"></i><span style="padding: 10px;">Casa</span></a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item text-primary" [routerLink]="['rentar', 'cuarto']"
-                >Cuarto</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item text-primary" [routerLink]="['rentar', 'oficina']"
-                >Oficina</a
-              >
-            </li>
-            <li>
-              <a
-                class="dropdown-item text-primary"
-                [routerLink]="['rentar', 'bodegacomercial']"
-                >Bodega Comercial</a
-              >
-            </li>
-            <li>
-              <a
-                class="dropdown-item text-primary"
-                [routerLink]="['rentar', 'localcomercial']"
-                >Local Comercial</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item text-primary" [routerLink]="['rentar', 'quinta']">Quinta-Salon</a>
-            </li>
-          </ul>
+        <li class="nav-item dropdown has-megamenu">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" style="color:black;">Rentar</a>
+          <div class="dropdown-menu megamenu bg-color-8" style="border-radius: 0px 0px 15px 15px;" role="menu">
+            <div class="row g-3">
+              <div class="col-lg-2 col-6 text-center">
+                <div class="col-megamenu">
+                  <h4 class="text-light">Estado</h4>
+                  <ul class="list-unstyled">
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Ciudad de México</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Estado de México</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Jalisco</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Querétaro</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Guanajuato</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Nuevo Léon</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Yucatán</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Veracruz</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Puebla</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-3 col-6 text-center">
+                <div class="col-megamenu">
+                  <h4 class="text-light">Tipo de propiedad</h4>
+                  <ul class="list-unstyled">
+                    <li class="py-1" *ngFor="let item of _tiposPropiedad">
+                      <a class="text-light text-decoration-none selector" href="{{item.Descripcion2}}-en-renta">{{item.Descripcion}}</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-2 col-6 text-center">
+                <div class="col-megamenu">
+                  <h4 class="text-light">Recámaras</h4>
+                  <ul class="list-unstyled">
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">1 recámara</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">2 recámaras</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">3 recámaras</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">4 recámaras</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">5 o más recámaras</a></li>
+                  </ul>
+                </div>  <!-- col-megamenu.// -->
+              </div>    
+              <div class="col-lg-3 col-6 text-center">
+                <div class="col-megamenu">
+                  <h4 class="text-light">Caracteristicas</h4>
+                  <ul class="list-unstyled">
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">1 o más baños</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">2 o más baños</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">1 o más estacionamientos</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">2 o más estacionamientos</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Seguridad privada</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Aire acondicionado</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Amueblado</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Mascotas</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Alberca</a></li>
+                  </ul>
+                </div>  <!-- col-megamenu.// -->
+              </div>
+              <div class="col-lg-2 col-6 text-center">
+                <div class="col-megamenu">
+                  <h4 class="text-light">Ayuda</h4>
+                  <ul class="list-unstyled">
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
+                  </ul>
+                </div>  <!-- col-megamenu.// -->
+              </div>
+            </div>
+          </div>
         </li>
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="desarrollos">
+          <a class="nav-link" routerLink="desarrollos" style="color:black;">
             Desarrollos
           </a>
           <!-- <ul class="dropdown-menu">
@@ -168,137 +234,217 @@
             </li>
           </ul> -->
         </li>
-        <li class="nav-item dropdown" routerLinkActive="active">
-          <a
-            class="nav-link dropdown-toggle"
-            routerLink="desarrollos"
-            data-bs-toggle="dropdown" >
-            Temas de interes
-          </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a class="dropdown-item text-primary" [routerLink]="['ayudahogar/pintores']"
-                >Como obtener un crédito</a
-              >
-            </li>
-            <li>
-              <a class="dropdown-item text-primary"
-                [routerLink]="['ayudahogar/electricistas']"
-                >¿Sabías que?</a>
-            </li>
-          </ul>
+        <li class="nav-item dropdown has-megamenu">
+          <a class="nav-link dropdown-toggle mb-2" href="#" data-bs-toggle="dropdown" style="color:black;">Servicios</a>
+          <div class="dropdown-menu megamenu bg-color-8" style="border-radius: 0px 0px 15px 15px;" role="menu">
+            <div class="row g-3">
+              <div class="col-lg-3 col-6 text-center">
+                <div class="col-megamenu">
+                  <h4 class="text-light">Creditos Hipotecarios</h4>
+                  <ul class="list-unstyled">
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Calcula tu crédito</a></li>
+                  </ul>
+                </div>  <!-- col-megamenu.// -->
+              </div>
+              <div class="col-lg-3 col-6 text-center">
+                <div class="col-megamenu">
+                  <h4 class="text-light">Novedades</h4>
+                  <ul class="list-unstyled">
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">¿Sabías que?</a></li>
+                  </ul>
+                </div>  <!-- col-megamenu.// -->
+              </div>
+              <div class="col-lg-3 col-6 text-center">
+                <div class="col-megamenu">
+                  <h4 class="text-light">Importante a tomar en cuenta</h4>
+                  <ul class="list-unstyled">
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">¿Cuanto vale?</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">¿Como consultar el adeudo del predial?</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Como evitar fraudes</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Remates hipotecarios</a></li>
+                  </ul>
+                </div>  <!-- col-megamenu.// -->
+              </div>
+              <div class="col-lg-3 col-6 text-center">
+                <div class="col-megamenu">
+                  <h4 class="text-light">Seguro de arrendamiento</h4>
+                  <ul class="list-unstyled">
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Contrata tu seguro</a></li>
+                  </ul>
+                </div>  <!-- col-megamenu.// -->
+              </div>
+            </div>
+          </div>
         </li>
-        <div *ngIf="usuarioAutenticado && usuarioRol == 'Administrador'" >
-          <li class="nav-item dropdown" routerLinkActive="active">
-            <a class="nav-link dropdown-toggle"
-               routerLink="rentar"
-               data-bs-toggle="dropdown">
-               Administración
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <a class="dropdown-item text-primary text-primary" [routerLink]="['procesos', 'actualizarpublicacionesplanesypaquetes']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Actualizar publicaciones vencidas</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary text-primary" [routerLink]="['catalogos', 'archivosfiscales']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Archivos Fiscales</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary text-primary" [routerLink]="['procesos', 'asignarpaqueteacliente']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Asignar paquete a Empresa</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'usuariosempresa']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Asignar usuario a Empresa</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary text-primary" [routerLink]="['procesos', 'bloquearpublicacion']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Bloquear publicaciones</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary text-primary" [routerLink]="['procesos', 'confirmarpagosplanes']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Confirmar pagos de clientes</span></a>
-              </li>
-              <div class="dropdown-divider"></div>
-              <li>
-                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'asentamientos']"><i class="fa-solid fa-building"></i>
-                  <span style="padding: 10px;"> Asentamientos</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'bancos']"><i class="fa-solid fa-building"></i>
-                  <span style="padding: 10px;"> Bancos</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'caracteristicas']"><i class="fa-solid fa-building"></i>
-                  <span style="padding: 10px;"> Características</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary text-primary" [routerLink]="['catalogos', 'empresas']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Empresas</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary text-primary" [routerLink]="['catalogos', 'indicadores']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Indicadores</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'medioscontacto']"><i class="fa-solid fa-building"></i>
-                  <span style="padding: 10px;"> Medios de contacto</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'tiposasentamiento']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Tipos de asentamiento</span></a>
-              </li>
-              <!-- <li>
-                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'amenidades']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Amenidades</span></a>
-              </li> -->
-              <li>
-                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'tiposoperacion']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Tipos Operación</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'paquetes']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Paquetes</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'planes']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Planes</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'tipospropiedad']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Tipos de propiedad</span></a>
-              </li>
-              <li>
-                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'subtipospropiedad']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Subtipos de propiedad</span></a>
-              </li>
-            </ul>
-          </li>
-        </div>
 
-        <!-- <div *ngIf="usuarioAutenticado && usuarioRol == 'Empresa'" >
-          <li class="nav-item dropdown" routerLinkActive="active">
-            <a class="nav-link dropdown-toggle" routerLink="rentar" data-bs-toggle="dropdown">
-              Administración
-            </a>
-            <ul class="dropdown-menu">
-              <li>
-                <a class="dropdown-item text-primary" [routerLink]="['catalogos', 'usuariosempresa']"><i class="fa-solid fa-house-chimney-window"></i>
-                  <span style="padding: 10px;">Usuarios de Empresa</span></a>
-              </li>
-            </ul>
-          </li>
-        </div> -->
-
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="ayuda">Ayuda</a>
+        <li *ngIf="usuarioAutenticado && usuarioRol == 'Administrador'" class="nav-item dropdown has-megamenu">
+          <a class="nav-link dropdown-toggle mb-2" href="#" data-bs-toggle="dropdown" style="color:black;">Administración</a>
+          <div class="dropdown-menu megamenu bg-color-8" style="border-radius: 0px 0px 15px 15px;" role="menu">
+            <div class="row g-3">
+              <div class="col-lg-4 col-6 text-center">
+                <div class="col-megamenu">
+                  <h4 class="text-light">Procesos</h4>
+                  <ul class="list-unstyled">
+                    <li class="py-1">
+                      <a class="text-light text-decoration-none selector" [routerLink]="['procesos', 'actualizarpublicacionesplanesypaquetes']"><i class="fa-solid fa-house-chimney-window"></i>
+                        <span style="padding: 10px;">Actualizar publicaciones vencidas</span></a>
+                    </li>
+                    <li class="py-1">
+                      <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'archivosfiscales']"><i class="fa-solid fa-house-chimney-window"></i>
+                        <span style="padding: 10px;">Archivos Fiscales</span></a>
+                    </li>
+                    <li class="py-1">
+                      <a class="text-light text-decoration-none selector" [routerLink]="['procesos', 'asignarpaqueteacliente']"><i class="fa-solid fa-house-chimney-window"></i>
+                        <span style="padding: 10px;">Asignar paquete a Empresa</span></a>
+                    </li>
+                    <li class="py-1">
+                      <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'usuariosempresa']"><i class="fa-solid fa-house-chimney-window"></i>
+                        <span style="padding: 10px;">Asignar usuario a Empresa</span></a>
+                    </li>
+                    <li class="py-1">
+                      <a class="text-light text-decoration-none selector" [routerLink]="['procesos', 'bloquearpublicacion']"><i class="fa-solid fa-house-chimney-window"></i>
+                        <span style="padding: 10px;">Bloquear publicaciones</span></a>
+                    </li>
+                    <li class="py-1">
+                      <a class="text-light text-decoration-none selector" [routerLink]="['procesos', 'confirmarpagosplanes']"><i class="fa-solid fa-house-chimney-window"></i>
+                        <span style="padding: 10px;">Confirmar pagos de clientes</span></a>
+                    </li>
+                    <li class="py-1">
+                      <a class="text-light text-decoration-none selector" [routerLink]="['procesos', 'configuraciones']"><i class="fa-solid fa-house-chimney-window"></i>
+                        <span style="padding: 10px;">Configuraciónes sitio</span></a>
+                    </li>
+                  </ul>
+                </div>  <!-- col-megamenu.// -->
+              </div>
+              <div class="col-lg-8 col-6 text-center">
+                <div class="col-megamenu">
+                  <h4 class="text-light">Catálogos</h4>
+                </div>
+                <div class="col-megamenu">
+                  <div class="row">
+                    <ul class="col-lg-4 list-unstyled">
+                      <li class="py-1">
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'asentamientos']"><i class="fa-solid fa-building"></i>
+                          <span style="padding: 10px;"> Asentamientos</span></a>
+                      </li>
+                      <li class="py-1">
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'bancos']"><i class="fa-solid fa-building"></i>
+                          <span style="padding: 10px;"> Bancos</span></a>
+                      </li>
+                      <li class="py-1">
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'caracteristicas']"><i class="fa-solid fa-building"></i>
+                          <span style="padding: 10px;"> Características</span></a>
+                      </li>
+                      <li class="py-1">
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'empresas']"><i class="fa-solid fa-house-chimney-window"></i>
+                          <span style="padding: 10px;">Empresas</span></a>
+                      </li>
+                      <li class="py-1">
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'indicadores']"><i class="fa-solid fa-house-chimney-window"></i>
+                          <span style="padding: 10px;">Indicadores</span></a>
+                      </li>
+                    </ul>
+                    <ul class="col-lg-4 list-unstyled">
+                      <li class="py-1">
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'medioscontacto']"><i class="fa-solid fa-building"></i>
+                          <span style="padding: 10px;"> Medios de contacto</span></a>
+                      </li>
+                      <li class="py-1">
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'tiposasentamiento']"><i class="fa-solid fa-house-chimney-window"></i>
+                          <span style="padding: 10px;">Tipos de asentamiento</span></a>
+                      </li>
+                      <li class="py-1">
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'tiposoperacion']"><i class="fa-solid fa-house-chimney-window"></i>
+                          <span style="padding: 10px;">Tipos Operación</span></a>
+                      </li>
+                      <li class="py-1">
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'paquetes']"><i class="fa-solid fa-house-chimney-window"></i>
+                          <span style="padding: 10px;">Paquetes</span></a>
+                      </li>
+                      <li class="py-1">
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'planes']"><i class="fa-solid fa-house-chimney-window"></i>
+                          <span style="padding: 10px;">Planes</span></a>
+                      </li>
+                    </ul>
+                    <ul class="col-lg-4 list-unstyled">
+                      <li class="py-1">
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'tipospropiedad']"><i class="fa-solid fa-house-chimney-window"></i>
+                          <span style="padding: 10px;">Tipos de propiedad</span></a>
+                      </li>
+                      <li class="py-1">
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'subtipospropiedad']"><i class="fa-solid fa-house-chimney-window"></i>
+                          <span style="padding: 10px;">Subtipos de propiedad</span></a>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
         </li>
+
+          <li class="nav-item dropdown has-megamenu">
+            <a class="nav-link dropdown-toggle mb-2" href="#" data-bs-toggle="dropdown" style="color:black;">Ayuda</a>
+            <div class="dropdown-menu megamenu bg-color-8" style="border-radius: 0px 0px 15px 15px;" role="menu">
+              <div class="row g-3">
+                <div class="col-lg-3 col-6 text-center">
+                  <div class="col-megamenu">
+                    <h4 class="text-light">Usuario</h4>
+                    <ul class="list-unstyled">
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Darse de alta</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Recuperar contraseña</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Mi cuenta</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Mis datos fiscales</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Actualizar mi perfil</a></li>
+                    </ul>
+                  </div>  <!-- col-megamenu.// -->
+                </div>
+                <div class="col-lg-3 col-6 text-center">
+                  <div class="col-megamenu">
+                    <h4 class="text-light">Anuncio</h4>
+                    <ul class="list-unstyled">
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Comprar un plan</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Agregar fotografias</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Publicar un anuncio</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Contactar al anunciante</a></li>
+                    </ul>
+                  </div>  <!-- col-megamenu.// -->
+                </div>
+                <div class="col-lg-3 col-6 text-center">
+                  <div class="col-megamenu">
+                    <h4 class="text-light">Aplicación</h4>
+                    <ul class="list-unstyled">
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Reportar un problema con la aplicación</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Accesar con mi usuario</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Buscar una propiedad</a></li>
+                    </ul>
+                  </div>  <!-- col-megamenu.// -->
+                </div>
+                <div class="col-lg-3 col-6 text-center">
+                  <div class="col-megamenu">
+                    <h4 class="text-light">Mi cuenta</h4>
+                    <ul class="list-unstyled">
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Actualizar mis datos de perfil</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Comprar un plan o paquete</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Agregrar mis datos fiscales</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Administrar mis anuncios</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Administrar mis mensajes y/o notificaciones</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Administrar mis facturas</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Ver mis favoritos</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Ver mis indicadores</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Cerrar sesión</a></li>
+                    </ul>
+                  </div>  <!-- col-megamenu.// -->
+                </div>
+              </div>
+            </div>
+          </li>
       </ul>
 
       <ul class="navbar-nav ms-auto">
         <li class="nav-item" routerLinkActive="active">
-          <a class="btn text-white btn-secondary br25" [routerLink]="['publicar']">
+          <a class="btn text-white btn-secondary br25" [routerLink]="['publicar/operacion-tipo-inmueble']">
             Publicar</a>
         </li>
         <div *ngIf="usuarioAutenticado">
@@ -309,25 +455,25 @@
                 <span *ngIf="!_urlFotoPerfil"><i class="fa-solid fa-circle-user medicon"></i></span>
                 <img *ngIf="_urlFotoPerfil" class="br25" width="25px" height="100%" [src]="_urlFotoPerfil" alt="">
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu" style="left:-100px;">
                 <li>
                   <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-datosfiscales']"><i class="fa-solid fa-file-lines px-2"></i>
                     <span style="padding: 10px;">Mis datos fiscales</span></a>
                 </li>
                 <li>
-                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-planesypaquetes']"><i class="fa-solid fa-file-lines px-2"></i>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-planesypaquetes']"><i class="fa-solid fa-table-cells px-2"></i>
                     <span style="padding: 10px;">Mis planes y paquetes</span></a>
                 </li>
                 <li>
-                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-anuncios']"><i class="fa-solid fa-file-lines px-2"></i>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-anuncios']"><i class="fa-solid fa-table-list px-2"></i>
                     <span style="padding: 10px;">Mis anuncios</span></a>
                 </li>
                 <li>
-                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-favoritos']"><i class="fa-solid fa-file-lines px-2"></i>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-favoritos']"><i class="fa-solid fa-heart px-2"></i>
                     <span style="padding: 10px;">Mis favoritos</span></a>
                 </li>
                 <li>
-                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-mensajes']"><i class="fa-solid fa-file-lines px-2"></i>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-mensajes']"><i class="fa-solid fa-envelope px-2"></i>
                     <span style="padding: 10px;">Mis mensajes y notifiaciones</span></a>
                 </li>
                 <li>
@@ -335,7 +481,7 @@
                     <span style="padding: 10px;">Mis facturas</span></a>
                 </li>
                 <li>
-                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-indicadores']"><i class="fa-solid fa-file-lines px-2"></i>
+                  <a class="dropdown-item text-primary" [routerLink]="['micuenta', 'mis-indicadores']"><i class="fa-solid fa-chart-line px-2"></i>
                     <span style="padding: 10px;">Mis indicadores</span></a>
                 </li>
                 <div class="dropdown-divider"></div>
@@ -354,7 +500,7 @@
           <li class="nav-item">
             <a class="btn btn-link" 
                style="border:none; box-shadow: none;"
-               href="iniciarsesion">
+               href="usuario/iniciarsesion">
                <i class="fa-solid fa-arrow-right-to-bracket medicon"></i>
             </a>
           </li>

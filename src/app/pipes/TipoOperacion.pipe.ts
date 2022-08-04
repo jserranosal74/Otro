@@ -12,6 +12,10 @@ export class TipoOperacionPipe implements PipeTransform {
             return 'Renta';
         case 3:
             return 'Desarrollo';
+        case 4:
+            return 'Remate';
+        case 5:
+            return 'Renta eventual';
         default:
             return 'N/A';
     }

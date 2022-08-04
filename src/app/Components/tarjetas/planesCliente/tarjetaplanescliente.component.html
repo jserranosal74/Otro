@@ -1,4 +1,4 @@
-<div class="card px-0 color-card" style="width: 15rem; border-radius: 15px;">
+<div class="card px-0 color-card" style="width: 15rem; border-radius: 15px; box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
     <div class="card-header text-center bg-color-3 py-0" style="border-radius: 15px 15px 0px 0px;">
       <div class="row text-end" *ngIf="_tipoTarjeta === 'AlPagar'" style="position:absolute; right:11px; top:-1px;">
         <button type="button" class="btn btn-outline-primary br25" (click)="elegirPlanCliente()" [ngClass]="{' btn-primary': _planCliente.Seleccionado === 1, ' btn-outline-primary': _planCliente.Seleccionado === 0}">
@@ -31,7 +31,7 @@
       </div>
       <div *ngIf="_planCliente.Id_Publicacion != null && _planCliente.DescripcionEstatus === 'En espera de pago'" class="text-center">
         <p class="card-text text-primary text-center">Y será aplicado al anuncio:</p>
-        <a class="card-text text-primary text-center" [href]="'anuncio/vista/' + (_planCliente.TituloPublicacion)?.replaceAll(' ','-') + '-' + _planCliente.Id_Publicacion"><strong>{{_planCliente.TituloPublicacion}}</strong></a>
+        <a class="card-text text-primary text-center" [href]="'propiedad/' + (_planCliente.TituloPublicacion)?.replaceAll(' ','-') + '-' + _planCliente.Id_Publicacion"><strong>{{_planCliente.TituloPublicacion}}</strong></a>
       </div>
     </div>
     <div class="card-footer text-end bg-color-3 p-0" style="border-radius: 0px 0px 15px 15px;">

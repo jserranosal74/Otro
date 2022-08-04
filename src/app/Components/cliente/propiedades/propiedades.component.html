@@ -1,4 +1,4 @@
-<div>
+<div class="container-fluid">
     <legend class="text-center text-primary mb-3">
         <img height="100px" [src]="_clienteVista.UrlFotoPerfil" style="border-radius: 15px; max-width:fit-content;" alt="Foto perfil" onerror="this.src='https://i.ibb.co/7V042L1/7da75c370bc9.png';">
         <label class="text-primary text-center px-2">{{_clienteVista.Nombre}} {{_clienteVista.Apellidos}}</label>
@@ -17,25 +17,27 @@
       <div class="row my-3" *ngFor="let pubCliente of _publicacionesCliente" >
           <app-anuncio-vista-buscador [_publicacionCliente]="pubCliente" (_contactarPorWhatsApp)="abrirVentanaContacto(pubCliente, 1)" (_contactarPorMensaje)="abrirVentanaContacto(pubCliente, 2)" (_seAgregaFavorito)="agregarFavorito(pubCliente)"></app-anuncio-vista-buscador>
       </div>
+
       <div *ngIf="_seRealizaBusqueda" class="d-flex justify-content-center">
         <nav aria-label="Page navigation py-0 m-0">
             <ul class="pagination pagination">
-              <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none'}" >
-                <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
+              <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none', 'visibility': _mostrarPaginaAnterior && _paginadoDetalle.TotalPaginas > _numeroPaginasMostrar ? 'visible' : 'hidden'}" >
+                <button id="btnPaginador" class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
                   <span><i class="fa-solid fa-arrow-left"></i></span>
                 </button>
               </li>
               <li *ngFor="let pagina of _paginas" class="page-item mx-2">
-                <button class="page-link color-text-box br25" style="width:40px; height:40px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : '', 'background-color': pagina.Activa ? 'rgba(223, 126, 137, .4)' : ''}" (click)="obtenerPagina(pagina.Pagina)" [disabled]="pagina.Activa">{{pagina.Pagina+1}}</button>
+                <button id="btnPaginador" class="page-link color-text-box br25" style="width:40px; height:40px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : '', 'background-color': pagina.Activa ? 'rgba(223, 126, 137, .4)' : ''}" (click)="obtenerPagina(pagina.Pagina)" [disabled]="pagina.Activa">{{pagina.Pagina+1}}</button>
               </li>
-              <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaSiguiente ? 'auto' : 'none'}" >
-                <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
+              <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none', 'visibility': _mostrarPaginaSiguiente && _paginadoDetalle.TotalPaginas > _numeroPaginasMostrar ? 'visible' : 'hidden'}" >
+                <button id="btnPaginador" class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
                   <span><i class="fa-solid fa-arrow-right"></i></span>
                 </button>
               </li>
             </ul>
           </nav>
       </div>
+
   </div>
 
   <button type="button" style="visibility: hidden;" #myModalIniciarSesion data-bs-toggle="modal" data-bs-target="#modalLogin" ></button>

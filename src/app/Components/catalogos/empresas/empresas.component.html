@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container py-5">
     <div class="row">
         <div class="col-md-12">
             <div class="well well-sm">
@@ -33,7 +33,7 @@
                                 </thead>
                                 <tbody>
                                   <tr *ngFor="let empresa of _empresas; let i = index;">
-                                    <th class="text-primary text-center" scope="row">{{empresa.Id_Empresa}}</th>
+                                    <td class="text-primary text-center" scope="row">{{empresa.Id_Empresa}}</td>
                                     <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresa.Nombre}}" style="max-width: 150px;">{{empresa.Nombre}}</td>
                                     <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{empresa.Descripcion}}" style="max-width: 150px;">{{empresa.Descripcion}}</td>
                                     <td class="text-primary" >{{empresa.TipoEmpresa}}</td>

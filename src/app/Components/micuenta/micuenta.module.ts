@@ -16,6 +16,7 @@ import { AnunciosModule } from '../../Components/anuncios/anuncios.module'
 import { TarjetasModule } from '../tarjetas/tarjetas.module';
 import { MensajeusuarioComponent } from './mensajeusuario/mensajeusuario.component';
 import { MisIndicadoresComponent } from './misindicadores/misindicadores.component';
+import { TipoOperacionPipe } from 'src/app/pipes/TipoOperacion.pipe';
 
 @NgModule({
   declarations: [

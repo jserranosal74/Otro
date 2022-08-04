@@ -98,7 +98,7 @@ export class IniciarsesionComponent implements OnInit {
 
           //this._router.navigateByUrl('/inicio');
 
-          window.location.href = '/inicio';
+          window.location.href = '/';
 
           this.limpiarFormulario();
         },
@@ -181,7 +181,7 @@ export class IniciarsesionComponent implements OnInit {
 
   AgregarUsuario(datosUsuario : SocialUser) {
   
-    let _cliente = new cliente(0,1,2,null,this._tipoAutenticacion,datosUsuario.email,'',datosUsuario.firstName,datosUsuario.lastName,'',[],datosUsuario.photoUrl,0,0,0,'','',new Date(),new Date(),1,1,'');
+    let _cliente = new cliente(0,null,1,2,null,this._tipoAutenticacion,datosUsuario.email,'',datosUsuario.firstName,datosUsuario.lastName,'',[],datosUsuario.photoUrl,0,0,0,'','',new Date(),new Date(),1,1,'');
 
     //debugger;
 
@@ -197,7 +197,7 @@ export class IniciarsesionComponent implements OnInit {
   
             localStorage.setItem('usuario', JSON.stringify(data));
             
-            window.location.href = '/inicio';
+            window.location.href = '/';
   
             //this.limpiarFormulario();
           },
@@ -232,7 +232,7 @@ export class IniciarsesionComponent implements OnInit {
 
         this.limpiarFormulario();
 
-        this._router.navigateByUrl('/iniciarsesion');
+        this._router.navigateByUrl('/usuario/iniciarsesion');
 
       },
       (error: HttpErrorResponse) => {

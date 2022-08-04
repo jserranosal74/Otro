@@ -15,6 +15,7 @@ import { EmpresasService } from 'src/app/Services/Catalogos/empresa.service';
 })
 export class UsuariosempresaComponent implements OnInit {
   formaEmpresaUsuarios : FormGroup = new FormGroup({});
+
   _empresaClientes : empresaCliente[] = [];
   _email : string = '';
   _Id_Empresa : number = 0;
@@ -51,10 +52,16 @@ export class UsuariosempresaComponent implements OnInit {
   }
 
   obtenerEmpresaClientes() {
-    //this._id_Empresa = this._loginService.obtenerIdCliente();
+    
+    let Id_Empresa : number | null;
 
-    this._empresaUsuariosService.getEmpresaClientes(null).subscribe(
+    Id_Empresa = this.formaEmpresaUsuarios.get('empresa')?.value;
+
+    debugger;
+
+    this._empresaUsuariosService.getEmpresaClientes(Id_Empresa).subscribe(
       (data) => {
+
         this._empresaClientes = data;
 
       },
@@ -74,6 +81,7 @@ export class UsuariosempresaComponent implements OnInit {
               showCancelButton: false,
               showDenyButton: false,
             });
+            this._empresaClientes = [];
             break;
           case 409:
             break;
@@ -138,7 +146,8 @@ export class UsuariosempresaComponent implements OnInit {
 
       this._empresaUsuariosService.postEmpresaCliente(this._Id_Empresa, this._email).subscribe(
         (data) => {
-          console.log('datos: ',data);
+
+          //console.log('datos: ',data);
 
           const Toast = Swal.mixin({
             toast: true,
@@ -182,10 +191,10 @@ export class UsuariosempresaComponent implements OnInit {
                 });
               break;
           }
-
-          this.obtenerEmpresaClientes();
-
+          
           this.limpiarFormulario();
+          this.obtenerEmpresaClientes();
+          
         },
         (error: HttpErrorResponse) => {
           //Error callback

@@ -10,8 +10,6 @@ import { PublicarComponent } from './Components/publicar/publicar.component';
 import { AyudaComponent } from './Components/ayuda/ayuda.component';
 import { DesarrollosComponent } from './Components/desarrollos/desarrollos.component';
 import { MicuentaComponent } from './Components/micuenta/micuenta.component';
-import { IniciarsesionComponent } from './Components/iniciarsesion/iniciarsesion.component';
-
 
 import { PUBLICAR_CHILD_ROUTES } from './Components/publicar/publicar.routes';
 import { CATALOGOS_CHILD_ROUTES } from './Components/catalogos/catalogos.routes';
@@ -23,20 +21,19 @@ import { PROCESOS_CHILD_ROUTES } from './Components/procesos/procesos.routes';
 
 import { RecuperarpasswordComponent } from './Components/recuperarpassword/recuperarpassword.component';
 import { LegalComponent } from './Components/legal/legal.component';
-import { ActivarclienteComponent } from './Components/cliente/activarcliente/activarcliente.component';
 import { RestablecerpasswordComponent } from './Components/restablecerpassword/restablecerpassword.component';
 import { LoadtkComponent } from './Components/loadtk/loadtk.component';
-import { CLIENTE_CHILD_ROUTES } from './Components/cliente/cliente.routes';
+import { USUARIO_CHILD_ROUTES } from './Components/cliente/cliente.routes';
 
 
 const routes: Routes = [
-  { path: 'inicio', component: InicioComponent },
+  { path: '', component: InicioComponent },
+  { path: ':filtros', component: InicioComponent },
   { path: 'comprar/:tipo', component: ComprarComponent },
   { path: 'rentar/:tipo', component: RentarComponent },
   { path: 'desarrollos/:tipo', component: DesarrollosComponent },
   { path: 'buscar', component: BuscarComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'iniciarsesion', component: IniciarsesionComponent },
   { path: 'recuperarpassword', component: RecuperarpasswordComponent },
   { path: 'restablecerpassword', component: RestablecerpasswordComponent },
   { path: 'loadtk/:info/:Id_Publicacion', component: LoadtkComponent },
@@ -66,19 +63,19 @@ const routes: Routes = [
     children: MICUENTA_CHILD_ROUTES
   },
   {
-    path: 'anuncio',
+    path: 'propiedad',
     children: ANUNCIOS_CHILD_ROUTES
   },
   {
-    path: 'cliente',
-    children: CLIENTE_CHILD_ROUTES
+    path: 'usuario',
+    children: USUARIO_CHILD_ROUTES
   },
   {
     path: 'legal',
     component: LegalComponent,
     children: LEGAL_CHILD_ROUTES
   },
-  { path: '**', pathMatch: 'full', redirectTo: 'inicio' },
+  { path: '**', pathMatch: 'full', redirectTo: '' },
 ];
 
 @NgModule({

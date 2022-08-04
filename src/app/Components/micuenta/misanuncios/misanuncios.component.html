@@ -29,19 +29,34 @@
 
         <div *ngIf="_seRealizaBusqueda" class="d-flex justify-content-center">
           <nav aria-label="Page navigation py-0 m-0">
-            <ul class="pagination pagination">
-              <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none'}" >
-                <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
+            <ul class="pagination">
+              <li class="page-item mx-1" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none', 'visibility': _mostrarPaginaAnterior && _paginadoDetalle.TotalPaginas > _numeroPaginasMostrar ? 'visible' : 'hidden'}" >
+                <button id="btnPaginador" class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
                   <span><i class="fa-solid fa-arrow-left"></i></span>
                 </button>
               </li>
-              <li *ngFor="let pagina of _paginas" class="page-item mx-2">
-                <button class="page-link color-text-box br25" style="width:40px; height:40px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : '', 'background-color': pagina.Activa ? 'rgba(223, 126, 137, .4)' : ''}" (click)="ejecutarConsulta(pagina.Pagina)" [disabled]="pagina.Activa">{{pagina.Pagina+1}}</button>
+              <li *ngFor="let pagina of _paginas" class="page-item mx-1">
+                <button id="btnPaginador" class="page-link color-text-box br25" style="width:40px; height:40px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : '', 'background-color': pagina.Activa ? 'rgba(223, 126, 137, .4)' : '', 'cursor': !pagina.Activa ? 'pointer' : 'default'}" (click)="ejecutarConsulta(pagina.Pagina)" [disabled]="pagina.Activa">{{pagina.Pagina+1}}</button>
               </li>
-              <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaSiguiente ? 'auto' : 'none'}" >
-                <button class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
+              <li class="page-item mx-1" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none', 'visibility': _mostrarPaginaSiguiente && _paginadoDetalle.TotalPaginas > _numeroPaginasMostrar ? 'visible' : 'hidden'}" >
+                <button id="btnPaginador" class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
                   <span><i class="fa-solid fa-arrow-right"></i></span>
                 </button>
+              </li>
+              <li class="page-item mx-1">
+                <form [formGroup]="formaNumeroPagina">
+                  <div class="row">
+                    <div class="col-md-5">
+                      <input type="number" 
+                            class="form-control text-primary color-text-box br25"
+                            formControlName="numeroPagina">
+                    </div>
+                    <div class="col p-0">
+                      <button type="submit" class="btn btn-sm btn-primary br25" style="position: relative; top: 50%;transform: translateY(-50%);" (click)="ejecutarConsulta(null)">
+                        <span><i class="fa-solid fa-angles-right"></i></span></button>
+                    </div>
+                  </div>
+                </form>
               </li>
             </ul>
           </nav>
@@ -50,7 +65,7 @@
       </div>
 
       <div [ngClass]="{' col-md-3': _mostrarFiltros, ' col-md-0': !_mostrarFiltros}" [ngStyle]="{'display': !_mostrarFiltros ? 'none' : 'inline' }" >
-        <div class="sticky-md-top text-primary br15" style="top:70px; left:10px; border: 1px solid">
+        <div class="sticky-md-top text-primary br15" style="top:70px; left:10px; border: 1px solid; box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
           <div class="row px-3" >
               <div class="row">
                 <div class="col-md-8">

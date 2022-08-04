@@ -6,6 +6,7 @@ import { URL_APIS } from '../global';
 import { login } from 'src/app/Models/Auxiliares/login.model';
 import { Router } from '@angular/router';
 import { usuario } from 'src/app/Models/Auxiliares/cliente.model';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -89,23 +90,23 @@ export class LoginService {
     }
   }
 
-  public obtenerIdCliente(): number {
+  public obtenerIdCliente(): string | null{
     if (localStorage.getItem('usuario'))
     {
-      return JSON.parse(localStorage.getItem('usuario')!)['Id_Cliente'];
+      return JSON.parse(localStorage.getItem('usuario')!)['UID_Cliente'];
     }
     else{
-      return 0;
+      return null;
     }
   }
 
-  public obtenerIdEmpresa(): number {
+  public obtenerIdEmpresa() : string | null {
     if (localStorage.getItem('usuario'))
     {
-      return JSON.parse(localStorage.getItem('usuario')!)['Id_Empresa'];
+      return JSON.parse(localStorage.getItem('usuario')!)['UID_Empresa'];
     }
     else{
-      return 0;
+      return null;
     }
   }
 

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container py-5">
     <div class="row">
         <div class="col-md-12">
             <div class="well well-sm">
@@ -22,9 +22,10 @@
                                   <tr>
                                     <th width="50px" class="text-primary text-center" scope="col">#</th>
                                     <th width="100px" class="text-primary text-center" scope="col">Clave</th>
-                                    <th width="450px" class="text-primary text-center" scope="col">Descripción</th>
-                                    <th width="190px" class="text-primary text-center" scope="col">Fecha de Alta</th>
-                                    <th width="190px" class="text-primary text-center" scope="col">Fecha de Modificación</th>
+                                    <th class="text-primary text-center" style="max-width:250px" scope="col">Descripción</th>
+                                    <th class="text-primary text-center" style="max-width:250px" scope="col">Descripción 2</th>
+                                    <th class="text-primary text-center" scope="col" style="max-width:150px">Fecha de Alta</th>
+                                    <th class="text-primary text-center" scope="col" style="max-width:150px">Fecha de Modificación</th>
                                     <th class="text-primary text-center" scope="col">Modificar</th>
                                     <th class="text-primary text-center" scope="col">Eliminar</th>
                                   </tr>
@@ -34,6 +35,7 @@
                                     <td class="text-primary text-center" scope="row">{{tipoPropiedad.Id_TipoPropiedad}}</td>
                                     <td class="text-primary">{{tipoPropiedad.Clave}}</td>
                                     <td class="text-primary">{{tipoPropiedad.Descripcion}}</td>
+                                    <td class="text-primary">{{tipoPropiedad.Descripcion2}}</td>
                                     <td width="150px" class="text-primary text-center">{{tipoPropiedad.FechaAlta | date:'yyyy-MM-dd HH:mm'}}</td>
                                     <td width="150px" class="text-primary text-center">{{tipoPropiedad.FechaModificacion | date:'yyyy-MM-dd HH:mm'}}</td>
                                     <td width="90px" class="p-1">
@@ -80,6 +82,7 @@
                                 <div class="col-md-8">
                                     <input formControlName="clave" 
                                            type="text"
+                                           maxlength="10"
                                            [class.is-invalid]="claveNoValido"
                                            placeholder="Clave" 
                                            class="form-control text-primary color-text-box">
@@ -91,20 +94,39 @@
                                 </div>
                               </div>
 
-                                <div class="form-group row mb-3">
-                                    <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pen-square bigicon"></i></span>
-                                    <div class="col-md-8">
-                                        <input formControlName="descripcion" 
-                                               type="text" placeholder="Descripción" 
-                                               [class.is-invalid]="descripcionNoValido" 
-                                               class="form-control text-primary color-text-box ">
-                                    </div>
-                                    <div class="col-md-3 px-0">
-                                        <small *ngIf="descripcionNoValido" class="text-danger">
-                                          Descripción no valida
-                                        </small>
-                                    </div>
-                                </div>
+                              <div class="form-group row mb-3">
+                                  <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pen-square bigicon"></i></span>
+                                  <div class="col-md-8">
+                                      <input formControlName="descripcion" 
+                                              type="text" 
+                                              placeholder="Descripción" 
+                                              maxlength="50"
+                                              [class.is-invalid]="descripcionNoValido" 
+                                              class="form-control text-primary color-text-box ">
+                                  </div>
+                                  <div class="col-md-3 px-0">
+                                      <small *ngIf="descripcionNoValido" class="text-danger">
+                                        Descripción no valida
+                                      </small>
+                                  </div>
+                              </div>
+
+                              <div class="form-group row mb-3">
+                                  <span class="col-md-1 col-md-offset-2 text-primary text-center"><i class="fa fa-pen-square bigicon"></i></span>
+                                  <div class="col-md-8">
+                                      <input formControlName="descripcion2" 
+                                              type="text" 
+                                              placeholder="Descripción del buscador" 
+                                              maxlength="50"
+                                              [class.is-invalid]="descripcion2NoValido" 
+                                              class="form-control text-primary color-text-box ">
+                                  </div>
+                                  <div class="col-md-3 px-0">
+                                      <small *ngIf="descripcion2NoValido" class="text-danger">
+                                        Descripción del buscador no valida
+                                      </small>
+                                  </div>
+                              </div>
 
                                 
         

@@ -60,7 +60,7 @@ export class RestablecerpasswordComponent implements OnInit {
           showDenyButton: false,
         });
 
-        this.router.navigateByUrl('/inicio');
+        this.router.navigateByUrl('/');
 
         switch (error.status) {
           case 401:
@@ -111,7 +111,7 @@ export class RestablecerpasswordComponent implements OnInit {
             showDenyButton: false,
           });
 
-          this.router.navigateByUrl('/iniciarsesion');
+          this.router.navigateByUrl('/usuario/iniciarsesion');
           
         },
         (error: HttpErrorResponse) => {

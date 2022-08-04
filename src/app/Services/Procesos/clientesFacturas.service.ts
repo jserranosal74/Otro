@@ -22,12 +22,12 @@ export class ClientesFacturasService {
     this.urlClientesFacturas = URL_APIS.urlClientesFacturas;
   }
 
-  public getClienteFacturas(Id_Cliente : number, Id_PlanCliente : number | null, Id_PaqueteCliente : number | null, Id_Anio : number | null, Id_Mes : number | null): Observable<factura[]> {
-    return this.http.get<factura[]>(this.urlClientesFacturas + '?Id_Cliente=' + Id_Cliente + '&Id_PlanCliente=' + Id_PlanCliente + '&Id_PaqueteCliente=' + Id_PaqueteCliente + '&Id_Anio=' + Id_Anio + '&Id_Mes=' + Id_Mes, this.httpOptions);
+  public getClienteFacturas(UID_Cliente : string, Id_PlanCliente : number | null, Id_PaqueteCliente : number | null, Id_Anio : number | null, Id_Mes : number | null): Observable<factura[]> {
+    return this.http.get<factura[]>(this.urlClientesFacturas + '?Id_Cliente=' + UID_Cliente + '&Id_PlanCliente=' + Id_PlanCliente + '&Id_PaqueteCliente=' + Id_PaqueteCliente + '&Id_Anio=' + Id_Anio + '&Id_Mes=' + Id_Mes, this.httpOptions);
   }
 
-  public getEnviarFactura(Id_Cliente : number, Id_PlanCliente : number | null, Id_PaqueteCliente : number | null): Observable<number> {
-    return this.http.get<number>(this.urlClientesFacturas + '?Id_Cliente=' + Id_Cliente + '&Id_PlanCliente=' + ( Id_PlanCliente === null ? '' : Id_PlanCliente) + '&Id_PaqueteCliente=' + ( Id_PaqueteCliente === null ? '' : Id_PaqueteCliente), this.httpOptions);
+  public getEnviarFactura(UID_Cliente : string, Id_PlanCliente : number | null, Id_PaqueteCliente : number | null): Observable<number> {
+    return this.http.get<number>(this.urlClientesFacturas + '?Id_Cliente=' + UID_Cliente + '&Id_PlanCliente=' + ( Id_PlanCliente === null ? '' : Id_PlanCliente) + '&Id_PaqueteCliente=' + ( Id_PaqueteCliente === null ? '' : Id_PaqueteCliente), this.httpOptions);
   }
   
 }

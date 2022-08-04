@@ -4,10 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 import { Router, ActivatedRoute } from '@angular/router';
-import { estatus } from 'src/app/Models/catalogos/estatus.model';
 import { pagina, paginadoDetalle } from 'src/app/Models/catalogos/asentamiento.model';
-import { EstatusService } from '../../../Services/Catalogos/estatus.service';
-import { publicacionInfoMini, publicacionMultimedia } from 'src/app/Models/procesos/publicacion.model';
+import { publicacionInfoMini } from 'src/app/Models/procesos/publicacion.model';
 import { PublicacionesService } from '../../../Services/Procesos/publicaciones.service';
 import { LoginService } from '../../../Services/Catalogos/login.service';
 import { ClientesService } from 'src/app/Services/Catalogos/clientes.service';
@@ -28,14 +26,14 @@ export class PropiedadesComponent implements OnInit {
   formaMensajeVendedor = this.fb.group([]);
 
   _infoURL : string = '';
-  _Id_Cliente : number = 0;
+  _Id_Cliente : number | null = null;
   _publicacionesCliente : publicacionInfoMini[] = [];
   _clienteVista : clienteVista = new clienteVista(0,'','','','',[]);
   _usuarioVista : clienteVista = new clienteVista(0,'','','','',[]);
   _pubClienteSeleccionada! : publicacionInfoMini;
 
   _paginadoDetalle : paginadoDetalle = new paginadoDetalle(0,0);
-  _paginas: pagina[] = [];
+  _paginas : pagina[] = [];
   _numeroPaginasMostrar = 5;
   _paginaActual = 0;
   _paginaInicial = 0;
@@ -47,6 +45,7 @@ export class PropiedadesComponent implements OnInit {
   // _estaComoFavorito : boolean = false;
   obtenerTipo = 'password';
   _tipoContactoVendedor : number = 0;
+  _Id_Usuario_Actual = this._loginService.obtenerIdCliente();
 
   @ViewChild('myModalIniciarSesion') modalIniciarSesion : any;
   @ViewChild('myModalDatosUsuario') modalDatosUsuario : any;
@@ -58,15 +57,15 @@ export class PropiedadesComponent implements OnInit {
                 private _loginService : LoginService,
                 private _favoritosClienteService : FavoritosClienteService,
                 private _publicacionMensajeService : PublicacionMensajesService,
-                private _estatusService : EstatusService,
                 private _clienteService : ClientesService,
   ) {
   // Se obtiene el Id de la publicacion a visualizar
+  debugger;
   this._activatedRoute.queryParams.subscribe(params => {
     this._infoURL = this._activatedRoute.snapshot.params['id_cliente'];
     this._Id_Cliente = parseInt(this._infoURL.split('-')[this._infoURL.split('-').length-1]);
     if (this._Id_Cliente === undefined){
-      setTimeout( () => { this.router.navigateByUrl('/inicio'); }, 700 );
+      setTimeout( () => { this.router.navigateByUrl('/'); }, 700 );
     }
   });
 
@@ -114,15 +113,10 @@ export class PropiedadesComponent implements OnInit {
 
   ObtenerPublicaciones(){
     //debugger;
-    this._publicacionesService.getPublicacionesMini(this._Id_Cliente, (this._loginService.obtenerIdCliente() === 0 ? null : this._loginService.obtenerIdCliente()), 0, 10, null,null,null,null,null,null,null).subscribe(
+    this._publicacionesService.getPublicacionesMiniCliente(this._Id_Cliente!, this._loginService.obtenerIdCliente(), 0, 10, 13,null,null,null,null,null,null).subscribe(
       (data) => {
-        //Next callback
-        console.log('getPublicacionesMini', data);
 
-        // data.forEach( item=> {
-        //   item.EsFavorito = item.EsFavorito === 1 ? true : false;
-        // });
-
+        console.log('ObtenerPublicaciones',data);
         this._publicacionesCliente = data;
 
         if (data.length > 0) {
@@ -130,7 +124,7 @@ export class PropiedadesComponent implements OnInit {
         }
 
         // Se obtiene el numero de paginas totales y el numero de renglones(registros) en total de la busqueda
-        this._publicacionesService.getPublicacionesMiniPagDet(this._Id_Cliente, 10, null,null,null,null,null,null,null).subscribe(
+        this._publicacionesService.getPublicacionesMiniPagDetCliente(this._Id_Cliente!, 10, 13,null,null,null,null,null,null).subscribe(
           (data) => {
             //Next callback
             //console.log('getPublicacionesMiniPagDet', data);
@@ -255,7 +249,7 @@ export class PropiedadesComponent implements OnInit {
   obtenerPagina(item : number){
     // alert(item);
     debugger;
-    this._publicacionesService.getPublicacionesMini(this._Id_Cliente, (this._loginService.obtenerIdCliente() === 0 ? null : this._loginService.obtenerIdCliente()), item, 10, null,null,null,null,null,null,null).subscribe(
+    this._publicacionesService.getPublicacionesMiniCliente(this._Id_Cliente!, this._Id_Usuario_Actual, item, 10, null,null,null,null,null,null,null).subscribe(
       (data) => {
         //Next callback
 
@@ -293,17 +287,10 @@ export class PropiedadesComponent implements OnInit {
   CargarCliente(){
     //debugger;
     //console.log('CargarCliente');
-    this._clienteService.getClienteVista(this._Id_Cliente, null).subscribe(
+    this._clienteService.getClienteVistaCliente(this._Id_Cliente!, null).subscribe(
       (dataCliente) => {
 
         this._clienteVista = dataCliente;
-
-        // dataCliente.ClienteMedioContacto.forEach(item=>{
-        //   if (item.Id_MedioContacto === 1){
-        //     this._telefono = item.Descripcion.substring(0,5);
-        //     this._telefonoOculto = true;
-        //   }
-        // })
 
       },
       (error: HttpErrorResponse) => {
@@ -356,7 +343,7 @@ export class PropiedadesComponent implements OnInit {
       }
       else {
 
-        this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._pubClienteSeleccionada.Id_Publicacion, this._pubClienteSeleccionada.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),2,'anuncio-vista','',this.formaMensajeVendedor.get('nombreDU')?.value, this.formaMensajeVendedor.get('emailDU')?.value, this.formaMensajeVendedor.get('telefonoDU')?.value, this.formaMensajeVendedor.get('mensajeDU')?.value, new Date(),new Date(),0,0,'')).subscribe(
+        this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._pubClienteSeleccionada.Id_Publicacion, this._pubClienteSeleccionada.Id_Cliente, this._pubClienteSeleccionada.UID_Cliente!, this._Id_Usuario_Actual!, 2,'anuncio-vista','',this.formaMensajeVendedor.get('nombreDU')?.value, this.formaMensajeVendedor.get('emailDU')?.value, this.formaMensajeVendedor.get('telefonoDU')?.value, this.formaMensajeVendedor.get('mensajeDU')?.value, new Date(),new Date(),0,0,'')).subscribe(
           (dataVista) => {
     
             //console.log(dataVista);
@@ -387,7 +374,7 @@ export class PropiedadesComponent implements OnInit {
     this.limpiarFormularioDatosUsuario();
     this._tipoContactoVendedor = tipoContacto;
 
-    if (this._loginService.obtenerIdCliente() === 0){
+    if (this._loginService.obtenerIdCliente() === null){
       this.validarAutenticacion();
       this._pubClienteSeleccionada = objPubCliente;
       this.modalDatosUsuario.nativeElement.click();
@@ -562,7 +549,7 @@ export class PropiedadesComponent implements OnInit {
 
   agregarFavorito(objPubCliente: publicacionInfoMini){
     debugger;
-    if (this._loginService.obtenerIdCliente() === 0){
+    if (this._loginService.obtenerIdCliente() === null){
       this.limpiarFormularioInicioSesion();
       objPubCliente.EsFavorito = 0;
       this.validarAutenticacion();

@@ -1,0 +1,113 @@
+<div class="px-5 mx-5">
+<div [id]="_idControl" class="carousel slide" data-ride="false">
+    <div class="carousel-inner">
+        <div class="carousel-item active" *ngIf="_publicacionesEspeciales[0] != undefined">
+            <div class="row">
+                <div class="col-md-3 mb-3" *ngFor="let item of [0,1,2,3]">
+                    <div class="card color-card" (click)="verPublicacionCliente(_publicacionesEspeciales[item]);" *ngIf="_publicacionesEspeciales[item] != undefined" style="border-radius:15px; height:300px;">
+                        <div class="img-wrapper"><img src="{{_publicacionesEspeciales[item].Url}}" class="d-block w-100" alt="img card{{item}}" style="border-radius:15px 15px 0px 0px;" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';"> </div>
+                        <div class="card-body">
+                            <h6 class="card-title text-primary">{{((_publicacionesEspeciales[item].Id_Moneda) === 1 ? 'MXN' : 'USD')}} {{_publicacionesEspeciales[item].PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }}</h6>
+                            <p class="card-text text-primary my-1" style="font-size:small;">{{_publicacionesEspeciales[item].Asentamiento}}, {{_publicacionesEspeciales[item].Municipio}}, {{_publicacionesEspeciales[item].Estado}}.</p>
+                            <div class="row" style="position:absolute; top:250px; left:20px;">
+                                <div *ngIf="_publicacionesEspeciales[item].SuperficieConstruidaDesde != null && _publicacionesEspeciales[item].SuperficieConstruidaDesde != 0" class="col mx-0 my-1 px-0 text-end">
+                                    <img src="/assets/anuncioVista/M2 CONSTRUCCION.png" width="25px" height="25px">
+                                </div>
+                                <div *ngIf="_publicacionesEspeciales[item].SuperficieConstruidaDesde != null && _publicacionesEspeciales[item].SuperficieConstruidaDesde != 0" class="col-auto mx-0 my-1 px-0">
+                                    <p class="card-text text-primary mx-0 my-1" style="font-size:small;">{{_publicacionesEspeciales[item].SuperficieConstruidaDesde}} m<sup>2</sup></p>
+                                </div>
+                                <div *ngIf="_publicacionesEspeciales[item].RecamarasDesde != null && _publicacionesEspeciales[item].RecamarasDesde != 0" class="col mx-0 my-1 px-1 text-end" style="padding-left:15px !important;">
+                                    <img src="/assets/anuncioVista/RECAMARA.png" width="25px" height="25px">
+                                </div>
+                                <div *ngIf="_publicacionesEspeciales[item].RecamarasDesde != null && _publicacionesEspeciales[item].RecamarasDesde != 0" class="col mx-0 my-1 px-0">
+                                    <p class="card-text text-primary mx-0 my-1" style="font-size:small;">{{_publicacionesEspeciales[item].RecamarasDesde}}</p>
+                                </div>
+                                <div *ngIf="_publicacionesEspeciales[item].BaniosCompDesde != null && _publicacionesEspeciales[item].BaniosCompDesde != 0" class="col mx-0 my-1 px-1 text-end" style="padding-left:15px !important;">
+                                    <img src="/assets/anuncioVista/BANIO COMPLETO.png" width="25px" height="25px">
+                                </div>
+                                <div *ngIf="_publicacionesEspeciales[item].BaniosCompDesde != null && _publicacionesEspeciales[item].BaniosCompDesde != 0" class="col mx-0 my-1 px-0">
+                                    <p class="card-text text-primary mx-0 my-1" style="font-size:small;">{{_publicacionesEspeciales[item].BaniosCompDesde}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item" *ngIf="_publicacionesEspeciales[4] != undefined">
+            <div class="row">
+                <div class="col-md-3 mb-3" *ngFor="let item of [4,5,6,7]">
+                    <div class="card color-card" (click)="verPublicacionCliente(_publicacionesEspeciales[item]);" *ngIf="_publicacionesEspeciales[item] != undefined" style="border-radius:15px; height:300px;">
+                        <div class="img-wrapper"><img src="{{_publicacionesEspeciales[item].Url}}" class="d-block w-100" alt="img card{{item}}" style="border-radius:15px 15px 0px 0px;" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';"> </div>
+                        <div class="card-body">
+                            <h6 class="card-title text-primary">{{((_publicacionesEspeciales[item].Id_Moneda) === 1 ? 'MXN' : 'USD')}} {{_publicacionesEspeciales[item].PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }}</h6>
+                            <p class="card-text text-primary my-1" style="font-size:small;">{{_publicacionesEspeciales[item].Asentamiento}}, {{_publicacionesEspeciales[item].Municipio}}, {{_publicacionesEspeciales[item].Estado}}.</p>
+                            <div class="row" style="position:absolute; top:250px; left:20px;">
+                                <div *ngIf="_publicacionesEspeciales[item].SuperficieConstruidaDesde != null && _publicacionesEspeciales[item].SuperficieConstruidaDesde != 0" class="col mx-0 my-1 px-0 text-end">
+                                    <img src="/assets/anuncioVista/M2 CONSTRUCCION.png" width="25px" height="25px">
+                                </div>
+                                <div *ngIf="_publicacionesEspeciales[item].SuperficieConstruidaDesde != null && _publicacionesEspeciales[item].SuperficieConstruidaDesde != 0" class="col-auto mx-0 my-1 px-0">
+                                    <p class="card-text text-primary mx-0 my-1" style="font-size:small;">{{_publicacionesEspeciales[item].SuperficieConstruidaDesde}} m<sup>2</sup></p>
+                                </div>
+                                <div *ngIf="_publicacionesEspeciales[item].RecamarasDesde != null && _publicacionesEspeciales[item].RecamarasDesde != 0" class="col mx-0 my-1 px-1 text-end" style="padding-left:15px !important;">
+                                    <img src="/assets/anuncioVista/RECAMARA.png" width="25px" height="25px">
+                                </div>
+                                <div *ngIf="_publicacionesEspeciales[item].RecamarasDesde != null && _publicacionesEspeciales[item].RecamarasDesde != 0" class="col mx-0 my-1 px-0">
+                                    <p class="card-text text-primary mx-0 my-1" style="font-size:small;">{{_publicacionesEspeciales[item].RecamarasDesde}}</p>
+                                </div>
+                                <div *ngIf="_publicacionesEspeciales[item].BaniosCompDesde != null && _publicacionesEspeciales[item].BaniosCompDesde != 0" class="col mx-0 my-1 px-1 text-end" style="padding-left:15px !important;">
+                                    <img src="/assets/anuncioVista/BANIO COMPLETO.png" width="25px" height="25px">
+                                </div>
+                                <div *ngIf="_publicacionesEspeciales[item].BaniosCompDesde != null && _publicacionesEspeciales[item].BaniosCompDesde != 0" class="col mx-0 my-1 px-0">
+                                    <p class="card-text text-primary mx-0 my-1" style="font-size:small;">{{_publicacionesEspeciales[item].BaniosCompDesde}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item" *ngIf="_publicacionesEspeciales[8] != undefined">
+            <div class="row">
+                <div class="col-md-3 mb-3" *ngFor="let item of [8,9,10,11]">
+                    <div class="card color-card" (click)="verPublicacionCliente(_publicacionesEspeciales[item]);" *ngIf="_publicacionesEspeciales[item] != undefined" style="border-radius:15px; height:300px;">
+                        <div class="img-wrapper"><img src="{{_publicacionesEspeciales[item].Url}}" class="d-block w-100" alt="img card{{item}}" style="border-radius:15px 15px 0px 0px;" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';"> </div>
+                        <div class="card-body">
+                            <h6 class="card-title text-primary">{{((_publicacionesEspeciales[item].Id_Moneda) === 1 ? 'MXN' : 'USD')}} {{_publicacionesEspeciales[item].PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }}</h6>
+                            <p class="card-text text-primary my-1" style="font-size:small;">{{_publicacionesEspeciales[item].Asentamiento}}, {{_publicacionesEspeciales[item].Municipio}}, {{_publicacionesEspeciales[item].Estado}}.</p>
+                            <div class="row" style="position:absolute; top:250px; left:20px;">
+                                <div *ngIf="_publicacionesEspeciales[item].SuperficieConstruidaDesde != null && _publicacionesEspeciales[item].SuperficieConstruidaDesde != 0" class="col mx-0 my-1 px-0 text-end">
+                                    <img src="/assets/anuncioVista/M2 CONSTRUCCION.png" width="25px" height="25px">
+                                </div>
+                                <div *ngIf="_publicacionesEspeciales[item].SuperficieConstruidaDesde != null && _publicacionesEspeciales[item].SuperficieConstruidaDesde != 0" class="col-auto mx-0 my-1 px-0">
+                                    <p class="card-text text-primary mx-0 my-1" style="font-size:small;">{{_publicacionesEspeciales[item].SuperficieConstruidaDesde}} m<sup>2</sup></p>
+                                </div>
+                                <div *ngIf="_publicacionesEspeciales[item].RecamarasDesde != null && _publicacionesEspeciales[item].RecamarasDesde != 0" class="col mx-0 my-1 px-1 text-end" style="padding-left:15px !important;">
+                                    <img src="/assets/anuncioVista/RECAMARA.png" width="25px" height="25px">
+                                </div>
+                                <div *ngIf="_publicacionesEspeciales[item].RecamarasDesde != null && _publicacionesEspeciales[item].RecamarasDesde != 0" class="col mx-0 my-1 px-0">
+                                    <p class="card-text text-primary mx-0 my-1" style="font-size:small;">{{_publicacionesEspeciales[item].RecamarasDesde}}</p>
+                                </div>
+                                <div *ngIf="_publicacionesEspeciales[item].BaniosCompDesde != null && _publicacionesEspeciales[item].BaniosCompDesde != 0" class="col mx-0 my-1 px-1 text-end" style="padding-left:15px !important;">
+                                    <img src="/assets/anuncioVista/BANIO COMPLETO.png" width="25px" height="25px">
+                                </div>
+                                <div *ngIf="_publicacionesEspeciales[item].BaniosCompDesde != null && _publicacionesEspeciales[item].BaniosCompDesde != 0" class="col mx-0 my-1 px-0">
+                                    <p class="card-text text-primary mx-0 my-1" style="font-size:small;">{{_publicacionesEspeciales[item].BaniosCompDesde}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#'+_idControl" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#'+_idControl" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+</div>

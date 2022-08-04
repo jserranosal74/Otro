@@ -1,28 +1,36 @@
-<div class="container animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}" >
+<div class="container py-5 animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}" >
   
-
       <div class="container" >
         <div class="row px-0" >
             <div class="col-md-10" >
               <legend class="text-center text-primary mb-3 "><h1 class="display-4">Fotos y videos</h1></legend>
             </div>
             <div class="col-md-2 d-grid py-3" style="border-width:1px 1px 0px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 20px 20px 0px 0px; background: rgba(223, 126, 137, 0.15);">
-                <button type="button" style="border-radius: 0.8em;" (click)="pantallaSiguiente()" class="btn btn-primary btn-lg align-items-right">Siguiente</button>
+                <button type="button" 
+                        (click)="pantallaSiguiente()" 
+                        [disabled]="_loading"
+                        class="btn btn-primary btn-lg align-items-right br25">Siguiente
+                        <i class="fa fa-arrow-right"></i>
+                </button>
             </div>
         </div>
       </div>
 
   <form [formGroup]="formaMultimedia">
-      <div class="container p-5"  style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
+      <div class="container p-5" 
+           style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 0px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
 
         <div class="row px-4">
-          <button for="fileElem" onclick="$('#fileElem').click()" class="btn btn-outline-primary">Subir fotografias de su propiedad</button>
-          <input type="file" style="display:none"
+          <button for="fileElem" 
+                  onclick="$('#fileElem').click()" 
+                  [disabled]="_loading"
+                  class="btn btn-outline-primary br25">Subir fotografias de su propiedad ( máximo: {{_NumeroFotos}} de {{_TamanioArchivo}} MB c/u)</button>
+          <input type="file" 
+                 style="display:none;"
                  class="form-control text-primary" 
                  accept="image/jpg,image/png,image/jpeg,image/gif" 
-                 id="fileElem" 
-                 formControlName="fotosPropiedad"
-                 (change)="obtenerArchivos($event)"
+                 id="fileElem"
+                 (change)="obtenerArchivosFotografias($event)"
                  multiple >
         </div>
 
@@ -67,9 +75,69 @@
                                    aria-label="Recipient's username" 
                                    maxlength="50"
                                    aria-describedby="basic-addon2">
-                            <!-- <div class="input-group-append" >
-                              <button class="btn btn-outline-danger" type="button" (click)="borrarFotografia(control, i)"><span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-trash-can" aria-hidden="true"></i></span></button>
-                            </div> -->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row px-4">
+          <button for="fileElemPlanos" 
+                  onclick="$('#fileElemPlanos').click()" 
+                  [disabled]="_loading"
+                  class="btn btn-outline-primary br25">Subir planos de su propiedad ( máximo: {{_NumeroPlanos}} de {{_TamanioArchivo}} MB c/u )</button>
+          <input type="file" 
+                 style="display:none"
+                 class="form-control text-primary" 
+                 accept="image/jpg,image/png,image/jpeg,image/gif" 
+                 id="fileElemPlanos" 
+                 (change)="obtenerArchivosPlanos($event)"
+                 multiple >
+        </div>
+
+        <div class="form-group row">
+        
+          <div class="form-group py-0 mb-5 px-3">
+            <div formArrayName="planosPropiedad">
+              <div class="row row-cols-3 row-cols-lg-5 g-4 m-0" >
+                <div class="form-group col" [formGroupName]="i" *ngFor="let control of planos.controls; let i = index;" style="position:relative; display:block;">
+                    <div class="col-md">
+                      <div class="col p-0 m-0">
+                        <img class="form-control m-0 p-0" 
+                              alt="Imagen" 
+                              width="auto" 
+                              height="150" 
+                              [src]="obtenerInfoUrl(control)">
+                      </div>
+                      <div>
+                        <button id="btnEliminarPlano{{i}}"
+                                class="btn btn-outline-danger br25" 
+                                type="button" 
+                                style="position: absolute; top:5px; left:145px; border:none; color:rgba(255, 0, 0, 0.8);background-color: transparent;
+                                text-shadow: -1px -1px 1px rgb(200, 200, 200), 1px 1px 1px rgb(200, 200, 200), -1px 1px 1px rgb(200, 200, 200), 1px -1px 1px rgb(200, 200, 200);"
+                                (click)="borrarPlano(control, i)">
+                                <span class="col-md-1 col-md-offset-2 text-center">
+                                  <i class="fa fa-trash-can medicon" aria-hidden="true"></i></span>
+                        </button>
+                      </div>
+                      <div class="col">
+                        <div class="row">
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <div class="input-group-text" style="height:100%;">
+                                <input id="planoPred{{i}}" type="radio" name="PredeterminadaPlano" (change)="cambiarPlanoPredeterminado(control)" [checked]="obtenerEstado(control)" >
+                              </div>
+                            </div>
+                            <input type="text" 
+                                   class="form-control text-primary color-text-box" 
+                                   placeholder="Descripción" 
+                                   formControlName="Descripcion"
+                                   maxlength="50"
+                                   aria-describedby="basic-addon2">
                           </div>
                         </div>
                       </div>
@@ -83,11 +151,15 @@
         <div class="row px-4">
           <div class="input-group">
             <input type="text" 
-                  class="form-control input-group text-primary color-text-box" 
-                  id="videoElem" 
-                  formControlName="urlVideo">
-            <div class="input-group-append">
-              <button type="button" (click)="agregarVideo()" class="btn input-group btn-outline-primary">Agregar video</button>
+                   class="form-control input-group text-primary color-text-box" 
+                   id="videoElem" 
+                   placeholder="Teclee aquí la dirección Url de su video"
+                   formControlName="urlVideo">
+            <div class="input-group-append px-3">
+              <button type="button" 
+                      (click)="agregarVideo()" 
+                      [disabled]="_loading"
+                      class="btn input-group btn-outline-primary br25">Agregar video</button>
             </div>
           </div>
         </div>
@@ -106,7 +178,6 @@
                         <button class="btn btn-outline-danger" 
                                 style="position: absolute; top:5px; left:450px; border-radius: 25px; border:none; color:rgba(255, 0, 0, 0.8);background-color: transparent;
                                        text-shadow: -1px -1px 1px rgb(200, 200, 200), 1px 1px 1px rgb(200, 200, 200), -1px 1px 1px rgb(200, 200, 200), 1px -1px 1px rgb(200, 200, 200);"
-                                (click)="borrarFotografia(control, i)"
                                 type="button" 
                                 (click)="borrarVideo(control, i)"><span class="col-md-1 col-md-offset-2 text-center">
                                   <i class="fa fa-trash-can medicon" aria-hidden="true"></i></span></button>
@@ -140,14 +211,23 @@
       <div class="container" >
         <div class="row px-0" >
           <div class="col-md-2 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0 0 20px 20px; background: rgba(223, 126, 137, 0.15);">
-            <button type="button" style="border-radius: 0.8em;" (click)="regresar()" class="btn btn-primary btn-lg align-items-right">Atras</button>
+            <button type="button" 
+                    (click)="regresar()" 
+                    [disabled]="_loading"
+                    class="btn btn-primary btn-lg align-items-right br25">
+                    <i class="fa fa-arrow-left"></i>
+                    Atras
+            </button>
           </div>
           <div class="col-md-4"></div>
           <div class="col-md-3 d-grid py-3">
               <!-- <button type="button" style="border-radius: 0.8em;" (click)="guardarFotosyVideos()" class="btn btn-primary btn-lg align-items-right">Guardar</button> -->
           </div>
           <div class="col-md-3 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0px 0px 20px 20px; background: rgba(223, 126, 137, 0.15);">
-              <button type="button" style="border-radius: 0.8em;" (click)="guardarFotosyVideos()" class="btn btn-primary btn-lg align-items-right" [disabled]="_loading">
+              <button type="button" 
+                      (click)="guardarFotosPlanosyVideos()" 
+                      class="btn btn-primary btn-lg align-items-right br25" 
+                      [disabled]="_loading">
                   <span *ngIf="_loading"><i class="fa fa-sync fa-spin"></i> Espere por favor...</span>
                   <span *ngIf="!_loading">Guardar y Continuar</span>
               </button>

@@ -23,8 +23,9 @@ export class AsignarPaqueteAClienteComponent implements OnInit {
   formaPaqueteEmpresa = this.fb.group({});
 
   _paquetes : paquete[] = [];
-  _paquete : paquete = new paquete(0,'',0,'','',null,null,[],new Date(),new Date(),0,0,0);
-  _planCliente : plancliente = new plancliente(0,0,0,null,'',0,0,0,0,'',new Date(),null,null,null,null,new Date(),new Date(),0,'',0,false);
+  // _paquete : paquete = new paquete(0,'',0,'','',null,null,[],new Date(),new Date(),0,0,0);
+  _paquete! : paquete;
+  _planCliente : plancliente = new plancliente(0,0,0,null,null,'',0,0,0,0,'',new Date(),null,null,null,null,new Date(),new Date(),0,'',0,false);
   _paquetesEmpresas : paqueteEmpresa[] = [];
   _paqueteEmpresa! : paqueteEmpresa;
   _empresas : empresa[] = [];
@@ -56,22 +57,24 @@ export class AsignarPaqueteAClienteComponent implements OnInit {
 
   crearFormulario() {
     this.formaCliente = this.fb.group({
-      empresa : ['', Validators.required]
+      clavePaquete : [''],
+      empresa      : ['']
     });
     this.formaPaqueteEmpresa = this.fb.group({
       empresaModal : ['', Validators.required]
     });
-    this._paquete  = new paquete(0,'',0,'','',null,null,[],new Date(),new Date(),0,0,0);
+    //this._paquete  = new paquete(0,'',0,'','',null,null,[],new Date(),new Date(),0,0,0);
   }
 
   limpiarFormulario() {
     this.formaCliente.reset({
-      empresa : ''
+      clavePaquete : '',
+      empresa      : ''
     });
     this.formaPaqueteEmpresa.reset({
       empresaModal : ''
     });
-    this._paquete  = new paquete(0,'',0,'','',null,null,[],new Date(),new Date(),0,0,0);
+    //this._paquete  = new paquete(0,'',0,'','',null,null,[],new Date(),new Date(),0,0,0);
   }
 
   obtenerEmpresas() {
@@ -142,8 +145,8 @@ export class AsignarPaqueteAClienteComponent implements OnInit {
   }
 
   obtenerPaquetesEmpresas() {
-    //debugger;
-    this._paquetesEmpresasService.getPaquetesEmpresas( this.formaCliente.get('empresa')?.value === '' ? null : this.formaCliente.get('empresa')?.value).subscribe(
+    debugger;
+    this._paquetesEmpresasService.getPaquetesEmpresas( this.formaCliente.get('empresa')?.value === '' ? null : this.formaCliente.get('empresa')?.value, this.formaCliente.get('clavePaquete')?.value === '' ? null : this.formaCliente.get('clavePaquete')?.value).subscribe(
       (data) => {
         //Next callback
        
@@ -168,99 +171,27 @@ export class AsignarPaqueteAClienteComponent implements OnInit {
     );
   }
 
-  // agregarPaqueteAEmpresa(){
-
-  //   if (this.formaCliente.invalid) {
-  //     return Object.values(this.formaCliente.controls).forEach((control) => {
-  //       if (control instanceof FormGroup) {
-  //         Object.values(control.controls).forEach((control) =>
-  //           control.markAsTouched()
-  //         );
-  //       } else {
-  //         control.markAsTouched();
-  //       }
-  //     });
-  //   } else {
-
-  //     if(this._empresa.Id_Empresa != null){
-  //         this.modalPaquete.nativeElement.click();
-  //       }
-  //       else{
-  //         Swal.fire({
-  //           icon: 'error',
-  //           title: 'Seleccione la empresa a asignar. Verifique.',
-  //           showCancelButton: false,
-  //           showDenyButton: false,
-  //         });
-  //       }
-
-  //   }
-  // }
-
   buscarPaquetes(){
+    debugger;
 
-    if (this.formaCliente.invalid) {
-      return Object.values(this.formaCliente.controls).forEach((control) => {
-        if (control instanceof FormGroup) {
-          Object.values(control.controls).forEach((control) =>
-            control.markAsTouched()
-          );
-        } else {
-          control.markAsTouched();
-        }
-      });
-    } else {
+    this.obtenerPaquetesEmpresas();
 
-     this.obtenerPaquetesEmpresas();
+    // if (this.formaCliente.invalid) {
+    //   return Object.values(this.formaCliente.controls).forEach((control) => {
+    //     if (control instanceof FormGroup) {
+    //       Object.values(control.controls).forEach((control) =>
+    //         control.markAsTouched()
+    //       );
+    //     } else {
+    //       control.markAsTouched();
+    //     }
+    //   });
+    // } else {
 
-    }
+    //  this.obtenerPaquetesEmpresas();
+
+    // }
   }
-
-  // obtenerCliente() {
-  //   //let Id_Usuario = this._loginService.obtenerIdCliente();
-
-  //   this._clienteService.getCliente(null, this.formaCliente.get('email')?.value).subscribe(
-  //     (data) => {
-  //       //Next callback
-  //       this._cliente = data;
-
-  //       if(data.Id_Empresa != null){
-  //         this.modalPaquete.nativeElement.click();
-  //       }
-  //       else{
-  //         Swal.fire({
-  //           icon: 'error',
-  //           title: 'El cliente no se encuentra asignado a ninguna empresa ' + this.formaCliente.get('email')?.value + '. Verifique.',
-  //           showCancelButton: false,
-  //           showDenyButton: false,
-  //         });
-  //       }
-
-  //       //this.modalFacturas.nativeElement.click();
-
-  //     },
-  //     (error: HttpErrorResponse) => {
-
-  //       Swal.fire({
-  //         icon: 'error',
-  //         title: 'Al parecer el cliente con correo ' + this.formaCliente.get('email')?.value + ' no existe. Verifique.',
-  //         showCancelButton: false,
-  //         showDenyButton: false,
-  //       });
-
-  //       switch (error.status) {
-  //         case 401:
-  //           break;
-  //         case 403:
-  //           break;
-  //         case 404:
-  //           break;
-  //         case 409:
-  //           break;
-  //       }
-  //     }
-  //   );
-  // }
 
   seleccionarPaqueteCliente(objPaqueteSeleccionado : paquete){
     //debugger;
@@ -364,7 +295,7 @@ export class AsignarPaqueteAClienteComponent implements OnInit {
     } else {
 debugger;
       if(this._empresaModal.Id_Empresa != null){
-        this._paquetesEmpresasService.putPaqueteEmpresa(new paqueteEmpresa(this._paqueteSeleccionado.Id_Paquete, '', 0, this.formaPaqueteEmpresa.get('empresaModal')?.value,'',new Date(),new Date(),0,0,0) ).subscribe(
+        this._paquetesEmpresasService.putPaqueteEmpresa(new paqueteEmpresa(this._paqueteSeleccionado.Id_Paquete, '','', 0, this.formaPaqueteEmpresa.get('empresaModal')?.value,'',new Date(),new Date(),0,0,0) ).subscribe(
           (data) => {
             const Toast = Swal.mixin({
               toast: true,
@@ -413,6 +344,10 @@ debugger;
         }
 
     }
+  }
+
+  limpiarResultados(){
+    this.obtenerPaquetesEmpresas();
   }
 
   // enviarCorreo(objplanCliente : plancliente){

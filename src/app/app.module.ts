@@ -20,7 +20,6 @@ import { SlideprincipalComponent } from './Components/slideprincipal/slideprinci
 import { RecomendadosparatiComponent } from './Components/recomendadosparati/recomendadosparati.component';
 import { CategoriaspopularesComponent } from './Components/categoriaspopulares/categoriaspopulares.component';
 import { BusquedadetalladaComponent } from './Components/buscar/busquedadetallada/busquedadetallada.component';
-import { IniciarsesionComponent } from './Components/iniciarsesion/iniciarsesion.component';
 import { RecuperarpasswordComponent } from './Components/recuperarpassword/recuperarpassword.component';
 import { LegalComponent } from './Components/legal/legal.component';
 import { MicuentaComponent } from './Components/micuenta/micuenta.component';
@@ -39,7 +38,8 @@ import { LoadtkComponent } from './Components/loadtk/loadtk.component';
 // import { MaterialModule } from './material.module';
 // import { CoreModule } from './core/core.module';
 // import { SharedModule } from './shared/shared.module';
-import { ClienteModule } from './Components/cliente/cliente.module';
+import { UsuarioModule } from './Components/cliente/cliente.module';
+import { AnunciosModule } from './Components/anuncios/anuncios.module';
 
 @NgModule({
   declarations: [
@@ -58,7 +58,6 @@ import { ClienteModule } from './Components/cliente/cliente.module';
     RecomendadosparatiComponent,
     CategoriaspopularesComponent,
     BusquedadetalladaComponent,
-    IniciarsesionComponent,
     RecuperarpasswordComponent,
     RestablecerpasswordComponent,
     LegalComponent,
@@ -76,8 +75,9 @@ import { ClienteModule } from './Components/cliente/cliente.module';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    ClienteModule,
-    SocialLoginModule
+    UsuarioModule,
+    SocialLoginModule,
+    AnunciosModule
   ],
   providers: [{
     provide: 'SocialAuthServiceConfig',

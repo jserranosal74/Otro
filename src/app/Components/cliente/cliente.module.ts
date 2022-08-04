@@ -6,11 +6,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { PropiedadesComponent } from './propiedades/propiedades.component';
 import { ActivarclienteComponent } from './activarcliente/activarcliente.component';
 import { AnunciosModule } from '../anuncios/anuncios.module';
+import { IniciarsesionComponent } from './iniciarsesion/iniciarsesion.component';
 
 @NgModule({
   declarations: [
     ActivarclienteComponent,
-    PropiedadesComponent
+    PropiedadesComponent,
+    IniciarsesionComponent
   ],
   imports: [
     CommonModule,
@@ -21,8 +23,9 @@ import { AnunciosModule } from '../anuncios/anuncios.module';
   ],
   exports: [
     ActivarclienteComponent,
-    PropiedadesComponent
+    PropiedadesComponent,
+    IniciarsesionComponent
   ]
 })
 
-export class ClienteModule { }
+export class UsuarioModule { }

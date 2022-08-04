@@ -23,6 +23,8 @@ import { login } from 'src/app/Models/Auxiliares/login.model';
 import { SocialAuthService, SocialUser } from "angularx-social-login";
 import { FacebookLoginProvider } from "angularx-social-login";
 
+declare function CompartirEnFacebook(url : string) : any; // just change here from arun answer.
+
 const fbLoginOptions = {
   // scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
   scope: 'email'
@@ -41,7 +43,7 @@ export class AnuncioVistaComponent implements OnInit {
   formaDatosUsuario = this.fb.group([]);
   _infoURL : string = '';
   _id_publicacion : number = 0;
-  _publicacion : publicacion = new publicacion(0,0,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0);
+  _publicacion : publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0,0);
   _publicacionDetalle : publicacionDetalleVista[] = [];
   _publicacionMultimedia : publicacionMultimedia[] = [];
   _publicacionMultimediaSeleccionada : publicacionMultimedia[] = [];
@@ -57,7 +59,7 @@ export class AnuncioVistaComponent implements OnInit {
   _mostrarCompartir : boolean = false;
   _barraDireccion = window.location.href;
   _tipoMultimediaSeleccionada : number = 0;
-  _multimediaSeleccionada = new publicacionMultimedia(0,0,0,0,'','',false,null,null,0,0);
+  _multimediaSeleccionada = new publicacionMultimedia(0,0,0,0,'','','','',false,null,null,0,0);
   _existenFotos : boolean = false;
   _existenVideos : boolean = false;
   _existenPlanos : boolean = false;
@@ -76,6 +78,8 @@ export class AnuncioVistaComponent implements OnInit {
   _telefonoOculto : boolean = false;
   _existenUnidadesVenta : boolean = false;
   _existenUnidadesRenta : boolean = false;
+  _existenUnidadesRemate : boolean = false;
+  _existenUnidadesEventual : boolean = false;
   _usuarioAutenticado : boolean = false;
   _loading : boolean = false;
   _tipoProblemaAnuncio : boolean = false;
@@ -126,6 +130,13 @@ export class AnuncioVistaComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterContentInit():void{
+    // debugger;
+    // if (this._Id_Usuario_Actual === 0){
+    //   this.iniciarSesionFacebook();
+    // }
   }
 
   validarAutenticacion(){
@@ -215,7 +226,7 @@ export class AnuncioVistaComponent implements OnInit {
   CargarPublicacion(){
     debugger;
     if (this._id_publicacion != 0) {
-        this._publicacionesService.getPublicacionVista(this._id_publicacion, this._loginService.obtenerIdCliente() === 0 ? null : this._loginService.obtenerIdCliente() ).subscribe(
+        this._publicacionesService.getPublicacionVista(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
           (data) => {
             //console.log(data);
 
@@ -227,7 +238,7 @@ export class AnuncioVistaComponent implements OnInit {
               this._publicacionDetalleService.getPublicacionDetalleVista(this._publicacion.Id_Cliente, this._publicacion.Id_Publicacion).subscribe(
                 (dataPD) => {
                   //Next callback
-                  //console.log(dataPD);
+                  console.log(dataPD);
                   this._publicacionDetalle = dataPD;
 
                   dataPD.forEach(item => {
@@ -236,6 +247,12 @@ export class AnuncioVistaComponent implements OnInit {
                     }
                     if (item.Id_TipoOperacion === 2){
                       this._existenUnidadesRenta = true;
+                    }
+                    if (item.Id_TipoOperacion === 4){
+                      this._existenUnidadesRemate = true;
+                    }
+                    if (item.Id_TipoOperacion === 5){
+                      this._existenUnidadesEventual = true;
                     }
                   });
 
@@ -262,8 +279,8 @@ export class AnuncioVistaComponent implements OnInit {
             }
 
             //Solo obtiene el estatus de favorito si esta autenticado
-            if (this._loginService.obtenerIdCliente() != 0){
-              this._favoritosClienteService.getFavoritoCliente(this._loginService.obtenerIdCliente(), this._publicacion.Id_Cliente, this._publicacion.Id_Publicacion).subscribe(
+            if (this._loginService.obtenerIdCliente() != null){
+              this._favoritosClienteService.getFavoritoCliente(this._loginService.obtenerIdCliente()!, this._publicacion.UID_Cliente!, this._publicacion.Id_Publicacion).subscribe(
                 (dataFav) => {
                   //Next callback
                   this._estaComoFavorito = dataFav === 0 ? false : true;
@@ -337,7 +354,7 @@ export class AnuncioVistaComponent implements OnInit {
 
   CargarCaracteristicas(){
     if (this._id_publicacion != 0) {
-        this._publicacionesService.getPublicacionCaracteristicas(this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente).subscribe(
+        this._publicacionesService.getPublicacionCaracteristicas(this._publicacion.Id_Publicacion, this._publicacion.UID_Cliente!).subscribe(
           (data) => {
             //console.log(data);
 
@@ -381,14 +398,14 @@ export class AnuncioVistaComponent implements OnInit {
   CargarMultimediaPublicacion(){
     //debugger;
     if (this._id_publicacion != 0) {
-        this._multimediaPublicacionService.getMultimediaPublicacion(this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, null).subscribe(
+        this._multimediaPublicacionService.getMultimediaPublicacion(this._publicacion.Id_Publicacion, this._publicacion.UID_Cliente!, null).subscribe(
           (data) => {
             //console.log(data);
             let index : number = 0;
             data.forEach(item => {
               if (item.Id_TipoMultimedia === 1) {
                 this._multimedia.push(item);
-                this._fotosPrincipales[index] = item.Url!;
+                this._fotosPrincipales[index] = item.Url_Medium!;
                 index++;
               }
             });
@@ -417,7 +434,7 @@ export class AnuncioVistaComponent implements OnInit {
 
   agregarFavorito(){
     //debugger;
-    if (this._loginService.obtenerIdCliente() === 0){
+    if (this._loginService.obtenerIdCliente() === null){
       this.limpiarFormularioInicioSesion();
       this._estaComoFavorito = false;
       this.validarAutenticacion();
@@ -481,13 +498,13 @@ export class AnuncioVistaComponent implements OnInit {
   // }
 
   seleccionCompartir(tipoCompartir : number){
-
+debugger;
     switch (tipoCompartir) {
       case 1:
         this.copiarDireccion();
         break;
       case 2:
-        
+        this.compartirPorFacebook();
         break;
       case 3:
         this.comartirPorWhatssApp();
@@ -535,7 +552,13 @@ export class AnuncioVistaComponent implements OnInit {
       title: 'Enlace copiado al portapapeles'
     });
 
-    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(), 11, 'anuncio-vista', '', '', '', '', 'Se copia link al portapapeles', new Date(),new Date(),0,0,'')).subscribe(
+    // Quiere decir que el usuario que esta viendo la publicacion es el propietario de la misma
+    // y salimos del procedimiento para que no ingrese informacion a las estadisticas
+    if(this._publicacion.UID_Cliente === this._Id_Usuario_Actual){
+      return;
+    } 
+
+    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._publicacion.UID_Cliente!, this._Id_Usuario_Actual!, 11, 'anuncio-vista', '', '', '', '', 'Se copia link al portapapeles', new Date(),new Date(),0,0,'')).subscribe(
       (data) => {
 
         
@@ -557,9 +580,50 @@ export class AnuncioVistaComponent implements OnInit {
 
   }
 
+  compartirPorFacebook(){
+    debugger;
+
+    // if (this._Id_Usuario_Actual === 0){
+    //   this.iniciarSesionFacebook();
+    // }
+
+    CompartirEnFacebook('www.sysba.com.mx/');
+    
+    // Quiere decir que el usuario que esta viendo la publicacion es el propietario de la misma
+    // y salimos del procedimiento para que no ingrese informacion a las estadisticas
+    if(this._publicacion.UID_Cliente === this._Id_Usuario_Actual){
+      return;
+    }
+
+    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._publicacion.UID_Cliente!, this._Id_Usuario_Actual!, 12, 'anuncio-vista', '', '', '', '', 'Se comparte publicación por Facebook', new Date(),new Date(),0,0,'')).subscribe(
+      (dataVista) => {
+
+      },
+      (error: HttpErrorResponse) => {
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+      }
+    );
+  }
+
   comartirPorWhatssApp(){
     debugger;
-    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(), 13, 'anuncio-vista', '', '', '', '', 'Se comparte publicación por WhatssApp', new Date(),new Date(),0,0,'')).subscribe(
+
+    // Quiere decir que el usuario que esta viendo la publicacion es el propietario de la misma
+    // y salimos del procedimiento para que no ingrese informacion a las estadisticas
+    if(this._publicacion.UID_Cliente === this._Id_Usuario_Actual){
+      return;
+    }
+
+    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._publicacion.UID_Cliente!, this._Id_Usuario_Actual!, 13, 'anuncio-vista', '', '', '', '', 'Se comparte publicación por WhatssApp', new Date(),new Date(),0,0,'')).subscribe(
       (dataVista) => {
 
       },
@@ -580,7 +644,14 @@ export class AnuncioVistaComponent implements OnInit {
 
   comartirPorCorreo(){
     debugger;
-    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(), 17, 'anuncio-vista', '', '', '', '', 'Se comparte publicación por Correo', new Date(),new Date(),0,0,'')).subscribe(
+
+    // Quiere decir que el usuario que esta viendo la publicacion es el propietario de la misma
+    // y salimos del procedimiento para que no ingrese informacion a las estadisticas
+    if(this._publicacion.UID_Cliente === this._Id_Usuario_Actual){
+      return;
+    }
+
+    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._publicacion.UID_Cliente!, this._Id_Usuario_Actual!, 17, 'anuncio-vista', '', '', '', '', 'Se comparte publicación por Correo', new Date(),new Date(),0,0,'')).subscribe(
       (dataVista) => {
 
       },
@@ -616,11 +687,11 @@ export class AnuncioVistaComponent implements OnInit {
 
       this._loading = true;
 
-      let _publicacionMensaje : publicacionMensaje = new publicacionMensaje(0,0,0,0,0,'','','','','','',new Date(), new Date(),0,0,'');
+      let _publicacionMensaje : publicacionMensaje = new publicacionMensaje(0,0,0,'',null,0,'','','','','','',new Date(), new Date(),0,0,'');
 
       _publicacionMensaje.Id_Cliente = this._publicacion.Id_Cliente;
       _publicacionMensaje.Id_Publicacion = this._publicacion.Id_Publicacion;
-      _publicacionMensaje.Id_ClienteMensaje = (this._loginService.obtenerIdCliente() == 0 ? null : this._loginService.obtenerIdCliente() );
+      _publicacionMensaje.UID_ClienteMensaje = this._loginService.obtenerIdCliente();
       _publicacionMensaje.Nombre = this.formaMensajeVendedor.get('nombre')?.value;
       _publicacionMensaje.Email = this.formaMensajeVendedor.get('email')?.value;
       _publicacionMensaje.Telefono = this.formaMensajeVendedor.get('telefono')?.value;
@@ -677,7 +748,7 @@ export class AnuncioVistaComponent implements OnInit {
 
   verTelefonoContacto(){
     debugger;
-    if (this._loginService.obtenerIdCliente() === 0){
+    if (this._loginService.obtenerIdCliente() === null){
       this.validarAutenticacion();
       this._textoInformacionMuestra = 'Ver teléfono';
       this.limpiarFormularioDatosUsuario();
@@ -692,7 +763,7 @@ export class AnuncioVistaComponent implements OnInit {
           }
         })
   
-        this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),1,'anuncio-vista','',this.formaDatosUsuario.get('nombreDU')?.value, this.formaDatosUsuario.get('telefonoDU')?.value, this.formaDatosUsuario.get('emailDU')?.value, 'Se muestra telefono a usuario', new Date(),new Date(),0,0,'')).subscribe(
+        this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._publicacion.UID_Cliente!, this._Id_Usuario_Actual!,1,'anuncio-vista','',this.formaDatosUsuario.get('nombreDU')?.value, this.formaDatosUsuario.get('telefonoDU')?.value, this.formaDatosUsuario.get('emailDU')?.value, 'Se muestra telefono a usuario', new Date(),new Date(),0,0,'')).subscribe(
           (dataVista) => {
   
             //console.log(dataVista);
@@ -749,7 +820,7 @@ export class AnuncioVistaComponent implements OnInit {
   CargarCliente(){
     //debugger;
     //console.log('CargarCliente');
-    this._clienteService.getClienteVista(this._publicacion.Id_Cliente, null).subscribe(
+    this._clienteService.getClienteVista(this._publicacion.UID_Cliente, null).subscribe(
       (dataCliente) => {
 
         this._clienteVista = dataCliente;
@@ -840,7 +911,7 @@ export class AnuncioVistaComponent implements OnInit {
       }
     })
 
-    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),3,'anuncio-vista','',this.formaMensajeVendedor.get('nombre')?.value, this.formaMensajeVendedor.get('email')?.value, this.formaMensajeVendedor.get('telefono')?.value, this.formaMensajeVendedor.get('mensaje')?.value + '(WhatssApp)', new Date(),new Date(),0,0,'')).subscribe(
+    this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._publicacion.UID_Cliente!, this._Id_Usuario_Actual!, 3, 'anuncio-vista','',this.formaMensajeVendedor.get('nombre')?.value, this.formaMensajeVendedor.get('email')?.value, this.formaMensajeVendedor.get('telefono')?.value, this.formaMensajeVendedor.get('mensaje')?.value + '(WhatssApp)', new Date(),new Date(),0,0,'')).subscribe(
       (dataVista) => {
 
         //console.log(dataVista);
@@ -903,11 +974,11 @@ export class AnuncioVistaComponent implements OnInit {
         break;
     }
 
-    let _publicacionMensaje : publicacionMensaje = new publicacionMensaje(0,0,0,0,0,'','','','','','',new Date(), new Date(),0,0,'');
+    let _publicacionMensaje : publicacionMensaje = new publicacionMensaje(0,0,0,'',null,0,'','','','','','',new Date(), new Date(),0,0,'');
 
     _publicacionMensaje.Id_Cliente = this._publicacion.Id_Cliente;
     _publicacionMensaje.Id_Publicacion = this._publicacion.Id_Publicacion;
-    _publicacionMensaje.Id_ClienteMensaje = (this._loginService.obtenerIdCliente() == 0 ? null : this._loginService.obtenerIdCliente() );
+    _publicacionMensaje.UID_ClienteMensaje = this._loginService.obtenerIdCliente();
     _publicacionMensaje.Nombre = this.formaDatosUsuario.get('nombreDU')?.value;
     _publicacionMensaje.Email = this.formaDatosUsuario.get('emailDU')?.value;
     _publicacionMensaje.Telefono = this.formaDatosUsuario.get('telefonoDU')?.value;
@@ -977,7 +1048,7 @@ export class AnuncioVistaComponent implements OnInit {
 
   abrirPublicacion(objPubDet : publicacionDetalleVista){
     //debugger;
-    this.router.navigateByUrl('/anuncio/vista/' + (objPubDet.TituloPublicacion)?.replaceAll(' ','-') + '-' + objPubDet.Id_Publicacion);
+    this.router.navigateByUrl('/propiedad/' + (objPubDet.TituloPublicacion)?.replaceAll(' ','-') + '-' + objPubDet.Id_Publicacion);
     //window.open('/anuncio/vista/' + (objPubDet.TituloPublicacion)?.replaceAll(' ','-') + '-' + objPubDet.Id_Publicacion);
   }
 
@@ -1057,11 +1128,11 @@ export class AnuncioVistaComponent implements OnInit {
   }
 
   abrirPaginaCliente(){
-    window.open('cliente/propiedades/' + (this._clienteVista.Nombre + '-' + this._clienteVista.Apellidos )?.replaceAll(' ','-') + '-' + this._clienteVista.Id_Cliente);
+    window.open('usuario/propiedades/' + (this._clienteVista.Nombre + '-' + this._clienteVista.Apellidos )?.replaceAll(' ','-') + '-' + this._clienteVista.Id_Cliente);
   }
 
   inmuebleRentadoOVendido(){
-    if (this._loginService.obtenerIdCliente() === 0) {
+    if (this._loginService.obtenerIdCliente() === null) {
       this.validarAutenticacion();
       this._textoInformacionMuestra = 'Reportar incidencia';
       this.limpiarFormularioDatosUsuario();
@@ -1070,7 +1141,7 @@ export class AnuncioVistaComponent implements OnInit {
     }
     else {
       this._enviandoReporteRentaVenta = true;
-      this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),16,'anuncio-vista','','','','', 'El inmueble ya esta rentado o vendido', new Date(),new Date(),0,0,'')).subscribe(
+      this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._publicacion.UID_Cliente!, this._Id_Usuario_Actual!,16,'anuncio-vista','','','','', 'El inmueble ya esta rentado o vendido', new Date(),new Date(),0,0,'')).subscribe(
         (data) => {
 
           this._enviandoReporteRentaVenta = false;
@@ -1104,7 +1175,7 @@ export class AnuncioVistaComponent implements OnInit {
   }
 
   intentoEstafa(){
-    if (this._loginService.obtenerIdCliente() === 0) {
+    if (this._loginService.obtenerIdCliente() === null) {
       this.validarAutenticacion();
       this._textoInformacionMuestra = 'Reportar posible estafa';
       this.limpiarFormularioDatosUsuario();
@@ -1113,7 +1184,7 @@ export class AnuncioVistaComponent implements OnInit {
     }
     else {
       this._enviandoReporteEstafa = true;
-      this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(),15,'anuncio-vista','','','','', 'Posible intento de estafa', new Date(),new Date(),0,0,'')).subscribe(
+      this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._publicacion.UID_Cliente!, this._Id_Usuario_Actual!,15,'anuncio-vista','','','','', 'Posible intento de estafa', new Date(),new Date(),0,0,'')).subscribe(
         (data) => {
 
           this._enviandoReporteEstafa = false;
@@ -1149,7 +1220,7 @@ export class AnuncioVistaComponent implements OnInit {
   mostrarMultimedia(tipoMultimedia : number){
     let Id_Indicador : number = 0;
     let Texto_Indicador : string = '';
-    //debugger;
+    debugger;
     this._tipoMultimediaSeleccionada = tipoMultimedia;
 
       switch (tipoMultimedia) {
@@ -1177,6 +1248,7 @@ export class AnuncioVistaComponent implements OnInit {
       }
 
       this._publicacionMultimediaSeleccionada = [];
+      this._multimediaSeleccionada = new publicacionMultimedia(0,0,0,0,'','','','',false,null,null,0,0);
 
       this._publicacionMultimedia.forEach(item=>{
         if ((item.Id_TipoMultimedia === tipoMultimedia) && (!item.Predeterminada)){
@@ -1191,11 +1263,11 @@ export class AnuncioVistaComponent implements OnInit {
 
       // Quiere decir que el usuario que esta viendo la publicacion es el propietario de la misma
       // y salimos del procedimiento para que no ingrese informacion a las estadisticas
-      if(this._publicacion.Id_Cliente === this._Id_Usuario_Actual){
+      if(this._publicacion.UID_Cliente === this._Id_Usuario_Actual){
         return;
       }
 
-      this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._loginService.obtenerIdCliente() === 0? null : this._loginService.obtenerIdCliente(), Id_Indicador, 'anuncio-vista', '', '', '', '', Texto_Indicador, new Date(),new Date(),0,0,'')).subscribe(
+      this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._publicacion.Id_Publicacion, this._publicacion.Id_Cliente, this._publicacion.UID_Cliente!, this._loginService.obtenerIdCliente(), Id_Indicador, 'anuncio-vista', '', '', '', '', Texto_Indicador, new Date(),new Date(),0,0,'')).subscribe(
         (dataVista) => {
 
   
@@ -1216,7 +1288,7 @@ export class AnuncioVistaComponent implements OnInit {
   }
 
   ObtenerMultimedia(){
-    this._multimediaPublicacionService.getMultimediaCliente(this._publicacion.Id_Cliente, this._publicacion.Id_Publicacion, null).subscribe(
+    this._multimediaPublicacionService.getMultimediaCliente(this._publicacion.UID_Cliente!, this._publicacion.Id_Publicacion, null).subscribe(
       (data) => {
 
         this._publicacionMultimedia = data;
@@ -1248,10 +1320,11 @@ export class AnuncioVistaComponent implements OnInit {
   }
 
   verPublicacionCliente(objAnuncioHijo : publicacionDetalleVista){
-    window.open('/anuncio/vista/' + (objAnuncioHijo.TituloPublicacion)?.replaceAll(' ','-') + '-' + objAnuncioHijo.Id_Publicacion);
+    window.open('/propiedad/' + (objAnuncioHijo.TituloPublicacion)?.replaceAll(' ','-') + '-' + objAnuncioHijo.Id_Publicacion);
   }
 
   iniciarSesionFacebook(){
+    debugger;
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID, fbLoginOptions).then( datosUsuario => { 
       this._tipoAutenticacion = 3; // Facebook
       this.AgregarUsuario(datosUsuario);
@@ -1260,7 +1333,7 @@ export class AnuncioVistaComponent implements OnInit {
 
   AgregarUsuario(datosUsuario : SocialUser) {
   
-    let _cliente = new cliente(0,1,2,null,this._tipoAutenticacion,datosUsuario.email,'',datosUsuario.firstName,datosUsuario.lastName,'',[],datosUsuario.photoUrl,0,0,0,'','',new Date(),new Date(),1,1,'');
+    let _cliente = new cliente(0,null,1,2,null,this._tipoAutenticacion,datosUsuario.email,'',datosUsuario.firstName,datosUsuario.lastName,'',[],datosUsuario.photoUrl,0,0,0,'','',new Date(),new Date(),1,1,'');
 
     debugger;
 

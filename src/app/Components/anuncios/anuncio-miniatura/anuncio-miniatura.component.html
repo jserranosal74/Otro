@@ -1,20 +1,30 @@
-<div class="row">
-    <div class="col-md-3 p-1 border" style="border-radius: 15px 0px 0px 15px;">
-        <div [id]="'carouselExampleCaptions' + _publicacion.Id_Publicacion" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
+<div class="row br15" style="box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
+    <div class="col-md-3 p-0 border" style="border-radius: 15px 0px 0px 15px;">
+
+        <div class="carousel-item active text-center br15">
+            <div class="justify-content-center br15">
+                <img *ngIf="_publicacion.lstMultimedia != null && _publicacion.lstMultimedia!.length > 0" [src]="_publicacion.lstMultimedia![0].Url_Thumb" class="d-block w-100" style="border-radius: 15px 0px 0px 15px; max-width:100%;" alt="" height="170px" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
+            </div>
+            <div class="carousel-caption active d-none d-md-block p-0 m-0">
+                <h6 *ngIf="_publicacion.lstMultimedia != null && _publicacion.lstMultimedia!.length > 0" class="sombraTitulo text-capitalize p-0 m-0">{{_publicacion.lstMultimedia![0].Descripcion}}</h6>
+            </div>
+        </div>
+
+        <!-- <div [id]="'carouselExampleCaptions' + _publicacion.Id_Publicacion" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
             <div class="carousel-inner">
 
-                    <div class="carousel-item active text-center">
-                        <div class="row justify-content-center">
-                            <img *ngIf="_publicacion.lstMultimedia != null && _publicacion.lstMultimedia!.length > 0" [src]="_publicacion.lstMultimedia![0].Url" class="d-block w-100" style="border-radius: 15px 0px 0px 15px; max-width:fit-content;" alt="" height="160px" onerror="this.src='https://i.ibb.co/7V042L1/7da75c370bc9.png';">
+                    <div class="carousel-item active text-center br15">
+                        <div class="justify-content-center br15">
+                            <img *ngIf="_publicacion.lstMultimedia != null && _publicacion.lstMultimedia!.length > 0" [src]="_publicacion.lstMultimedia![0].Url_Thumb" class="d-block w-100" style="border-radius: 15px 0px 0px 15px; max-width:100%;" alt="" height="170px" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
                         </div>
                         <div class="carousel-caption active d-none d-md-block p-0 m-0">
                             <h6 *ngIf="_publicacion.lstMultimedia != null && _publicacion.lstMultimedia!.length > 0" class="sombraTitulo text-capitalize p-0 m-0">{{_publicacion.lstMultimedia![0].Descripcion}}</h6>
                         </div>
                     </div>
 
-                    <div class="carousel-item" *ngFor="let item of _listaFotografias; let i = index;">
-                        <div class="row justify-content-center">
-                            <img [src]="item.Url" class="d-block w-100" style="border-radius: 15px 0px 0px 15px; max-width:fit-content;" loading="lazy" alt="" height="160px">
+                    <div class="carousel-item br15" *ngFor="let item of _listaFotografias; let i = index;">
+                        <div class="justify-content-center br15">
+                            <img [src]="item.Url_Thumb" class="d-block w-100" style="border-radius: 15px 0px 0px 15px; max-width:100%;" alt="" height="170px" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
                         </div>
                         <div class="carousel-caption d-none d-md-block p-0 m-0">
                             <h6 class="sombraTitulo text-capitalize p-0 m-0">{{item.Descripcion}}</h6>
@@ -22,24 +32,24 @@
                     </div>
 
             </div>
-            <button *ngIf="_publicacion.lstMultimedia != null && _publicacion.lstMultimedia!.length > 1" class="carousel-control-prev" type="button" style="height: 30px; width:40px; top: 45%; left:2%;" [attr.data-bs-target]="'#carouselExampleCaptions' + _publicacion.Id_Publicacion" data-bs-slide="prev">
+            <button *ngIf="_publicacion.lstMultimedia != null && _publicacion.lstMultimedia!.length > 1" class="carousel-control-prev" type="button" style="height: 100%; width:40px; top: 0; left:0%; cursor:pointer;" [attr.data-bs-target]="'#carouselExampleCaptions' + _publicacion.Id_Publicacion" data-bs-slide="prev">
               <span class="carousel-control-prev-icon bg-color-2 br25" aria-hidden="true"></span>
               <span class="visually-hidden">Anterior</span>
             </button>
-            <button *ngIf="_publicacion.lstMultimedia != null && _publicacion.lstMultimedia!.length > 1" class="carousel-control-next" type="button" style="height: 30px; width:40px; top: 45%; right:2%;" [attr.data-bs-target]="'#carouselExampleCaptions' + _publicacion.Id_Publicacion" data-bs-slide="next">
+            <button *ngIf="_publicacion.lstMultimedia != null && _publicacion.lstMultimedia!.length > 1" class="carousel-control-next" type="button" style="height: 100%; width:40px; top: 0; right:0%; cursor:pointer;" [attr.data-bs-target]="'#carouselExampleCaptions' + _publicacion.Id_Publicacion" data-bs-slide="next">
               <span class="carousel-control-next-icon bg-color-2 br25" aria-hidden="true"></span>
               <span class="visually-hidden">Siguiente</span>
             </button>
-        </div>
+        </div> -->
 
     </div>
     <div class="col-md-9 p-1 border" style="border-radius: 0px 15px 15px 0px;">
       <div class="row">
 
           <div class="row px-0">
-              <div class="col-md-9 px-4 text-truncate">
-                  <h3 *ngIf="_publicacion.TituloPublicacion != null" class="text-primary">{{_publicacion.TituloPublicacion}}</h3>
-                  <h3 *ngIf="_publicacion.TituloPublicacion === null || _publicacion.TituloPublicacion === ''" class="text-danger">SIN TITULO</h3>
+              <div class="col-md-9 px-4">
+                  <h3 *ngIf="_publicacion.TituloPublicacion != null" class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{_publicacion.TituloPublicacion}}">{{_publicacion.TituloPublicacion}}</h3>
+                  <h3 *ngIf="_publicacion.TituloPublicacion === null || _publicacion.TituloPublicacion === ''" class="text-danger text-truncate">SIN TITULO</h3>
               </div>
               <div *ngIf="_tipoBusqueda == 'misAnuncios'" class="col-md-3 p-1">
                   <h6 *ngIf="_publicacion.Estatus === 'Activada' || _publicacion.Estatus === 'Vencida' || _publicacion.Estatus === 'Cancelada' || _publicacion.Estatus === 'En espera de pago'" class="text-primary text-end"><kbd style="background-color: #ffe600; color:black">{{_publicacion.PlanCliente}}</kbd></h6>
@@ -52,11 +62,25 @@
 
           <div class="row px-0">
             <div class="col-md-10 px-4">
-                <p *ngIf="_publicacion.Asentamiento != null " class="text-primary">{{_publicacion.Asentamiento}}, {{_publicacion.Municipio}}, {{_publicacion.Estado}}.</p>
+                <p *ngIf="_publicacion.Asentamiento != null " class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{_publicacion.Asentamiento}}, {{_publicacion.Municipio}}, {{_publicacion.Estado}}">{{_publicacion.Asentamiento}}, {{_publicacion.Municipio}}, {{_publicacion.Estado}}</p>
                 <p *ngIf="_publicacion.Asentamiento === null || _publicacion.Asentamiento === ''" class="text-danger">Tu anuncio no tiene una ubicación definida</p>
             </div>
             <div class="col-md-2 p-1">
-                <h6 class="text-primary text-end"><kbd style="background-color: #003cff;">{{_publicacion.TipoOperacion}}</kbd></h6>
+                <h6 *ngIf="_publicacion.TipoOperacion === 'Venta'" class="text-primary text-end">
+                    <kbd style="background-color: #003cff;">{{_publicacion.TipoOperacion}}</kbd>
+                </h6>
+                <h6 *ngIf="_publicacion.TipoOperacion === 'Renta'" class="text-primary text-end">
+                    <kbd style="background-color: #8100b4;">{{_publicacion.TipoOperacion}}</kbd>
+                </h6>
+                <h6 *ngIf="_publicacion.TipoOperacion === 'Desarrollo'" class="text-primary text-end">
+                    <kbd style="background-color: #06b400;">{{_publicacion.TipoOperacion}}</kbd>
+                </h6>
+                <h6 *ngIf="_publicacion.TipoOperacion === 'Remate'" class="text-primary text-end">
+                    <kbd style="background-color: #e90000;">{{_publicacion.TipoOperacion}}</kbd>
+                </h6>
+                <h6 *ngIf="_publicacion.TipoOperacion === 'Evetual'" class="text-primary text-end">
+                    <kbd style="background-color: #ff89e5;">{{_publicacion.TipoOperacion}}</kbd>
+                </h6>
             </div>
           </div>
 
@@ -94,8 +118,8 @@
                 <div *ngIf="_publicacion.Estatus === 'Borrador'" >
                     <div class="row m-0 p-0" >
                         <div class="col-md-7 text-start px-0">
-                            <span class="text-primary">Fecha de creación: <strong>{{_publicacion.FechaAlta | date:'dd-MM-yyyy'}}</strong></span>
-                            <span *ngIf="_publicacion.PerteneceADesarrollo === 1" class="text-primary"> - Forma parte de un desarrollo</span>
+                            <span class="text-primary">F. creación: <strong>{{_publicacion.FechaAlta | date:'dd-MM-yyyy'}}</strong></span>
+                            <span *ngIf="_publicacion.PerteneceADesarrollo === 1" class="text-primary"> - Pertenece a desarrollo</span>
                         </div>
                         <div class="col-md-5 text-end px-0">
                             <a class="btn btn-success br25" [href]="'publicar/operacion-tipo-inmueble?Id_Publicacion=' + this._publicacion.Id_Publicacion">

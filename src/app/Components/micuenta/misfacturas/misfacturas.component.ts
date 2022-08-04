@@ -42,7 +42,7 @@ export class MisFacturasComponent implements OnInit {
 
   ObtenerFacturasCliente() {
 
-    this._clientesFacturasService.getClienteFacturas(this._loginService.obtenerIdCliente(), null, null, null, null).subscribe(
+    this._clientesFacturasService.getClienteFacturas(this._loginService.obtenerIdCliente()!, null, null, null, null).subscribe(
       (data) => {
         console.log('datos: ', data);
         this._facturasCliente = data;
@@ -67,7 +67,7 @@ export class MisFacturasComponent implements OnInit {
 
   enviarFacturaCliente(objFactura : factura){
     objFactura.Enviando = true;
-    this._clientesFacturasService.getEnviarFactura(this._loginService.obtenerIdCliente(), objFactura.Id_PlanCliente, objFactura.Id_PaqueteCliente).subscribe(
+    this._clientesFacturasService.getEnviarFactura(this._loginService.obtenerIdCliente()!, objFactura.Id_PlanCliente, objFactura.Id_PaqueteCliente).subscribe(
       (data) => {
         //console.log('datos: ', data);
 
@@ -139,7 +139,7 @@ export class MisFacturasComponent implements OnInit {
       }
     }
 
-    this._facturasClienteFiltrosService.getFacturasClienteFiltros(this._loginService.obtenerIdCliente(), this._filtrosSeleccionados.lstAnios[0] === undefined ? null : this._filtrosSeleccionados.lstAnios[0].Id_Anio, 
+    this._facturasClienteFiltrosService.getFacturasClienteFiltros(this._loginService.obtenerIdCliente()!, this._filtrosSeleccionados.lstAnios[0] === undefined ? null : this._filtrosSeleccionados.lstAnios[0].Id_Anio, 
                                                                                                           this._filtrosSeleccionados.lstMeses[0] === undefined ? null : this._filtrosSeleccionados.lstMeses[0].Id_Mes).subscribe(
       (data) => {
         //Next callback
@@ -209,7 +209,7 @@ export class MisFacturasComponent implements OnInit {
 
   ejecutarConsulta(numPagina : number){
     debugger;
-    this._clientesFacturasService.getClienteFacturas(this._loginService.obtenerIdCliente(), null, null, this._filtrosSeleccionados.lstAnios[0] === undefined ? null : this._filtrosSeleccionados.lstAnios[0].Id_Anio, 
+    this._clientesFacturasService.getClienteFacturas(this._loginService.obtenerIdCliente()!, null, null, this._filtrosSeleccionados.lstAnios[0] === undefined ? null : this._filtrosSeleccionados.lstAnios[0].Id_Anio, 
                                                                                                         this._filtrosSeleccionados.lstMeses[0] === undefined ? null : this._filtrosSeleccionados.lstMeses[0].Id_Mes).subscribe(
       (data) => {
         //Next callback

@@ -23,8 +23,8 @@ export class FacturasClienteFiltrosService {
     this.urlFacturasClienteFiltros = URL_APIS.urlFacturasClienteFiltros;
   }
 
-  public getFacturasClienteFiltros(Id_Cliente : number, Id_Anio : number | null, Id_Mes : number | null): Observable<facturasClienteFiltros> {
-    return this.http.get<facturasClienteFiltros>(this.urlFacturasClienteFiltros + '?Id_Cliente=' + Id_Cliente + '&Id_Anio=' + Id_Anio + '&Id_Mes=' + Id_Mes, this.httpOptions);
+  public getFacturasClienteFiltros(UID_Cliente : string, Id_Anio : number | null, Id_Mes : number | null): Observable<facturasClienteFiltros> {
+    return this.http.get<facturasClienteFiltros>(this.urlFacturasClienteFiltros + '?Id_Cliente=' + UID_Cliente + '&Id_Anio=' + Id_Anio + '&Id_Mes=' + Id_Mes, this.httpOptions);
   }
   
 }

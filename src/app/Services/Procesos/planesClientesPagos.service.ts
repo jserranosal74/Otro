@@ -30,8 +30,8 @@ export class PlanesClientesPagosService {
     return this.http.get<planesPaquetesPagos[]>(this.urlPlanesClientePagos + '?EmailCliente=' + (EmailCliente === null ? '' : EmailCliente) + '&Id_Estatus=' + Id_Estatus, this.httpOptions);
   }
   
-  public putPlanClientePadado(Id_PlanCliente : number, Id_Plan : number, Id_Cliente : number): Observable<number> {
-    return this.http.put<number>(this.urlPlanesClientePagos + '?Id_PlanCliente=' + Id_PlanCliente + '&Id_Cliente=' + Id_Cliente + '&Id_Plan=' + Id_Plan, '', this.httpOptions);
+  public putPlanClientePadado(Id_PlanCliente : number, Id_Plan : number, UID_Cliente : string): Observable<number> {
+    return this.http.put<number>(this.urlPlanesClientePagos + '?Id_PlanCliente=' + Id_PlanCliente + '&UID_Cliente=' + UID_Cliente + '&Id_Plan=' + Id_Plan, '', this.httpOptions);
   }
   
 }

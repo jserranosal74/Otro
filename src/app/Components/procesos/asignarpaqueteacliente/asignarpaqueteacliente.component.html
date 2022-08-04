@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container py-5">
     <div class="row">
         <div class="col-md-12">
             <div class="well well-sm">
@@ -14,27 +14,43 @@
                                 </span></a>
                             </div>
                             <div class="col-md-1 text-end">
+                                <label class="text-primary text-end">Paquete:</label>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select form-select-md mb-3 text-primary color-text-box"
+                                        style="border-radius: 0.8em"
+                                        aria-label="Default select example"
+                                        (change)="limpiarResultados()"
+                                        formControlName="clavePaquete">
+                                        <option value={{null}} selected>[Todos]</option>
+                                        <option *ngFor="let paquete of _paquetes; let i = index" [value]="paquete.Id_Paquete">
+                                          {{ paquete.Clave }}
+                                        </option>
+                                </select>
+                            </div>
+                            <div class="col-md-1 text-end">
                                 <label class="text-primary text-end">Empresa:</label>
                             </div>
                             <div class="col-md-3">
                                 <select class="form-select form-select-md mb-3 text-primary color-text-box"
                                         style="border-radius: 0.8em"
                                         aria-label="Default select example"
+                                        (change)="limpiarResultados()"
                                         formControlName="empresa">
-                                        <option value={{null}} selected>[Ninguna]</option>
-                                        <option *ngFor="let empresa of _empresas; let i = index" [value]="empresa.Id_Empresa">
+                                        <option value={{null}} selected>[Todas]</option>
+                                        <option *ngFor="let empresa of _empresas; let i = index" [value]="empresa.UID">
                                           {{ empresa.Nombre }}
                                         </option>
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-1">
                                 <button type="button" class="btn btn-primary mx-1 br25" (click)="buscarPaquetes()" >
                                     <span class="col-md-1 col-md-offset-2 text-center">
                                         <i class="fa fa-search" aria-hidden="true"> </i>
                                     </span>
                                 </button>
                             </div>
-                            <div class="col-md-4 p-0 text-end">
+                            <div class="col-md-2 p-0 text-end">
                                   <label class="text-primary">Total de registros: <strong>{{_paquetesEmpresas.length}}</strong></label>
                             </div>
                         </div>
@@ -46,6 +62,7 @@
                                   <tr>
                                     <th width="50px" class="text-primary text-center" scope="col">#Id_Paquete</th>
                                     <th width="50px" class="text-primary text-center" scope="col">#Id_Empresa</th>
+                                    <th class="text-primary text-center" scope="col">Clave Paquete</th>
                                     <th class="text-primary text-center" scope="col">Paquete</th>
                                     <th width="100px" class="text-primary text-center" scope="col">Precio</th>
                                     <th class="text-primary text-center" scope="col">Empresa</th>
@@ -56,8 +73,9 @@
                                 </thead>
                                 <tbody>
                                   <tr *ngFor="let paqEmp of _paquetesEmpresas; let i = index;">
-                                    <th class="text-primary text-center" scope="row">{{paqEmp.Id_Paquete}}</th>
-                                    <th class="text-primary text-center" scope="row">{{paqEmp.Id_Empresa}}</th>
+                                    <td class="text-primary text-center" scope="row">{{paqEmp.Id_Paquete}}</td>
+                                    <td class="text-primary text-center" scope="row">{{paqEmp.Id_Empresa}}</td>
+                                    <td class="text-primary text-center" scope="row">{{paqEmp.ClavePaquete}}</td>
                                     <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{paqEmp.Paquete}}" data-placement="top" title="Tooltip on top" style="max-width: 150px;">{{paqEmp.Paquete}}</td>
                                     <td class="text-primary">{{paqEmp.Precio | currency}}</td>
                                     <td class="text-primary" >{{paqEmp.Empresa}}</td>

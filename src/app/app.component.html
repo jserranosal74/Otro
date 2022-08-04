@@ -1,11 +1,11 @@
 <div [ngClass]="{' Dark': _modoObscuro, ' Ligth': !_modoObscuro}" >
   <app-navbar (_seCambiaModo)="cambiarModo($event)"></app-navbar>
 
-  <div class="img" style="padding-top: 60px;"  >
-    <div class="p-4">
+  <div class="container-fluid" style="padding-top: 70px;">
       <router-outlet></router-outlet>
     </div>
-  </div>
+    <div>
+      <app-footer></app-footer>
+    </div>
 
-  <app-footer></app-footer>
 </div>

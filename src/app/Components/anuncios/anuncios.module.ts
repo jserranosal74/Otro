@@ -9,12 +9,15 @@ import { AnuncioVistaComponent } from './anuncio-vista/anuncio-vista.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { AnuncioVistaBuscadorComponent } from './anuncio-vista-buscador/anuncio-vista-buscador.component'; 
 import { SafePipe } from '../../pipes/Safe.pipe';
+import { TipoOperacionPipe } from 'src/app/pipes/TipoOperacion.pipe';
+import { AnuncioInferiorComponent } from './anuncio-inferior/anuncio-inferior.component';
 
 @NgModule({
   declarations: [
     AnuncioMiniaturaComponent,
     AnuncioVistaComponent,
     AnuncioVistaBuscadorComponent,
+    AnuncioInferiorComponent,
     SafePipe
   ],
   imports: [
@@ -28,7 +31,9 @@ import { SafePipe } from '../../pipes/Safe.pipe';
     AnuncioMiniaturaComponent,
     AnuncioVistaComponent,
     AnuncioVistaBuscadorComponent,
+    AnuncioInferiorComponent,
     SafePipe
+    
   ]
 })
 

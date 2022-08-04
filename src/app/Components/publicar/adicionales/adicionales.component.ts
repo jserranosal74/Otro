@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import Swal from 'sweetalert2';
 
-import { publicacion, publicacionCaracteristica } from 'src/app/Models/procesos/publicacion.model';
+import { publicacion } from 'src/app/Models/procesos/publicacion.model';
 import { PublicacionesService } from 'src/app/Services/Procesos/publicaciones.service';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
 import { publicacionCaracteristicaLigth } from '../../../Models/procesos/publicacion.model';
@@ -18,10 +18,12 @@ import { publicacionCaracteristicaLigth } from '../../../Models/procesos/publica
 export class AdicionalesComponent implements OnInit {
   _adicionales : publicacionCaracteristicaLigth[] = [];
   _numeroPaso = 1;
-  _publicacion : publicacion = new publicacion(0,0,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0);
+  _publicacion : publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0,0);
   _id_publicacion : number = 0;
   _misCaracteristicas : FormControl[] = [];
   _publicacionActivada : boolean = false;
+
+  _loading = false;
 
   formAdicionales = this.fb.group({
     caracteristicasGenerales : this.fb.array([]),
@@ -131,7 +133,7 @@ export class AdicionalesComponent implements OnInit {
 
   CargarCaracteristicasAdicionales(){
     if (this._id_publicacion != 0) {
-        this._publicacionesService.getPublicacionCaracteristicas(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
+        this._publicacionesService.getPublicacionCaracteristicas(this._id_publicacion, this._loginService.obtenerIdCliente()!).subscribe(
           (data) => {
             //Next callback
             console.log(data);
@@ -214,7 +216,9 @@ export class AdicionalesComponent implements OnInit {
         }
       });
 
-      this._publicacionesService.putPublicacionCaracteristicas(this._id_publicacion, this._loginService.obtenerIdCliente(), JSON.stringify(this._adicionales)).subscribe(
+      this._loading = true;
+
+      this._publicacionesService.putPublicacionCaracteristicas(this._id_publicacion, this._loginService.obtenerIdCliente()!, JSON.stringify(this._adicionales)).subscribe(
         (data) => {
 
           const Toast = Swal.mixin({
@@ -233,6 +237,8 @@ export class AdicionalesComponent implements OnInit {
             icon: 'success',
             title: 'La información se guardo de manera correcta.'
           });
+
+          this._loading = false;
 
           if(this._publicacionActivada){
             this._numeroPaso = 2;
@@ -283,15 +289,16 @@ export class AdicionalesComponent implements OnInit {
   CargarPublicacion(){
     //debugger;
       if (this._id_publicacion != 0) {
-          this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
+          this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()!).subscribe(
             (data) => {
               //Next callback
               //console.log(data);
 
               this._publicacion = data;
 
-              if((data.Id_Estatus === 13) ||(data.Id_Estatus === 14)){
-                this._publicacionActivada = true;
+              if((data.Id_Estatus === 13) || (data.Id_Estatus === 14)){
+                //this._publicacionActivada = true;
+                this.router.navigateByUrl('/micuenta/mis-anuncios');
               }
   
             },

@@ -4,6 +4,8 @@ export class favoritoCliente {
     constructor(
       public Id_Publicacion         : number,
       public Id_Cliente             : number,
+      public Id_Moneda              : number,
+      public UID_Cliente            : string | null,
       public PlanCliente            : string | null,    // Gratis, simple, destacado, superdestacado, etc...
       public TipoOperacion          : string | null,
       public TipoPropiedad          : string | null,
@@ -16,10 +18,17 @@ export class favoritoCliente {
       public Direccion              : string | null,
       public PrecioDesde            : number | null,
       public PrecioHasta            : number | null,
+      public RecamarasDesde         : number | null,
+      public RecamarasHasta         : number | null,
+      public BaniosCompDesde        : number | null,
+      public BaniosCompHasta        : number | null,
+      public SuperficieConstruidaDesde : number | null,
+      public SuperficieTerreno      : number | null,
       public ClaveMoneda            : string | null,
       public UnidadesDisponibles    : number | null,
       public Vistas                 : number | null,
       public Url                    : string | null,
+      public UrlFotoPerfil          : string | null,
       public FechaInicioPublicacion : Date   | null,
       public FechaFinPublicacion    : Date   | null,
       public FechaAlta              : Date,
@@ -33,8 +42,8 @@ export class favoritoCliente {
 
   export class favoritoClienteParams {
     constructor(
-        public Id_Cliente_FavoritoCliente: number | null,
-        public Id_Cliente: number | null,
-        public Id_Publicacion: number | null,
+        public Id_Cliente_FavoritoCliente : string | null,
+        public Id_Cliente                 : number | null,
+        public Id_Publicacion             : number | null,
     ) {}
   }

@@ -1,12 +1,12 @@
-<div class="row">
+<div class="row" style="border-radius:15px; box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
 
-    <div class="col-md-4 p-1 border text-center" style="border-radius: 15px 0px 0px 15px;">
+    <div class="col-md-4 p-0 border text-center" style="border-radius: 15px 0px 0px 15px;">
         <div [id]="'carouselExampleCaptions' + _publicacionCliente.Id_Publicacion" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
-            <div class="carousel-inner">
+            <div class="carousel-inner" style="border-radius:15px 0 0 15px;">
 
                     <div class="carousel-item active text-center">
                         <div class="row justify-content-center" (click)="seAbreVistaPropiedad()">
-                            <img *ngIf="_publicacionCliente.lstMultimedia != null && _publicacionCliente.lstMultimedia!.length > 0" [src]="_publicacionCliente.lstMultimedia![0].Url" class="d-block w-100" style="border-radius: 15px 0px 0px 15px; max-width:fit-content;" loading="lazy" alt="" height="300px" onerror="this.src='https://i.ibb.co/7V042L1/7da75c370bc9.png';">
+                            <img *ngIf="_publicacionCliente.lstMultimedia != null && _publicacionCliente.lstMultimedia!.length > 0" [src]="_publicacionCliente.lstMultimedia![0].Url_Medium" class="d-block w-100" style="border-radius: 15px 0px 0px 15px; max-width:100%;" loading="lazy" alt="" height="300px" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
                         </div>
                         <div class="carousel-caption active d-none d-md-block p-0 m-0">
                             <h6 *ngIf="_publicacionCliente.lstMultimedia != null && _publicacionCliente.lstMultimedia!.length > 0" class="sombraTitulo text-capitalize p-0 m-0">{{_publicacionCliente.lstMultimedia![0].Descripcion}}</h6>
@@ -15,7 +15,7 @@
 
                     <div class="carousel-item" *ngFor="let item of _listaFotografias; let i = index;">
                         <div class="row justify-content-center" (click)="seAbreVistaPropiedad()">
-                            <img [src]="item.Url" alt="" width="100%" height="300px;" style="border-radius: 15px 0px 0px 15px; max-width:fit-content;">
+                            <img [src]="item.Url_Medium" alt="" width="100%" height="300px;" style="border-radius: 15px 0px 0px 15px; max-width:100%;" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
                         </div>
                         <div class="carousel-caption d-none d-md-block p-0 m-0">
                             <h6 class="sombraTitulo text-capitalize p-0 m-0">{{item.Descripcion}}</h6>
@@ -36,28 +36,68 @@
 
     <div class="col-md-8 p-1 border" style="border-radius: 0px 15px 15px 0px;">
       <div class="row">
-          <div class="row px-0">
-              <div class="col-md-12 px-4">
-                  <h3 *ngIf="_publicacionCliente.TituloPublicacion != null" class="text-primary">{{_publicacionCliente.TituloPublicacion}}</h3>
+
+          <div class="row">
+              <div class="col-md-9">
+                  <h3 *ngIf="_publicacionCliente.TituloPublicacion != null" class="text-primary text-truncate">{{_publicacionCliente.TituloPublicacion}}</h3>
                   <h3 *ngIf="_publicacionCliente.TituloPublicacion === null || _publicacionCliente.TituloPublicacion === ''" class="text-danger">SIN TITULO</h3>
               </div>
+              <div class="col-md-3 p-1">
+                <h6 *ngIf="_publicacionCliente.Estatus === 'Activada' && _publicacionCliente.PlanCliente != 'Gratis'" class="text-primary text-end"><kbd style="background-color: #ffe600; color:black">{{_publicacionCliente.PlanCliente}}</kbd></h6>
+                <h6 *ngIf="_publicacionCliente.Estatus !== 'Activada'" class="text-primary text-end"><kbd style="background-color: red; color:white">NO disponible</kbd></h6>
+            </div>
           </div>
-          <h6 *ngIf="_publicacionCliente.Asentamiento != null " class="text-primary">{{_publicacionCliente.Asentamiento}}, {{_publicacionCliente.Municipio}}, {{_publicacionCliente.Estado}}.</h6>
-          <h6 *ngIf="_publicacionCliente.Asentamiento === null || _publicacionCliente.Asentamiento === ''" class="text-danger">Tu anuncio no tiene una ubicación definida</h6>
-            <div class="row">
-                <div class="col">
-                    <div class="row">
-                        <div class="col-auto text-primary"><h4>{{_publicacionCliente.ClaveMoneda}}</h4></div>
-                        <div class="col-auto text-primary px-0"><h4>$ {{_publicacionCliente.PrecioDesde | number : '1.0'}}</h4></div>
-                    </div>
+
+          <div class="row">
+            <h6 *ngIf="_publicacionCliente.Asentamiento != null " class="text-primary">{{_publicacionCliente.Asentamiento}}, {{_publicacionCliente.Municipio}}, {{_publicacionCliente.Estado}}.</h6>
+            <h6 *ngIf="_publicacionCliente.Asentamiento === null || _publicacionCliente.Asentamiento === ''" class="text-danger">Tu anuncio no tiene una ubicación definida</h6>
+          </div>
+          
+            <div class="row mb-5">
+                <div class="col-auto text-primary">
+                    <h4 class="text-primary">{{((_publicacionCliente.Id_Moneda) === 1 ? 'MXN' : 'USD')}} {{_publicacionCliente.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }}</h4>
                 </div>
-                <div class="col-md-auto">
+            </div>
+
+            <div class="row">
+                <div *ngIf="_publicacionCliente.SuperficieConstruidaDesde != null && _publicacionCliente.SuperficieConstruidaDesde != 0" class="col-1 px-1 text-end">
+                    <img src="/assets/anuncioVista/M2 CONSTRUCCION.png">
+                </div>
+                <div *ngIf="_publicacionCliente.SuperficieConstruidaDesde != null && _publicacionCliente.SuperficieConstruidaDesde != 0" class="col-1 px-0 text-start">
+                    <p class="text-primary mx-0 my-1">{{_publicacionCliente.SuperficieConstruidaDesde}} m<sup>2</sup></p>
+                </div>
+                <div *ngIf="_publicacionCliente.SuperficieTerreno != null && _publicacionCliente.SuperficieTerreno != 0" class="col-1 px-1 text-end">
+                    <img src="/assets/anuncioVista/M2 TERRENO.png">
+                </div>
+                <div *ngIf="_publicacionCliente.SuperficieTerreno != null && _publicacionCliente.SuperficieTerreno != 0" class="col-1 px-0 text-start">
+                    <p class="text-primary mx-0 my-1">{{_publicacionCliente.SuperficieTerreno}} m<sup>2</sup></p>
+                </div>
+                <div *ngIf="_publicacionCliente.RecamarasDesde != null && _publicacionCliente.RecamarasDesde != 0" class="col-1 px-1 text-end">
+                    <img src="/assets/anuncioVista/RECAMARA.png">
+                </div>
+                <div *ngIf="_publicacionCliente.RecamarasDesde != null && _publicacionCliente.RecamarasDesde != 0" class="col-1 px-0 text-start">
+                    <p class="text-primary mx-0 my-1">{{_publicacionCliente.RecamarasDesde}}</p>
+                </div>
+                <div *ngIf="_publicacionCliente.BaniosCompDesde != null && _publicacionCliente.BaniosCompDesde != 0" class="col-1 px-1 text-end">
+                    <img src="/assets/anuncioVista/BANIO COMPLETO.png">
+                </div>
+                <div *ngIf="_publicacionCliente.BaniosCompDesde != null && _publicacionCliente.BaniosCompDesde != 0" class="col-1 px-0 text-start">
+                    <p class="text-primary mx-0 my-1">{{_publicacionCliente.BaniosCompDesde}}</p>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-2 text-start">
+                    <img class="text-primary" [src]="_publicacionCliente.UrlFotoPerfil" height="45px" style="max-width: 100%;" alt="fotoPerfil" onerror="this.src='https://i.ibb.co/47Tjy0C/fef9cb206d3b.png';">
+                </div>
+                <div class="col-11">
+
                 </div>
             </div>
 
       </div>
 
-      <div class="row m-0 p-0" style="position:relative; bottom:-145px;">
+      <div class="row m-0 p-0" style="position:relative; bottom:10px;">
         <div class="col text-end">
             <button type="button" style="box-shadow: none;" class="btn btn-link br25" (click)="seAgregaFavorito()" >
                 <span class="col-md-1 text-danger">

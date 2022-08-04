@@ -17,7 +17,7 @@ import { PublicacionDetalleService } from 'src/app/Services/Procesos/publicacion
 })
 export class CaracteristicasComponent implements OnInit {
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0);
+  _publicacion : publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0,0);
   _id_publicacion : number = 0;
   _AniosAntiguedad : number | null = 0;
   _mostrarAniosAntiguedad : boolean = false;
@@ -33,6 +33,8 @@ export class CaracteristicasComponent implements OnInit {
   _checkAnios : boolean = false;
   _esDesarrollo : boolean = false;
   _publicacionActivada : boolean = false;
+
+  _loading = false;
 
   formCaracteristicas = this.fb.group({});
 
@@ -140,12 +142,12 @@ debugger;
 
   CargarPublicacion(){
     if (this._id_publicacion != 0) {
-        this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
+        this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()!).subscribe(
           (data) => {
             //Next callback
 
             if (data.Id_TipoOperacion === 3){
-              this._publicacionDetalleService.getPublicacionDetalleCompleta(this._loginService.obtenerIdCliente(), this._id_publicacion, 1).subscribe(
+              this._publicacionDetalleService.getPublicacionDetalleCompleta(this._loginService.obtenerIdCliente()!, this._id_publicacion, 1).subscribe(
                 (dataPublicacionDetalle) => {
                   //Next callback
                   this._publicacionesHijas = dataPublicacionDetalle;
@@ -166,7 +168,7 @@ debugger;
                 }
               );
 
-              this._publicacionDetalleService.getPublicacionDetalle(this._loginService.obtenerIdCliente(), this._id_publicacion).subscribe(
+              this._publicacionDetalleService.getPublicacionDetalle(this._loginService.obtenerIdCliente()!, this._id_publicacion).subscribe(
                 (dataPD) => {
                   //Next callback
                   this._publicacionDetalle = dataPD;
@@ -191,7 +193,8 @@ debugger;
             this._publicacion = data;
 
             if((data.Id_Estatus === 13) ||(data.Id_Estatus === 14)){
-              this._publicacionActivada = true;
+              //this._publicacionActivada = true;
+              this.router.navigateByUrl('/micuenta/mis-anuncios');
             }
 
             this._checkMoneda1 = data.Id_Moneda == 1 ? true : false;
@@ -275,7 +278,7 @@ debugger;
       //Envio de la informacion al servidor
       //debugger;
       this._publicacion.Id_Publicacion = this._id_publicacion;
-      this._publicacion.Id_Cliente = this._loginService.obtenerIdCliente();
+      this._publicacion.UID_Cliente = this._loginService.obtenerIdCliente();
       this._publicacion.RecamarasDesde = this.formCaracteristicas.get('recamarasDesde')?.value;
       this._publicacion.RecamarasHasta = this.formCaracteristicas.get('recamarasHasta')?.value;
       this._publicacion.BaniosCompDesde = this.formCaracteristicas.get('baniosCompDesde')?.value;
@@ -318,19 +321,21 @@ debugger;
       //   this._publicacionDetalle.push(new publicacionDetalle(0,this._id_publicacion, item.Id_Cliente, item.Id_Publicacion, item.Id_Cliente, 0 ));
       // })
 
+      this._loading = true;
+
       this._publicacionesService.putPublicacion(this._publicacion).subscribe(
         (data) => {
 
           if (this._publicacion.Id_TipoOperacion === 3){
               this._publicacionDetalleService.postPublicacionDetalle(JSON.stringify(this._publicacionDetalle)).subscribe( data2 => {
 
-                console.log('data2', data2);
+                //console.log('data2', data2);
 
               },
                 (error: HttpErrorResponse) => {
                   switch (error.status) {
                     case 401:
-                      this._loginService.cerarSesion();
+                      console.log('no se encontro')
                       break;
                     case 403:
                       break;
@@ -343,6 +348,8 @@ debugger;
                 }
               );
             }
+
+          this._loading = false;
 
           const Toast = Swal.mixin({
             toast: true,
@@ -468,7 +475,7 @@ debugger;
   }
 
   obtenerAnunciosAEnlazar(){
-    this._publicacionDetalleService.getPublicacionDetalleCompleta(this._loginService.obtenerIdCliente(), this._id_publicacion, 0).subscribe(
+    this._publicacionDetalleService.getPublicacionDetalleCompleta(this._loginService.obtenerIdCliente()!, this._id_publicacion, 0).subscribe(
       (data) => {
         //Next callback
 

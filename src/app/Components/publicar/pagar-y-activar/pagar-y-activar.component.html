@@ -1,4 +1,4 @@
-<div class="container animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}">
+<div class="container py-5 animate__animated" [ngClass]="{' animate__zoomIn': _numeroPaso === 1, ' animate__zoomOut': _numeroPaso === 2}">
         <div class="container" >
           <div class="row px-0" >
               <div class="col-md-12" >
@@ -7,7 +7,7 @@
           </div>
         </div>
   
-        <div class="container py-5" style="border-width:0px 1px 0px 0px; border-style: solid; border-radius: 20px 20px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
+        <div class="container py-5" style="border-width:1px 1px 0px 1px; border-style: solid; border-radius: 20px 20px 0px 0px; border-color: rgba(223, 126, 137, 0.8); background: rgba(223, 126, 137, 0.15);">
           <div class="form-group row">
             <legend class="text-center text-primary mt-3"><h3>Selecciona el plan con el que quieres publicar o adquiere uno nuevo</h3></legend>
               <div class="col mt-5">
@@ -95,14 +95,22 @@
         <div class="container" >
           <div class="row px-0" >
             <div class="col-md-2 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0 0 20px 20px; background: rgba(223, 126, 137, 0.15);">
-              <button type="button" style="border-radius: 0.8em;" (click)="regresar()" class="btn btn-primary btn-lg align-items-right">Atras</button>
+              <button type="button" 
+                      (click)="regresar()" 
+                      [disabled]="_guardandoYpublicando"
+                      class="btn btn-primary btn-lg align-items-right br25">
+                      <i class="fa fa-arrow-left"></i>
+                      Atras
+              </button>
             </div>
             <div class="col-md-4"></div>
               <div class="col-md-3 d-grid py-3" >
                   <!-- <button type="button" style="border-radius: 0.8em;" (click)="guardarCaracteristicas()" class="btn btn-primary btn-lg align-items-right">Guardar</button> -->
               </div>
               <div class="col-md-3 d-grid py-3" style="border-width:0px 1px 5px 1px; border-style: solid; border-color: rgba(223, 126, 137, 0.8); border-radius: 0px 0px 20px 20px; background: rgba(223, 126, 137, 0.15);">
-                  <button type="button" style="border-radius: 0.8em;" class="btn btn-primary btn-lg align-items-right" (click)="validarPlanYBanco()" [disabled]="_guardandoYpublicando">
+                  <button type="button"
+                          class="btn btn-primary btn-lg align-items-right br25" 
+                          (click)="validarPlanYBanco()" [disabled]="_guardandoYpublicando">
                     <span *ngIf="_guardandoYpublicando"><i class="fa fa-sync fa-spin"></i> Espere por favor...</span>
                     <span *ngIf="!_guardandoYpublicando">Guardar y Publicar</span>
                   </button>

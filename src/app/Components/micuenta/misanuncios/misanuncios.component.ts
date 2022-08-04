@@ -20,6 +20,7 @@ import { PublicacionesClienteFiltrosService } from '../../../Services/Procesos/p
 })
 export class MisAnunciosComponent implements OnInit {
   formaBusqueda =  this.fb.group({});
+  formaNumeroPagina = this.fb.group({});
 
   _publicacionesInfoMini : publicacionInfoMini[] = [];
   _publicacionesFiltros : publicacionClienteFiltros = new publicacionClienteFiltros([],[],[],[],[],[],[]);
@@ -66,6 +67,7 @@ export class MisAnunciosComponent implements OnInit {
   ) {
 
     this.crearFormulario();
+    this.crearFormularioNumeroPagina();
     this.limpiarFormulario();
     this.obtenerEstatusPublicacion();
     this.obtenerFiltrosPublicaciones(null,null);
@@ -86,6 +88,12 @@ export class MisAnunciosComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  crearFormularioNumeroPagina() {
+    this.formaNumeroPagina = this.fb.group({
+      numeroPagina : ['', [Validators.required] ]
+    });
   }
 
   agregarAnuncio(){
@@ -203,7 +211,7 @@ export class MisAnunciosComponent implements OnInit {
       }
     }
 
-    this._publicacionesFiltrosService.getPublicacionClienteFiltros(this._loginService.obtenerIdCliente(), this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus, 
+    this._publicacionesFiltrosService.getPublicacionClienteFiltros(this._loginService.obtenerIdCliente()!, this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus, 
                                                                                                           this._filtrosSeleccionados.lstTiposPropiedad[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPropiedad[0].Id_TipoPropiedad,
                                                                                                           this._filtrosSeleccionados.lstTiposOperacion[0] === undefined ? null : this._filtrosSeleccionados.lstTiposOperacion[0].Id_TipoOperacion, 
                                                                                                           this._filtrosSeleccionados.lstTiposPlanes[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPlanes[0].Id_Plan, 
@@ -242,7 +250,7 @@ export class MisAnunciosComponent implements OnInit {
   }
 
   CargarPaginador(paginaActual : number){
-    // this._paginadoDetalle;
+    debugger;
     this._paginas = [];
 
     if ( this._paginadoDetalle.TotalPaginas <= this._numeroPaginasMostrar ){
@@ -432,9 +440,18 @@ export class MisAnunciosComponent implements OnInit {
     this.obtenerFiltrosPublicaciones('Asentamiento','Agregar');
   }
 
-  ejecutarConsulta(numPagina : number){
+  ejecutarConsulta(numPagina : number | null){
     debugger;
-    this._publicacionesService.getPublicacionesMini(this._loginService.obtenerIdCliente(), this._loginService.obtenerIdCliente(), numPagina, 10, this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus, 
+
+    if(numPagina === null){
+      numPagina = this.formaNumeroPagina.get('numeroPagina')!.value - 1;
+      if (numPagina! > this._paginadoDetalle.TotalPaginas)
+          numPagina = this._paginadoDetalle.TotalPaginas - 1;
+      if (numPagina! < 1)
+          numPagina = 0
+    }
+
+    this._publicacionesService.getPublicacionesMini(this._loginService.obtenerIdCliente()!, this._loginService.obtenerIdCliente()!, numPagina, 10, this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus, 
                                                                                                                 this._filtrosSeleccionados.lstTiposPropiedad[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPropiedad[0].Id_TipoPropiedad,
                                                                                                                 this._filtrosSeleccionados.lstTiposOperacion[0] === undefined ? null : this._filtrosSeleccionados.lstTiposOperacion[0].Id_TipoOperacion, 
                                                                                                                 this._filtrosSeleccionados.lstTiposPlanes[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPlanes[0].Id_Plan, 
@@ -450,8 +467,12 @@ export class MisAnunciosComponent implements OnInit {
           this._seRealizaBusqueda = true;
         }
 
+        this.formaNumeroPagina.patchValue({
+          numeroPagina : numPagina! + 1
+        });
+
         // Se obtiene el numero de paginas totales y el numero de renglones(registros) en total de la busqueda
-        this._publicacionesService.getPublicacionesMiniPagDet(this._loginService.obtenerIdCliente(), 10, this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus, 
+        this._publicacionesService.getPublicacionesMiniPagDet(this._loginService.obtenerIdCliente()!, 10, this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus, 
                                                                                                          this._filtrosSeleccionados.lstTiposPropiedad[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPropiedad[0].Id_TipoPropiedad,
                                                                                                          this._filtrosSeleccionados.lstTiposOperacion[0] === undefined ? null : this._filtrosSeleccionados.lstTiposOperacion[0].Id_TipoOperacion,
                                                                                                          this._filtrosSeleccionados.lstTiposPlanes[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPlanes[0].Id_Plan, 
@@ -460,10 +481,10 @@ export class MisAnunciosComponent implements OnInit {
                                                                                                          this._filtrosSeleccionados.lstAsentamientos[0] === undefined ? null : this._filtrosSeleccionados.lstAsentamientos[0].Id_Asentamiento).subscribe(
           (data) => {
             //Next callback
-            //console.log('getPublicacionesMiniPagDet', data);
+            console.log('getPublicacionesMiniPagDet', data);
             this._paginadoDetalle = data;
 
-            this.CargarPaginador(numPagina);
+            this.CargarPaginador(numPagina!);
             //this.obtenerFiltrosPublicaciones(null,null);
     
           },
@@ -699,7 +720,7 @@ export class MisAnunciosComponent implements OnInit {
 
   copiarAnuncio(objPublicacion : publicacionInfoMini){
     debugger;
-    this._publicacionesService.getPublicacionClienteCopiar(objPublicacion.Id_Publicacion, this._loginService.obtenerIdCliente()).subscribe(
+    this._publicacionesService.getPublicacionClienteCopiar(objPublicacion.Id_Publicacion, this._loginService.obtenerIdCliente()!).subscribe(
       (data) => {
         //Next callback
 
@@ -737,6 +758,14 @@ export class MisAnunciosComponent implements OnInit {
             this._publicacionesInfoMini = [];
             break;
           case 409:
+            // Conflicto - Conflict
+            Swal.fire({
+              icon: 'error',
+              title: 'Imposible crear mas publicaciones con estatus de Borrador',
+              text: 'Elimine algunas de las publicaciones para que pueda crear otra ó modifique alguna de las que ya tiene.',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
             break;
         }
 
@@ -767,7 +796,7 @@ export class MisAnunciosComponent implements OnInit {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
 
-        this._publicacionesService.deletePublicacion(objPublicacion.Id_Publicacion, objPublicacion.Id_Cliente).subscribe(
+        this._publicacionesService.deletePublicacion(objPublicacion.Id_Publicacion, this._loginService.obtenerIdCliente()!).subscribe(
           (data) => {
             //Next callback
 

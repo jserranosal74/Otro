@@ -18,20 +18,19 @@ import { subtipoPropiedad } from 'src/app/Models/catalogos/tipoPropiedadDetalle.
 })
 export class OperaciontipoinmuebleComponent implements OnInit {
   _tiposPropiedad : tipoPropiedad[] = [];
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0,0);
   _id_publicacion : number = 0;
-  loading : boolean = false;
   _subtiposPropiedad : subtipoPropiedad[] = [];
   _numeroPaso : number = 1;
   _esNuevo : boolean = true;
-  _rentaVentaDesarrollo : number | null = 0;
+  _RenVenDesRemEven : number | null = 0;
   _esDesarrollo : boolean = false;
   _bloquearTipoOperacion = false;
   _bloquearDesarrollo = false;
   _bloquearSiPerteneceDesarrollo = false;
+  _loading = false;
 
-  formaOTI = this.fb.group({
-  });
+  formaOTI = this.fb.group({});
 
   constructor( private _activatedRoute: ActivatedRoute,
                private _tipoPropiedadService: TiposPropiedadService,
@@ -91,50 +90,70 @@ export class OperaciontipoinmuebleComponent implements OnInit {
   obtenerTiposPropiedad(){
     // console.log(this.loading);
     this._tipoPropiedadService.getTiposPropiedades().subscribe((data) => {
-      this._tiposPropiedad = data;
-      //this._tiposPropiedad.unshift(new tipoPropiedad(0,'','--Selecccione el tipo de inmueble--',new Date(),new Date(),1,1));
-      //this.loading = true;
-       // return 0;
+
+      //Cargamos todos los tipos de propiedad excepto 'Desarrollo' con id = 11
+      data.forEach(item => {
+        if (item.Id_TipoPropiedad != 11)
+        this._tiposPropiedad.push(item);
+      });
+      //this._tiposPropiedad = data;
       });
 
   }
 
   seleccionarOperacion(){
     debugger;
-    this._rentaVentaDesarrollo = this.formaOTI.controls['tipoOperacion'].value;
+    this._RenVenDesRemEven = this.formaOTI.controls['tipoOperacion'].value;
 
-    if (this._rentaVentaDesarrollo == 3){
+    if (this._RenVenDesRemEven == 3){
+      //Agregamos el tipo de propiedad = 'Desarrollo' y lo seleccionamos en el combo
+      this._tiposPropiedad.push(new tipoPropiedad(11, 'Desa', 'Desarrollo','desarrollos',11,new Date(), new Date(), 1, 1));
       this.formaOTI.patchValue({
-        tipoPropiedad : 12,
+        tipoPropiedad : 11,
         subtipoPropiedad : ''
       });
       this._bloquearDesarrollo = true;
     }
     else{
+
+      //Eliminamos el tipo de propiedad = 'Desarrollo' y lo quitamos del combo para que no se muestre
+      this._tiposPropiedad.forEach((item,index) => {
+        if (item.Id_TipoPropiedad === 11){
+          this._tiposPropiedad.splice(index,1); 
+        }
+      });
+
+      // Seleccionamos por default el tipo de propiedad = 'Casa'
       this.formaOTI.patchValue({
         tipoPropiedad : 1,
         subtipoPropiedad : ''
       });
       this._bloquearDesarrollo = false;
     }
+
+    this.obtenerSubTiposPropiedad(0);
+
   }
 
   CargarPublicacion(){
-    debugger;
+    //debugger;
     if (this._id_publicacion != 0) {
-        this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()).subscribe(
+        this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()!).subscribe(
           (data) => {
             //Next callback
-            console.log(data);
+            if((data.Id_Estatus === 13) ||(data.Id_Estatus === 14)){
+              this.router.navigateByUrl('/micuenta/mis-anuncios');
+            }
+
             this._publicacion = data;
 
-            this._rentaVentaDesarrollo = data.Id_TipoOperacion;
+            this._RenVenDesRemEven = data.Id_TipoOperacion;
 
             this.obtenerSubTiposPropiedad(data.Id_TipoPropiedad!)
 
             this.formaOTI.setValue({
-              tipoOperacion : data.Id_TipoOperacion,
-              tipoPropiedad : data.Id_TipoPropiedad,
+              tipoOperacion    : data.Id_TipoOperacion,
+              tipoPropiedad    : data.Id_TipoPropiedad,
               subtipoPropiedad : data.Id_SubtipoPropiedad
             });
 
@@ -187,8 +206,8 @@ export class OperaciontipoinmuebleComponent implements OnInit {
 
   crearFormulario() {
     this.formaOTI = this.fb.group({
-      tipoOperacion : ['', [Validators.required] ],
-      tipoPropiedad : ['', [Validators.required] ],
+      tipoOperacion    : ['', [Validators.required] ],
+      tipoPropiedad    : ['', [Validators.required] ],
       subtipoPropiedad : [''],
     });
   }
@@ -212,14 +231,14 @@ export class OperaciontipoinmuebleComponent implements OnInit {
     }
     else{
       //Envio de la informacion al servidor
-debugger;
+      //debugger;
       if (this._publicacion.Id_Publicacion != 0){
         this._esNuevo = false;
       }else{
         this._esNuevo = true;
       }
 
-      this._publicacion.Id_Cliente = this._loginService.obtenerIdCliente();
+      this._publicacion.UID_Cliente = this._loginService.obtenerIdCliente();
       this._publicacion.Id_TipoOperacion = this.formaOTI.get('tipoOperacion')?.value;
       this._publicacion.Id_TipoPropiedad = this.formaOTI.get('tipoPropiedad')?.value;
       this._publicacion.Id_SubtipoPropiedad = this.formaOTI.get('subtipoPropiedad')?.value;
@@ -228,6 +247,8 @@ debugger;
       this._publicacion.Id_Usuario = 1;
       this._publicacion.Id_Estatus = 8;
 
+      this._loading = true;
+
       if (this._esNuevo){
         this._publicacion.Id_Publicacion = 0;
         this._publicacionesService.postPublicacion(this._publicacion).subscribe(
@@ -235,6 +256,8 @@ debugger;
             //Next callback
 
             this._id_publicacion = data.Id_Publicacion;
+
+            this._loading = false;
 
             const Toast = Swal.mixin({
               toast: true,
@@ -260,15 +283,8 @@ debugger;
           },
           (error: HttpErrorResponse) => {
             //Error callback
-            //console.log('Error del servicio: ', error.error['Descripcion']);
-  
-            Swal.fire({
-              icon: 'error',
-              title: error.error['Descripcion'],
-              text: '',
-              showCancelButton: false,
-              showDenyButton: false,
-            });
+
+            this._loading = false;
   
             switch (error.status) {
               case 401:
@@ -288,7 +304,14 @@ debugger;
                 //console.log('error 404');
                 break;
               case 409:
-                //console.log('error 409');
+                // Conflicto - Conflict
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Imposible crear mas publicaciones con estatus de Borrador',
+                  text: 'Elimine algunas de las publicaciones para que pueda crear otra ó modifique alguna de las que ya tiene.',
+                  showCancelButton: false,
+                  showDenyButton: false,
+                });
                 break;
             }
   
@@ -299,6 +322,8 @@ debugger;
         // console.log('this._publicacion', this._publicacion);
         this._publicacionesService.putPublicacion(this._publicacion).subscribe(
           (data) => {
+
+            this._loading = false;
   
             const Toast = Swal.mixin({
               toast: true,

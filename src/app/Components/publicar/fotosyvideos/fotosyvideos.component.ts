@@ -4,11 +4,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FormArray, FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import Swal from 'sweetalert2';
 
-import { publicacion } from 'src/app/Models/procesos/publicacion.model';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
-import { imagenModel } from '../../../Models/procesos/publicacion.model';
+import { imagenModel, publicacion } from '../../../Models/procesos/publicacion.model';
 import { MultimediaPublicacionService } from '../../../Services/Procesos/MultimediaPublicacion.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { configuracion } from 'src/app/Models/catalogos/condiguracion.model';
+import { ConfiguracionService } from 'src/app/Services/Catalogos/configuracion.service';
+import { PublicacionesService } from 'src/app/Services/Procesos/publicaciones.service';
 
 @Component({
   selector: 'app-fotosyvideos',
@@ -16,24 +18,25 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./fotosyvideos.component.css']
 })
 export class FotosyvideosComponent implements OnInit {
+  _publicacion! : publicacion;
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0);
   _id_publicacion : number = 0;
   _multimediaPublicacion : imagenModel[] = [];
+  _configuraciones : configuracion[] = [];
   _loading = false;
+  _NumeroFotos = 0;
+  _NumeroPlanos = 0;
+  _TamanioArchivo = 0;
 
-  formaMultimedia = this.fb.group({
-    urlVideo         : [ '' ],
-    fotosPropiedad   : this.fb.array([]),
-    videosPropiedad  : this.fb.array([]),
-    planos  : this.fb.array([]),
-  });
+  formaMultimedia = this.fb.group({});
 
   constructor(  private _activatedRoute: ActivatedRoute,
                 private _multimediaPublicacionService: MultimediaPublicacionService,
+                private _configuracionService: ConfiguracionService,
                 private _loginService: LoginService,
                 private fb: FormBuilder,
                 private sanitizer: DomSanitizer,
+                private _publicacionesService: PublicacionesService,
                 private router: Router) { 
 //debugger;
     this._activatedRoute.queryParams.subscribe(params => {
@@ -43,8 +46,10 @@ export class FotosyvideosComponent implements OnInit {
         setTimeout( () => { this.router.navigateByUrl('/publicar/adicionales'); }, 700 );
       }
     });
+    this.CargarPublicacion();
     this.CrearFormulario();
-    this.CargarFotosPublicacion();
+    this.CargarMultimediaPublicacion();
+    this.ObtenerConfiguraciones();
   }
 
   ngOnInit(): void {
@@ -52,51 +57,68 @@ export class FotosyvideosComponent implements OnInit {
 
   CrearFormulario() {
     this.formaMultimedia = this.fb.group({
-      urlVideo         : [ '' ],
-      fotosPropiedad   : this.fb.array([]),
-      videosPropiedad  : this.fb.array([]),
-      planos           : this.fb.array([])
+      urlVideo        : [ '' ],
+      fotosPropiedad  : this.fb.array([]),
+      planosPropiedad : this.fb.array([]),
+      videosPropiedad : this.fb.array([])
     });
   }
 
-  CargarFotosPublicacion(){
+  CargarMultimediaPublicacion(){
     //debugger;
     if (this._id_publicacion != 0) {
-        this._multimediaPublicacionService.getMultimediaPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente(), null).subscribe(
+        this._multimediaPublicacionService.getMultimediaPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()!, null).subscribe(
           (data) => {
 
             console.log(data);
 
             data.forEach(element => {
               if (element.Id_TipoMultimedia === 1) {
-                this.imagenes.push( this.fb.group({ Id_Multimedia : element.Id_Multimedia, 
+                this.imagenes.push( this.fb.group({ Id_Multimedia     : element.Id_Multimedia, 
                                                     Id_TipoMultimedia : element.Id_TipoMultimedia,
-                                                    Url : element.Url, 
-                                                    Descripcion : element.Descripcion,
-                                                    Predeterminada : element.Predeterminada,
-                                                    ImagenBase64 : ''
+                                                    Url               : element.Url, 
+                                                    Url_Medium        : element.Url_Medium, 
+                                                    Url_Thumb         : element.Url_Thumb, 
+                                                    Descripcion       : element.Descripcion,
+                                                    Predeterminada    : element.Predeterminada,
+                                                    ImagenBase64      : ''
                                                   }));
               }
             });
 
             data.forEach(element => {
-              if (element.Id_TipoMultimedia === 2) {
-                this.videos.push( this.fb.group({ Id_Multimedia : element.Id_Multimedia, 
+              if (element.Id_TipoMultimedia === 3) {
+                this.planos.push( this.fb.group({ Id_Multimedia     : element.Id_Multimedia, 
                                                   Id_TipoMultimedia : element.Id_TipoMultimedia,
-                                                  Url : element.Url, 
-                                                  Descripcion : element.Descripcion,
-                                                  Predeterminada : element.Predeterminada,
-                                                  ImagenBase64 : ''
+                                                  Url               : element.Url, 
+                                                  Url_Medium        : element.Url_Medium, 
+                                                  Url_Thumb         : element.Url_Thumb, 
+                                                  Descripcion       : element.Descripcion,
+                                                  Predeterminada    : element.Predeterminada,
+                                                  ImagenBase64      : ''
                                                 }));
               }
             });
 
-            this.formaMultimedia.setValue({
-              urlVideo         : '',
-              fotosPropiedad   : this.imagenes,
-              videosPropiedad  : this.videos,
-              planos           : ''
+            data.forEach(element => {
+              if (element.Id_TipoMultimedia === 2) {
+                this.videos.push( this.fb.group({ Id_Multimedia     : element.Id_Multimedia, 
+                                                  Id_TipoMultimedia : element.Id_TipoMultimedia,
+                                                  Url               : element.Url, 
+                                                  Url_Medium        : element.Url_Medium, 
+                                                  Url_Thumb         : element.Url_Thumb, 
+                                                  Descripcion       : element.Descripcion,
+                                                  Predeterminada    : element.Predeterminada,
+                                                  ImagenBase64      : ''
+                                                }));
+              }
             });
+
+            // this.formaMultimedia.patchValue({
+            //   fotosPropiedad  : this.imagenes,
+            //   planosPropiedad : this.planos,
+            //   videosPropiedad : this.videos
+            // });
 
           },
           (error: HttpErrorResponse) => {
@@ -120,6 +142,52 @@ export class FotosyvideosComponent implements OnInit {
       }
   }
 
+  ObtenerConfiguraciones(){
+    //debugger;
+    this._configuracionService.getConfiguracion(null).subscribe(
+      (data) => {
+
+        //console.log('ObtenerConfiguraciones',data);
+
+        this._configuraciones = data;
+
+        data.forEach(item=> {
+          if (item.Configuracion === 'TamanioArchivos')
+            this._TamanioArchivo = item.Valor;
+        })
+    
+        this._configuraciones.forEach(item=> {
+          if (item.Configuracion === 'Planos')
+          this._NumeroPlanos = item.Valor;
+        })
+
+        this._configuraciones.forEach(item=> {
+          if (item.Configuracion === 'Fotos')
+          this._NumeroFotos = item.Valor;
+        })
+    
+
+      },
+      (error: HttpErrorResponse) => {
+        
+        //this._id_publicacion = 0;
+        //this.router.navigateByUrl('/publicar/operacion-tipo-inmueble');
+
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+
+      }
+    );
+  }
+
   regresar(){
     this._numeroPaso = 2;
     // setTimeout( () => { this.router.navigateByUrl('/publicar/ubicacion'); }, 700 );
@@ -132,26 +200,121 @@ export class FotosyvideosComponent implements OnInit {
   
   }
 
-  obtenerArchivos(archivos : Event){
-    //debugger;
+  obtenerArchivosFotografias(archivos : Event){
+    debugger;
     let lstArchivos = (<HTMLInputElement>archivos.target).files;
-    // this.imagenes.clear();
+    let lstArrayArch = Array.prototype.slice.call(lstArchivos);
+    let errortamanio = false;
+    
+    lstArrayArch.forEach(item => {
+      if (((item.size/1024)/1024) > this._TamanioArchivo)
+      {
+        Swal.fire({
+          icon  : 'error',
+          title : 'El tamaño máximo del archivo debe de ser de ' + this._TamanioArchivo + ' MB',
+          html  : 'El archivo <strong>' + item.name + '</strong> es demasiado grande.<br>Reduzca su tamaño por favor.',
+          showCancelButton: false,
+          showDenyButton: false,
+        });
+
+        errortamanio = true;
+      }
+    });
+
+    if ((lstArrayArch.length + this.imagenes.length) > this._NumeroFotos){
+      Swal.fire({
+        icon  : 'error',
+        title : 'El número de fotos a guardar excede el número de fotos máximo que son: ' + this._NumeroFotos,
+        html  : 'Solo cargue máximo <strong>' + this._NumeroFotos + '</strong> fotos',
+        showCancelButton: false,
+        showDenyButton: false,
+      });
+      (<HTMLInputElement>archivos.target).value = '';
+      return;
+    }
+
+    if (errortamanio)
+    {
+      (<HTMLInputElement>archivos.target).value = '';
+      return;
+    }
+
     for (let index = 0; index < lstArchivos!.length; index++) {
       if (this.imagenes.controls.length === 0) {
         this.imagenes.push( this.fb.group({ Id_Multimedia : 0, 
-                                          Id_TipoMultimedia : 1,
+                                            Id_TipoMultimedia : 1,
+                                            Url : this.readFileAsText(lstArchivos![index]), 
+                                            Descripcion : null, 
+                                            Predeterminada : true,
+                                            ImagenBase64 : '' }));
+      }
+      else{
+        this.imagenes.push( this.fb.group({ Id_Multimedia : 0, 
+                                            Id_TipoMultimedia : 1,
+                                            Url : this.readFileAsText(lstArchivos![index]), 
+                                            Descripcion : null, 
+                                            Predeterminada : false,
+                                            ImagenBase64 : '' }));
+      }
+    }
+
+  }
+
+  obtenerArchivosPlanos(archivos : Event){
+    //debugger;
+    let lstArchivos = (<HTMLInputElement>archivos.target).files;
+    let lstArrayArch = Array.prototype.slice.call(lstArchivos);
+    let errortamanio = false;
+
+    lstArrayArch.forEach(item => {
+      if (((item.size/1024)/1024) > this._TamanioArchivo)
+      {
+        Swal.fire({
+          icon  : 'error',
+          title : 'El tamaño máximo del archivo debe de ser de ' + this._TamanioArchivo + ' MB',
+          html  : 'El archivo <strong>' + item.name + '</strong> es demasiado grande.<br>Reduzca su tamaño por favor.',
+          showCancelButton: false,
+          showDenyButton: false,
+        });
+
+        errortamanio = true;
+      }
+    });
+
+    if ((lstArrayArch.length + this.planos.length) > this._NumeroPlanos){
+      Swal.fire({
+        icon  : 'error',
+        title : 'El número de planos a guardar excede el número de planos máximo que son: ' + this._NumeroPlanos,
+        html  : 'Solo cargue máximo <strong>' + this._NumeroPlanos + '</strong> planos.',
+        showCancelButton: false,
+        showDenyButton: false,
+      });
+      (<HTMLInputElement>archivos.target).value = '';
+      return;
+    }
+
+    if (errortamanio)
+    {
+      (<HTMLInputElement>archivos.target).value = '';
+      return;
+    }
+
+    for (let index = 0; index < lstArchivos!.length; index++) {
+      if (this.planos.controls.length === 0) {
+        this.planos.push( this.fb.group({ Id_Multimedia : 0, 
+                                          Id_TipoMultimedia : 3,
                                           Url : this.readFileAsText(lstArchivos![index]), 
                                           Descripcion : null, 
                                           Predeterminada : true,
                                           ImagenBase64 : '' }));
       }
       else{
-        this.imagenes.push( this.fb.group({ Id_Multimedia : 0, 
-          Id_TipoMultimedia : 1,
-          Url : this.readFileAsText(lstArchivos![index]), 
-          Descripcion : null, 
-          Predeterminada : false,
-          ImagenBase64 : '' }));
+        this.planos.push( this.fb.group({ Id_Multimedia : 0, 
+                                          Id_TipoMultimedia : 3,
+                                          Url : this.readFileAsText(lstArchivos![index]), 
+                                          Descripcion : null, 
+                                          Predeterminada : false,
+                                          ImagenBase64 : '' }));
       }
     }
 
@@ -159,7 +322,7 @@ export class FotosyvideosComponent implements OnInit {
 
   obtenerInfoUrl(item : any){
     if (typeof(item.controls['Url'].value) == 'string'){
-      return item.controls['Url'].value;
+      return item.controls['Url_Medium'].value;
     }else{
       return item.controls['Url'].value.__zone_symbol__value;
     }
@@ -210,14 +373,52 @@ borrarFotografia(control : any,  i : number ) {
   }
 }
 
-agregarVideo(){
+borrarPlano(control : any,  i : number ) {
   //debugger;
+  if (control.controls['Predeterminada'].value){
+    if ( i >= 1 ){
+      this.planos.controls[i-1].patchValue({Predeterminada : true});
+    }
+    else if (i === 0 && this.planos.controls.length > 1){
+      this.planos.controls[i+1].patchValue({Predeterminada : true});
+    }
+    else if (i === 0 && this.planos.controls.length === 1){
+      this.planos.removeAt(i);
+      return;
+    }
+    this.planos.removeAt(i);
+    // Object.values( this.imagenes.controls ).forEach( control => {
+    //   if ( control instanceof FormGroup ) {
+    //     console.log('control',control);
+    //     //control.controls['Predeterminada'].setValue(true);
+    //   }
+    // });
+  }
+  else{
+    this.planos.removeAt(i);
+  }
+}
+
+agregarVideo(){
+  debugger;
   //this.videos.clear();
+
+  if (this.formaMultimedia.controls['urlVideo'].value === ''){
+    Swal.fire({
+      icon  : 'error',
+      title : 'Escriba la Url del video a agregar',
+      html  : 'o teclea la dirección del video a agregar a tu anuncio.',
+      showCancelButton: false,
+      showDenyButton: false,
+    });
+    return;
+  }
+
     if (this.videos.controls.length === 0) {
       this.videos.push( this.fb.group({ Id_Multimedia : 0, 
                                         Id_TipoMultimedia : 2,
                                         Url : this.formaMultimedia.controls['urlVideo'].value, 
-                                        Descripcion : this.formaMultimedia.controls['urlVideo'].value, 
+                                        Descripcion : '', 
                                         Predeterminada : true,
                                         ImagenBase64 : '' }));
     }
@@ -225,7 +426,7 @@ agregarVideo(){
       this.videos.push( this.fb.group({ Id_Multimedia : 0, 
                                         Id_TipoMultimedia : 2,
                                         Url : this.formaMultimedia.controls['urlVideo'].value, 
-                                        Descripcion : this.formaMultimedia.controls['urlVideo'].value, 
+                                        Descripcion : '', 
                                         Predeterminada : false,
                                         ImagenBase64 : '' }));
     }
@@ -265,6 +466,15 @@ cambiarPredeterminado(control : any){
   control.controls['Predeterminada'].value = true;
 }
 
+cambiarPlanoPredeterminado(control : any){
+  Object.values( this.planos.controls ).forEach( control => {
+    if ( control instanceof FormGroup ) {
+      control.controls['Predeterminada'].setValue(false);
+    }
+  });
+  control.controls['Predeterminada'].value = true;
+}
+
 cambiarVideoPredeterminado(control : any){
   Object.values( this.videos.controls ).forEach( control => {
     if ( control instanceof FormGroup ) {
@@ -278,12 +488,16 @@ cambiarVideoPredeterminado(control : any){
     return this.formaMultimedia.get('fotosPropiedad') as FormArray;
   }
 
+  get planos(): FormArray {
+    return this.formaMultimedia.get('planosPropiedad') as FormArray;
+  }
+
   get videos(): FormArray {
     return this.formaMultimedia.get('videosPropiedad') as FormArray;
   }
 
-  guardarFotosyVideos() {
-
+  guardarFotosPlanosyVideos() {
+    debugger;
   this._multimediaPublicacion = [];
   this._loading = true;
   //debugger;
@@ -292,19 +506,51 @@ cambiarVideoPredeterminado(control : any){
         //console.log('control.controls[Url]', control);
         if (typeof(control.controls['Url'].value) == 'string'){
           this._multimediaPublicacion.push(new imagenModel( control.controls['Id_Multimedia'].value, 
-                                                          control.controls['Id_TipoMultimedia'].value,
-                                                          control.controls['Url'].value,
-                                                          'm',
-                                                          control.controls['Descripcion'].value,
-                                                          control.controls['Predeterminada'].value ? 1 : 0));
+                                                            control.controls['Id_TipoMultimedia'].value,
+                                                            control.controls['Url'].value,
+                                                            control.controls['Url_Medium'].value,
+                                                            control.controls['Url_Thumb'].value,
+                                                            'm',
+                                                            control.controls['Descripcion'].value,
+                                                            control.controls['Predeterminada'].value ? 1 : 0));
         }
         else{
           this._multimediaPublicacion.push(new imagenModel( control.controls['Id_Multimedia'].value, 
                                                           control.controls['Id_TipoMultimedia'].value,
                                                           'a',
+                                                          null,
+                                                          null,
                                                           control.controls['Url'].value.__zone_symbol__value.split(',')[1],
                                                           control.controls['Descripcion'].value,
                                                           control.controls['Predeterminada'].value ? 1 : 0));
+                                                    
+        }
+
+      }
+    });
+
+    Object.values( this.planos.controls ).forEach( control => {
+      if ( control instanceof FormGroup ) {
+        //console.log('control.controls[Url]', control);
+        if (typeof(control.controls['Url'].value) == 'string'){
+          this._multimediaPublicacion.push(new imagenModel( control.controls['Id_Multimedia'].value, 
+                                                            control.controls['Id_TipoMultimedia'].value,
+                                                            control.controls['Url'].value,
+                                                            control.controls['Url_Medium'].value,
+                                                            control.controls['Url_Thumb'].value,
+                                                            'm',
+                                                            control.controls['Descripcion'].value,
+                                                            control.controls['Predeterminada'].value ? 1 : 0));
+        }
+        else{
+          this._multimediaPublicacion.push(new imagenModel( control.controls['Id_Multimedia'].value, 
+                                                            control.controls['Id_TipoMultimedia'].value,
+                                                            'a',
+                                                            null,
+                                                            null,
+                                                            control.controls['Url'].value.__zone_symbol__value.split(',')[1],
+                                                            control.controls['Descripcion'].value,
+                                                            control.controls['Predeterminada'].value ? 1 : 0));
                                                     
         }
 
@@ -316,17 +562,19 @@ cambiarVideoPredeterminado(control : any){
         //console.log('control.controls[Url]', control);
         if (typeof(control.controls['Url'].value) == 'string'){
           this._multimediaPublicacion.push(new imagenModel( control.controls['Id_Multimedia'].value, 
-                                                          control.controls['Id_TipoMultimedia'].value,
-                                                          control.controls['Url'].value,
-                                                          'm',
-                                                          control.controls['Descripcion'].value,
-                                                          control.controls['Predeterminada'].value ? 1 : 0));
+                                                            control.controls['Id_TipoMultimedia'].value,
+                                                            control.controls['Url'].value,
+                                                            null,
+                                                            null,
+                                                            'm',
+                                                            control.controls['Descripcion'].value,
+                                                            control.controls['Predeterminada'].value ? 1 : 0));
         }
       }
     });
 
-
-    this._multimediaPublicacionService.postFotosPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente(), this._multimediaPublicacion).subscribe(
+    debugger;
+    this._multimediaPublicacionService.postFotosPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()!, this._multimediaPublicacion).subscribe(
       (data) => {
         //Next callback
         console.log(data);
@@ -353,7 +601,7 @@ cambiarVideoPredeterminado(control : any){
         this.imagenes.clear();
         this.videos.clear();
 
-        this.CargarFotosPublicacion();
+        this.CargarMultimediaPublicacion();
 
         // Comentadas las siguientes 2 lineas de manera temporal
         this._numeroPaso = 2;
@@ -389,5 +637,42 @@ cambiarVideoPredeterminado(control : any){
     );
 
   }
+
+  CargarPublicacion(){
+    //debugger;
+      if (this._id_publicacion != 0) {
+          this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()!).subscribe(
+            (data) => {
+              //Next callback
+              //console.log(data);
+
+              this._publicacion = data;
+
+              if((data.Id_Estatus === 13) || (data.Id_Estatus === 14)){
+                this.router.navigateByUrl('/micuenta/mis-anuncios');
+              }
+  
+            },
+            (error: HttpErrorResponse) => {
+              //Error callback
+  
+              this._id_publicacion = 0;
+              //this.router.navigateByUrl('/publicar/operacion-tipo-inmueble');
+  
+              switch (error.status) {
+                case 401:
+                  break;
+                case 403:
+                  break;
+                case 404:
+                  break;
+                case 409:
+                  break;
+              }
+  
+            }
+          );
+        }
+    }
 
 }

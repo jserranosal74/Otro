@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
+import { TiposPropiedadService } from 'src/app/Services/Catalogos/tiposPropiedades.service';
 import Swal from 'sweetalert2';
 import { tipoPropiedad } from '../../Models/catalogos/tipoPropiedad.model';
 
@@ -9,34 +11,62 @@ import { tipoPropiedad } from '../../Models/catalogos/tipoPropiedad.model';
   styleUrls: ['./buscar.component.css'],
 })
 export class BuscarComponent implements OnInit {
-  @Input() TipoPropiedad = '';
+  formaBuscar = this.fb.group({});
+  _tiposPropiedad : tipoPropiedad[] = [];
+  _rentaVentaDesarrolloRemate : number | null = 0;
 
-  constructor(private _activatedRoute: ActivatedRoute) {
+  constructor( private fb: FormBuilder,
+               private _activatedRoute: ActivatedRoute,
+               private _tiposPropiedadService: TiposPropiedadService ) {
 
-    this._activatedRoute.params.subscribe((routeParams) => {
-      //console.log('entro a constructor: '+this._activatedRoute.snapshot.params['tipo']);
-
-      // Swal.fire({
-      //   title: '¿Desea guardar los cambios?' + this._activatedRoute.snapshot.params['tipo'],
-      //   showDenyButton: true,
-      //   showCloseButton: true,
-      //   showCancelButton: false,
-      //   confirmButtonText: 'Si',
-      //   denyButtonText: `No`,
-      //   footer: '<a href="">¿Por que estas viendo esta falla?</a>'
-      // }).then((result) => {
-      //   /* Read more about isConfirmed, isDenied below */
-      //   if (result.isConfirmed) {
-      //     Swal.fire('Los cambios se guardaron de manera correcta', '', 'success')
-      //   } else if (result.isDenied) {
-      //     Swal.fire('La información no ha sido guardada', '', 'info')
-      //   }
-      // })
-    });
-
+    this.obtenerTiposPropiedad();
+    this.crearFormulario();
   }
 
   ngOnInit(): void {
+  }
+
+  crearFormulario() {
+    this.formaBuscar = this.fb.group({
+      tipoOperacion : ['', [Validators.required] ],
+      tipoPropiedad : ['', [Validators.required] ],
+      asentamiento  : [''],
+    });
+  }
+
+  limpiarFormulario(){
+    this.formaBuscar.reset({
+      tipoOperacion : '',
+      tipoPropiedad : '',
+      asentamiento  : ''
+    });
+    
+  }
+
+  obtenerTiposPropiedad(){
+    // console.log(this.loading);
+    this._tiposPropiedadService.getTiposPropiedades().subscribe((data) => {
+      this._tiposPropiedad = data;
+
+      this.formaBuscar.patchValue({
+        tipoOperacion : 2,
+        tipoPropiedad : 1,
+        asentamiento  : ''
+      });
+
+      this._rentaVentaDesarrolloRemate = 2;
+
+      });
+  }
+
+  seleccionarOperacion(){
+    debugger;
+    this._rentaVentaDesarrolloRemate = this.formaBuscar.controls['tipoOperacion'].value;
+
+    // this.formaBuscar.patchValue({
+    //   tipoPropiedad : '1'
+    // });
+
   }
 
   buscarPropiedades(){

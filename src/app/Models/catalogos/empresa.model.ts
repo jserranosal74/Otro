@@ -1,6 +1,7 @@
 export class empresa {
     constructor(
         public Id_Empresa        : number,
+        public UID               : string | null,  
         public Id_Estado         : number,
         public Id_Municipio      : number,
         public Nombre            : number,
