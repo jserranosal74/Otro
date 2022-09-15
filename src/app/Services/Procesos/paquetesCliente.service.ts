@@ -41,16 +41,16 @@ export class PaquetesClienteService {
   //   return this.http.put<number>(this.urlPaquetesCliente + '?Id_Cliente=' + Id_Cliente + '&Id_PlanCliente=' + Id_PlanCliente + '&Id_Publicacion=' + (Id_Publicacion === null ? '' : Id_Publicacion), '', this.httpOptions);
   // }
 
-  public putEnviarCorreoPaquete(Id_Cliente : number, Id_PaqueteCliente : number | null, Id_Publicacion : number | null): Observable<number> {
-    return this.http.put<number>(this.urlPaquetesCliente + '?Id_Cliente=' + Id_Cliente + '&Id_PaqueteCliente=' + Id_PaqueteCliente + '&Id_Publicacion=' + (Id_Publicacion === null ? '' : Id_Publicacion), '', this.httpOptions);
+  public putEnviarCorreoPaquete(UID_Cliente : string, Id_PaqueteCliente : number | null, Id_Publicacion : number | null): Observable<number> {
+    return this.http.put<number>(this.urlPaquetesCliente + '?UID_Cliente=' + UID_Cliente + '&Id_PaqueteCliente=' + Id_PaqueteCliente + '&Id_Publicacion=' + (Id_Publicacion === null ? '' : Id_Publicacion), '', this.httpOptions);
   }
 
   public postPaqueteCliente(UID_Cliente : string, Id_Paquete : number, Id_DatosFiscales : number | null): Observable<number> {
     return this.http.post<number>(this.urlPaquetesCliente + '?UID_Cliente=' + UID_Cliente + '&Id_Paquete=' + Id_Paquete + '&Id_DatosFiscales=' + Id_DatosFiscales, '', this.httpOptions);
   }
 
-  public deletePaqueteCliente(Id_Paquete : number | null, Id_Cliente : number): Observable<number> {
-    return this.http.delete<number>(this.urlPaquetesCliente + '?Id_Paquete=' + Id_Paquete + '&Id_Cliente=' + Id_Cliente, this.httpOptions);
+  public deletePaqueteCliente(Id_PaqueteCliente : number | null, Id_Cliente : number): Observable<number> {
+    return this.http.delete<number>(this.urlPaquetesCliente + '?Id_PaqueteCliente=' + Id_PaqueteCliente + '&Id_Cliente=' + Id_Cliente, this.httpOptions);
   }
   
 }

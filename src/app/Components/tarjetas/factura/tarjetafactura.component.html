@@ -1,4 +1,4 @@
-<div class="card px-0 color-card" style="width: 15rem; border-radius: 15px; box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
+<div id="tarjetaFactura" class="card px-0 color-card" style="width: 15rem; border-radius: 15px; box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
     <div class="card-header text-center bg-color-3 py-2" style="border-radius: 15px 15px 0px 0px;">
          <div class="row">
             <div class="col">
@@ -19,7 +19,7 @@
       <p class="card-text text-primary text-center mb-0">Email:</p>
       <h5 class="card-text text-primary text-center">{{_facturaCliente.Email}}</h5>
       <p class="card-text text-primary text-center mb-0">Número de factura:</p>
-      <h5 class="card-text text-primary text-center">{{_facturaCliente.NumFactura}}</h5>
+      <h5 class="card-text text-primary text-center">{{_facturaCliente.SerieFactura}}{{_facturaCliente.FolioFactura}}</h5>
     </div>
     <div class="card-footer text-end bg-color-3 p-1" style="border-radius: 0px 0px 15px 15px;">
         <div class="row">

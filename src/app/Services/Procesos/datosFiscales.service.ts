@@ -41,7 +41,7 @@ export class DatosFiscalesService {
   }
 
   public deleteDatosFiscales(UID_Cliente : string, Id_DatosFiscales : number): Observable<datoFiscal> {
-    return this.http.delete<datoFiscal>(this.urlDatosFiscales + '?Id_Cliente=' + UID_Cliente + '&Id_DatosFiscales=' + Id_DatosFiscales, this.httpOptions);
+    return this.http.delete<datoFiscal>(this.urlDatosFiscales + '?UID_Cliente=' + UID_Cliente + '&Id_DatosFiscales=' + Id_DatosFiscales, this.httpOptions);
   }
 
 }

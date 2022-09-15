@@ -28,16 +28,16 @@
                 <input type="radio" class="btn-check" id="venta" name="tipoOperacion" value="1" formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion ? 'disabled' : null"/>
                 <label class="btn btn-outline-primary" [ngClass]="{'active' : _RenVenDesRemEven == 1, 'inactive' : _RenVenDesRemEven === 2 || _RenVenDesRemEven === 3 || _RenVenDesRemEven === 4 || _RenVenDesRemEven === 5}" for="venta">Venta</label>
 
-                <input type="radio" class="btn-check" id="renta" name="tipoOperacion" value="2"  formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion ? 'disabled' : null"/>
+                <input type="radio" class="btn-check" id="renta" name="tipoOperacion" value="2" formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion ? 'disabled' : null"/>
                 <label class="btn btn-outline-primary" [ngClass]="{'active' : _RenVenDesRemEven == 2, 'inactive' : _RenVenDesRemEven === 1 || _RenVenDesRemEven === 3 || _RenVenDesRemEven === 4 || _RenVenDesRemEven === 5}" for="renta">Renta</label>
 
                 <input *ngIf="_esDesarrollo" type="radio" class="btn-check" id="desarrollo" name="tipoOperacion" value="3"  formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion || _bloquearSiPerteneceDesarrollo ? 'disabled' : null"/>
                 <label *ngIf="_esDesarrollo" class="btn btn-outline-primary" [ngClass]="{'active' : _RenVenDesRemEven == 3, 'inactive' : _RenVenDesRemEven === 1 || _RenVenDesRemEven === 2 || _RenVenDesRemEven === 4 || _RenVenDesRemEven === 5}" for="desarrollo">Desarrollo</label>
 
-                <input type="radio" class="btn-check" id="remate" name="tipoOperacion" value="4"  formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion ? 'disabled' : null"/>
+                <input type="radio" class="btn-check" id="remate" name="tipoOperacion" value="4" formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion ? 'disabled' : null"/>
                 <label class="btn btn-outline-primary" [ngClass]="{'active' : _RenVenDesRemEven == 4, 'inactive' : _RenVenDesRemEven === 1 || _RenVenDesRemEven === 2 || _RenVenDesRemEven === 3 || _RenVenDesRemEven === 5}" for="remate">Remate</label>
 
-                <input type="radio" class="btn-check" id="eventual" name="tipoOperacion" value="5"  formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion ? 'disabled' : null"/>
+                <input type="radio" class="btn-check" id="eventual" name="tipoOperacion" value="5" formControlName="tipoOperacion" [class.is-invalid]="tipoPropiedadValido" (change)="seleccionarOperacion()" [attr.disabled]="_bloquearTipoOperacion ? 'disabled' : null"/>
                 <label class="btn btn-outline-primary" [ngClass]="{'active' : _RenVenDesRemEven == 5, 'inactive' : _RenVenDesRemEven === 1 || _RenVenDesRemEven === 2 || _RenVenDesRemEven === 3 || _RenVenDesRemEven === 4}" for="eventual">Eventual</label>
               </div>
             </div>

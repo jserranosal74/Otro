@@ -16,7 +16,7 @@ import { AnunciosModule } from '../../Components/anuncios/anuncios.module'
 import { TarjetasModule } from '../tarjetas/tarjetas.module';
 import { MensajeusuarioComponent } from './mensajeusuario/mensajeusuario.component';
 import { MisIndicadoresComponent } from './misindicadores/misindicadores.component';
-import { TipoOperacionPipe } from 'src/app/pipes/TipoOperacion.pipe';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,8 @@ import { TipoOperacionPipe } from 'src/app/pipes/TipoOperacion.pipe';
     FormsModule,
     HttpClientModule,
     AnunciosModule,
-    TarjetasModule
+    TarjetasModule,
+    SharedModule
   ],
   exports: [
     MiPerfilComponent,

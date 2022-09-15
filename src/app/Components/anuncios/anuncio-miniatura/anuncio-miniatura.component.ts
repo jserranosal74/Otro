@@ -17,7 +17,7 @@ export class AnuncioMiniaturaComponent implements OnInit {
   _ligaPublicacion : string = '';
   _listaFotografias : publicacionMultimedia[] = [];
 
-  @Input() _publicacion : publicacionInfoMini = new publicacionInfoMini(0,0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),'',0,0,[]);
+  @Input() _publicacion : publicacionInfoMini = new publicacionInfoMini(0,0,0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),'',0,0,[]);
   @Input() _tipoBusqueda : string = 'misAnuncios';    // Pueden ser: misAnuncios, misFavoritos
 
   @Output() _seEliminoPublicacion = new EventEmitter<boolean>();
@@ -136,10 +136,7 @@ export class AnuncioMiniaturaComponent implements OnInit {
   }
 
   verPublicacionCliente(){
-    // this//._router.navigateByUrl('anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion);
-    // [href]="'anuncio/vista/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion"
     window.open('propiedad/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion);
-    //window.open('https://api.whatsapp.com/send/?phone=52' + WhatssApp + '&text=Hola me interesa esta propiedad que vi en InmueblesMZ');
   }
 
   cancelarPublicacion(){

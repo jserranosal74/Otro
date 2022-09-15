@@ -33,6 +33,7 @@ export class IniciarsesionComponent implements OnInit {
   loggedIn : boolean = false;
   _tipoAutenticacion : number = 0;
   _modoObscuro = ( localStorage.getItem('mo') === "true" ? true : false );
+  _direccionPagina : string = '';
 
   obtenerTipo = 'password';
   formIniciarsesion = this.fb.group({
@@ -45,6 +46,9 @@ export class IniciarsesionComponent implements OnInit {
                private authService : SocialAuthService,
                private _clienteService : ClientesService,
                private _router : Router) {
+
+    this._direccionPagina = 'https://' + window.location.host + '/api/clientes/autenticargoogle?Id_Publicacion=0&urlRedirect=' + encodeURIComponent(window.location.href);
+
     this.crearFormulario();
   }
 
@@ -181,7 +185,7 @@ export class IniciarsesionComponent implements OnInit {
 
   AgregarUsuario(datosUsuario : SocialUser) {
   
-    let _cliente = new cliente(0,null,1,2,null,this._tipoAutenticacion,datosUsuario.email,'',datosUsuario.firstName,datosUsuario.lastName,'',[],datosUsuario.photoUrl,0,0,0,'','',new Date(),new Date(),1,1,'');
+    let _cliente = new cliente(0,null,1,1,2,null,this._tipoAutenticacion,datosUsuario.email,'',datosUsuario.firstName,datosUsuario.lastName,'',[],datosUsuario.photoUrl,0,0,0,'','',new Date(),new Date(),new Date(),1,'',1,'');
 
     //debugger;
 
@@ -232,7 +236,7 @@ export class IniciarsesionComponent implements OnInit {
 
         this.limpiarFormulario();
 
-        this._router.navigateByUrl('/usuario/iniciarsesion');
+        this._router.navigateByUrl('/inmobiliaria/iniciarsesion');
 
       },
       (error: HttpErrorResponse) => {

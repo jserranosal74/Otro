@@ -43,7 +43,7 @@ export class AnuncioVistaComponent implements OnInit {
   formaDatosUsuario = this.fb.group([]);
   _infoURL : string = '';
   _id_publicacion : number = 0;
-  _publicacion : publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0,0);
+  _publicacion : publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',null,null,0);
   _publicacionDetalle : publicacionDetalleVista[] = [];
   _publicacionMultimedia : publicacionMultimedia[] = [];
   _publicacionMultimediaSeleccionada : publicacionMultimedia[] = [];
@@ -120,7 +120,7 @@ export class AnuncioVistaComponent implements OnInit {
       }
     });
     //debugger;
-    this._direccionPagina = 'https://' + window.location.host + '/api/clientes/autenticargoogle?Id_Publicacion=' + this._id_publicacion;
+    this._direccionPagina = 'https://' + window.location.host + '/api/clientes/autenticargoogle?Id_Publicacion=' + this._id_publicacion + '&urlRedirect=' + window.location.href;
 
     this.crearFormularioInicioSesion();
     this.crearFormularioMensaje();
@@ -587,7 +587,8 @@ debugger;
     //   this.iniciarSesionFacebook();
     // }
 
-    CompartirEnFacebook('www.sysba.com.mx/');
+    //CompartirEnFacebook(window.location.href);  // Esta linea es la que debe de ir
+    CompartirEnFacebook('www.inmuebles24.com/');
     
     // Quiere decir que el usuario que esta viendo la publicacion es el propietario de la misma
     // y salimos del procedimiento para que no ingrese informacion a las estadisticas
@@ -1127,9 +1128,9 @@ debugger;
     }
   }
 
-  abrirPaginaCliente(){
-    window.open('usuario/propiedades/' + (this._clienteVista.Nombre + '-' + this._clienteVista.Apellidos )?.replaceAll(' ','-') + '-' + this._clienteVista.Id_Cliente);
-  }
+  // abrirPaginaCliente(){
+  //   window.open('usuario/propiedades/' + (this._clienteVista.Nombre + '-' + this._clienteVista.Apellidos )?.replaceAll(' ','-') + '-' + this._clienteVista.Id_Cliente);
+  // }
 
   inmuebleRentadoOVendido(){
     if (this._loginService.obtenerIdCliente() === null) {
@@ -1220,7 +1221,6 @@ debugger;
   mostrarMultimedia(tipoMultimedia : number){
     let Id_Indicador : number = 0;
     let Texto_Indicador : string = '';
-    debugger;
     this._tipoMultimediaSeleccionada = tipoMultimedia;
 
       switch (tipoMultimedia) {
@@ -1333,7 +1333,7 @@ debugger;
 
   AgregarUsuario(datosUsuario : SocialUser) {
   
-    let _cliente = new cliente(0,null,1,2,null,this._tipoAutenticacion,datosUsuario.email,'',datosUsuario.firstName,datosUsuario.lastName,'',[],datosUsuario.photoUrl,0,0,0,'','',new Date(),new Date(),1,1,'');
+    let _cliente = new cliente(0,null,1,1,2,null,this._tipoAutenticacion,datosUsuario.email,'',datosUsuario.firstName,datosUsuario.lastName,'',[],datosUsuario.photoUrl,0,0,0,'','',new Date(),new Date(),new Date(),1,'',1,'');
 
     debugger;
 

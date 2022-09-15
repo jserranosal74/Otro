@@ -15,7 +15,7 @@ import { plan } from 'src/app/Models/catalogos/planes.model';
 import { PlanesService } from 'src/app/Services/Catalogos/planes.service';
 import { datoFiscal } from '../../../Models/procesos/datosFiscales.model';
 import { DatosFiscalesService } from 'src/app/Services/Procesos/datosFiscales.service';
-import { paqueteCliente, planClienteDetalle } from 'src/app/Models/procesos/paquetecliente.model';
+import { paqueteCliente } from 'src/app/Models/procesos/paquetecliente.model';
 import { PaquetesClienteService } from 'src/app/Services/Procesos/paquetesCliente.service';
 
 @Component({
@@ -25,7 +25,7 @@ import { PaquetesClienteService } from 'src/app/Services/Procesos/paquetesClient
 })
 export class PagarYActivarComponent implements OnInit {
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',null,null,0);
   _id_publicacion : number = 0;
   _bancos : banco[] = [];
   _planesCliente : plancliente[] = [];
@@ -39,8 +39,9 @@ export class PagarYActivarComponent implements OnInit {
   _datoFiscal : datoFiscal = new datoFiscal(0,0,null,0,'','','','','',0,new Date(),new Date(),0,0,0);
 
   _paquetesCliente : paqueteCliente[] = [];
-  _paqueteCliente : paqueteCliente = new paqueteCliente(null,0,null,null,null,null,null,null,null,null,0,'',null,0,false);
+  _paqueteCliente : paqueteCliente = new paqueteCliente(null,null,0,null,null,null,null,null,null,null,null,0,'',null,0,false);
   _esDesarrollo : boolean = false;
+  _cargandoInformacion : boolean = true;
   
   _guardandoYpublicando : boolean = false;
   _guardandoYpublicandoSF : boolean = false;
@@ -59,6 +60,7 @@ export class PagarYActivarComponent implements OnInit {
                 private _datosfiscalesService : DatosFiscalesService,
                 private router: Router) {
 
+    this._cargandoInformacion = true;
     this._activatedRoute.queryParams.subscribe(params => {
       this._id_publicacion = params['Id_Publicacion'];
       if (this._id_publicacion === undefined){
@@ -74,6 +76,7 @@ export class PagarYActivarComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    //this._cargandoInformacion = true;
   }
 
   regresar(){
@@ -153,7 +156,20 @@ export class PagarYActivarComponent implements OnInit {
 
         this._paquetesCliente = data;
 
-        //this.limpiarFormulario();
+        // Eliminados todos los paquetes que no contienen un plan Premium siempre y cuando se trate de un auncio de tipo desarrollo
+        if (this._esDesarrollo){
+          
+          let paquetesFiltrados : paqueteCliente[] = [];
+          this._paquetesCliente.forEach( item => {
+            item.Detalle?.forEach(itemDet => { 
+              if (itemDet.Descripcion === 'Premium')
+                paquetesFiltrados.push(item);
+            });
+          });
+
+          this._paquetesCliente = paquetesFiltrados;
+        }
+        
       },
       (error: HttpErrorResponse) => {
         //Error callback
@@ -310,6 +326,7 @@ export class PagarYActivarComponent implements OnInit {
   }
 
   CargarPublicacion(){
+    debugger;
     if (this._id_publicacion != 0) {
         this._publicacionesService.getPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()!).subscribe(
           (data) => {
@@ -328,21 +345,28 @@ export class PagarYActivarComponent implements OnInit {
               this.router.navigateByUrl('/micuenta/mis-anuncios');
             }
 
-            if (this._esDesarrollo){
-              this.obtenerPlanesCliente();
-              this.obtenerPlanesDisponibles();
-            }
-            else{
-              this.obtenerPlanesCliente();
-              this.obtenerPaquetesCliente();
-              this.obtenerPlanesDisponibles();
-            }
-           
+            // if (this._esDesarrollo){
+            //   this.obtenerPlanesCliente();
+            //   this.obtenerPaquetesCliente();
+            //   this.obtenerPlanesDisponibles();
+            // }
+            // else{
+            //   this.obtenerPlanesCliente();
+            //   this.obtenerPaquetesCliente();
+            //   this.obtenerPlanesDisponibles();
+            // }
+
+            this.obtenerPlanesCliente();
+            this.obtenerPaquetesCliente();
+            this.obtenerPlanesDisponibles();
+
+            this._cargandoInformacion = false;
 
           },
           (error: HttpErrorResponse) => {
 
-            this._id_publicacion = 0;
+            this._cargandoInformacion = false;
+            //this._id_publicacion = 0;
             this.router.navigateByUrl('/publicar/operacion-tipo-inmueble');
 
             switch (error.status) {
@@ -533,6 +557,12 @@ export class PagarYActivarComponent implements OnInit {
     this._publicacionesService.putActivarPublicacion(this._id_publicacion, this._loginService.obtenerIdCliente()!, this._planCliente.Seleccionado === 1 ? this._planCliente.Id_PlanCliente : null, this._planCliente.Seleccionado === 1 ? this._planCliente.Id_Plan : this._plan.Id_Plan, intConFactura === 1 ? this._datoFiscal.Id_DatosFiscales : null, this._banco.Id_Banco === 0 ? null : this._banco.Id_Banco, Id_PaqueteCliente, Id_PaqueteDetalle ).subscribe(
       (data) => {
 
+        this._guardandoYpublicando = false;
+        this._guardandoYpublicandoSF = false;
+        this._guardandoYpublicandoCF = false;
+
+        this.modalClose.nativeElement.click();
+
         if (this._planActualNuevo === false){
           Swal.fire({
             icon: 'success',
@@ -541,6 +571,9 @@ export class PagarYActivarComponent implements OnInit {
             showCancelButton: false,
             showDenyButton: false,
           });
+
+          this.router.navigateByUrl('/micuenta/mis-anuncios');
+
         }
         else if (this._planActualNuevo === true){
           Swal.fire({
@@ -550,18 +583,26 @@ export class PagarYActivarComponent implements OnInit {
             showCancelButton: false,
             showDenyButton: false,
           });
+
+          this.router.navigateByUrl('/micuenta/mis-planesypaquetes');
         }
+
+      },
+      (error: HttpErrorResponse) => {
 
         this._guardandoYpublicando = false;
         this._guardandoYpublicandoSF = false;
         this._guardandoYpublicandoCF = false;
-
+        
         this.modalClose.nativeElement.click();
 
-        this.router.navigate(['/micuenta/misanuncios']);
-
-      },
-      (error: HttpErrorResponse) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Ocurrio un error al intentar Activar la publicación, intentelo de nuevo.',
+          text: '',
+          showCancelButton: false,
+          showDenyButton: false,
+        });
 
         this._id_publicacion = 0;
         this.router.navigateByUrl('/publicar/operacion-tipo-inmueble');

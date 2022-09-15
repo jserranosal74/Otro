@@ -17,7 +17,7 @@ import { PublicacionDetalleService } from 'src/app/Services/Procesos/publicacion
 })
 export class CaracteristicasComponent implements OnInit {
   _numeroPaso = 1;
-  _publicacion : publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0,0);
+  _publicacion : publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',null,null,0);
   _id_publicacion : number = 0;
   _AniosAntiguedad : number | null = 0;
   _mostrarAniosAntiguedad : boolean = false;
@@ -82,6 +82,7 @@ debugger;
         aniosAntiguedad           : [ '' ],
         precioDesde               : [ '', [Validators.required] ],
         precioHasta               : [ '' ],
+        precioDescuento           : [ '' ],
         precioNegociable          : [ '' ],
         tituloPublicacion         : [ '', [Validators.required] ],
         descripcion               : [ '' ]
@@ -109,6 +110,7 @@ debugger;
       aniosAntiguedad           : '',
       precioDesde               : 0,
       precioHasta               : 0,
+      precioDescuento           : 0,
       precioNegociable          : 0,
       tituloPublicacion         : '',
       descripcion               : '',
@@ -234,6 +236,7 @@ debugger;
               aniosAntiguedad           : data.Antiguedad,
               precioDesde               : data.PrecioDesde,
               precioHasta               : data.PrecioHasta,
+              precioDescuento           : data.PrecioDescuento,
               precioNegociable          : data.PrecioNegociable,
               tituloPublicacion         : data.TituloPublicacion,
               descripcion               : data.Descripcion,
@@ -299,6 +302,7 @@ debugger;
 
       this._publicacion.PrecioDesde = this.formCaracteristicas.get('precioDesde')?.value;
       this._publicacion.PrecioHasta = this.formCaracteristicas.get('precioHasta')?.value;
+      this._publicacion.PrecioDescuento = this.formCaracteristicas.get('precioDescuento')?.value === null ? 0 : this.formCaracteristicas.get('precioDescuento')?.value;
 
       if (this._checkMoneda1)
         this._publicacion.Id_Moneda = 1;
@@ -333,6 +337,9 @@ debugger;
 
               },
                 (error: HttpErrorResponse) => {
+
+                  this._loading = false;
+
                   switch (error.status) {
                     case 401:
                       console.log('no se encontro')
@@ -368,14 +375,13 @@ debugger;
             title: 'La información se guardo de manera correcta.'
           });
 
-
-
           this._numeroPaso = 2;
           setTimeout( () => { this.router.navigate(['/publicar/fotosyvideos'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
 
         },
         (error: HttpErrorResponse) => {
           //Error callback
+          this._loading = false;
 
           Swal.fire({
             icon: 'error',
@@ -538,9 +544,9 @@ debugger;
     );
   }
 
-  verPublicacionCliente(objAnuncioHijo : publicacion){
-    window.open('publicar/caracteristicas?Id_Publicacion=' + objAnuncioHijo.Id_Publicacion);
-  }
+  // verPublicacionCliente(objAnuncioHijo : publicacion){
+  //   window.open('publicar/caracteristicas?Id_Publicacion=' + objAnuncioHijo.Id_Publicacion);
+  // }
 
   get tituloNoValido() {
     return ( this.formCaracteristicas.get('tituloPublicacion')?.invalid && this.formCaracteristicas.get('tituloPublicacion')?.touched );

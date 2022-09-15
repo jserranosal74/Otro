@@ -1,0 +1,75 @@
+<div class="container br20" style="position: relative; top:100px; height:300px; z-index:1000; background-color:rgba(30, 30, 30, 0.5);">
+  <h1 class="display-4 text-light sombraTitulo py-3">
+    Encuentra tu nuevo hogar
+  </h1> 
+  <form autocomplete="off" [formGroup]="formaBuscar" class="py-5">
+    <fieldset>
+    <div class="row px-5">
+      <div class="row col-md-9 d-flex justify-content-left" style="padding:0px 0px 10px 10px;">
+        <div class="btn-group btn-group-lg px-0" role="group" aria-label="Basic radio toggle button group">
+
+          <input type="radio" class="btn-check" id="r1" name="tipoOperacion" value="2"  formControlName="tipoOperacion" (change)="seleccionarOperacion()"/>
+          <label class="btn btn-outline-primary text-light bg-color-4" style="border-radius:25px 0px 0px 25px"
+                 [ngClass]="{'active' : _rentaVentaDesarrolloRemate == 2, 'inactive' : _rentaVentaDesarrolloRemate != 2 }" for="r1">Rentar</label>
+
+          <input type="radio" class="btn-check" id="v1" name="tipoOperacion" value="1" formControlName="tipoOperacion" (change)="seleccionarOperacion()"/>
+          <label class="btn btn-outline-primary text-light bg-color-4" [ngClass]="{'active' : _rentaVentaDesarrolloRemate == 1, 'inactive' : _rentaVentaDesarrolloRemate != 1 }" for="v1">Comprar</label>
+
+          <input type="radio" class="btn-check" id="d1" name="tipoOperacion" value="3"  formControlName="tipoOperacion" (change)="seleccionarOperacion()"/>
+          <label class="btn btn-outline-primary text-light bg-color-4" [ngClass]="{'active' : _rentaVentaDesarrolloRemate == 3, 'inactive' : _rentaVentaDesarrolloRemate != 3 }" for="d1">Desarrollo</label>
+
+          <input type="radio" class="btn-check" id="remate" name="tipoOperacion" value="4"  formControlName="tipoOperacion" (change)="seleccionarOperacion()"/>
+          <label class="btn btn-outline-primary text-light bg-color-4" style="border-radius:0px 25px 25px 0px" [ngClass]="{'active' : _rentaVentaDesarrolloRemate == 4, 'inactive' : _rentaVentaDesarrolloRemate != 4}" for="remate">Remate</label>
+          
+        </div>
+      </div>
+      <div class="row px-0">
+        <div class="col-md-3 col-12">
+          <div class="form-floating form-white mb-4">
+            
+            <div class="dropdown">
+              <select class="form-select form-select-md mb-3 br25 text-light bg-color-4" 
+                      style="border-color: #bf4080; border-radius:25px 0px 0px 25px;"
+                      aria-label="Default select example" 
+                      formControlName="tipoPropiedad">
+                  <!-- <option value="" selected disabled>Seleccione...</option> -->
+                  <option *ngFor="let tipopropiedad of _tiposPropiedad; let i = index" [value]="tipopropiedad.Id_TipoPropiedad" class="text-light" >{{tipopropiedad.Descripcion}}</option>
+              </select>
+              </div>
+
+          </div>
+        </div>
+        <div class="col-md-6 col-12 px-0">
+          <!-- Email input -->
+          <div >
+            <input formControlName="ubicacion" 
+                   aria-describedby="addon-wrapping" 
+                   class="form-control text-primary bg-color-4" 
+                   style="border-color: #bf4080; border-radius:0px 25px 25px 0px; "
+                   placeholder="Ingresa la ubicación del inmueble"
+                   (keyup)="onKeyUp($event)" 
+                   pattern="[a-z,A-Z,' ',0-9]{1,8}"/>
+          </div>
+
+          <!-- <input list="browsers" name="myBrowser" (change)="obtenerUbicaciones();"/> -->
+          <ul class="text-primary bg-color-8">
+            <li tabIndex="0" *ngFor="let ubicacion of _ubicaciones" class="text-light" [ngClass]="{' bg-color-4': ubicacion.Seleccionado, ' bg-color-8': !ubicacion.Seleccionado}">{{ubicacion.D}}</li>
+          </ul>
+
+        </div>
+
+        <div class="col-md-3 col-12">
+          
+          <button type="button"
+                  (click)="buscarPropiedades()"
+                  class="btn form-control btn-primary text-white br25 ">
+          <i class="fa-solid fa-magnifying-glass medicon"></i>
+            <span class="px-3">Buscar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  </form>
+
+</div>

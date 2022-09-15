@@ -32,11 +32,12 @@ export class MisPlanesYPaquetesComponent implements OnInit {
   _planesOPaquetes : boolean = false;
   _mostrarFiltros : boolean = sessionStorage.getItem('mf') === '1'? true : false;
   _collapseFiltros = false;
+  _cargandoInformacion : boolean = false;
 
   //_paquetes : paquete[] = [];
   _paquetesEmpresa : paquete[] = [];
   _paquetesCliente : paqueteCliente[] = [];
-  _paqueteCliente : paqueteCliente = new paqueteCliente(0,0,null,null,null,null,null,null,null,null,0,'',null,0,false);
+  _paqueteCliente : paqueteCliente = new paqueteCliente(null,0,0,null,null,null,null,null,null,null,null,0,'',null,0,false);
   _paquete! : paquete;
 
   _planesPaquetesFiltros : planesPaquetesClienteFiltros = new planesPaquetesClienteFiltros([],[],[]);
@@ -64,7 +65,7 @@ export class MisPlanesYPaquetesComponent implements OnInit {
                 private _paquetesClienteService : PaquetesClienteService,
                 private _datosfiscalesService : DatosFiscalesService,
   ) {
-    // this.crearFormulario();
+    this._cargandoInformacion = true;
     this.obtenerMisPlanes();
     this.obtenerMisPaquetes();
     this.obtenerPlanesDisponibles();
@@ -82,7 +83,7 @@ export class MisPlanesYPaquetesComponent implements OnInit {
 
     this._planClienteService.getPlanesCliente(UID_Usuario, (this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus), (this._filtrosSeleccionados.lstTiposPlanes[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPlanes[0].Id_Plan)).subscribe(
       (data) => {
-        console.log('----datos---: ', data);
+        //console.log('----datos---: ', data);
 
         this._planesCliente = data;
 
@@ -281,7 +282,7 @@ export class MisPlanesYPaquetesComponent implements OnInit {
   enviarCorreoPaquete(objPaqueteCliente : paqueteCliente){
     //debugger;
     objPaqueteCliente.Enviando = true;
-    this._paquetesClienteService.putEnviarCorreoPaquete(objPaqueteCliente.Id_Cliente, objPaqueteCliente.Id_Paquete, null ).subscribe(
+    this._paquetesClienteService.putEnviarCorreoPaquete(this._loginService.obtenerIdCliente()!, objPaqueteCliente.Id_Paquete, null ).subscribe(
       (data) => {
         //console.log('datos: ',data);
         objPaqueteCliente.Enviando = false;
@@ -369,7 +370,7 @@ export class MisPlanesYPaquetesComponent implements OnInit {
 
   eliminarPaqueteCliente(objPaqueteCliente : paqueteCliente){
     //debugger;
-    this._paquetesClienteService.deletePaqueteCliente(objPaqueteCliente.Id_Paquete, objPaqueteCliente.Id_Cliente).subscribe(
+    this._paquetesClienteService.deletePaqueteCliente(objPaqueteCliente.Id_PaqueteCliente, objPaqueteCliente.Id_Cliente).subscribe(
       (data) => {
         //console.log('datos: ',data);
 
@@ -453,16 +454,13 @@ export class MisPlanesYPaquetesComponent implements OnInit {
         //Next callback
         // this._opcionSeleccionada = 'Pausada';
         this._planesPaquetesFiltros = data;
+
+        this._cargandoInformacion = false;
         
       },
       (error: HttpErrorResponse) => {
-        Swal.fire({
-          icon: 'error',
-          title: error.error['Descripcion'],
-          text: '',
-          showCancelButton: false,
-          showDenyButton: false,
-        });
+
+        this._cargandoInformacion = false;
 
         switch (error.status) {
           case 401:

@@ -16,6 +16,7 @@ import { FacturasClienteFiltrosService } from '../../../Services/Procesos/factur
 export class MisFacturasComponent implements OnInit {
   _facturasCliente : factura[] = [];
   _mostrarFiltros : boolean = sessionStorage.getItem('mf') === '1'? true : false;
+  _cargandoInformacion : boolean = false;
 
   _facturasFiltros : facturasClienteFiltros = new facturasClienteFiltros([],[]);
   _verFiltros : verFiltros = new verFiltros(true,true);
@@ -31,7 +32,7 @@ export class MisFacturasComponent implements OnInit {
   constructor( private _clientesFacturasService : ClientesFacturasService,
                private _facturasClienteFiltrosService : FacturasClienteFiltrosService,
                private _loginService : LoginService ) { 
-
+    this._cargandoInformacion = true;
     this.ObtenerFacturasCliente();
     this.obtenerFiltrosFacturas(null,null);
     this._mostrarFiltros = sessionStorage.getItem('mf') === '1'? true : false;
@@ -41,16 +42,30 @@ export class MisFacturasComponent implements OnInit {
   }
 
   ObtenerFacturasCliente() {
-
+    debugger;
     this._clientesFacturasService.getClienteFacturas(this._loginService.obtenerIdCliente()!, null, null, null, null).subscribe(
       (data) => {
-        console.log('datos: ', data);
-        this._facturasCliente = data;
+
+        if (data === null){
+          this._facturasCliente = [];
+        }
+        else{
+          this._facturasCliente = data;
+        }
+        
       },
       (error: HttpErrorResponse) => {
 
         switch (error.status) {
           case 401:
+            Swal.fire({
+              icon: 'error',
+              title: 'Acceso no autorizado',
+              text: 'debera autenticarse',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            this._loginService.cerarSesion();
             break;
           case 403:
             break;
@@ -66,16 +81,57 @@ export class MisFacturasComponent implements OnInit {
   }
 
   enviarFacturaCliente(objFactura : factura){
+    debugger;
     objFactura.Enviando = true;
     this._clientesFacturasService.getEnviarFactura(this._loginService.obtenerIdCliente()!, objFactura.Id_PlanCliente, objFactura.Id_PaqueteCliente).subscribe(
       (data) => {
         //console.log('datos: ', data);
+        if (data === 1){
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          });
+          
+          Toast.fire({
+            icon: 'success',
+            title: 'La información se envió a su correo de manera correcta.'
+          });
+        }
+        else if (data === 0){
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          });
+          
+          Toast.fire({
+            icon: 'error',
+            title: 'Ocurrio un error al intentar enviar su factura, intentelo más tarde.'
+          });
+        }
+
+        objFactura.Enviando = false;
+      },
+      (error: HttpErrorResponse) => {
 
         const Toast = Swal.mixin({
           toast: true,
           position: 'top-end',
           showConfirmButton: false,
-          timer: 1500,
+          timer: 3000,
           timerProgressBar: true,
           didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -84,14 +140,12 @@ export class MisFacturasComponent implements OnInit {
         });
         
         Toast.fire({
-          icon: 'success',
-          title: 'La información se envió a su correo de manera correcta.'
+          icon: 'error',
+          title: 'Ocurrio un error al intentar enviar su factura, intentelo más tarde.'
         });
 
         objFactura.Enviando = false;
-      },
-      (error: HttpErrorResponse) => {
-        objFactura.Enviando = false;
+
         switch (error.status) {
           case 401:
             break;
@@ -145,16 +199,13 @@ export class MisFacturasComponent implements OnInit {
         //Next callback
         // this._opcionSeleccionada = 'Pausada';
         this._facturasFiltros = data;
+
+        this._cargandoInformacion = false;
         
       },
       (error: HttpErrorResponse) => {
-        Swal.fire({
-          icon: 'error',
-          title: error.error['Descripcion'],
-          text: '',
-          showCancelButton: false,
-          showDenyButton: false,
-        });
+
+        this._cargandoInformacion = false;
 
         switch (error.status) {
           case 401:

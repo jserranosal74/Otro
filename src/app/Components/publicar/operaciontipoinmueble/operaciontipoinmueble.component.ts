@@ -18,7 +18,7 @@ import { subtipoPropiedad } from 'src/app/Models/catalogos/tipoPropiedadDetalle.
 })
 export class OperaciontipoinmuebleComponent implements OnInit {
   _tiposPropiedad : tipoPropiedad[] = [];
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',null,null,0);
   _id_publicacion : number = 0;
   _subtiposPropiedad : subtipoPropiedad[] = [];
   _numeroPaso : number = 1;
@@ -164,7 +164,7 @@ export class OperaciontipoinmuebleComponent implements OnInit {
             }
 
             // Bloquear boton de desarrollo si el anuncio ya pertenece a un desarrollo
-            if(data.PerteneceADesarrollo === 1)
+            if(data.Id_PublicacionDesarrollo != null)
             {
               this._bloquearSiPerteneceDesarrollo = true;
             }
@@ -251,6 +251,16 @@ export class OperaciontipoinmuebleComponent implements OnInit {
 
       if (this._esNuevo){
         this._publicacion.Id_Publicacion = 0;
+        this._publicacion.PrecioDesde = 0;
+        this._publicacion.PrecioDescuento = 0;
+        this._publicacion.PrecioNegociable = 0;
+        this._publicacion.RecamarasDesde = 0;
+        this._publicacion.BaniosCompDesde = 0;
+        this._publicacion.MedioBanioDesde = 0;
+        this._publicacion.EstacionamientosDesde = 0;
+        this._publicacion.SuperficieConstruidaDesde = 0;
+        this._publicacion.SuperficieTerreno = 0;
+        this._publicacion.NivelesConstruidos = 0;
         this._publicacionesService.postPublicacion(this._publicacion).subscribe(
           (data) => {
             //Next callback

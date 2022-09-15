@@ -33,7 +33,6 @@ import { AnuncioInferiorComponent } from './anuncio-inferior/anuncio-inferior.co
     AnuncioVistaBuscadorComponent,
     AnuncioInferiorComponent,
     SafePipe
-    
   ]
 })
 

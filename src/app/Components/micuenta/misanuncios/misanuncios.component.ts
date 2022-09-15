@@ -30,6 +30,7 @@ export class MisAnunciosComponent implements OnInit {
   _estatus : estatus = new estatus(0,0,'','',new Date(), new Date());
   _misAnuncios = 'misAnuncios';
   _mostrarFiltros : boolean = sessionStorage.getItem('mf') === '1'? true : false;
+  _cargandoInformacion : boolean = false;
 
   _paginadoDetalle : paginadoDetalle = new paginadoDetalle(0,0);
   _paginas: pagina[] = [];
@@ -65,7 +66,7 @@ export class MisAnunciosComponent implements OnInit {
                 private _estatusService : EstatusService,
                 private _publicacionesFiltrosService : PublicacionesClienteFiltrosService
   ) {
-
+    this._cargandoInformacion = true;
     this.crearFormulario();
     this.crearFormularioNumeroPagina();
     this.limpiarFormulario();
@@ -451,6 +452,8 @@ export class MisAnunciosComponent implements OnInit {
           numPagina = 0
     }
 
+    //this._cargandoInformacion = true;
+
     this._publicacionesService.getPublicacionesMini(this._loginService.obtenerIdCliente()!, this._loginService.obtenerIdCliente()!, numPagina, 10, this._filtrosSeleccionados.lstEstatus[0] === undefined ? null : this._filtrosSeleccionados.lstEstatus[0].Id_Estatus, 
                                                                                                                 this._filtrosSeleccionados.lstTiposPropiedad[0] === undefined ? null : this._filtrosSeleccionados.lstTiposPropiedad[0].Id_TipoPropiedad,
                                                                                                                 this._filtrosSeleccionados.lstTiposOperacion[0] === undefined ? null : this._filtrosSeleccionados.lstTiposOperacion[0].Id_TipoOperacion, 
@@ -481,17 +484,27 @@ export class MisAnunciosComponent implements OnInit {
                                                                                                          this._filtrosSeleccionados.lstAsentamientos[0] === undefined ? null : this._filtrosSeleccionados.lstAsentamientos[0].Id_Asentamiento).subscribe(
           (data) => {
             //Next callback
-            console.log('getPublicacionesMiniPagDet', data);
+            //console.log('getPublicacionesMiniPagDet', data);
             this._paginadoDetalle = data;
 
             this.CargarPaginador(numPagina!);
-            //this.obtenerFiltrosPublicaciones(null,null);
+            
+            this._cargandoInformacion = false;
     
           },
           (error: HttpErrorResponse) => {
-            
+            this._cargandoInformacion = false;
+            this._seRealizaBusqueda = true;
             switch (error.status) {
               case 401:
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Acceso no autorizado',
+                  text: 'debera autenticarse',
+                  showCancelButton: false,
+                  showDenyButton: false,
+                });
+                this._loginService.cerarSesion();
                 break;
               case 403:
                 break;
@@ -508,9 +521,18 @@ export class MisAnunciosComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         //Error callback
-        
+        this._cargandoInformacion = false;
+        this._seRealizaBusqueda = true;
         switch (error.status) {
           case 401:
+            Swal.fire({
+              icon: 'error',
+              title: 'Acceso no autorizado',
+              text: 'debera autenticarse',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            this._loginService.cerarSesion();
             break;
           case 403:
             break;

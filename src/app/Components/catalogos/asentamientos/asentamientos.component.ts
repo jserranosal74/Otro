@@ -22,8 +22,10 @@ export class AsentamientosComponent implements OnInit {
   _estadosModal : estado[] = [];
   _municipiosModal : municipio[] = [];
   _asentamientos : asentamiento[] = [];
-  _asentamiento : asentamiento = new asentamiento(0,0,0,0,'','',0,0,new Date(),new Date(),0,0);
+  _asentamiento : asentamiento = new asentamiento(0,0,0,0,'','','',0,0,new Date(),new Date(),0,0,false);
   
+  // Paginador
+  formaNumeroPagina = this.fb.group({});
   _paginadoDetalle : paginadoDetalle = new paginadoDetalle(0,0);
   _paginas: pagina[] = [];
   _numeroPaginasMostrar = 5;
@@ -45,14 +47,7 @@ export class AsentamientosComponent implements OnInit {
     municipio : ['', [Validators.required] ]
   });
 
-  formaAsentamiento = this.fb.group({
-    estadomodal : ['', [Validators.required] ],
-    municipiomodal : ['', [Validators.required] ],
-    asentamiento : ['', [Validators.required] ],
-    codigopostal : ['', [Validators.required] ],
-    latitud : ['', [Validators.required] ],
-    longitud : ['', [Validators.required] ]
-  });
+  formaAsentamiento = this.fb.group({});
 
   constructor( private fb: FormBuilder,
                private _estadosService: EstadosService,
@@ -62,6 +57,7 @@ export class AsentamientosComponent implements OnInit {
     
     this.crearFormularioBusquda();
     this.crearFormularioAsentamiento();
+    this.crearFormularioNumeroPagina();
     this.obtenerEstados();
    }
 
@@ -77,14 +73,21 @@ export class AsentamientosComponent implements OnInit {
 
   crearFormularioAsentamiento() {
     this.formaAsentamiento = this.fb.group({
-      estadomodal : ['', [Validators.required] ],
-      municipiomodal : ['', [Validators.required] ],
-      asentamiento : ['', [Validators.required] ],
-      codigopostal : ['', [Validators.required] ],
-      latitud : ['', [Validators.required] ],
-      longitud : ['', [Validators.required] ]
+      estadomodal    : [ '', [Validators.required] ],
+      municipiomodal : [ '', [Validators.required] ],
+      asentamiento   : [ '', [Validators.required] ],
+      asentamiento2  : [ '', [Validators.required] ],
+      codigopostal   : [ '', [Validators.required] ],
+      latitud        : [ '', [Validators.required] ],
+      longitud       : [ '', [Validators.required] ]
     });
-    this._asentamiento = new asentamiento(0,0,0,0,'','',0,0,new Date(),new Date(),0,0);
+    this._asentamiento = new asentamiento(0,0,0,0,'','','',0,0,new Date(),new Date(),0,0,false);
+  }
+
+  crearFormularioNumeroPagina() {
+    this.formaNumeroPagina = this.fb.group({
+      numeroPagina : ['', [Validators.required] ]
+    });
   }
 
   obtenerEstados() {
@@ -392,8 +395,16 @@ export class AsentamientosComponent implements OnInit {
     this.obtenerPagina(this._paginaActual + 1);
   }
 
-  obtenerPagina(numPagina : number){
+  obtenerPagina(numPagina : number | null){
     // alert(item);
+
+    if(numPagina === null){
+      numPagina = this.formaNumeroPagina.get('numeroPagina')!.value - 1;
+      if (numPagina! > this._paginadoDetalle.TotalPaginas)
+          numPagina = this._paginadoDetalle.TotalPaginas - 1;
+      if (numPagina! < 1)
+          numPagina = 0
+    }
 
     this._asentamientosService.getAsentamientosPaginado(parseInt(this.formaBusqueda.controls['estado'].value),parseInt(this.formaBusqueda.controls['municipio'].value), numPagina, 10).subscribe(
       (data) => {
@@ -405,7 +416,11 @@ export class AsentamientosComponent implements OnInit {
           this._seRealizaBusqueda = true;
         }
 
-        this.CargarPaginador(numPagina);
+        this.formaNumeroPagina.patchValue({
+          numeroPagina : numPagina! + 1
+        });
+
+        this.CargarPaginador(numPagina!);
 
       },
       (error: HttpErrorResponse) => {
@@ -452,14 +467,15 @@ export class AsentamientosComponent implements OnInit {
     this._textoAccion = 'Agregar';
 
     this.formaAsentamiento.reset({
-      estadomodal : '',
+      estadomodal    : '',
       municipiomodal : '',
-      asentamiento : '',
-      codigopostal : '',
-      latitud : '',
-      longitud : ''
+      asentamiento   : '',
+      asentamiento2  : '',
+      codigopostal   : '',
+      latitud        : '',
+      longitud       : ''
     });
-    this._asentamiento = new asentamiento(0,0,0,0,'','',0,0,new Date(),new Date(),0,0);
+    this._asentamiento = new asentamiento(0,0,0,0,'','','',0,0,new Date(),new Date(),0,0,false);
   }
 
   obtenerAsentamiento(objAsentamiento : asentamiento){
@@ -468,12 +484,13 @@ export class AsentamientosComponent implements OnInit {
     //let Id_Usuario = JSON.parse(localStorage.getItem('usuario')!)['Id_Cliente'];
 
     this.formaAsentamiento.setValue({
-      estadomodal : objAsentamiento.Id_Estado,
+      estadomodal    : objAsentamiento.Id_Estado,
       municipiomodal : objAsentamiento.Id_Municipio,
-      asentamiento: objAsentamiento.Asentamiento,
-      codigopostal: objAsentamiento.CodigoPostal,
-      latitud: objAsentamiento.Latitud,
-      longitud: objAsentamiento.Longitud,
+      asentamiento   : objAsentamiento.Asentamiento,
+      asentamiento2  : objAsentamiento.Asentamiento2,
+      codigopostal   : objAsentamiento.CodigoPostal,
+      latitud        : objAsentamiento.Latitud,
+      longitud       : objAsentamiento.Longitud,
     });
 
     this.obtenerMunicipiosModal();
@@ -559,6 +576,7 @@ export class AsentamientosComponent implements OnInit {
       this._asentamiento.Id_Municipio = this.formaAsentamiento.get('municipiomodal')?.value;
       this._asentamiento.Id_TipoAsentamiento = 3;
       this._asentamiento.Asentamiento = this.formaAsentamiento.get('asentamiento')?.value;
+      this._asentamiento.Asentamiento2 = this.formaAsentamiento.get('asentamiento2')?.value;
       this._asentamiento.CodigoPostal = this.formaAsentamiento.get('codigopostal')?.value;
       this._asentamiento.Latitud = this.formaAsentamiento.get('latitud')?.value;
       this._asentamiento.Longitud = this.formaAsentamiento.get('longitud')?.value;
@@ -784,6 +802,10 @@ export class AsentamientosComponent implements OnInit {
 
   get asentamientoNoValido() {
     return (this.formaAsentamiento.get('asentamiento')?.invalid && this.formaAsentamiento.get('asentamiento')?.touched);
+  }
+
+  get asentamiento2NoValido() {
+    return (this.formaAsentamiento.get('asentamiento2')?.invalid && this.formaAsentamiento.get('asentamiento2')?.touched);
   }
 
   get codigopostalNoValido() {

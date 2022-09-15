@@ -3,9 +3,11 @@ export const URL_APIS = {
     urlAmenidades           : '/api/Amenidades/',
     urlArchivosFiscales     : '/api/ArchivosFiscales/',
     urlBancos               : '/api/Bancos/',
+    urlImagenes             : '/api/Imagenes/',
     urlCaracteristicas      : '/api/Caracteristicas/',
     urlAsentamientos        : '/api/Asentamientos/',
     urlClientes             : '/api/Clientes/',
+    urlCatalogosSAT         : '/api/CatalogosSAT/',
     urlEmpresas             : '/api/Empresas/',
     urlEmpresaClientes      : '/api/EmpresaClientes/',
     urlIndicadores          : '/api/Indicadores/',
@@ -18,6 +20,7 @@ export const URL_APIS = {
     urlPlanes               : '/api/Planes/',
     urlPaquetes             : '/api/Paquetes/',
     urlPaquetesEmpresas     : '/api/PaquetesEmpresas/',
+    urlProductos            : '/api/Productos/',
     urlTipoOperacion        : '/api/TipoOperacion/',
     urlTipoCaracteristica   : '/api/TipoCaracteristica/',
     urlTipoPersona          : '/api/TipoPersona/',
@@ -55,6 +58,8 @@ export const URL_APIS = {
     urlVistasUsuarios               : '/api/VistasUsuarios/',
     urlEstadisticasCliente          : '/api/EstadisticasCliente/',
     urlEstadisticasClienteFiltros   : '/api/EstadisticasClienteFiltros/',
+    urlUbicaciones                  : '/api/Ubicaciones/',
+    urlFacturacionExterna           : '/api/FacturacionExterna/',
     
     // Mi cuenta
     // urlPlanesCliente: '/api/PlanesCliente/obtenerporcliente',

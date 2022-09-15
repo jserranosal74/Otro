@@ -1,14 +1,16 @@
-<div class="card px-0 color-card" style="width: 15rem; border-radius: 15px; box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
+<div id="tarjetaPlanes" class="card px-0 color-card" style="width: 15rem; border-radius: 15px; box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
     <div class="card-header text-center bg-color-3 py-0" style="border-radius: 15px 15px 0px 0px;">
         <h3 class="card-title text-primary text-uppercase py-1 m-0">{{_plan.Descripcion}}</h3>
         <div class="col px-0 text-end py-1" *ngIf="_origen === 'AlPagar'">
-          <button type="button" class="btn btn-outline-primary" (click)="elegirPlanCliente()" [ngClass]="{' btn-primary': _plan.Seleccionado === 1, ' btn-outline-primary': _plan.Seleccionado === 0}" style="border-radius: 25px;">
-            <span class="col-md-1  text-center"><i class="fa fa-check" > </i></span>
+          <button type="button" class="btn btn-sm btn-outline-primary br25" (click)="elegirPlanCliente()" [ngClass]="{' btn-primary': _plan.Seleccionado === 1, ' btn-outline-primary': _plan.Seleccionado === 0}" style="position:absolute; top:0px; right:0px;">
+            <span *ngIf="_plan.Seleccionado === 0" class="col-md-1  text-center"><i class="fa fa-check" > </i></span>
+            <span *ngIf="_plan.Seleccionado === 1" class="col-md-1  text-center"><i class="fa fa-check-double" > </i></span>
           </button>
         </div>
         <div class="col px-0 text-end py-1" *ngIf="_origen === 'menuAgregarPlanACliente'">
-          <button type="button" class="btn btn-outline-primary" (click)="elegirPlanCliente()" [ngClass]="{' btn-primary': _plan.Seleccionado === 1, ' btn-outline-primary': _plan.Seleccionado === 0}" style="border-radius: 25px;">
-            <span class="col-md-1 text-center"><i class="fa fa-check" > </i></span>
+          <button type="button" class="btn btn-sm btn-outline-primary br25" (click)="elegirPlanCliente()" [ngClass]="{' btn-primary': _plan.Seleccionado === 1, ' btn-outline-primary': _plan.Seleccionado === 0}" style="position:absolute; top:0px; right:0px;">
+            <span *ngIf="_plan.Seleccionado === 0" class="col-md-1 text-center"><i class="fa fa-check" > </i></span>
+            <span *ngIf="_plan.Seleccionado === 1" class="col-md-1 text-center"><i class="fa fa-check-double" > </i></span>
           </button>
         </div>
     </div>

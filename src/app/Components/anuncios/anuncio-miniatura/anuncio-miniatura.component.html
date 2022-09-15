@@ -1,55 +1,29 @@
-<div class="row br15" style="box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
+<div id="tarjeta" class="row br15" style="box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
     <div class="col-md-3 p-0 border" style="border-radius: 15px 0px 0px 15px;">
 
         <div class="carousel-item active text-center br15">
-            <div class="justify-content-center br15">
-                <img *ngIf="_publicacion.lstMultimedia != null && _publicacion.lstMultimedia!.length > 0" [src]="_publicacion.lstMultimedia![0].Url_Thumb" class="d-block w-100" style="border-radius: 15px 0px 0px 15px; max-width:100%;" alt="" height="170px" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
+            <div *ngIf="_publicacion.Estatus !== 'Borrador'" class="justify-content-center br15" (click)="verPublicacionCliente()" style="cursor:pointer !important;">
+                <img *ngIf="_publicacion.Url != null" [src]="_publicacion.Url" class="d-block w-100" style="border-radius: 15px 0px 0px 15px; max-width:100%;" alt="" height="170px" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
             </div>
-            <div class="carousel-caption active d-none d-md-block p-0 m-0">
-                <h6 *ngIf="_publicacion.lstMultimedia != null && _publicacion.lstMultimedia!.length > 0" class="sombraTitulo text-capitalize p-0 m-0">{{_publicacion.lstMultimedia![0].Descripcion}}</h6>
+            <div *ngIf="_publicacion.Estatus === 'Borrador'" class="justify-content-center br15">
+                <a [href]="'publicar/fotosyvideos?Id_Publicacion=' + this._publicacion.Id_Publicacion" target="_blank">
+                    <img *ngIf="_publicacion.Url != null" [src]="_publicacion.Url" class="d-block w-100" style="border-radius: 15px 0px 0px 15px; max-width:100%;" alt="" height="170px" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
+                </a>
             </div>
+            <!-- <div class="carousel-caption active d-none d-md-block p-0 m-0">
+                <h6 *ngIf="_publicacion.Url != null && _publicacion.lstMultimedia!.length > 0" class="sombraTitulo text-capitalize p-0 m-0">{{_publicacion.lstMultimedia![0].Descripcion}}</h6>
+            </div> -->
         </div>
-
-        <!-- <div [id]="'carouselExampleCaptions' + _publicacion.Id_Publicacion" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
-            <div class="carousel-inner">
-
-                    <div class="carousel-item active text-center br15">
-                        <div class="justify-content-center br15">
-                            <img *ngIf="_publicacion.lstMultimedia != null && _publicacion.lstMultimedia!.length > 0" [src]="_publicacion.lstMultimedia![0].Url_Thumb" class="d-block w-100" style="border-radius: 15px 0px 0px 15px; max-width:100%;" alt="" height="170px" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
-                        </div>
-                        <div class="carousel-caption active d-none d-md-block p-0 m-0">
-                            <h6 *ngIf="_publicacion.lstMultimedia != null && _publicacion.lstMultimedia!.length > 0" class="sombraTitulo text-capitalize p-0 m-0">{{_publicacion.lstMultimedia![0].Descripcion}}</h6>
-                        </div>
-                    </div>
-
-                    <div class="carousel-item br15" *ngFor="let item of _listaFotografias; let i = index;">
-                        <div class="justify-content-center br15">
-                            <img [src]="item.Url_Thumb" class="d-block w-100" style="border-radius: 15px 0px 0px 15px; max-width:100%;" alt="" height="170px" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
-                        </div>
-                        <div class="carousel-caption d-none d-md-block p-0 m-0">
-                            <h6 class="sombraTitulo text-capitalize p-0 m-0">{{item.Descripcion}}</h6>
-                        </div>
-                    </div>
-
-            </div>
-            <button *ngIf="_publicacion.lstMultimedia != null && _publicacion.lstMultimedia!.length > 1" class="carousel-control-prev" type="button" style="height: 100%; width:40px; top: 0; left:0%; cursor:pointer;" [attr.data-bs-target]="'#carouselExampleCaptions' + _publicacion.Id_Publicacion" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon bg-color-2 br25" aria-hidden="true"></span>
-              <span class="visually-hidden">Anterior</span>
-            </button>
-            <button *ngIf="_publicacion.lstMultimedia != null && _publicacion.lstMultimedia!.length > 1" class="carousel-control-next" type="button" style="height: 100%; width:40px; top: 0; right:0%; cursor:pointer;" [attr.data-bs-target]="'#carouselExampleCaptions' + _publicacion.Id_Publicacion" data-bs-slide="next">
-              <span class="carousel-control-next-icon bg-color-2 br25" aria-hidden="true"></span>
-              <span class="visually-hidden">Siguiente</span>
-            </button>
-        </div> -->
 
     </div>
     <div class="col-md-9 p-1 border" style="border-radius: 0px 15px 15px 0px;">
-      <div class="row">
+
+      <div class="row" (click)="verPublicacionCliente()" style="cursor:pointer !important;">
 
           <div class="row px-0">
               <div class="col-md-9 px-4">
-                  <h3 *ngIf="_publicacion.TituloPublicacion != null" class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{_publicacion.TituloPublicacion}}">{{_publicacion.TituloPublicacion}}</h3>
-                  <h3 *ngIf="_publicacion.TituloPublicacion === null || _publicacion.TituloPublicacion === ''" class="text-danger text-truncate">SIN TITULO</h3>
+                  <h4 *ngIf="_publicacion.TituloPublicacion != null" class="text-primary text-truncate fw400" data-toggle="tooltip" data-placement="top" title="{{_publicacion.TituloPublicacion}}">{{_publicacion.TituloPublicacion}}</h4>
+                  <h4 *ngIf="_publicacion.TituloPublicacion === null || _publicacion.TituloPublicacion === ''" class="text-danger text-truncate">SIN TITULO</h4>
               </div>
               <div *ngIf="_tipoBusqueda == 'misAnuncios'" class="col-md-3 p-1">
                   <h6 *ngIf="_publicacion.Estatus === 'Activada' || _publicacion.Estatus === 'Vencida' || _publicacion.Estatus === 'Cancelada' || _publicacion.Estatus === 'En espera de pago'" class="text-primary text-end"><kbd style="background-color: #ffe600; color:black">{{_publicacion.PlanCliente}}</kbd></h6>
@@ -78,17 +52,28 @@
                 <h6 *ngIf="_publicacion.TipoOperacion === 'Remate'" class="text-primary text-end">
                     <kbd style="background-color: #e90000;">{{_publicacion.TipoOperacion}}</kbd>
                 </h6>
-                <h6 *ngIf="_publicacion.TipoOperacion === 'Evetual'" class="text-primary text-end">
+                <h6 *ngIf="_publicacion.TipoOperacion === 'Eventual'" class="text-primary text-end">
                     <kbd style="background-color: #ff89e5;">{{_publicacion.TipoOperacion}}</kbd>
                 </h6>
             </div>
           </div>
 
           <div *ngIf="_publicacion.TipoOperacion != 'Desarrollo'" class="row px-0">
-              <div class="col px-4">
+              <div class="col-auto px-4">
                     <div class="row">
-                        <div class="col-auto text-primary"><p>{{_publicacion.ClaveMoneda}}</p></div>
-                        <div class="col-auto text-primary px-0"><h4>$ {{_publicacion.PrecioDesde | number : '1.0'}}</h4></div>
+                        <div class="col-auto text-primary">
+                            <p>{{_publicacion.ClaveMoneda}}</p>
+                        </div>
+                        <div class="col-auto text-primary px-0">
+                            <h4 *ngIf="_publicacion.PrecioDescuento! > 0" style="text-decoration:line-through; color:lightgray;">{{_publicacion.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }}</h4>
+                            <h4 *ngIf="_publicacion.PrecioDescuento! === 0">{{_publicacion.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }}</h4>
+                        </div>
+                        <div *ngIf="_publicacion.PrecioDescuento! > 0" class="col-auto text-primary px-2">
+                            <h4 >{{_publicacion.PrecioDescuento | currency : 'USD' : 'symbol' : '1.0-0' }} <kbd style="background-color: rgb(52, 190, 52); color:#ffffff; font-size: medium;"><span>Bajó </span>{{(1 - (_publicacion.PrecioDescuento! / _publicacion.PrecioDesde!)) * 100 | number: '1.0-0'}}%</kbd></h4>
+                        </div>
+                        <div *ngIf="_publicacion.PrecioNegociable === 1" class="col-auto text-primary" style="font-size:1rem;">
+                            <label class="mt-1">Precio negociable</label>
+                        </div>
                     </div>
               </div>
               <div *ngIf="_tipoBusqueda == 'misAnuncios'" class="col text-end p-1">
@@ -101,8 +86,11 @@
               <div class="col-md-9 px-4">
                   <div class="row">
                       <div class="col-auto text-primary"><p>{{_publicacion.ClaveMoneda}}</p></div>
-                      <div class="col-auto text-primary px-2"><h4>$ {{_publicacion.PrecioDesde | number : '1.0'}} -</h4></div>
-                      <div class="col-auto text-primary px-0"> <h4>$ {{_publicacion.PrecioHasta | number : '1.0'}}</h4></div>
+                      <div class="col-auto text-primary px-2"><h4>{{_publicacion.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }} -</h4></div>
+                      <div class="col-auto text-primary px-0"><h4>{{_publicacion.PrecioHasta | currency : 'USD' : 'symbol' : '1.0-0' }}</h4></div>
+                      <div *ngIf="_publicacion.PrecioNegociable === 1" class="col-auto text-primary" style="font-size:1rem;">
+                        <label class="mt-1">Precio negociable</label>
+                    </div>
                   </div>
               </div>
               <div *ngIf="_tipoBusqueda == 'misAnuncios'" class="col text-end p-1">
@@ -122,15 +110,15 @@
                             <span *ngIf="_publicacion.PerteneceADesarrollo === 1" class="text-primary"> - Pertenece a desarrollo</span>
                         </div>
                         <div class="col-md-5 text-end px-0">
-                            <a class="btn btn-success br25" [href]="'publicar/operacion-tipo-inmueble?Id_Publicacion=' + this._publicacion.Id_Publicacion">
+                            <a class="btn btn-success br25" [href]="'publicar/operacion-tipo-inmueble?Id_Publicacion=' + this._publicacion.Id_Publicacion" target="_blank">
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-pen" aria-hidden="true"> </i>
                             </span></a>
-                            <a class="btn btn-primary mx-1 br25" (click)="verPublicacionCliente()">
+                            <a class="btn btn-primary mx-1 br25" [href]="'propiedad/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion" target="_blank">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
                             </span></a>
-                            <a *ngIf="_publicacion.PerteneceADesarrollo === 0" class="btn btn-warning br25" [href]="'publicar/pagar-y-activar?Id_Publicacion=' + this._publicacion.Id_Publicacion">
+                            <a *ngIf="_publicacion.PerteneceADesarrollo === 0" class="btn btn-warning br25" [href]="'publicar/pagar-y-activar?Id_Publicacion=' + this._publicacion.Id_Publicacion" target="_blank">
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-arrow-up" aria-hidden="true"> </i>
                             </span></a>
@@ -153,7 +141,7 @@
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-pen" aria-hidden="true"> </i>
                             </span></button> -->
-                            <a class="btn btn-primary mx-1 br25" (click)="verPublicacionCliente()">
+                            <a class="btn btn-primary mx-1 br25" [href]="'propiedad/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion" target="_blank">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
                             </span></a>
@@ -171,7 +159,7 @@
                             <span>Fecha en que se canceló: <strong>{{_publicacion.FechaModificacion | date:'dd-MM-yyyy'}}</strong></span>
                         </div>
                         <div class="col-md-4 text-end px-0">
-                            <a class="btn btn-primary mx-1 br25" (click)="verPublicacionCliente()">
+                            <a class="btn btn-primary mx-1 br25" [href]="'propiedad/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion" target="_blank">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
                             </span></a>
@@ -189,7 +177,7 @@
                             <span>Fecha en que venció: <strong>{{_publicacion.FechaFinPublicacion | date:'dd-MM-yyyy'}}</strong></span>
                         </div>
                         <div class="col-md-4 text-end px-0">
-                            <a class="btn btn-primary mx-1 br25" (click)="verPublicacionCliente()">
+                            <a class="btn btn-primary mx-1 br25" [href]="'propiedad/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion" target="_blank">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
                             </span></a>
@@ -208,7 +196,7 @@
                                 <span class="col-md-1 col-md-offset-2 text-center">
                                     <i class="fa fa-pen" aria-hidden="true"> </i>
                             </span></button> -->
-                            <a class="btn btn-primary mx-1 br25" (click)="verPublicacionCliente()">
+                            <a class="btn btn-primary mx-1 br25" [href]="'propiedad/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion" target="_blank">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
                             </span></a>
@@ -226,7 +214,7 @@
                             <span>Fecha en que se canceló: <strong>{{_publicacion.FechaModificacion | date:'dd-MM-yyyy'}}</strong></span>
                         </div>
                         <div class="col-md-4 text-end px-0">
-                            <a class="btn btn-primary mx-1 br25" (click)="verPublicacionCliente()">
+                            <a class="btn btn-primary mx-1 br25" [href]="'propiedad/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion" target="_blank">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
                             </span></a>
@@ -244,7 +232,7 @@
                             <span>Fecha en que terminará: <strong>{{_publicacion.FechaFinPublicacion | date:'dd-MM-yyyy'}}</strong></span>
                         </div>
                         <div class="col-md-4 text-end px-0">
-                            <a class="btn btn-primary mx-1 br25" (click)="verPublicacionCliente()">
+                            <a class="btn btn-primary mx-1 br25" [href]="'propiedad/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion" target="_blank">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
                             </span></a>
@@ -262,7 +250,7 @@
                             <span>Fecha en que terminó: <strong>{{_publicacion.FechaFinPublicacion | date:'dd-MM-yyyy'}}</strong></span>
                         </div>
                         <div class="col-md-4 text-end px-0">
-                            <a class="btn btn-primary mx-1 br25" (click)="verPublicacionCliente()">
+                            <a class="btn btn-primary mx-1 br25" [href]="'propiedad/' + (this._publicacion.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacion.Id_Publicacion" target="_blank">
                                 <span class="col-md-1 text-center">
                                     <i class="fa fa-eye" aria-hidden="true"> </i>
                             </span></a>
@@ -277,8 +265,10 @@
             </ng-template>
 
       </div>
+
       <div style="position:relative; bottom:0px; bottom:0px; right:0px;">
           <div *ngIf="_tipoBusqueda == 'misAnuncios'; then misAnuncios else misFavoritos"></div>
       </div>
+
     </div>
 </div>

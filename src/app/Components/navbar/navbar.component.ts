@@ -56,8 +56,8 @@ export class NavbarComponent implements OnInit {
     this._tiposPropiedadService.getTiposPropiedades().subscribe(
       (data) => {
         
-        // Solo se muestran las primeras 8 opciones en el menu
-        for (let index = 0; index <= 7; index++) {
+        // Solo se muestran las primeras 6 opciones en el menu
+        for (let index = 0; index <= 5; index++) {
           this._tiposPropiedad.push(data[index]);
         }
 

@@ -3,7 +3,15 @@
 <div class="p-3">
 <div class="row">
     <div class="col-md-8">
-        <h3 class="text-primary text-capitalize">{{_publicacion.TituloPublicacion}}</h3>
+        <div class="row">
+            <div class="col">
+                <h3 class="text-primary text-capitalize">{{_publicacion.TituloPublicacion}}
+                    <span *ngIf="_publicacion.Id_PublicacionDesarrollo != null" 
+                    style="font-size:large; text-transform: none;"
+                    class="text-primary"> - Pertenece a este <a class="text-decoration-none" [href]="'propiedad/' + (this._publicacion.TituloPublicacionDesarrollo)?.replaceAll(' ','-') + '-' + this._publicacion.Id_PublicacionDesarrollo" target="_blank">
+                        <kbd style="background-color: #06b400;">Desarrollo</kbd></a></span></h3>
+            </div>
+        </div>
     </div>
     <div *ngIf="_usuarioAutenticado && _publicacion.UID_Cliente === _Id_Usuario_Actual" class="col-md-4 text-end">
         <span class="px-2"><kbd class="bg-color-2 px-2">{{_publicacion.DescripcionEstatus}}</kbd></span>
@@ -14,27 +22,27 @@
     </div>
 </div>
 
-<div class="row mb-3 bg-color-rt" style="min-height: 300px;">
+<div class="row mb-3 bg-color-rt" style="min-height: 300px;" data-bs-toggle="modal" data-bs-target="#modalMultimedia" (click)="mostrarMultimedia(1)">
 
     <div class="col-md-6 text-center">
-        <img class="img-fluid" style="max-height: 400px;" [src]="_fotosPrincipales[0]" alt="Foto Predeterminada" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
+        <img class="img-fluid" style="max-height: 409px; width:100%; height:100%;" [src]="_fotosPrincipales[0]" alt="Foto Predeterminada" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
     </div>
 
     <div class="col-md-3 px-1" >
-      <div class="mb-1 text-center">
-        <img class="img-fluid" style="max-height: 200px;" [src]="_fotosPrincipales[1]" alt="Foto 2" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
+      <div class="mb-2 text-center">
+        <img class="img-fluid" style="max-height: 200px; width:100%; height:100%;" [src]="_fotosPrincipales[1]" alt="Foto 2" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
       </div>
       <div class="text-center" >
-        <img class="img-fluid" style="max-height: 200px;" [src]="_fotosPrincipales[2]" alt="Foto 3" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
+        <img class="img-fluid" style="max-height: 200px; width:100%; height:100%;" [src]="_fotosPrincipales[2]" alt="Foto 3" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
       </div>
     </div>
 
     <div class="col-md-3 px-1" >
-      <div class="mb-1 text-center" >
-        <img class="img-fluid" style="max-height: 200px;" [src]="_fotosPrincipales[3]" alt="Foto 4" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
+      <div class="mb-2 text-center" >
+        <img class="img-fluid" style="max-height: 200px; width:100%; height:100%;" [src]="_fotosPrincipales[3]" alt="Foto 4" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
       </div>
       <div class="text-center" >
-        <img class="img-fluid" style="max-height: 200px;" [src]="_fotosPrincipales[4]" alt="Foto 5" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
+        <img class="img-fluid" style="max-height: 200px; width:100%; height:100%;" [src]="_fotosPrincipales[4]" alt="Foto 5" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
       </div>
     </div>
 
@@ -67,9 +75,12 @@
                     <label *ngIf="_publicacion.Id_TipoOperacion === 4" class="text-primary">
                         <kbd style="background-color: #e90000;">Remate</kbd>
                     </label>
+                    <label *ngIf="_publicacion.Id_TipoOperacion === 5" class="text-primary">
+                        <kbd style="background-color: #ff89e5;">Eventual</kbd>
+                    </label>
                 </div>
-                <div class="row">
-                    <!-- <h3 class="text-primary text-uppercase">{{_publicacion.TituloPublicacion}}</h3> -->
+
+                <!-- <div class="row">
                     <div class="col-md-10">
                         <h4 class="text-primary" style="font-size:2.5em; font-weight: bolder;">
                             {{_publicacion.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }} <span class="text-primary px-1" style="font-size: 2rem;">{{((_publicacion.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</span>
@@ -78,10 +89,56 @@
                     </div>
                     <div class="col-md-2 text-end mb-3 px-0">
                         <a (click)="abrirPaginaCliente()" class="text-end text-truncate" style="cursor:pointer;" data-toggle="tooltip" data-placement="top" >
-                            <img class="col-md-2 text-center br10" [src]="_clienteVista.UrlFotoPerfil" style="max-width:fit-content;" alt="fotoPerfil" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
+                            <img class="col-md-2 text-center br10" [src]="_clienteVista.UrlFotoPerfil" style="max-width:fit-content;" alt="fotoPerfil" onerror="this.src='/assets/Imagenes_Inicio/FotoPerfil.png';">
                             <label class="text-primary text-truncate px-2" style="max-width:100px; cursor:pointer;">{{_clienteVista.Nombre}} {{_clienteVista.Apellidos}}</label><br>
                         </a>
                     </div>
+                </div> -->
+
+                <div class="row">
+
+                    <!-- No son Desarrollo -->
+                    <div *ngIf="_publicacion.Id_TipoOperacion !== 3" class="col-md-10">
+                        <div class="row">
+                            <div class="col-auto text-primary" style="font-size:1.5rem;">
+                                <p>{{((_publicacion.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</p>
+                            </div>
+                            <div class="col-auto text-primary px-0" style="font-size:2rem;">
+                                <p *ngIf="_publicacion.PrecioDescuento! > 0" style="text-decoration:line-through; color:lightgray;">{{_publicacion.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }}</p>
+                                <p *ngIf="_publicacion.PrecioDescuento! === 0">{{_publicacion.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }}</p>
+                            </div>
+                            <div *ngIf="_publicacion.PrecioDescuento! > 0" class="col-auto text-primary px-2" style="font-size:2rem;">
+                                <p >{{_publicacion.PrecioDescuento | currency : 'USD' : 'symbol' : '1.0-0' }} <span class="mb-3"><kbd style="background-color: rgb(52, 190, 52); color:#ffffff; font-size: large;"><span>Bajó </span>{{(1 - (_publicacion.PrecioDescuento! / _publicacion.PrecioDesde!)) * 100 | number: '1.0-0'}}%</kbd></span></p>
+                            </div>
+                            <div *ngIf="_publicacion.PrecioNegociable === 1" class="col-auto text-primary" style="font-size:1rem;">
+                                <label class="mt-3">Precio negociable</label>
+                            </div>
+                        </div> 
+                    </div>
+
+                    <!-- Son Desarrollo -->
+                    <div *ngIf="_publicacion.Id_TipoOperacion === 3" class="col-md-10">
+                        <div class="row">
+                            <div class="col-auto text-primary" style="font-size:1.5rem;">
+                                <p>{{((_publicacion.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</p>
+                            </div>
+                            <div class="col-auto text-primary px-0" style="font-size:2rem;">
+                                <p>{{_publicacion.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }} - {{_publicacion.PrecioHasta | currency : 'USD' : 'symbol' : '1.0-0' }}</p>
+                            </div>
+                            <div *ngIf="_publicacion.PrecioNegociable === 1" class="col-auto text-primary" style="font-size:1rem;">
+                                <label class="mt-3">Precio negociable</label>
+                            </div>
+                        </div> 
+                    </div>
+                    
+                    <div class="col-md-2 text-end mb-3 px-0">
+                        <a  [href]="'inmobiliaria/propiedades/' + (_clienteVista.Nombre + '-' + _clienteVista.Apellidos ).replaceAll(' ','-') + '-' + this._clienteVista.Id_Cliente" target="_blank"
+                            class="text-end text-truncate" style="cursor:pointer;" data-toggle="tooltip" data-placement="top" >
+                            <img class="col-md-2 text-center br10" [src]="_clienteVista.UrlFotoPerfil" style="max-width:fit-content;" alt="fotoPerfil" onerror="this.src='/assets/Imagenes_Inicio/FotoPerfil.png';">
+                            <label class="text-primary text-truncate px-2" style="max-width:100px; cursor:pointer;">{{_clienteVista.Nombre}} {{_clienteVista.Apellidos}}</label><br>
+                        </a>
+                    </div>
+
                 </div>
                 <hr>
             </div>
@@ -98,54 +155,65 @@
                 </div>    
                 <div class="row">
                     <div class="col-md-3 mb-3">
-                            <img src="/assets/anuncioVista/RECAMARA.png" />
-                            <span class="text-primary px-2">
-                                Recamaras: {{_publicacion.RecamarasDesde}}
-                            </span>
+                        <img src="/assets/anuncioVista/RECAMARA.png" />
+                        <small>
+                            <span *ngIf="_publicacion.RecamarasDesde === 1 && _publicacion.Id_TipoOperacion != 3" class="text-primary px-2">{{_publicacion.RecamarasDesde}} recamara</span>
+                            <span *ngIf="_publicacion.RecamarasDesde! > 1 && _publicacion.Id_TipoOperacion != 3" class="text-primary px-2">{{_publicacion.RecamarasDesde}} recamaras</span>
+                            <span *ngIf="_publicacion.Id_TipoOperacion === 3" class="text-primary px-2">{{_publicacion.RecamarasDesde}} a {{_publicacion.RecamarasHasta}} recamaras</span>
+                        </small>
                     </div>
                     <div class="col-md-3 mb-3">
                         <img src="/assets/anuncioVista/BANIO COMPLETO.png" />
-                        <span class="text-primary px-2">
-                            Baños completos: {{_publicacion.BaniosCompDesde}}
-                        </span>
+                        <small>
+                            <span *ngIf="_publicacion.BaniosCompDesde === 1 && _publicacion.Id_TipoOperacion != 3" class="text-primary px-2">{{_publicacion.BaniosCompDesde}} baño</span>
+                            <span *ngIf="_publicacion.BaniosCompDesde! > 1 && _publicacion.Id_TipoOperacion != 3" class="text-primary px-2">{{_publicacion.BaniosCompDesde}} baño</span>
+                            <span *ngIf="_publicacion.Id_TipoOperacion === 3" class="text-primary px-2">{{_publicacion.BaniosCompDesde}} a {{_publicacion.BaniosCompHasta}} baños</span>
+                        </small>
                     </div>
                     <div class="col-md-3 mb-3">
                         <img src="/assets/anuncioVista/MEDIO BANIO.png" />
-                        <span class="text-primary px-2">
-                            &#189; baños: {{_publicacion.MedioBanioDesde}}
-                        </span>
+                        <small>
+                            <span *ngIf="_publicacion.Id_TipoOperacion !== 3" class="text-primary px-2">{{_publicacion.MedioBanioDesde}} medio baño(s)</span>
+                            <span *ngIf="_publicacion.Id_TipoOperacion === 3" class="text-primary px-2">{{_publicacion.MedioBanioDesde}} a {{_publicacion.MedioBanioHasta}} medios baños</span>
+                        </small>
                     </div>
                     <div class="col-md-3 mb-3">
                         <img src="/assets/anuncioVista/ANTIGUEDAD.png" />
-                        <span *ngIf="_publicacion.Antiguedad! > 0" class="text-primary px-2">
-                            Antigüedad: {{_publicacion.Antiguedad}} año(s)
-                        </span>
-                        <span *ngIf="_publicacion.Antiguedad! === 0" class="text-primary px-2">
-                            Antigüedad: A Estrenar
-                        </span>
-                        <span *ngIf="_publicacion.Antiguedad! === -1" class="text-primary px-2">
-                            En construcción
-                        </span>
+                        <small>
+                            <span *ngIf="_publicacion.Antiguedad! > 0" class="text-primary px-2">
+                                Antigüedad: {{_publicacion.Antiguedad}} año(s)
+                            </span>
+                            <span *ngIf="_publicacion.Antiguedad! === 0" class="text-primary px-2">
+                                Antigüedad: A Estrenar
+                            </span>
+                            <span *ngIf="_publicacion.Antiguedad! === -1" class="text-primary px-2">
+                                En construcción
+                            </span>
+                        </small>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <img src="/assets/anuncioVista/M2 CONSTRUCCION.png" />
-                        <span class="text-primary px-2">
-                            Sup. construida: {{_publicacion.SuperficieConstruidaDesde}} m<sup>2</sup>
-                        </span>
+                        <small>
+                            <span *ngIf="_publicacion.Id_TipoOperacion != 3" class="text-primary px-2">{{_publicacion.SuperficieConstruidaDesde}} m<sup>2</sup> construcción</span>
+                            <span *ngIf="_publicacion.Id_TipoOperacion === 3" class="text-primary px-2">{{_publicacion.SuperficieConstruidaDesde}} a {{_publicacion.SuperficieConstruidaHasta}} m<sup>2</sup> construcción</span>
+                        </small>
                     </div>
                     <div class="col-md-3 mb-3">
                         <img src="/assets/anuncioVista/M2 TERRENO.png" />
-                        <span class="text-primary px-2">
-                            Sup. Terreno: {{_publicacion.SuperficieTerreno}} m<sup>2</sup>
-                        </span>
+                        <small>
+                            <span class="text-primary px-2">
+                                {{_publicacion.SuperficieTerreno}} m<sup>2</sup> terreno
+                            </span>
+                        </small>
                     </div>
                     <div class="col-md-3 mb-3">
                         <img src="/assets/anuncioVista/COCHERA.png" />
-                        <span class="text-primary px-2">
-                            Estacionamientos: {{_publicacion.EstacionamientosDesde}}
-                        </span>
+                        <small>
+                            <span *ngIf="_publicacion.Id_TipoOperacion != 3" class="text-primary px-2">{{_publicacion.EstacionamientosDesde}} estacionamiento(s)</span>
+                            <span *ngIf="_publicacion.Id_TipoOperacion === 3" class="text-primary px-2">{{_publicacion.EstacionamientosDesde}} a {{_publicacion.EstacionamientosHasta}} estacionamiento(s)</span>
+                        </small>
                     </div>
                 </div>
                 <hr>
@@ -162,7 +230,7 @@
                         <h5 class="text-primary">Amenidades</h5>
                         <div class="col-md-3 mb-2 px-1" *ngFor="let cargen of _caracteristicasGenerales; let i = index;">
                             <kbd class="br25 bg-color-3 text-primary">
-                                <i class="fa-solid fa-check"></i> {{cargen.Descripcion}}
+                                <i class="fa-solid fa-check-double"></i> {{cargen.Descripcion}}
                             </kbd>
                         </div>
                     </div>
@@ -170,7 +238,7 @@
                         <h5 class="text-primary">Servicios</h5>
                         <div class="col-md-3 mb-2 px-1" *ngFor="let servicio of _servicios; let i = index;">
                             <kbd class="br25 bg-color-3 text-primary">
-                                <i class="fa-solid fa-check"></i> {{servicio.Descripcion}}
+                                <i class="fa-solid fa-check-double"></i> {{servicio.Descripcion}}
                             </kbd>
                         </div>
                     </div>
@@ -178,7 +246,7 @@
                         <h5 class="text-primary">Exteriores</h5>
                         <div class="col-md-3 mb-2 px-1" *ngFor="let exterior of _exteriores; let i = index;">
                             <kbd class="br25 bg-color-3 text-primary">
-                                <i class="fa-solid fa-check"></i> {{exterior.Descripcion}}
+                                <i class="fa-solid fa-check-double"></i> {{exterior.Descripcion}}
                             </kbd>
                         </div>
                     </div>
@@ -186,7 +254,7 @@
                         <h5 class="text-primary">Ambientes</h5>
                         <div class="col-md-3 mb-2 px-1" *ngFor="let ambiente of _ambientes; let i = index;">
                             <kbd class="br25 bg-color-3 text-primary">
-                                <i class="fa-solid fa-check"></i> {{ambiente.Descripcion}}
+                                <i class="fa-solid fa-check-double"></i> {{ambiente.Descripcion}}
                             </kbd>
                         </div>
                     </div>
@@ -216,33 +284,37 @@
                                 </div>
                                 <div class="col-md-3 p-2">
                                     <label class="text-primary px-1" style="font-size: 1rem;">{{pubDetalle.DescripcionTP}}</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.PrecioDesde === null ? 'N/D' : pubDetalle.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0'}}</label>
-                                    <label class="text-primary px-1" style="font-size: 0.8rem; font-weight: bold;">{{((pubDetalle.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label>
+                                    <label class="text-primary px-1" style="font-size: 0.8rem;">{{((pubDetalle.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label>
+                                    <label *ngIf="pubDetalle.PrecioDescuento! === 0" class="text-primary" >{{pubDetalle.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0'}}</label>
+                                    <label *ngIf="pubDetalle.PrecioDescuento! > 0" style="text-decoration: line-through; color:lightgray;">{{pubDetalle.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0'}}</label>
+                                    <label *ngIf="pubDetalle.PrecioDescuento! > 0" class="text-primary" >{{pubDetalle.PrecioDescuento | currency : 'USD' : 'symbol' : '1.0-0'}}</label><br>
+                                    <span *ngIf="pubDetalle.PrecioDescuento! > 0" class="px-1"><kbd style="background-color: rgba(52, 190, 52, 0.75); color:#ffffff; font-size: small;"><span>Bajó </span> {{(1 - (pubDetalle.PrecioDescuento! / pubDetalle.PrecioDesde!)) * 100 | number: '1.0-0'}}%</kbd></span>
+                                    <label *ngIf="pubDetalle.PrecioNegociable === 1" class="col-auto text-primary px-1" style="font-size:0.9rem;">Precio negociable</label>
                                 </div>
                                 <div class="col-md-2 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/M2 CONSTRUCCION.png"><br>
-                                    <label class="text-primary px-1" style="font-size: 1rem;">Superficie construida</label><br>
-                                    <label class="text-primary " style="font-weight: bold;">{{pubDetalle.SuperficieConstruidaDesde === null ? 'No definida' : pubDetalle.SuperficieConstruidaDesde }} m<sup>2</sup></label>
+                                    <label class="text-primary px-1" style="font-size: 1rem;">Construcción</label><br>
+                                    <label class="text-primary " >{{pubDetalle.SuperficieConstruidaDesde === null ? 'No definida' : pubDetalle.SuperficieConstruidaDesde }} m<sup>2</sup></label>
                                 </div>
                                 <div class="col-md-1 text-center py-2 px-0">
                                     <img  src="/assets/anuncioVista/RECAMARA.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Recamaras</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.RecamarasDesde === null ? 'N/D' : pubDetalle.RecamarasDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.RecamarasDesde === null ? 'N/D' : pubDetalle.RecamarasDesde }}</label>
                                 </div>
                                 <div class="col-md-1 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/BANIO COMPLETO.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Baños</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.BaniosCompDesde === null ? 'N/D' : pubDetalle.BaniosCompDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.BaniosCompDesde === null ? 'N/D' : pubDetalle.BaniosCompDesde }}</label>
                                 </div>
                                 <div class="col-md-1 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/MEDIO BANIO.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">&#189; Baños</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.MedioBanioDesde === null ? 'N/D' : pubDetalle.MedioBanioDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.MedioBanioDesde === null ? 'N/D' : pubDetalle.MedioBanioDesde }}</label>
                                 </div>
                                 <div class="col-md-2 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/COCHERA.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Estacionamientos</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.EstacionamientosDesde === null ? 'N/D' : pubDetalle.EstacionamientosDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.EstacionamientosDesde === null ? 'N/D' : pubDetalle.EstacionamientosDesde }}</label>
                                 </div>
                                 <hr class="p-0 m-0">
                             </div>
@@ -265,33 +337,37 @@
                                 </div>
                                 <div class="col-md-3 p-2">
                                     <label class="text-primary px-1" style="font-size: 1rem;">{{pubDetalle.DescripcionTP}}</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.PrecioDesde === null ? 'N/D' : pubDetalle.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0'}}</label>
-                                    <label class="text-primary px-1" style="font-size: 0.8rem; font-weight: bold;">{{((pubDetalle.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label>
+                                    <label class="text-primary px-1" style="font-size: 0.8rem;">{{((pubDetalle.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label>
+                                    <label *ngIf="pubDetalle.PrecioDescuento! === 0" class="text-primary" >{{pubDetalle.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0'}}</label>
+                                    <label *ngIf="pubDetalle.PrecioDescuento! > 0" style="text-decoration: line-through; color:lightgray;">{{pubDetalle.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0'}}</label>
+                                    <label *ngIf="pubDetalle.PrecioDescuento! > 0" class="text-primary" >{{pubDetalle.PrecioDescuento | currency : 'USD' : 'symbol' : '1.0-0'}}</label><br>
+                                    <span *ngIf="pubDetalle.PrecioDescuento! > 0" class="px-1"><kbd style="background-color: rgba(52, 190, 52, 0.75); color:#ffffff; font-size: small;"><span>Bajó </span> {{(1 - (pubDetalle.PrecioDescuento! / pubDetalle.PrecioDesde!)) * 100 | number: '1.0-0'}}%</kbd></span>
+                                    <label *ngIf="pubDetalle.PrecioNegociable === 1" class="col-auto text-primary px-1" style="font-size:0.9rem;">Precio negociable</label>
                                 </div>
                                 <div class="col-md-2 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/M2 CONSTRUCCION.png"><br>
-                                    <label class="text-primary px-1" style="font-size: 1rem;">Superficie construida</label><br>
-                                    <label class="text-primary " style="font-weight: bold;">{{pubDetalle.SuperficieConstruidaDesde === null ? 'No definida' : pubDetalle.SuperficieConstruidaDesde }} m<sup>2</sup></label>
+                                    <label class="text-primary px-1" style="font-size: 1rem;">Construcción</label><br>
+                                    <label class="text-primary " >{{pubDetalle.SuperficieConstruidaDesde === null ? 'No definida' : pubDetalle.SuperficieConstruidaDesde }} m<sup>2</sup></label>
                                 </div>
                                 <div class="col-md-1 text-center py-2 px-0">
                                     <img  src="/assets/anuncioVista/RECAMARA.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Recamaras</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.RecamarasDesde === null ? 'N/D' : pubDetalle.RecamarasDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.RecamarasDesde === null ? 'N/D' : pubDetalle.RecamarasDesde }}</label>
                                 </div>
                                 <div class="col-md-1 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/BANIO COMPLETO.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Baños</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.BaniosCompDesde === null ? 'N/D' : pubDetalle.BaniosCompDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.BaniosCompDesde === null ? 'N/D' : pubDetalle.BaniosCompDesde }}</label>
                                 </div>
                                 <div class="col-md-1 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/MEDIO BANIO.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">&#189; Baños</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.MedioBanioDesde === null ? 'N/D' : pubDetalle.MedioBanioDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.MedioBanioDesde === null ? 'N/D' : pubDetalle.MedioBanioDesde }}</label>
                                 </div>
                                 <div class="col-md-2 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/COCHERA.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Estacionamientos</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.EstacionamientosDesde === null ? 'N/D' : pubDetalle.EstacionamientosDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.EstacionamientosDesde === null ? 'N/D' : pubDetalle.EstacionamientosDesde }}</label>
                                 </div>
                                 <hr class="p-0 m-0">
                             </div>
@@ -314,33 +390,37 @@
                                 </div>
                                 <div class="col-md-3 p-2">
                                     <label class="text-primary px-1" style="font-size: 1rem;">{{pubDetalle.DescripcionTP}}</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.PrecioDesde === null ? 'N/D' : pubDetalle.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0'}}</label>
-                                    <label class="text-primary px-1" style="font-size: 0.8rem; font-weight: bold;">{{((pubDetalle.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label>
+                                    <label class="text-primary px-1" style="font-size: 0.8rem;">{{((pubDetalle.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label>
+                                    <label *ngIf="pubDetalle.PrecioDescuento! === 0" class="text-primary" >{{pubDetalle.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0'}}</label>
+                                    <label *ngIf="pubDetalle.PrecioDescuento! > 0" style="text-decoration: line-through; color:lightgray;">{{pubDetalle.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0'}}</label>
+                                    <label *ngIf="pubDetalle.PrecioDescuento! > 0" class="text-primary" >{{pubDetalle.PrecioDescuento | currency : 'USD' : 'symbol' : '1.0-0'}}</label><br>
+                                    <span *ngIf="pubDetalle.PrecioDescuento! > 0" class="px-1"><kbd style="background-color: rgba(52, 190, 52, 0.75); color:#ffffff; font-size: small;"><span>Bajó </span> {{(1 - (pubDetalle.PrecioDescuento! / pubDetalle.PrecioDesde!)) * 100 | number: '1.0-0'}}%</kbd></span>
+                                    <label *ngIf="pubDetalle.PrecioNegociable === 1" class="col-auto text-primary px-1" style="font-size:0.9rem;">Precio negociable</label>
                                 </div>
                                 <div class="col-md-2 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/M2 CONSTRUCCION.png"><br>
-                                    <label class="text-primary px-1" style="font-size: 1rem;">Superficie construida</label><br>
-                                    <label class="text-primary " style="font-weight: bold;">{{pubDetalle.SuperficieConstruidaDesde === null ? 'No definida' : pubDetalle.SuperficieConstruidaDesde }} m<sup>2</sup></label>
+                                    <label class="text-primary px-1" style="font-size: 1rem;">Construcción</label><br>
+                                    <label class="text-primary " >{{pubDetalle.SuperficieConstruidaDesde === null ? 'No definida' : pubDetalle.SuperficieConstruidaDesde }} m<sup>2</sup></label>
                                 </div>
                                 <div class="col-md-1 text-center py-2 px-0">
                                     <img  src="/assets/anuncioVista/RECAMARA.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Recamaras</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.RecamarasDesde === null ? 'N/D' : pubDetalle.RecamarasDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.RecamarasDesde === null ? 'N/D' : pubDetalle.RecamarasDesde }}</label>
                                 </div>
                                 <div class="col-md-1 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/BANIO COMPLETO.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Baños</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.BaniosCompDesde === null ? 'N/D' : pubDetalle.BaniosCompDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.BaniosCompDesde === null ? 'N/D' : pubDetalle.BaniosCompDesde }}</label>
                                 </div>
                                 <div class="col-md-1 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/MEDIO BANIO.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">&#189; Baños</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.MedioBanioDesde === null ? 'N/D' : pubDetalle.MedioBanioDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.MedioBanioDesde === null ? 'N/D' : pubDetalle.MedioBanioDesde }}</label>
                                 </div>
                                 <div class="col-md-2 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/COCHERA.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Estacionamientos</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.EstacionamientosDesde === null ? 'N/D' : pubDetalle.EstacionamientosDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.EstacionamientosDesde === null ? 'N/D' : pubDetalle.EstacionamientosDesde }}</label>
                                 </div>
                                 <hr class="p-0 m-0">
                             </div>
@@ -363,33 +443,37 @@
                                 </div>
                                 <div class="col-md-3 p-2">
                                     <label class="text-primary px-1" style="font-size: 1rem;">{{pubDetalle.DescripcionTP}}</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.PrecioDesde === null ? 'N/D' : pubDetalle.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0'}}</label>
-                                    <label class="text-primary px-1" style="font-size: 0.8rem; font-weight: bold;">{{((pubDetalle.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label>
+                                    <label class="text-primary px-1" style="font-size: 0.8rem;">{{((pubDetalle.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label>
+                                    <label *ngIf="pubDetalle.PrecioDescuento! === 0" class="text-primary" >{{pubDetalle.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0'}}</label>
+                                    <label *ngIf="pubDetalle.PrecioDescuento! > 0" style="text-decoration: line-through; color:lightgray;">{{pubDetalle.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0'}}</label>
+                                    <label *ngIf="pubDetalle.PrecioDescuento! > 0" class="text-primary" >{{pubDetalle.PrecioDescuento | currency : 'USD' : 'symbol' : '1.0-0'}}</label><br>
+                                    <span *ngIf="pubDetalle.PrecioDescuento! > 0" class="px-1"><kbd style="background-color: rgba(52, 190, 52, 0.75); color:#ffffff; font-size: small;"><span>Bajó </span> {{(1 - (pubDetalle.PrecioDescuento! / pubDetalle.PrecioDesde!)) * 100 | number: '1.0-0'}}%</kbd></span>
+                                    <label *ngIf="pubDetalle.PrecioNegociable === 1" class="col-auto text-primary px-1" style="font-size:0.9rem;">Precio negociable</label>
                                 </div>
                                 <div class="col-md-2 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/M2 CONSTRUCCION.png"><br>
-                                    <label class="text-primary px-1" style="font-size: 1rem;">Superficie construida</label><br>
-                                    <label class="text-primary " style="font-weight: bold;">{{pubDetalle.SuperficieConstruidaDesde === null ? 'No definida' : pubDetalle.SuperficieConstruidaDesde }} m<sup>2</sup></label>
+                                    <label class="text-primary px-1" style="font-size: 1rem;">Construcción</label><br>
+                                    <label class="text-primary " >{{pubDetalle.SuperficieConstruidaDesde === null ? 'No definida' : pubDetalle.SuperficieConstruidaDesde }} m<sup>2</sup></label>
                                 </div>
                                 <div class="col-md-1 text-center py-2 px-0">
                                     <img  src="/assets/anuncioVista/RECAMARA.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Recamaras</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.RecamarasDesde === null ? 'N/D' : pubDetalle.RecamarasDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.RecamarasDesde === null ? 'N/D' : pubDetalle.RecamarasDesde }}</label>
                                 </div>
                                 <div class="col-md-1 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/BANIO COMPLETO.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Baños</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.BaniosCompDesde === null ? 'N/D' : pubDetalle.BaniosCompDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.BaniosCompDesde === null ? 'N/D' : pubDetalle.BaniosCompDesde }}</label>
                                 </div>
                                 <div class="col-md-1 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/MEDIO BANIO.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">&#189; Baños</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.MedioBanioDesde === null ? 'N/D' : pubDetalle.MedioBanioDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.MedioBanioDesde === null ? 'N/D' : pubDetalle.MedioBanioDesde }}</label>
                                 </div>
                                 <div class="col-md-2 text-center py-2 px-0">
                                     <img src="/assets/anuncioVista/COCHERA.png"><br>
                                     <label class="text-primary px-1" style="font-size: 1rem;">Estacionamientos</label><br>
-                                    <label class="text-primary" style="font-weight: bold;">{{pubDetalle.EstacionamientosDesde === null ? 'N/D' : pubDetalle.EstacionamientosDesde }}</label>
+                                    <label class="text-primary" >{{pubDetalle.EstacionamientosDesde === null ? 'N/D' : pubDetalle.EstacionamientosDesde }}</label>
                                 </div>
                                 <hr class="p-0 m-0">
                             </div>
@@ -426,6 +510,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h6 class="text-primary">
+                            <!-- <textarea class="text-primary" readonly style="border:none; overflow:hidden; width:100%; height:100%; resize: none;" innerHTML="{{_publicacion.Descripcion}}"></textarea> -->
                             {{_publicacion.Descripcion}}
                         </h6>
                     </div>
@@ -464,7 +549,7 @@
 
         </div>
         <div class="col-md-3">
-                <div class="sticky-md-top text-primary" style="top:70px; left:1000px">
+                <div class="sticky-md-top text-primary" style="top:10px; left:1000px">
                     <div class="text-primary text-end" style="top:50px; left:1000px">
                         <ul >
                             <li>
@@ -485,7 +570,7 @@
                                 <li>
                                     <div class="row px-3">
                                         <button type="button" class="btn btn-outline-primary br10" style="border:none;" (click)="seleccionCompartir(2);" [disabled]="_loading">
-                                            <img src = 'https://i.ibb.co/JxJxf98/0bfa92d4fdab.png' width="25px" height="25px" >
+                                            <img src='/assets/Imagenes_Inicio/facebook.png' width="25px" height="25px" >
                                             <span class="text-start px-1">Facebook</span>
                                         </button>
                                     </div>
@@ -500,7 +585,7 @@
                                 <li>
                                     <div class="row px-3">
                                         <button type="button" class="btn btn-outline-primary br10" style="border:none;" (click)="seleccionCompartir(3)" [disabled]="_loading">
-                                            <img src = 'https://i.ibb.co/TMVN6Fj/0d68d8bb2877.png' width="25px" height="25px" >
+                                            <img src = '/assets/Imagenes_Inicio/whatsapp.png' width="25px" height="25px" >
                                             <span class="text-start px-1">WhatssApp</span>
                                         </button>
                                     </div>
@@ -549,6 +634,7 @@
                                    class="col-sm-3 col-form-label text-end">Teléfono</label>
                             <div class="col-sm-8 px-0">
                                 <input  type="number" 
+                                        onkeypress="if(this.value.length==10) return false;"
                                         class="form-control text-primary color-text-box" 
                                         placeholder="Teléfono"
                                         formControlName="telefono"
@@ -620,7 +706,7 @@
                         </div>
                         <div class="row mb-2 br25 text-center">
                             <div class="col-md-12 text-center d-grid">
-                                <span class="text-primary" style="font-size: 10px;">Al hacer clic en <strong>Enviar</strong> aceptas nuestros <a href="/legal/terminosycondicionesdeuso">Terminos, condiciones y politicas de privacidad.</a></span>
+                                <span class="text-primary" style="font-size: 10px;">Al hacer clic en <strong>Enviar</strong> aceptas nuestros <a href="/legal/terminosycondicionesdeuso" target="_blank">Terminos, condiciones y politicas de privacidad.</a></span>
                             </div>
                         </div>
                     </form>
@@ -629,13 +715,15 @@
                         <div class="col py-2">
                             <div class="row row-cols-2">
                                 <div class=" col-auto text-start mb-2 px-2">
-                                    <a (click)="abrirPaginaCliente()" class="text-truncate" style="cursor:pointer;">
-                                        <img class="text-primary br25" style="border:1px solid;" [src]="_clienteVista.UrlFotoPerfil" width="30px" height="30px" alt="fotoPerfil" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';">
+                                    <a [href]="'inmobiliaria/propiedades/' + (_clienteVista.Nombre + '-' + _clienteVista.Apellidos ).replaceAll(' ','-') + '-' + _clienteVista.Id_Cliente" target="_blank"
+                                       class="text-truncate" style="cursor:pointer;">
+                                       <img class="text-primary br25" [src]="_clienteVista.UrlFotoPerfil" width="30px" height="30px" alt="fotoPerfil" onerror="this.src='/assets/Imagenes_Inicio/FotoPerfil.png';">
                                     </a>
                                 </div>
                                 <div class="text-start mb-2 p-0">
-                                    <a (click)="abrirPaginaCliente()" class="text-truncate" style="cursor:pointer;">
-                                        <label class="text-primary text-truncate px-1" style="max-width:250px; cursor:pointer;">{{_clienteVista.Nombre}} {{_clienteVista.Apellidos}}</label><br>
+                                    <a [href]="'inmobiliaria/propiedades/' + (_clienteVista.Nombre + '-' + _clienteVista.Apellidos ).replaceAll(' ','-') + '-' + this._clienteVista.Id_Cliente" target="_blank"
+                                       class="text-truncate" style="cursor:pointer;">
+                                       <label class="text-primary text-truncate px-1" style="max-width:250px; cursor:pointer;">{{_clienteVista.Nombre}} {{_clienteVista.Apellidos}}</label><br>
                                     </a>
                                 </div>
                             </div>
@@ -822,7 +910,7 @@
                             class="col-sm-3 col-form-label text-primary text-end">Teléfono</label>
                     <div class="col-sm-8 px-0">
                         <input  type="number"
-                                maxlength="10"
+                                onkeypress="if(this.value.length==10) return false;"
                                 class="form-control text-primary color-text-box" 
                                 placeholder="Teléfono"
                                 formControlName="telefonoDU"
@@ -854,7 +942,7 @@
                 </div>
                 <div class="row mb-2 br25 text-center">
                     <div class="col-md-12 text-center d-grid">
-                        <span class="text-primary" style="font-size: 10px;">Al hacer clic en <strong>{{_textoInformacionMuestra}}</strong> aceptas nuestros <a href="/legal/terminosycondicionesdeuso">Terminos, condiciones y politicas de privacidad.</a></span>
+                        <span class="text-primary" style="font-size: 10px;">Al hacer clic en <strong>{{_textoInformacionMuestra}}</strong> aceptas nuestros <a href="/legal/terminosycondicionesdeuso" target="_blank">Terminos, condiciones y politicas de privacidad.</a></span>
                     </div>
                 </div>
             </form>
@@ -954,12 +1042,12 @@
                             </div>
 
                         </div>
-                        <button class="carousel-control-prev" type="button" style="height: 30px; width:40px; top: 45%; left:2%;" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                          <span class="carousel-control-prev-icon bg-color-2 br25" aria-hidden="true"></span>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                            <span><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
                           <span class="visually-hidden">Anterior</span>
                         </button>
-                        <button class="carousel-control-next" type="button" style="height: 30px; width:40px; top: 45%; right:2%;" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                          <span class="carousel-control-next-icon bg-color-2 br25" aria-hidden="true"></span>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                            <span><i class="fa fa-arrow-right" aria-hidden="true"></i></span>
                           <span class="visually-hidden">Siguiente</span>
                         </button>
                     </div>

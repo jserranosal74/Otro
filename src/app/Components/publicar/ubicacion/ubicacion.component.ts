@@ -24,12 +24,12 @@ export class UbicacionComponent implements OnInit {
   _estados: estado[] = [];
   _municipios : municipio[] = [];
   _asentamientos : asentamiento[] = [];
-  _asentamiento : asentamiento = new asentamiento(0,0,0,0,'','',0,0,new Date(), new Date(), 0, 0);
+  _asentamiento : asentamiento = new asentamiento(0,0,0,0,'','','',0,0,new Date(), new Date(), 0, 0, false);
   _estadoSeleccionado : number = 0;
   _municipioSeleccionado : number = 0;
   _asentamientoSeleccionado : number = 0;
   _numeroPaso = 1;
-  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0,0);
+  _publicacion: publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',null,null,0);
   _id_publicacion : number = 0;
   _mostrarUbicacionExacta : boolean =false;
 
@@ -71,7 +71,7 @@ export class UbicacionComponent implements OnInit {
   }
 
   obtenerEstados(){
-    //console.log('obtenerEstados' + this.loading);
+    debugger;
     this._estadoService.getEstados(1).subscribe((data) => {
       this._estados = data;
       this._loading = false;
@@ -82,7 +82,7 @@ export class UbicacionComponent implements OnInit {
   }
   
   obtenerMunicipios(Id_Estado : number, Id_Municipio : number){
-    // console.log('cargando municipios: ' + Id_Estado);
+    debugger;
 
     if (Id_Estado == 0){
       this._municipioService.getMunicipios(this.formaUbicacion.controls['estado'].value).subscribe((data) => {
@@ -100,7 +100,7 @@ export class UbicacionComponent implements OnInit {
   }
 
   obtenerAsentamientos(Id_Estado : number, Id_Municipio : number){
-    //console.log(this.loading);
+    debugger;
     if (Id_Municipio == 0){
       this._asentamientosService.getAsentamientos(this.formaUbicacion.controls['estado'].value, this.formaUbicacion.controls['municipio'].value).subscribe((data) => {
         this._asentamientos = data;
@@ -121,21 +121,23 @@ export class UbicacionComponent implements OnInit {
   }
 
   obtenerAsentamiento(objPublicacion : publicacion){
-    //console.log(this.loading);
+    debugger;
 
-    this._asentamientosService.getAsentamiento(objPublicacion.Id_Asentamiento!).subscribe((data) => {
-      this._asentamiento = data;
-
-      this.estadoSeleccionado(data.Id_Estado, data.Id_Municipio);
-      
-      this.formaUbicacion.patchValue({
-        estado : data.Id_Estado,
-        municipio : data.Id_Municipio,
-        asentamiento : data.Id_Asentamiento,
-        calleynumero : objPublicacion.Direccion
-      })
-      
-    });
+    if (objPublicacion.Id_Asentamiento != null){
+      this._asentamientosService.getAsentamiento(objPublicacion.Id_Asentamiento!).subscribe((data) => {
+        this._asentamiento = data;
+  
+        this.estadoSeleccionado(data.Id_Estado, data.Id_Municipio);
+        
+        this.formaUbicacion.patchValue({
+          estado : data.Id_Estado,
+          municipio : data.Id_Municipio,
+          asentamiento : data.Id_Asentamiento,
+          calleynumero : objPublicacion.Direccion
+        })
+        
+      });
+    }
 
   }
 
@@ -329,7 +331,7 @@ crearFormulario() {
   }
 
   buscarAsentamientos(){
-
+debugger;
     if (this.formaUbicacion.invalid) {
       return Object.values(this.formaUbicacion.controls).forEach((control) => {
         if (control instanceof FormGroup) {

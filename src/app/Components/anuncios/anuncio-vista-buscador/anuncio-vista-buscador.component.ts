@@ -36,7 +36,7 @@ export class AnuncioVistaBuscadorComponent implements OnInit {
     this._seAgregaFavorito.emit(this._publicacionCliente);
   }
 
-  seAbreVistaPropiedad(){
+  abrirVistaPropiedad(){
     window.open('propiedad/' + (this._publicacionCliente.TituloPublicacion)?.replaceAll(' ','-') + '-' + this._publicacionCliente.Id_Publicacion);
   }
 

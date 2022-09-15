@@ -1,36 +1,37 @@
-<div class="">
+<div class="container p-0">
     <div class="row">
-        <div class="col-md-12">
-            <div class="well well-sm">
-                <form class="form-horizontal">
-                    <fieldset>
-                        <legend class="text-center text-primary mb-3"><h1 class="display-4" style="text-shadow: 3px 3px 7px black;">Mis datos fiscales</h1></legend>
-                        <div class="form-group row mb-3 px-2">
-                            <div class="col-md-1 px-0">
-                                <a class="btn btn-primary btn-sm" style="border-radius:25px;" (click)="limpiarFormulario()" data-bs-toggle="modal" data-bs-target="#gridAgregarDatosFiscales" >
-                                  <span class="col-md-1 col-md-offset-2 text-center">
-                                  <i class="fa fa-add bigicon" aria-hidden="true"> </i>
-                              </span></a>
-                            </div>
-                            <div class="col-md-8 px-0"></div>
-                            <div class="col-md-3 p-0 text-end">
-                            </div>
-                        </div>
 
-                        <div class="row">
+      <legend class="text-center text-primary mb-3"><h1 class="display-4" style="text-shadow: 3px 3px 7px black;">Mis datos fiscales</h1></legend>
 
-                            <div class="card-group justify-content-center">
-                              <div class="form-group row mb-3" *ngFor="let datoFiscal of _datosFiscales">
-                                    <app-tarjetadatofiscal class="row px-4 gy-2" (_sePresionaEliminar)="eliminarDatosFiscales(datoFiscal)" (_sePresionaEditar)="obtenerDatoFiscal(datoFiscal)" (_sePresionaPredeterminado)="actualizarPredeterminado(datoFiscal)" [_datoFiscal]="datoFiscal" [_origen]="'MisDatosFiscales'"></app-tarjetadatofiscal>
-                              </div>
-                            </div>
-
-                        </div>
-
-                    </fieldset>
-                </form>
+      <div *ngIf="!_cargandoInformacion">
+        <div class="form-group row mb-3 px-2">
+            <div class="col-md-1 px-0">
+                <a class="btn btn-primary btn-sm" style="border-radius:25px;" (click)="limpiarFormulario()" data-bs-toggle="modal" data-bs-target="#gridAgregarDatosFiscales" >
+                  <span class="col-md-1 col-md-offset-2 text-center">
+                  <i class="fa fa-add bigicon" aria-hidden="true"> </i>
+              </span></a>
+            </div>
+            <div class="col-md-8 px-0"></div>
+            <div class="col-md-3 p-0 text-end">
+              <label class="text-primary text-end px-3">Total de datos fiscales: {{_datosFiscales.length}}</label>
             </div>
         </div>
+
+        <div class="row">
+
+            <div class="card-group justify-content-center">
+              <div class="form-group row mb-3" *ngFor="let datoFiscal of _datosFiscales">
+                    <app-tarjetadatofiscal class="row px-4 gy-2" (_sePresionaEliminar)="eliminarDatosFiscales(datoFiscal)" (_sePresionaEditar)="obtenerDatoFiscal(datoFiscal)" (_sePresionaPredeterminado)="actualizarPredeterminado(datoFiscal)" [_datoFiscal]="datoFiscal" [_origen]="'MisDatosFiscales'"></app-tarjetadatofiscal>
+              </div>
+            </div>
+
+        </div>
+      </div>
+
+      <div *ngIf="_cargandoInformacion">
+        <app-loading [_textoLoading]="'Cargando tus datos fiscales...'"></app-loading>
+      </div>
+
     </div>
 </div>
 
@@ -59,6 +60,7 @@
                                             aria-label="Default select example"
                                             name="tipopersona"
                                             formControlName="tipopersona"
+                                            (change)="establecerRFC()"
                                             [class.is-invalid]="tipopersonaNoValido">
                                       <option value="" selected disabled>Seleccione...</option>
                                       <option *ngFor="let tipopersona of _tiposPersonas" [value]="tipopersona.Id_TipoPersona">{{ tipopersona.Descripcion }}
@@ -111,14 +113,14 @@
                                     <div class="col-md-7">
                                         <input formControlName="codigopostal" 
                                                type="text" 
-                                               maxlength="10"
+                                               maxlength="5"
                                                placeholder="Código Postal" 
                                                [class.is-invalid]="codigopostalNoValido" 
                                                class="form-control text-primary color-text-box">
                                     </div>
                                     <div class="col-auto px-0">
                                         <small *ngIf="codigopostalNoValido" class="text-danger">
-                                          Codigo postal requerido
+                                          Código postal requerido
                                         </small>
                                     </div>
                                 </div>
@@ -135,7 +137,7 @@
                                     </div>
                                     <div class="col-auto px-0">
                                         <small *ngIf="correoNoValido" class="text-danger">
-                                          Correo no valido
+                                          Correo no válido
                                         </small>
                                     </div>
                                 </div>
@@ -145,14 +147,15 @@
                                     <div class="col-md-7">
                                         <input formControlName="rfc" 
                                                type="text" 
-                                               maxlength="15"
+                                               [attr.maxLength]="_tamanioRFC"
                                                [class.is-invalid]="rfcNoValido"
-                                               placeholder="RFC" 
+                                               placeholder="RFC"
+                                               style="text-transform: uppercase;"
                                                class="form-control text-primary color-text-box">
                                     </div>
                                     <div class="col-auto px-0">
                                         <small *ngIf="rfcNoValido" class="text-danger">
-                                          RFC no valido
+                                          RFC no válido
                                         </small>
                                     </div>
                                 </div>
@@ -170,4 +173,4 @@
         </div>
       </div>
     </div>
-  </div>
+</div>

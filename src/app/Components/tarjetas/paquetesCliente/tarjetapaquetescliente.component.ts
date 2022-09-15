@@ -16,6 +16,7 @@ export class TarjetaPaquetesClienteComponent implements OnInit {
   @Input() _paqueteCliente! : paqueteCliente;
   @Input() _tipoTarjeta : string = '';
   @Input() _enviando : boolean = false;
+  @Input() _esDesarrollo : boolean = false;
 
   @Output() _seEligePaqueteCliente = new EventEmitter<boolean>();
   @Output() _seEligePlanPaqueteCliente = new EventEmitter<planClienteDetalle>();
@@ -26,6 +27,7 @@ export class TarjetaPaquetesClienteComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log('el paquete',this._paqueteCliente);
   }
 
   elegirPlanCliente(objPlanPaquete : planClienteDetalle){

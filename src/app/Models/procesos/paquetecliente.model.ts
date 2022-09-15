@@ -1,5 +1,6 @@
 export class paqueteCliente {
     constructor(
+      public Id_PaqueteCliente  : number | null,
       public Id_Paquete         : number | null,
       public Id_Cliente         : number,
       public UID_Cliente        : string | null,

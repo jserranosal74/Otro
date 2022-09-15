@@ -53,7 +53,7 @@
 </script>
 
 <!-- ============= COMPONENT ============== -->
-<nav class="navbar navbar-expand-lg fixed-top" style="background-image: linear-gradient(to right, #ffc3d4,#c3365e); box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
+<nav class="navbar navbar-expand-lg" style="background-image: linear-gradient(to right, #ffc3d4,#c3365e); box-shadow: 2px 6px 8px 0 rgb(22 22 26 / 50%); z-index:1050;">
   <div class="container-fluid">
     <a class="navbar-brand p-0" routerLink="">
       <img src="/assets/logoMeza/Logo_IMZ_1.png" width="80px" height="45px" />
@@ -81,17 +81,14 @@
                     <div class="col-megamenu">
                       <h4 class="text-light">Estado</h4>
                       <ul class="list-unstyled">
-                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Ciudad de México</a></li>
-                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Estado de México</a></li>
-                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Jalisco</a></li>
-                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Querétaro</a></li>
-                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Guanajuato</a></li>
-                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Nuevo Léon</a></li>
-                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Yucatán</a></li>
-                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Veracruz</a></li>
-                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Puebla</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="/inmuebles-en-venta-en-el-estado-de-ciudad-de-mexico">Ciudad de México</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="/inmuebles-en-venta-en-el-estado-de-estado-de-mexico">Estado de México</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="/inmuebles-en-venta-en-el-estado-de-jalisco">Jalisco</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="/inmuebles-en-venta-en-el-estado-de-queretaro">Querétaro</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="/inmuebles-en-venta-en-el-estado-de-guanajuato">Guanajuato</a></li>
+                        <li class="py-1"><a class="text-light text-decoration-none selector" href="/inmuebles-en-venta-en-el-estado-de-nuevo-leon">Nuevo Léon</a></li>
                       </ul>
-                    </div>  <!-- col-megamenu.// -->
+                    </div> 
                   </div>
                   <div class="col-lg-3 col-6 text-center">
                     <div class="col-megamenu">
@@ -101,7 +98,7 @@
                           <a class="text-light text-decoration-none selector" href="{{item.Descripcion2}}-en-venta">{{item.Descripcion}}</a>
                         </li>
                       </ul>
-                    </div>  <!-- col-megamenu.// -->
+                    </div> 
                   </div>
                   <div class="col-lg-2 col-6 text-center">
                     <div class="col-megamenu">
@@ -113,9 +110,9 @@
                         <li class="py-1"><a class="text-light text-decoration-none selector" href="#">4 recámaras</a></li>
                         <li class="py-1"><a class="text-light text-decoration-none selector" href="#">5 o más recámaras</a></li>
                       </ul>
-                    </div>  <!-- col-megamenu.// -->
+                    </div> 
                   </div>    
-                  <div class="col-lg-3 col-6 text-center">
+                  <!-- <div class="col-lg-3 col-6 text-center">
                     <div class="col-megamenu">
                       <h4 class="text-light">Caracteristicas</h4>
                       <ul class="list-unstyled">
@@ -129,41 +126,47 @@
                         <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Mascotas</a></li>
                         <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Alberca</a></li>
                       </ul>
-                    </div>  <!-- col-megamenu.// -->
-                  </div>
-                  <div class="col-lg-2 col-6 text-center">
+                    </div>
+                  </div> -->
+                  <div class="col-lg-5 col-6 text-center">
                     <div class="col-megamenu">
-                      <h4 class="text-light">Ayuda</h4>
-                      <ul class="list-unstyled">
-                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
-                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
-                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
-                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
-                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
-                        <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
-                      </ul>
-                    </div>  <!-- col-megamenu.// -->
+                      <h4 class="text-light">Características</h4>
+                    </div>
+                    <div class="col-megamenu">
+                      <div class="row">
+                        <ul class="col list-unstyled">
+                          <li class="py-1"><a class="text-light text-decoration-none selector" href="#">1 o más baños</a></li>
+                          <li class="py-1"><a class="text-light text-decoration-none selector" href="#">2 o más baños</a></li>
+                          <li class="py-1"><a class="text-light text-decoration-none selector" href="#">1 o más estacionamientos</a></li>
+                          <li class="py-1"><a class="text-light text-decoration-none selector" href="#">2 o más estacionamientos</a></li>
+                          <li class="py-1"><a class="text-light text-decoration-none selector" href="#">A estrenar</a></li>
+                        </ul>
+                        <ul class="col list-unstyled">
+                          <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Hasta 5 años</a></li>
+                          <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Seguridad privada</a></li>
+                          <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Mascotas</a></li>
+                          <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Alberca</a></li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </li>
         <li class="nav-item dropdown has-megamenu">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" style="color:black;">Rentar</a>
+          <a class="nav-link dropdown-toggle mb-2" href="#" data-bs-toggle="dropdown" style="color:black;">Rentar</a>
           <div class="dropdown-menu megamenu bg-color-8" style="border-radius: 0px 0px 15px 15px;" role="menu">
             <div class="row g-3">
               <div class="col-lg-2 col-6 text-center">
                 <div class="col-megamenu">
                   <h4 class="text-light">Estado</h4>
                   <ul class="list-unstyled">
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Ciudad de México</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Estado de México</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Jalisco</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Querétaro</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Guanajuato</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Nuevo Léon</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Yucatán</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Veracruz</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Puebla</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="/inmuebles-en-renta-en-el-estado-de-ciudad-de-mexico">Ciudad de México</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="/inmuebles-en-renta-en-el-estado-de-estado-de-mexico">Estado de México</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="/inmuebles-en-renta-en-el-estado-de-jalisco">Jalisco</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="/inmuebles-en-renta-en-el-estado-de-queretaro">Querétaro</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="/inmuebles-en-renta-en-el-estado-de-guanajuato">Guanajuato</a></li>
+                    <li class="py-1"><a class="text-light text-decoration-none selector" href="/inmuebles-en-renta-en-el-estado-de-nuevo-leon">Nuevo Léon</a></li>
                   </ul>
                 </div>
               </div>
@@ -187,36 +190,29 @@
                     <li class="py-1"><a class="text-light text-decoration-none selector" href="#">4 recámaras</a></li>
                     <li class="py-1"><a class="text-light text-decoration-none selector" href="#">5 o más recámaras</a></li>
                   </ul>
-                </div>  <!-- col-megamenu.// -->
+                </div>  
               </div>    
-              <div class="col-lg-3 col-6 text-center">
+              <div class="col-lg-5 col-6 text-center">
                 <div class="col-megamenu">
-                  <h4 class="text-light">Caracteristicas</h4>
-                  <ul class="list-unstyled">
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">1 o más baños</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">2 o más baños</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">1 o más estacionamientos</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">2 o más estacionamientos</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Seguridad privada</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Aire acondicionado</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Amueblado</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Mascotas</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Alberca</a></li>
-                  </ul>
-                </div>  <!-- col-megamenu.// -->
-              </div>
-              <div class="col-lg-2 col-6 text-center">
+                  <h4 class="text-light">Características</h4>
+                </div>
                 <div class="col-megamenu">
-                  <h4 class="text-light">Ayuda</h4>
-                  <ul class="list-unstyled">
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
-                    <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Custom Menu</a></li>
-                  </ul>
-                </div>  <!-- col-megamenu.// -->
+                  <div class="row">
+                    <ul class="col list-unstyled">
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">1 o más baños</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">2 o más baños</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">1 o más estacionamientos</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">2 o más estacionamientos</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Seguridad privada</a></li>
+                    </ul>
+                    <ul class="col list-unstyled">
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Aire acondicionado</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Amueblado</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Mascotas</a></li>
+                      <li class="py-1"><a class="text-light text-decoration-none selector" href="#">Alberca</a></li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -336,15 +332,23 @@
                           <span style="padding: 10px;"> Características</span></a>
                       </li>
                       <li class="py-1">
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'clientes']"><i class="fa-solid fa-house-chimney-window"></i>
+                          <span style="padding: 10px;">Clientes</span></a>
+                      </li>
+                      <li class="py-1">
                         <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'empresas']"><i class="fa-solid fa-house-chimney-window"></i>
                           <span style="padding: 10px;">Empresas</span></a>
                       </li>
                       <li class="py-1">
-                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'indicadores']"><i class="fa-solid fa-house-chimney-window"></i>
-                          <span style="padding: 10px;">Indicadores</span></a>
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'facturacion-externa']"><i class="fa-solid fa-house-chimney-window"></i>
+                          <span style="padding: 10px;">Facturación externa</span></a>
                       </li>
                     </ul>
                     <ul class="col-lg-4 list-unstyled">
+                      <li class="py-1">
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'indicadores']"><i class="fa-solid fa-house-chimney-window"></i>
+                          <span style="padding: 10px;">Indicadores</span></a>
+                      </li>
                       <li class="py-1">
                         <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'medioscontacto']"><i class="fa-solid fa-building"></i>
                           <span style="padding: 10px;"> Medios de contacto</span></a>
@@ -367,6 +371,10 @@
                       </li>
                     </ul>
                     <ul class="col-lg-4 list-unstyled">
+                      <li class="py-1">
+                        <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'productosexternos']"><i class="fa-solid fa-house-chimney-window"></i>
+                          <span style="padding: 10px;">Productos externos</span></a>
+                      </li>
                       <li class="py-1">
                         <a class="text-light text-decoration-none selector" [routerLink]="['catalogos', 'tipospropiedad']"><i class="fa-solid fa-house-chimney-window"></i>
                           <span style="padding: 10px;">Tipos de propiedad</span></a>
@@ -500,7 +508,7 @@
           <li class="nav-item">
             <a class="btn btn-link" 
                style="border:none; box-shadow: none;"
-               href="usuario/iniciarsesion">
+               href="inmobiliaria/iniciarsesion">
                <i class="fa-solid fa-arrow-right-to-bracket medicon"></i>
             </a>
           </li>

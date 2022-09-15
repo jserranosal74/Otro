@@ -111,7 +111,7 @@ export class RestablecerpasswordComponent implements OnInit {
             showDenyButton: false,
           });
 
-          this.router.navigateByUrl('/usuario/iniciarsesion');
+          this.router.navigateByUrl('/inmobiliaria/iniciarsesion');
           
         },
         (error: HttpErrorResponse) => {

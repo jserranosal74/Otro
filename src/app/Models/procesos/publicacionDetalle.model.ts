@@ -21,6 +21,7 @@ export class publicacionDetalle {
       public DescripcionTO            : string | null,
       public TituloPublicacion        : string | null,
       public PrecioDesde              : number | null,
+      public PrecioDescuento          : number | null,
       public PrecioNegociable         : number | null,
       public RecamarasDesde           : number | null,
       public BaniosCompDesde          : number | null,

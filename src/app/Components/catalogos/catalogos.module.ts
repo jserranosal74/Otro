@@ -25,30 +25,34 @@ import { TarjetasModule } from '../tarjetas/tarjetas.module';
 import { PaquetesComponent } from './paquetes/paquetes.component';
 import { ArchivosFiscalesComponent } from './archivosfiscales/archivosfiscales.component';
 import { IndicadoresComponent } from './indicadores/indicadores.component';
+import { ProductosExternosComponent } from './productosexternos/productosexternos.component';
+import { FacturacionExternaComponent } from './facturacionexterna/facturacionexterna.component';
 
 @NgModule({
   declarations: [
-    MedioscontactoComponent,
-    TiposasentaientoComponent,
     AmenidadesComponent,
-    MunicipiosComponent,
-    EstadosComponent,
+    ArchivosFiscalesComponent,
     AsentamientosComponent,
-    PlanesComponent,
+    BancosComponent,
+    CaracteristicasComponent,
     ClientesComponent,
+    EmpresasComponent,
+    EstadosComponent,
+    FacturacionExternaComponent,
+    IndicadoresComponent,
+    MedioscontactoComponent,
+    MunicipiosComponent,
+    PaquetesComponent,
+    PlanesComponent,
+    ProductosExternosComponent,
+    SubtipospropiedadComponent,
+    TipoCaracteristicaPipe,
+    TipofotoComponent,
     TipooperacionComponent,
     TipopersonaComponent,
     TipopropiedadComponent,
-    TipofotoComponent,
-    SubtipospropiedadComponent,
-    EmpresasComponent,
-    CaracteristicasComponent,
-    TipoCaracteristicaPipe,
-    UsuariosempresaComponent,
-    BancosComponent,
-    PaquetesComponent,
-    ArchivosFiscalesComponent,
-    IndicadoresComponent
+    TiposasentaientoComponent,
+    UsuariosempresaComponent
   ],
   imports: [
     CommonModule,
@@ -58,27 +62,29 @@ import { IndicadoresComponent } from './indicadores/indicadores.component';
     TarjetasModule
   ],
   exports: [
-    MedioscontactoComponent,
-    TiposasentaientoComponent,
     AmenidadesComponent,
-    MunicipiosComponent,
-    EstadosComponent,
+    ArchivosFiscalesComponent,
     AsentamientosComponent,
-    PlanesComponent,
+    BancosComponent,
+    CaracteristicasComponent,
     ClientesComponent,
+    EmpresasComponent,
+    EstadosComponent,
+    FacturacionExternaComponent,
+    IndicadoresComponent,
+    MedioscontactoComponent,
+    MunicipiosComponent,
+    PaquetesComponent,
+    PlanesComponent,
+    ProductosExternosComponent,
+    SubtipospropiedadComponent,
+    TipoCaracteristicaPipe,
+    TipofotoComponent,
     TipooperacionComponent,
     TipopersonaComponent,
     TipopropiedadComponent,
-    TipofotoComponent,
-    SubtipospropiedadComponent,
-    EmpresasComponent,
-    CaracteristicasComponent,
-    TipoCaracteristicaPipe,
-    UsuariosempresaComponent,
-    BancosComponent,
-    PaquetesComponent,
-    ArchivosFiscalesComponent,
-    IndicadoresComponent
+    TiposasentaientoComponent,
+    UsuariosempresaComponent
   ]
 })
 

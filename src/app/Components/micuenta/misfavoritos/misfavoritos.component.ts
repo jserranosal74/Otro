@@ -1,6 +1,7 @@
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 
 import { pagina, paginadoDetalle } from 'src/app/Models/catalogos/asentamiento.model';
 import { LoginService } from '../../../Services/Catalogos/login.service';
@@ -15,6 +16,7 @@ import { favoritoCliente } from '../../../Models/procesos/favoritoCliente.model'
 export class MisFavoritosComponent implements OnInit {
   _favoritosCliente : favoritoCliente[] = [];
   //_mostrarFiltros : boolean = sessionStorage.getItem('mf') === '1'? true : false;
+  _cargandoInformacion : boolean = false;
 
   _paginadoDetalle : paginadoDetalle = new paginadoDetalle(0,0);
   _paginas: pagina[] = [];
@@ -30,7 +32,7 @@ export class MisFavoritosComponent implements OnInit {
                 private _favoritosClienteServide : FavoritosClienteService,
                 private _loginService : LoginService
   ) {
-
+    this._cargandoInformacion = true;
     this.obtenerMisFavoritos();
     //this._mostrarFiltros = sessionStorage.getItem('mf') === '1'? true : false;
   }
@@ -43,44 +45,65 @@ export class MisFavoritosComponent implements OnInit {
   }
 
   obtenerMisFavoritos(){
+    //debugger;
     this._favoritosClienteServide.getFavoritosCliente(this._loginService.obtenerIdCliente()!,0,10).subscribe(
       (data) => {
-        //Next callback
 
-        this._favoritosCliente = data;
+        if (data === null){
+          this._favoritosCliente = [];
+          this._paginadoDetalle = new paginadoDetalle(0,0);
+          this._seRealizaBusqueda = false;
+          this._cargandoInformacion = false;
+        } else {
 
-        if (data.length > 0) {
-          this._seRealizaBusqueda = true;
-        }
+          this._favoritosCliente = data;
 
-        // Se obtiene el numero de paginas totales y el numero de renglones(registros) en total de la busqueda
-        this._favoritosClienteServide.getFavoritosClienteResumen(this._loginService.obtenerIdCliente()!, 10).subscribe(
-          (data) => {
-            //Next callback
-            //console.log('getFavoritosClienteResumen', data);
-            this._paginadoDetalle = data;
-
-            this.CargarPaginador(0);
-    
-          },
-          (error: HttpErrorResponse) => {
-            
-            switch (error.status) {
-              case 401:
-                break;
-              case 403:
-                break;
-              case 404:
-                break;
-              case 409:
-                break;
-            }
+          if (data.length > 0) {
+            this._seRealizaBusqueda = true;
           }
-        );
+
+          // Se obtiene el numero de paginas totales y el numero de renglones(registros) en total de la busqueda
+          this._favoritosClienteServide.getFavoritosClienteResumen(this._loginService.obtenerIdCliente()!, 10).subscribe(
+            (data) => {
+              //Next callback
+              //console.log('getFavoritosClienteResumen', data);
+              this._paginadoDetalle = data;
+
+              this.CargarPaginador(0);
+
+              this._cargandoInformacion = false;
+      
+            },
+            (error: HttpErrorResponse) => {
+
+              this._cargandoInformacion = false;
+              
+              switch (error.status) {
+                case 401:
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Acceso no autorizado',
+                    text: 'debera autenticarse',
+                    showCancelButton: false,
+                    showDenyButton: false,
+                  });
+                  this._loginService.cerarSesion();
+                  break;
+                case 403:
+                  break;
+                case 404:
+                  break;
+                case 409:
+                  break;
+              }
+            }
+          );
+
+        }
 
       },
       (error: HttpErrorResponse) => {
-        //Error callback
+        this._cargandoInformacion = false;
         
         switch (error.status) {
           case 401:

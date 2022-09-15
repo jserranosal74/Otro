@@ -1,6 +1,8 @@
+<div id="fb-root"></div>
+
 <div class="container-fluid">
     <legend class="text-center text-primary mb-3">
-        <img height="100px" [src]="_clienteVista.UrlFotoPerfil" style="border-radius: 15px; max-width:fit-content;" alt="Foto perfil" onerror="this.src='https://i.ibb.co/7V042L1/7da75c370bc9.png';">
+        <img height="100px" [src]="_clienteVista.UrlFotoPerfil" style="border-radius: 15px; max-width:fit-content;" alt="Foto perfil" onerror="this.src='/assets/Imagenes_Inicio/FotoPerfil.png';">
         <label class="text-primary text-center px-2">{{_clienteVista.Nombre}} {{_clienteVista.Apellidos}}</label>
     </legend>
     
@@ -52,8 +54,9 @@
         </div>
         <div class="modal-body py-2 px-0">
           <div class="container">
-            <form [formGroup]="formIniciarsesion" autocomplete="on">
+            <form [formGroup]="formIniciarsesion" autocomplete="on" onsubmit="iniciarSesion()">
                 <fieldset>
+
                   <div class="form-group row py-3">
                     <label class="col-md-4 col-form-label text-primary text-end">Correo electrónico</label>
                     <div class="col-md-6 col-10 p-0">
@@ -98,16 +101,70 @@
                       </small>
                     </div>
                   </div>
-              
-                  <div class="text-center p-3">
-                    <a class="text-danger" href="/login">¿No tienes cuenta? Registrate aqui.</a>
-                  </div>
-                  <div class="text-center p-3">
-                    <a class="text-success" href="/recuperarpassword">¿Olvidaste tu contraseña? / Recuperar contraseña</a>
-                  </div>
                   
                 </fieldset>
               </form>
+
+
+              <div class="form-group row py-3">
+                <div class="col-md-3"></div>
+                <div class="col-md-5">
+                    <div id="g_id_onload"
+                        data-client_id="871188979190-53oa9ctrooeiv32eslaocarmn1rnif8a.apps.googleusercontent.com"
+                        data-context="signin"
+                        data-ux_mode="popup"
+                        [attr.data-login_uri]="_direccionPagina"
+                        data-auto_prompt="false">
+                    </div>
+        
+                    <div *ngIf="!_modoObscuro">
+                        <div class="g_id_signin"
+                            data-type="standard"
+                            data-shape="pill"
+                            data-theme="outline"
+                            data-text="$ {button.text}"
+                            data-size="large"
+                            data-logo_alignment="left">
+                        </div>
+                    </div>
+        
+                    <div *ngIf="_modoObscuro">
+                        <div class="g_id_signin"
+                            data-type="standard"
+                            data-shape="pill"
+                            data-theme="filled_blue"
+                            data-text="$ {button.text}"
+                            data-size="large"
+                            data-logo_alignment="left">
+                        </div> 
+                    </div>
+
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+  
+            <div class="form-group row py-3 text-center">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <button type="submit" style="background-color:#1877f2; border: none;"
+                            (click)="iniciarSesionFacebook()"
+                            tabindex="-1"
+                            class="btn btn-primary btn-md br25">
+                            <span><i class="fa-brands fa-facebook"></i>&nbsp;&nbsp;&nbsp;Iniciar con Facebook&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    </button>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+  
+      
+          <div class="text-center p-3">
+            <a class="text-danger" href="/login">¿No tienes cuenta? Registrate aqui.</a>
+          </div>
+          <div class="text-center p-3">
+            <a class="text-success" href="/recuperarpassword">¿Olvidaste tu contraseña? / Recuperar contraseña</a>
+          </div>
+
+
           </div>
         </div>
         <div class="modal-footer">
@@ -118,7 +175,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="modalDatosUsuarios" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+<div class="modal fade" id="modalDatosUsuarios" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-md">
       <div class="modal-content color-modal">
         <div class="modal-header">
@@ -130,11 +187,11 @@
             <form [formGroup]="formaMensajeVendedor" autocomplete="off" class="br15 bg-color-rt px-3 py-1">
                 <div class="row mb-2 br25" >
 
-                    <label for="nombreContacto" 
+                    <label for="nombreContacto"
                            class="col-sm-3 col-form-label text-primary text-end">Nombre</label>
                     <div class="col-sm-8 px-0">
                         <input  type="text" autocomplete="off"
-                                class="form-control text-primary color-text-box" 
+                                class="form-control text-primary color-text-box"
                                 placeholder="Nombre"
                                 [class.is-invalid]="nombreDUNoValido"
                                 formControlName="nombreDU"
@@ -148,11 +205,11 @@
                 </div>
 
                 <div class="row mb-2 br25">
-                    <label for="telefonoContacto" 
+                    <label for="telefonoContacto"
                            class="col-sm-3 col-form-label text-primary text-end">Teléfono</label>
                     <div class="col-sm-8 px-0">
-                        <input  type="number" 
-                                class="form-control text-primary color-text-box" 
+                        <input  type="number"
+                                class="form-control text-primary color-text-box"
                                 placeholder="Teléfono"
                                 formControlName="telefonoDU"
                                 [class.is-invalid]="telefonoDUNoValido"
@@ -166,12 +223,14 @@
                 </div>
 
                 <div class="row mb-2 br25">
-                    <label for="emailContacto" 
+                    <label for="emailContacto"
                            class="col-sm-3 col-form-label text-primary text-end">Email</label>
                     <div class="col-sm-8 px-0">
                         <input  type="text"
-                                class="form-control text-primary color-text-box" 
+                                class="form-control text-primary color-text-box"
                                 placeholder="email"
+                                [attr.disabled]="_usuarioAutenticado ? 'disabled' : null"
+                                [ngStyle]="{'background-color': _usuarioAutenticado ? 'rgba(223, 126, 137, 0.15)' : ''}"
                                 formControlName="emailDU"
                                 [class.is-invalid]="emailDUNoValido"
                                 id="emailUsuario">
@@ -184,15 +243,16 @@
                 </div>
 
                 <div class="row mb-2 br25" >
-                  <label for="mensajeUsuario" 
+                  <label for="mensajeUsuario"
                          class="col-sm-3 col-form-label text-primary text-end">Mensaje</label>
                   <div class="col-sm-8 px-0">
-                      <textarea  type="text" autocomplete="off"
-                              class="form-control text-primary color-text-box" 
-                              placeholder="Mensaje"
-                              [class.is-invalid]="mensajeDUNoValido"
-                              formControlName="mensajeDU"
-                              id="mensajeUsuario"></textarea>
+                      <textarea  type="text" 
+                                 autocomplete="off"
+                                 class="form-control text-primary color-text-box"
+                                 placeholder="Mensaje"
+                                 [class.is-invalid]="mensajeDUNoValido"
+                                 formControlName="mensajeDU"
+                                 id="mensajeUsuario"></textarea>
                   </div>
                   <div class="col-md-1 px-0 text-center">
                       <small *ngIf="mensajeDUNoValido" class="text-danger">
@@ -203,7 +263,8 @@
 
                 <div class="row mb-2 br25 text-center">
                     <div class="col-md-12 text-center d-grid">
-                        <span class="text-primary" style="font-size: 10px;">Al hacer clic en <strong>Mostrar telefóno</strong> aceptas nuestros <a href="/legal/terminosycondicionesdeuso">Terminos, condiciones y politicas de privacidad.</a></span>
+                        <span *ngIf="_tipoContactoVendedor === 1" class="text-primary" style="font-size: 10px;">Al hacer clic en <strong>Contactar por WhatsApp</strong> aceptas nuestros <a href="/legal/terminosycondicionesdeuso" target="_blank">Terminos, condiciones y politicas de privacidad.</a></span>
+                        <span *ngIf="_tipoContactoVendedor === 2" class="text-primary" style="font-size: 10px;">Al hacer clic en <strong>Enviar email</strong> aceptas nuestros <a href="/legal/terminosycondicionesdeuso" target="_blank">Terminos, condiciones y politicas de privacidad.</a></span>
                     </div>
                 </div>
             </form>

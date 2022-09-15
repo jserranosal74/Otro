@@ -5,13 +5,15 @@ export class asentamiento {
       public Id_Municipio        : number,
       public Id_TipoAsentamiento : number,
       public Asentamiento        : string,
+      public Asentamiento2       : string,
       public CodigoPostal        : string,
       public Latitud             : number,
       public Longitud            : number,
       public FechaAlta           : Date,
       public FechaModificacion   : Date,
       public Id_Usuario          : number,
-      public Id_Estatus          : number 
+      public Id_Estatus          : number,
+      public Seleccionado        : boolean 
     ) {}
   }
 

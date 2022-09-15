@@ -18,9 +18,8 @@ import { publicacionCaracteristicaLigth } from '../../../Models/procesos/publica
 export class AdicionalesComponent implements OnInit {
   _adicionales : publicacionCaracteristicaLigth[] = [];
   _numeroPaso = 1;
-  _publicacion : publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',0,0);
+  _publicacion : publicacion = new publicacion(0,0,null,null,null,null,null,null,1,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,new Date(),new Date(),0,0,'','',null,null,0);
   _id_publicacion : number = 0;
-  _misCaracteristicas : FormControl[] = [];
   _publicacionActivada : boolean = false;
 
   _loading = false;
@@ -56,26 +55,6 @@ export class AdicionalesComponent implements OnInit {
   }
 
   crearFormulario() {
-    
-    // this.caracteristica = this._caracteristicasAdicionales;
-    
-    //this.caracteristica.push( this.fb.group({ Descripcion:new FormControl('sd'), Valor : ['']}));
-    // this.caracteristica.push( this.fb.group({ Descripcion:['s'], Valor : ['1']}));
-    // this.caracteristica.push( this.fb.group({ Descripcion:['d'], Valor : [1]}));
-    // this.caracteristica.push( this.fb.group({ Descripcion:['ds'], Valor : ['1']}));
-    // this.caracteristica.push( this.fb.group({ Descripcion:['as'], Valor : ['']}));
-    // this.caracteristica.push( this.fb.group({ Descripcion:['s'], Valor : ['']}));
-    // this.caracteristica.push( this.fb.group({ Descripcion:['s'], Valor : ['']}));
-    // this.caracteristica.push( this.fb.group({ Descripcion:['s'], Valor : ['']}));
-    // this.caracteristica.push( this.fb.group({ Descripcion:['d'], Valor : ['']}));
-    // this.caracteristica.push( this.fb.group({ Descripcion:['sd'], Valor : ['']}));
-    // this.caracteristica.push( this.fb.group({ Descripcion:['s'], Valor : ['']}));
-    // debugger;
-    // this.caracteristica.controls[0].setValue({
-    //   Descripcion : 'nuevo',
-    //   Valor : 1
-    // })
-
       this.formAdicionales = this.fb.group({
         caracteristicasGenerales : this.fb.array([]),
         servicios : this.fb.array([]),
@@ -100,13 +79,6 @@ export class AdicionalesComponent implements OnInit {
     return this.formAdicionales.get('ambientes') as FormArray;
   }
 
-  inicializarFormulario() {
-    this.formAdicionales.patchValue({
-      caracteristicas : this.caracteristica
-    });
-
-}
-
   regresar(){
     this._numeroPaso = 2;
 
@@ -119,48 +91,37 @@ export class AdicionalesComponent implements OnInit {
     setTimeout( () => { this.router.navigate(['/publicar/pagar-y-activar'], { queryParams: { Id_Publicacion: this._id_publicacion } }); }, 500 );
   }
 
-  // seleccionarAntiguedad(intAnios : number){
-  //   // debugger;
-  //   this._AniosAntiguedad = intAnios;
-  //   if ((intAnios === 0) || (intAnios === -1))
-  //     this._mostrarAniosAntiguedad = true;
-    
-  //   else
-  //     this._mostrarAniosAntiguedad = false;
-  //   // this._AniosAntiguedad = this.formCaracteristicas.controls['aniosAntiguedad'].value;
-    
-  // }
-
   CargarCaracteristicasAdicionales(){
+    //debugger;
     if (this._id_publicacion != 0) {
         this._publicacionesService.getPublicacionCaracteristicas(this._id_publicacion, this._loginService.obtenerIdCliente()!).subscribe(
           (data) => {
             //Next callback
-            console.log(data);
+            //console.log(data);
 
             //this._caracteristicasAdicionales = data;
 
-            data.forEach( obj => { 
-              if (obj.Id_TipoCaracteristica === 1){
-                  this.caracteristica.push(this.fb.group({ Id_Caracteristica:[obj.Id_Caracteristica], Id_TipoCaracteristica:[obj.Id_TipoCaracteristica], Descripcion:[obj.Descripcion], Valor : [obj.Valor]}))
+            data.forEach( item => { 
+              if (item.Id_TipoCaracteristica === 1){
+                  this.caracteristica.push(this.fb.group({ Id_Caracteristica:[item.Id_Caracteristica], Id_TipoCaracteristica:[item.Id_TipoCaracteristica], Descripcion:[item.Descripcion], Valor : [item.Valor]}))
                 }
-                if (obj.Id_TipoCaracteristica === 2){
-                  this.servicio.push(this.fb.group({ Id_Caracteristica:[obj.Id_Caracteristica], Id_TipoCaracteristica:[obj.Id_TipoCaracteristica], Descripcion:[obj.Descripcion], Valor : [obj.Valor]}))
+                if (item.Id_TipoCaracteristica === 2){
+                  this.servicio.push(this.fb.group({ Id_Caracteristica:[item.Id_Caracteristica], Id_TipoCaracteristica:[item.Id_TipoCaracteristica], Descripcion:[item.Descripcion], Valor : [item.Valor]}))
                 }
-                if (obj.Id_TipoCaracteristica === 3){
-                  this.exterior.push(this.fb.group({ Id_Caracteristica:[obj.Id_Caracteristica], Id_TipoCaracteristica:[obj.Id_TipoCaracteristica], Descripcion:[obj.Descripcion], Valor : [obj.Valor]}))
+                if (item.Id_TipoCaracteristica === 3){
+                  this.exterior.push(this.fb.group({ Id_Caracteristica:[item.Id_Caracteristica], Id_TipoCaracteristica:[item.Id_TipoCaracteristica], Descripcion:[item.Descripcion], Valor : [item.Valor]}))
                 }
-                if (obj.Id_TipoCaracteristica === 5){
-                  this.ambiente.push(this.fb.group({ Id_Caracteristica:[obj.Id_Caracteristica], Id_TipoCaracteristica:[obj.Id_TipoCaracteristica], Descripcion:[obj.Descripcion], Valor : [obj.Valor]}))
+                if (item.Id_TipoCaracteristica === 5){
+                  this.ambiente.push(this.fb.group({ Id_Caracteristica:[item.Id_Caracteristica], Id_TipoCaracteristica:[item.Id_TipoCaracteristica], Descripcion:[item.Descripcion], Valor : [item.Valor]}))
                 }
             });
 
-            this.formAdicionales.patchValue({
-              caracteristicasGenerales : this.caracteristica,
-              servicios : this.servicio,
-              exteriores : this.exterior,
-              ambientes : this.ambiente
-          });
+          //   this.formAdicionales.patchValue({
+          //     caracteristicasGenerales : this.caracteristica,
+          //     servicios : this.servicio,
+          //     exteriores : this.exterior,
+          //     ambientes : this.ambiente
+          // });
 
           },
           (error: HttpErrorResponse) => {
@@ -252,13 +213,13 @@ export class AdicionalesComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           //Error callback
-          Swal.fire({
-            icon: 'error',
-            title: 'ERROR',
-            text: '',
-            showCancelButton: false,
-            showDenyButton: false,
-          });
+          // Swal.fire({
+          //   icon: 'error',
+          //   title: 'ERROR',
+          //   text: '',
+          //   showCancelButton: false,
+          //   showDenyButton: false,
+          // });
 
           switch (error.status) {
             case 401:
@@ -269,7 +230,7 @@ export class AdicionalesComponent implements OnInit {
                 showCancelButton: false,
                 showDenyButton: false,
               });
-              //this._loginService.cerarSesion();
+              this._loginService.cerarSesion();
               break;
             case 403:
               //console.log('error 403');

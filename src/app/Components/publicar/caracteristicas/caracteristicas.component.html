@@ -283,6 +283,36 @@
             </div>
           </div>
 
+          <div class="form-group row mt-4">
+            <div class="col-md-1"></div>
+            <div class="col-md-3">
+              <label class="col-form-label text-primary">Precio con descuento <br/>(es más atractivo al comprador)</label>
+              <div class="col-md-12 p-0 input-group">
+                <span class="input-group-text text-primary">$</span>
+                <input  class="form-control text-primary color-text-box"
+                        type="number"
+                        min="0" 
+                        max="999999999"
+                        placeholder="Teclee aqui el precio con descuento incluido"
+                        formControlName="precioDescuento" />
+                <span class="input-group-text text-primary">.00</span>
+              </div>
+              <label class="col-form-label text-primary">0 o vacío si no tiene descuento</label>
+            </div>
+            <div class="col-md-6">
+              <!-- <div class="form-check form-check-inline mt-5">
+                <input class="form-check-input" 
+                      type="checkbox" 
+                      value="0" 
+                      formControlName="precioDescuento"
+                      id="checkPrecioConDescuento">
+                <label class="form-check-label text-primary " for="checkPrecioConDescuento">
+                  Precio con descuento
+                </label>
+              </div> -->
+            </div>
+          </div>
+
           <div class="form-group row mt-5">
             <legend class="text-center text-primary mt-3"><h3>Descripción del inmueble</h3></legend>
           </div>
@@ -572,13 +602,13 @@
               <tbody>
                 <tr class="py-5" *ngFor="let publicacionHija of _publicacionesHijas; let i = index">
                       <td class="text-primary text-truncate" style="max-width: 180px;">
-                        <a style="cursor:pointer; text-decoration: underline blue; max-width: 180px;" (click)="verPublicacionCliente(publicacionHija)" data-toggle="tooltip" data-placement="top">{{publicacionHija.TituloPublicacion === null ? 'No definido' : publicacionHija.TituloPublicacion }}</a>
+                        <a style="cursor:pointer; text-decoration: underline blue; max-width: 180px;" [href]="'publicar/caracteristicas?Id_Publicacion=' + this.publicacionHija.Id_Publicacion" target="_blank" data-toggle="tooltip" data-placement="top" title="{{publicacionHija.TituloPublicacion}}">{{publicacionHija.TituloPublicacion === null ? 'No definido' : publicacionHija.TituloPublicacion }}</a>
                       </td>
                       <td class="text-primary text-center" style="min-width: 100px;">
                         <label class="text-primary">{{publicacionHija.Id_TipoOperacion | DescripcionTO }}</label>
                       </td>
                       <td class="text-primary text-center" style="min-width: 100px;">
-                        <label class="text-primary">{{publicacionHija.PrecioDesde === null ? 'No definido' : publicacionHija.PrecioDesde | number : '1.0'}}</label>
+                        <label class="text-primary">{{publicacionHija.PrecioDesde === null ? 'No definido' : publicacionHija.PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }}</label>
                         <label *ngIf="publicacionHija.PrecioDesde != null" class="text-primary px-1" style="font-size: 12px; font-weight: bold;">{{((publicacionHija.Id_Moneda) === 1 ? 'MXN' : 'USD')}}</label>
                       </td>
                       <td class="text-primary text-center">
@@ -594,7 +624,7 @@
                         <label class="text-primary">{{publicacionHija.EstacionamientosDesde === null ? 'No definido' : publicacionHija.EstacionamientosDesde }}</label>
                       </td>
                       <td *ngIf="!_publicacionActivada" class="text-center" width="auto" >
-                        <button class="btn btn-sm btn-outline-primary br25" 
+                        <button class="btn btn-sm btn-outline-danger br25" 
                                 type="button"
                                 (click)="quitarPublicacionHija(publicacionHija)">
                                 <i class="fa fa-xmark" aria-hidden="true"></i>

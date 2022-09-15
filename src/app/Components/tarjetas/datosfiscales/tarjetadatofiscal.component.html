@@ -1,4 +1,4 @@
-<div class="card px-0 color-card" style="width: 16.5rem; border-radius: 15px; box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
+<div id="tarjetaDatosFiscales" class="card px-0 color-card" style="width: 16.5rem; border-radius: 15px; box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
     <div *ngIf="_origen === 'MisDatosFiscales'" class="card-header text-end bg-color-3" style="border-radius: 15px 15px 0px 0px;">
       <button  type="button" class="btn" (click)="predeterminarDatoFiscal()" [ngClass]="{' btn-primary': _datoFiscal.Predeterminada === 1, ' btn-outline-primary': _datoFiscal.Predeterminada === 0}" style="border-radius: 25px;">
         <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-check" > </i></span>

@@ -30,8 +30,8 @@ export class PaquetesClientesPagosService {
     return this.http.get<planesPaquetesPagos[]>(this.urlPaquetesClientePagos + '?EmailCliente=' + (EmailCliente === null ? '' : EmailCliente) + '&Id_Estatus=' + Id_Estatus, this.httpOptions);
   }
   
-  public putPaquetesClientePagado(Id_Paquete : number, Id_Cliente : number): Observable<number> {
-    return this.http.put<number>(this.urlPaquetesClientePagos + '?Id_Paquete=' + Id_Paquete + '&Id_Cliente=' + Id_Cliente, '', this.httpOptions);
+  public putPaquetesClientePagado(Id_Paquete : number, UID_Cliente : string): Observable<number> {
+    return this.http.put<number>(this.urlPaquetesClientePagos + '?Id_Paquete=' + Id_Paquete + '&UID_Cliente=' + UID_Cliente, '', this.httpOptions);
   }
   
 }

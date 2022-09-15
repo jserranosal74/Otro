@@ -12,6 +12,7 @@ import { PagarYActivarComponent } from './pagar-y-activar/pagar-y-activar.compon
 import { AdicionalesComponent } from './adicionales/adicionales.component';
 import { TarjetasModule } from '../tarjetas/tarjetas.module';
 import { TipoOperacionPipe } from '../../pipes/TipoOperacion.pipe';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { TipoOperacionPipe } from '../../pipes/TipoOperacion.pipe';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    TarjetasModule
+    TarjetasModule,
+    SharedModule
   ],
   exports: [
     FotosyvideosComponent,

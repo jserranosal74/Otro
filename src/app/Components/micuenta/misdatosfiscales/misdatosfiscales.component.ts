@@ -19,7 +19,9 @@ export class MisDatosFiscalesComponent implements OnInit {
   _datoFiscal : datoFiscal = new datoFiscal(0,0,null,0,'','','','','',0,new Date(),new Date(), 0,0,0);
   _tiposPersonas : tipoPersona[] = [];
   _tipoPersona : tipoPersona = new tipoPersona(0,'',new Date(), new Date(), 0,0,);
-  _textoAccion ='';
+  _textoAccion = '';
+  _cargandoInformacion : boolean = false;
+  _tamanioRFC = 0;
 
   _esNuevo : boolean = false;
   @ViewChild('myModalClose') modalClose : any;
@@ -31,6 +33,7 @@ export class MisDatosFiscalesComponent implements OnInit {
                private _datosfiscalesService : DatosFiscalesService,
                private _tiposPersonaService : TiposPersonaService
   ) {
+    this._cargandoInformacion = true;
     this.crearFormulario();
     this.limpiarFormulario();
     this.obtenerDatosFiscales();
@@ -72,18 +75,12 @@ export class MisDatosFiscalesComponent implements OnInit {
       (data) => {
         //Next callback
         this._tiposPersonas = data;
+
+        this._cargandoInformacion = false;
       },
       (error: HttpErrorResponse) => {
-        //Error callback
-        //console.log('Error del servicio: ', error.error['Descripcion']);
-
-        // Swal.fire({
-        //   icon: 'error',
-        //   title: error.error['Descripcion'],
-        //   text: 'Error al cargar los tipos de persona',
-        //   showCancelButton: false,
-        //   showDenyButton: false,
-        // });
+        
+        this._cargandoInformacion = false;
 
         switch (error.status) {
           case 401:
@@ -117,19 +114,17 @@ export class MisDatosFiscalesComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
         //Error callback
-        //console.log('Error del servicio: ', error.error['Descripcion']);
-
-        Swal.fire({
-          icon: 'error',
-          title: error.error['Descripcion'],
-          text: 'Error al cargar los datos fiscales del cliente',
-          showCancelButton: false,
-          showDenyButton: false,
-        });
 
         switch (error.status) {
           case 401:
-            //console.log('error 401');
+            Swal.fire({
+              icon: 'error',
+              title: 'Acceso no autorizado',
+              text: 'debera autenticarse',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            this._loginService.cerarSesion();
             break;
           case 403:
             //console.log('error 403');
@@ -531,6 +526,21 @@ export class MisDatosFiscalesComponent implements OnInit {
 
   get codigopostalNoValido() {
     return ( this.formaDatosFiscales.get('codigopostal')?.invalid && this.formaDatosFiscales.get('codigopostal')?.touched );
+  }
+
+  establecerRFC(){
+    //debugger;
+    let _rfc = '';
+    _rfc = this.formaDatosFiscales.get('rfc')?.value;
+    if (this.formaDatosFiscales.get('tipopersona')?.value === '1')
+    {
+      this._tamanioRFC = 12     // Persona moral
+      this.formaDatosFiscales.patchValue({
+        rfc : _rfc.substring(0,12)
+      });
+    }
+    else
+      this._tamanioRFC = 13    // Persona fisica
   }
 
 }

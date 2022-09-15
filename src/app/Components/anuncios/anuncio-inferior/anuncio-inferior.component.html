@@ -7,7 +7,10 @@
                     <div class="card color-card" (click)="verPublicacionCliente(_publicacionesEspeciales[item]);" *ngIf="_publicacionesEspeciales[item] != undefined" style="border-radius:15px; height:300px;">
                         <div class="img-wrapper"><img src="{{_publicacionesEspeciales[item].Url}}" class="d-block w-100" alt="img card{{item}}" style="border-radius:15px 15px 0px 0px;" onerror="this.src='/assets/logoMeza/Logo_IMZ_1.png';"> </div>
                         <div class="card-body">
-                            <h6 class="card-title text-primary">{{((_publicacionesEspeciales[item].Id_Moneda) === 1 ? 'MXN' : 'USD')}} {{_publicacionesEspeciales[item].PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }}</h6>
+                            <h6 *ngIf="_publicacionesEspeciales[item].PrecioDescuento === 0" class="card-title text-primary">{{((_publicacionesEspeciales[item].Id_Moneda) === 1 ? 'MXN' : 'USD')}} {{_publicacionesEspeciales[item].PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }}</h6>
+                            <h6 *ngIf="_publicacionesEspeciales[item].PrecioDescuento! > 0" class="card-title text-primary">{{((_publicacionesEspeciales[item].Id_Moneda) === 1 ? 'MXN' : 'USD')}} <span style="text-decoration:line-through; color:lightgray;"> {{_publicacionesEspeciales[item].PrecioDesde | currency : 'USD' : 'symbol' : '1.0-0' }}</span> {{_publicacionesEspeciales[item].PrecioDescuento | currency : 'USD' : 'symbol' : '1.0-0' }}</h6>
+                            <span *ngIf="_publicacionesEspeciales[item].PrecioDescuento! > 0" style="position:absolute; top:3%; right:3%;"><kbd style="background-color: rgba(52, 190, 52, 0.75); color:#ffffff; font-size: larger; position:relative; top:0px; left:0px;"><span><i class="fa fa-arrow-down"></i> </span> {{(1 - (_publicacionesEspeciales[item].PrecioDescuento! / _publicacionesEspeciales[item].PrecioDesde!)) * 100 | number: '1.0-0'}}%</kbd></span>
+                            <!-- <h6 *ngIf="_publicacionesEspeciales[item].PrecioDescuento! > 0" class="card-title text-primary">{{_publicacionesEspeciales[item].PrecioDescuento | currency : 'USD' : 'symbol' : '1.0-0' }}<kbd style="background-color: rgb(52, 190, 52); color:#ffffff; font-size: medium;"><span><i class="fa fa-arrow-down"></i> </span>{{(1 - (_publicacionesEspeciales[item].PrecioDescuento! / _publicacionesEspeciales[item].PrecioDesde!)) * 100 | number: '1.0-0'}}%</kbd></h6> -->
                             <p class="card-text text-primary my-1" style="font-size:small;">{{_publicacionesEspeciales[item].Asentamiento}}, {{_publicacionesEspeciales[item].Municipio}}, {{_publicacionesEspeciales[item].Estado}}.</p>
                             <div class="row" style="position:absolute; top:250px; left:20px;">
                                 <div *ngIf="_publicacionesEspeciales[item].SuperficieConstruidaDesde != null && _publicacionesEspeciales[item].SuperficieConstruidaDesde != 0" class="col mx-0 my-1 px-0 text-end">
@@ -102,11 +105,11 @@
         </div>
     </div>
     <button class="carousel-control-prev" type="button" [attr.data-bs-target]="'#'+_idControl" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span><i class="fa fa-arrow-left" aria-hidden="true"></i></span>
         <span class="visually-hidden">Previous</span>
     </button>
     <button class="carousel-control-next" type="button" [attr.data-bs-target]="'#'+_idControl" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span><i class="fa fa-arrow-right" aria-hidden="true"></i></span>
         <span class="visually-hidden">Next</span>
     </button>
 </div>

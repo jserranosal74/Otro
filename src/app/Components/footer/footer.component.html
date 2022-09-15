@@ -7,7 +7,7 @@
         <a tabindex="-1"
           class="btn btn-outline-light btn-floating m-1"
           href="https://www.facebook.com"
-          role="button"
+          role="button" target="_blank"
           ><i class="fab fa-facebook-f"></i
         ></a>
 
@@ -15,7 +15,7 @@
         <a tabindex="-1"
           class="btn btn-outline-light btn-floating m-1"
           href="https://www.twitter.com"
-          role="button"
+          role="button" target="_blank"
           ><i class="fab fa-twitter"></i
         ></a>
 
@@ -23,7 +23,7 @@
         <a tabindex="-1"
           class="btn btn-outline-light btn-floating m-1"
           href="https://www.instagram.com"
-          role="button"
+          role="button" target="_blank"
           ><i class="fab fa-instagram"></i
         ></a>
 
@@ -31,7 +31,7 @@
         <a tabindex="-1"
           class="btn btn-outline-light btn-floating m-1"
           href="https://www.linkedin.com"
-          role="button"
+          role="button" target="_blank"
           ><i class="fab fa-linkedin-in"></i
         ></a>
       </section>
@@ -59,13 +59,16 @@
                 <a href="#!" class="text-white">Quienes somos</a>
               </li>
               <li>
-                <a href="#!" class="text-white">Terminos y condiciones</a>
+                <a class="text-white" routerLink="/legal/terminosycondicionesdeuso"  title="Términos y condiciones de Uso">Términos y condiciones de Uso</a>
               </li>
               <li>
                 <a href="#!" class="text-white">Aviso de privacidad</a>
               </li>
               <li>
                 <a href="#!" class="text-white">Trabaja con nosotros</a>
+              </li>
+              <li>
+                <a class="text-white" routerLink="/ventas/meinteresasitio">¿Te interesa un sitio como este?</a>
               </li>
             </ul>
           </div>
@@ -124,7 +127,6 @@
       © Copyright 2022-{{ fecha }}
       <a class="text-white" routerLink="/">Inmuebles Meza</a><br>
       <a class="text-white" routerLink="/legal/terminosycondicionesdeuso"  title="Términos y condiciones de Uso">Términos y condiciones de Uso</a> -
-      <a class="text-white" routerLink="/legal/terminosycondicionesdecontratacion" title="Términos y condiciones de Contratacion">Términos y condiciones de Contratacion</a> -
       <a class="text-white" routerLink="/legal/politicadeprivacidad" title="Política de Privacidad">Política de Privacidad</a>
     </div>
     <!-- Copyright -->

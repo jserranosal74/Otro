@@ -19,11 +19,13 @@ export class MiPerfilComponent implements OnInit {
   _clienteMedioContacto : clienteMedioContacto[] = [];
   _fotoPerfil: any;
   _actualizandoDatos = false;
+  _cargandoInformacion : boolean = false;
 
   constructor(  private fb: FormBuilder,
                 private _loginService : LoginService,
                 private _clienteService: ClientesService
   ) {
+    this._cargandoInformacion = true;
     this.crearFormulario();
     this.obtenerDatosPerfil();
   }
@@ -83,6 +85,7 @@ export class MiPerfilComponent implements OnInit {
       let _cliente = new cliente(
         0,
         this._loginService.obtenerIdCliente(),
+        1,  // Tipo de cliente 1 = InmueblesMeza, 2 = Externo
         null,  // Tipo persona Cliente- Agente
         0,  // Rol
         null,
@@ -101,7 +104,9 @@ export class MiPerfilComponent implements OnInit {
         '',
         new Date(),
         new Date(),
+        new Date(),
         1,
+        '',
         1,
         ''
       );
@@ -142,15 +147,6 @@ export class MiPerfilComponent implements OnInit {
         },
         (error: HttpErrorResponse) => {
           //Error callback
-          //console.log('Error del servicio: ', error.error['Descripcion']);
-
-          // Swal.fire({
-          //   icon: 'error',
-          //   title: error.error['Descripcion'],
-          //   text: '',
-          //   showCancelButton: false,
-          //   showDenyButton: false,
-          // });
 
           switch (error.status) {
             case 401:
@@ -175,7 +171,7 @@ export class MiPerfilComponent implements OnInit {
     this._clienteService.getCliente(this._loginService.obtenerIdCliente(), null).subscribe(
       (data) => {
         //Next callback
-        console.log('datos: ', data);
+        //console.log('datos: ', data);
         this._cliente = data;
 
         this.formaPerfil.patchValue({
@@ -188,22 +184,22 @@ export class MiPerfilComponent implements OnInit {
           telefonoMovil : data.ClienteMedioContacto![1] != null ? data.ClienteMedioContacto![1].Descripcion : '',
         });
 
-        // this.limpiarFormulario();
+        this._cargandoInformacion = false;
       },
       (error: HttpErrorResponse) => {
-        //Error callback
-        //console.log('Error del servicio: ', error.error['Descripcion']);
-
-        // Swal.fire({
-        //   icon: 'error',
-        //   title: error.error['Descripcion'],
-        //   text: '',
-        //   showCancelButton: false,
-        //   showDenyButton: false,
-        // });
+        
+        this._cargandoInformacion = false;
 
         switch (error.status) {
           case 401:
+            Swal.fire({
+              icon: 'error',
+              title: 'Acceso no autorizado',
+              text: 'debera autenticarse',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            this._loginService.cerarSesion();
             break;
           case 403:
             break;

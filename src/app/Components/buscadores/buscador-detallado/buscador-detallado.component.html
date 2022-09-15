@@ -1,0 +1,228 @@
+<div class="bg-color-8" style="box-shadow: 2px 6px 8px 0 rgb(22 22 26 / 50%); height:56px;">
+    <div class="row px-0 py-1">
+
+        <form [formGroup]="formaFiltros" autocomplete="off">
+          <fieldset>
+
+            <div class="row">
+
+              <div class="col-md-3 col-6">
+
+                <div class="input-group">
+                  <input type="text" style="margin-left:0.25rem !important;"
+                         class="form-control my-1 text-primary" 
+                         placeholder="Ubicación"
+                         aria-describedby="basic-addon2">
+                  <div class="input-group-append">
+                    <button class="btn btn-ligth my-1 text-light bg-color-4" 
+                            data-bs-toggle="modal" data-bs-target="#modalUbicacion"
+                            type="button">
+                      <span><i class="fa-solid fa-location-dot"></i></span>
+                    </button>
+                  </div>
+                </div>
+    
+            </div>
+
+              <div class="col-md-2 d-grid mx-auto col-6">
+            
+                <button type="button"
+                        class="btn btn-ligth m-1 text-light bg-color-4"
+                        (click)="verTiposOperaciones()">Tipo operación
+                </button>
+                <div class="col-md-2 col-6 m-1 bg-color-8"
+                     [ngStyle]="{'visibility': _verTiposOperacion ? 'visible' : 'hidden' }"
+                     style="position:absolute; top:52px; box-shadow: 2px 6px 8px 0 rgb(22 22 26 / 50%);">
+                     <ul class="col-12 p-1 m-0 text-light list-unstyled">
+                        <li *ngFor="let tipoOperacion of _tiposOperacion; let i = index">
+                          <div class="px-0" >
+                            <input class="form-check-input text-dark" 
+                                   type="radio" 
+                                   name="radioTO" 
+                                   value=""
+                                   formControlName="tipoOperacion"
+                                   id="chkTO{{i}}">
+                            <label class="form-check-label px-2" for="chkTO{{i}}">
+                              {{tipoOperacion.Descripcion2}}
+                            </label>
+                          </div>
+                        </li>
+                     </ul>
+                </div>
+    
+            </div>
+    
+            <div class="col-md-2 d-grid mx-auto col-6">
+                
+              <button type="button"
+                      class="btn btn-ligth m-1 text-light bg-color-4"
+                      (click)="verTiposPropiedades()">Tipo de inmueble
+              </button>
+              <div class="col-md-2 col-6 m-1 bg-color-8" 
+                   [ngStyle]="{'visibility': _verTiposPropiedad ? 'visible' : 'hidden' }"
+                   style="position:absolute; top:52px; box-shadow: 2px 6px 8px 0 rgb(22 22 26 / 50%);">
+                   <ul class="col-12 p-1 m-0 text-light list-unstyled">
+                    <li *ngFor="let tipoPropiedad of _tiposPropiedad; let i = index">
+                      <div class="px-0" >
+                        <input class="form-check-input text-dark" 
+                               type="checkbox" 
+                               value="" 
+                               formControlName="tipoPropiedad"
+                               id="checkTP{{i}}">
+                        <label class="form-check-label px-2" for="checkTP{{i}}">
+                          {{tipoPropiedad.Descripcion2}}
+                        </label>
+                      </div>
+                      <!-- <button type="button" class="btn btn-sm btn-outline-dark" style="border:none;">{{tipoPropiedad.Descripcion2}}</button></li> -->
+                   </ul>
+                   <div class="col-12">
+                    <div class="row">
+                      <div class="col-md-6 m-0 p-0 text-center">
+                        <button type="button" class="btn btn-sm btn-ligth m-1 text-light br25" style="border: 1px solid #ffffff;" (click)="actualizarConsulta()">Limpiar</button>
+                      </div>
+                      <div class="col-md-6 m-0 p-0 text-center">
+                        <button type="button" class="btn btn-sm btn-ligth m-1 text-light br25" style="border: 1px solid #ffffff;" (click)="actualizarConsulta()">Buscar</button>
+                      </div>
+                    </div>
+                   </div>
+              </div>
+    
+            </div>
+    
+            <div class="col-md-2 d-grid mx-auto col-6">
+                
+              <button type="button"
+                      class="btn btn-ligth m-1 text-light bg-color-4"
+                      (click)="verRangosRecamaras()">Recámaras
+              </button>
+              <div class="col-md-2 col-6 p-2 bg-color-8" 
+                   [ngStyle]="{'visibility': _verRangosRecamaras ? 'visible' : 'hidden' }"
+                   style="position:absolute; top:52px; box-shadow: 2px 6px 8px 0 rgb(22 22 26 / 50%);">
+                   <label class="text-light">Recamaras</label>
+                   <div class="row mb-3">
+                    <div class="col-md-12 d-grid">
+                      <div class="btn-group" role="group">
+                        <div class="col d-grid">
+                          <input type="radio" class="btn-check" value="1" id="radRec1" name="cantRecamaras" formControlName="cantRecamaras" (change)="seleccionarOperacion()"/>
+                          <label class="btn btn-outline-light px-1" [ngClass]="{'active' : _cantRecamaras === 1, 'inactive' : _cantRecamaras != 1}" style="border-radius:10px 0 0 0;" for="radRec1">1</label>
+                        </div>
+                        <div class="col d-grid">
+                          <input type="radio" class="btn-check" value="2" id="radRec2" name="cantRecamaras" formControlName="cantRecamaras" (change)="seleccionarOperacion()"/>
+                          <label class="btn btn-outline-light px-1" [ngClass]="{'active' : _cantRecamaras === 2, 'inactive' : _cantRecamaras != 2}" style="border-radius:0;" for="radRec2">2</label>
+                        </div>
+                        <div class="col d-grid">
+                          <input type="radio" class="btn-check" value="3" id="radRec3" name="cantRecamaras" formControlName="cantRecamaras" (change)="seleccionarOperacion()"/>
+                          <label class="btn btn-outline-light px-1" [ngClass]="{'active' : _cantRecamaras === 3, 'inactive' : _cantRecamaras != 3}" style="border-radius:0;" for="radRec3">3</label>
+                        </div>
+                        <div class="col d-grid">
+                          <input type="radio" class="btn-check" value="4" id="radRec4" name="cantRecamaras" formControlName="cantRecamaras" (change)="seleccionarOperacion()"/>
+                          <label class="btn btn-outline-light px-1" [ngClass]="{'active' : _cantRecamaras === 4, 'inactive' : _cantRecamaras != 4}" style="border-radius:0;" for="radRec4">4</label>
+                        </div>
+                        <div class="col d-grid">
+                          <input type="radio" class="btn-check" value="5" id="radRec5" name="cantRecamaras" formControlName="cantRecamaras" (change)="seleccionarOperacion()"/>
+                          <label class="btn btn-outline-light px-1" [ngClass]="{'active' : _cantRecamaras === 5, 'inactive' : _cantRecamaras != 5}" style="border-radius:0 10px 0 0;" for="radRec5">5</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-12 d-grid">
+                      <div class="btn-group" role="group">
+                        <div class="col d-grid">
+                          <input type="radio" class="btn-check" value="6" id="radRec6" name="cantRecamaras" formControlName="cantRecamaras"/>
+                          <label class="btn btn-outline-light px-1" style="border-radius:0 0 0 10px;" for="radRec6">1+</label>
+                        </div>
+                        <div class="col d-grid">
+                          <input type="radio" class="btn-check" value="7" id="radRec7" name="cantRecamaras" formControlName="cantRecamaras"/>
+                          <label class="btn btn-outline-light px-1" style="border-radius:0;" for="radRec7">2+</label>
+                        </div>
+                        <div class="col d-grid">
+                          <input type="radio" class="btn-check" value="8" id="radRec8" name="cantRecamaras" formControlName="cantRecamaras"/>
+                          <label class="btn btn-outline-light px-1" style="border-radius:0;" for="radRec8">3+</label>
+                        </div>
+                        <div class="col d-grid">
+                          <input type="radio" class="btn-check" value="9" id="radRec9" name="cantRecamaras" formControlName="cantRecamaras"/>
+                          <label class="btn btn-outline-light px-1" style="border-radius:0;" for="radRec9">4+</label>
+                        </div>
+                        <div class="col d-grid">
+                          <input type="radio" class="btn-check" value="10" id="radRec10" name="cantRecamaras" formControlName="cantRecamaras"/>
+                          <label class="btn btn-outline-light px-1" style="border-radius:0 0 10px 0;" for="radRec10">5+</label>
+                        </div>
+                      </div>
+                    </div>
+                   </div>
+                   
+                   <div class="col-12">
+                    <div class="row">
+                      <div class="col-md-6 m-0 p-0 text-center">
+                        <button type="button" class="btn btn-sm btn-ligth m-1 text-light br25" style="border: 1px solid #ffffff;" (click)="limpiarRecamaras()">Limpiar</button>
+                      </div>
+                      <div class="col-md-6 m-0 p-0 text-center">
+                        <button type="button" class="btn btn-sm btn-ligth m-1 text-light br25" style="border: 1px solid #ffffff;" (click)="actualizarConsulta()">Buscar</button>
+                      </div>
+                    </div>
+                   </div>
+              </div>
+    
+            </div>
+    
+            <div class="col-md-2 d-grid mx-auto col-6">
+                
+              <button type="button"
+                      class="btn btn-ligth m-1 text-light bg-color-4"
+                      (click)="verRangosPrecios()">Precio
+              </button>
+              <div class="col-md-2 col-6 p-2 bg-color-8" 
+                   [ngStyle]="{'visibility': _verRangosPrecios ? 'visible' : 'hidden' }"
+                   style="position:absolute; top:52px; box-shadow: 2px 6px 8px 0 rgb(22 22 26 / 50%);">
+                   <div class="row mb-3">
+                     <div class="col-md-12">
+                      <label class="col-auto text-light">Minimo</label>
+                      <input type="number" 
+                             min="0"
+                             step="50000"
+                             class="form-control text-primary" 
+                             formControlName="precioDesde">
+                    </div>
+                    <div class="col-md-12">
+                      <label class="col-auto text-light">Máximo</label>
+                      <input type="number" 
+                             min="0"
+                             step="50000"
+                             class="form-control text-primary" 
+                             formControlName="precioHasta">
+                    </div>
+                   </div>
+                   <div class="col-12">
+                    <div class="row">
+                      <div class="col-md-6 text-center">
+                        <button type="button" class="btn btn-sm btn-ligth m-1 text-light br25" style="border: 1px solid #ffffff;" (click)="actualizarConsulta()">Limpiar</button>
+                      </div>
+                      <div class="col-md-6 m-0 p-0 text-center">
+                        <button type="button" class="btn btn-sm btn-ligth m-1 text-light br25" style="border: 1px solid #ffffff;" (click)="actualizarConsulta()">Buscar</button>
+                      </div>
+                    </div>
+                   </div>
+              </div>
+    
+            </div>
+  
+            <div class="col-md-1 col-3 mx-0 px-0 text-start">
+              <button type="button" style="border: 1px solid #ffffff;"
+                      class="btn btn-ligth m-1 text-light px-2 br25">
+                      <span><i class="fa-solid fa-cloud-arrow-up"></i>
+                        <label class="px-1" style="font-size:small;">Guardar</label>
+                      </span>
+              </button>
+            </div>
+
+            </div>
+  
+          </fieldset>
+        </form>
+
+    </div>
+
+</div>
+
+<button #myModalUbicacion data-bs-toggle="modal" data-bs-target="#modalUbicacion"
+                        style="display:none;"
+                        type="button"></button>

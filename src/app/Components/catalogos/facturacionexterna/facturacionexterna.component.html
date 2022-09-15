@@ -1,0 +1,374 @@
+<div class="container-fluid p-5">
+  <div class="row">
+            
+    <legend class="text-center text-primary mb-3"><h1 class="display-4 sombraTitulo">Facturación externa</h1></legend>
+
+    <form [formGroup]="formaFacturacion">
+
+      <div class="form-row row mb-3">
+        <div class="col-md-1 text-end">
+          <label class="text-primary">Emisor:</label>
+        </div>
+        <div class="col-md-2">
+          <input class="form-control text-primary color-text-box br10"
+                  name="emisor"
+                  readonly
+                  formControlName="emisor"/>
+        </div>
+        <div class="col-md-1 text-end">
+          <label class="text-primary">Receptor:</label>
+        </div>
+        <div class="col-md-2">
+          <select class="form-select text-primary color-text-box br10"
+                  aria-label="Default select example"
+                  (change)="obtenerDatosFiscalesReceptor()"
+                  name="receptor"
+                  formControlName="receptor">
+            <option value="" disabled>Seleccione...</option>
+            <option *ngFor="let receptor of _clientesReceptores; let i = index" [value]="receptor.UID_Cliente">{{receptor.Id_Cliente + ' - ' + receptor.Email + ' - ' + receptor.Nombre}}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="_clienteReceptor.Id_Cliente != 0" class="col-md-auto text-primary text-center d-grid">
+          <label>Id_Cliente: {{_clienteReceptor.Id_Cliente}}</label>
+        </div>
+        <div *ngIf="_clienteReceptor.Id_Cliente != 0" class="col-md-auto text-primary text-center d-grid">
+          <label>Cliente: {{_clienteReceptor.Nombre}}</label>
+        </div>
+        <div *ngIf="_clienteReceptor.Id_Cliente != 0" class="col-md-auto text-primary text-center d-grid">
+          <label>Email: {{_clienteReceptor.Email}}</label>
+        </div>
+      </div>
+
+      <div class="form-row row mb-3">
+        <div class="col-md-1 text-end">
+          <label class="text-primary">Dato fiscal:</label>
+        </div>
+        <div class="col-md-2">
+          <select class="form-select text-primary color-text-box br10"
+                  aria-label="Default select example"
+                  (change)="obtenerUsosCFDIFiltrados()"
+                  name="datoFiscal"
+                  formControlName="datoFiscal">
+            <option value="" disabled>Seleccione...</option>
+            <option *ngFor="let datoFiscal of _datosFiscalesReceptor; let i = index" [value]="datoFiscal.Id_DatosFiscales">{{datoFiscal.RFC + (datoFiscal.Predeterminada === 1 ? ' - Pred' : '')}}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="_datoFiscalReceptor.Id_DatosFiscales != 0" class="col-md-auto text-primary text-center d-grid">
+          <label>Nombre: {{_datoFiscalReceptor.NombreRazonSocial}}</label>
+        </div>
+        <div *ngIf="_datoFiscalReceptor.Id_DatosFiscales != 0" class="col-md-auto text-primary text-center d-grid">
+          <label>RFC: {{_datoFiscalReceptor.RFC}}</label>
+        </div>
+        <div  *ngIf="_datoFiscalReceptor.Id_DatosFiscales != 0"class="col-md-auto text-primary text-center d-grid">
+          <label>Email: {{_datoFiscalReceptor.Email}}</label>
+        </div>
+        <div *ngIf="_datoFiscalReceptor.Id_DatosFiscales != 0" class="col-md-auto text-primary text-center d-grid">
+          <label>Persona: {{_datoFiscalReceptor.Id_TipoPersona === 1 ? 'Moral' : 'Fisica'}}</label>
+        </div>
+      </div>
+
+      <div class="form-row row mb-3">
+        <div class="col-md-1 text-end">
+          <label class="text-primary">Uso CFDI:</label>
+        </div>
+        <div class="col-md-2">
+          <select class="form-select text-primary color-text-box br10"
+                  aria-label="Default select example"
+                  name="usoCFDI"
+                  formControlName="usoCFDI">
+            <option value="" disabled>Seleccione...</option>
+            <option *ngFor="let uso of _usosCFDIFiltrados; let i = index" [value]="uso.Id_UsoCFDI">{{uso.ClaveUsoCFDI + ' - ' + uso.Descripcion}}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-1">
+          <label class="text-primary">F. de pago:</label>
+        </div>
+        <div class="col-md-2">
+          <select class="form-select text-primary color-text-box br10"
+                  aria-label="Default select example"
+                  name="formaPago"
+                  formControlName="formaPago">
+            <option *ngFor="let fp of _formasPago; let i = index" [value]="fp.Id_FormaPago">{{fp.ClaveFormaPago + ' - ' + fp.Descripcion }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-3 text-center d-grid">
+          <button type="button" 
+                  class="btn btn-primary br25"
+                  [disabled]="_facturando"
+                  data-bs-toggle="modal" data-bs-target="#modalAgregarProducto"
+                  (click)="obtenerProductosExternos();" >
+            <i class="fa fa-magnifying-glass"></i>
+            <span class="px-3">Agregar productos</span>
+          </button>
+        </div>
+        <div class="col-md-3 text-center d-grid">
+          <button type="button"
+                  [disabled]="_facturando"
+                  class="btn btn-primary br25"
+                  (click)="realizarFactura();" >
+            <span *ngIf="!_facturando"><i class="fa fa-file-lines px-3"></i>Facturar</span>
+            <span *ngIf="_facturando"><i class="fa fa-sync fa-spin px-3"></i>Facturando...</span>
+          </button>
+        </div>
+      </div>
+
+    </form>
+
+    <div class="form-group row mb-3">
+        <table class="table table-sm text-primary table-striped table-bordered border-primary color-table">
+            <thead>
+              <tr>
+                <th width="50px" class="text-primary text-center" scope="col">Id</th>
+                <th width="100px" class="text-primary text-center" scope="col">Clave</th>
+                <th width="100px" class="text-primary text-center" scope="col">Clave SAT</th>
+                <th width="300px" class="text-primary text-center" scope="col">Descripción</th>
+                <th width="100px" class="text-primary text-center" scope="col">P.U. sin IVA</th>
+                <th width="100px" class="text-primary text-center" scope="col">Cantidad</th>
+                <!-- <th width="100px" class="text-primary text-center" scope="col">P.U. con IVA</th> -->
+                <th width="100px" class="text-primary text-center" scope="col">Sub-Total</th>
+                <th width="100px" class="text-primary text-center" scope="col">Quitar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let producto of _productosAFacturar; let i = index;">
+                <td class="text-primary text-center" scope="row">{{producto.Id_Producto}}</td>
+                <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{producto.Clave}}" style="max-width: 150px;">{{producto.Clave}}</td>
+                <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{producto.ClaveProdServ}}" style="max-width: 150px;">{{producto.ClaveProdServ}}</td>
+                <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{producto.Descripcion}}" style="max-width: 150px;">{{producto.Descripcion}}</td>
+                <td class="text-primary text-truncate text-end" style="max-width: 150px;">$ {{(producto.Precio! / 1.16) | number : '1.2-2'}}</td>
+                <td class="text-primary text-center" style="max-width: 150px;">
+                    <button class="btn btn-sm btn-outline-primary br25" heigth="auto" (click)="quitarUnProductoExterno(producto);" >
+                      <span class="col-md-1 text-center">
+                        <i class="fa fa-minus"></i>
+                      </span>
+                    </button>
+                    {{producto.Cantidad}}
+                    <button class="btn btn-sm btn-outline-primary br25" heigth="auto" (click)="agregarUnProductoExterno(producto);" >
+                      <span class="col-md-1 text-center">
+                        <i class="fa fa-add"></i>
+                      </span>
+                    </button>
+                </td>
+                <!-- <td class="text-primary text-truncate text-end" style="max-width: 150px;">$ {{producto.Precio | number : '1.2-2'}}</td> -->
+                <td class="text-primary text-truncate text-end" style="max-width: 150px;">$ {{((producto.Precio! / 1.16) * producto.Cantidad!) | number : '1.2-2'}}</td>
+                <td width="90px" class="p-1">
+                  <div class="col-auto p-0 m-0 text-center">
+                      <button class="btn btn-sm btn-outline-primary br25" heigth="auto" (click)="quitarProductoExterno(producto);" >
+                        <span class="col-md-1 col-md-offset-2 text-center">
+                          <i class="fa fa-xmark"></i>
+                        </span>
+                      </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5" class="text-primary text-center"></td>
+                <td class="text-primary text-end" style="max-width: 150px;">Sub-Total:</td>
+                <td class="text-primary text-end" style="max-width: 150px;">$ {{_subTotal | number : '1.2-2'}}</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="text-primary text-center"></td>
+                <td class="text-primary text-end" style="max-width: 150px;">I.V.A.:</td>
+                <td class="text-primary text-end" style="max-width: 150px;">$ {{_iva | number : '1.2-2'}}</td>
+              </tr>
+              <tr>
+                <td colspan="5" class="text-primary text-center"></td>
+                <td class="text-primary text-end" style="max-width: 150px;">Total:</td>
+                <td class="text-primary text-end" style="max-width: 150px;">$ {{_Total | number : '1.2-2'}}</td>
+              </tr>
+            </tfoot>
+          </table>
+    </div>
+
+  </div>
+
+  <div class="row">
+
+    <form [formGroup]="formaBusqueda">
+
+      <div class="form-group row mb-3">
+          <div class="col-md-3">
+            <input  formControlName="idCliente" 
+                    type="number" 
+                    placeholder="Id_Cliente" 
+                    [class.is-invalid]="emailNoValido" 
+                    class="form-control text-primary color-text-box">
+          </div>
+          <div class="col-md-1">
+              <small *ngIf="emailNoValido" class="text-danger">
+                Id no valido
+              </small>
+          </div>
+          <div class="col-md-3">
+            <input formControlName="fechaFactura" 
+                    type="text" 
+                    placeholder="Fecha de factura (yyyy-mm-dd)" 
+                    class="form-control text-primary color-text-box">
+          </div>
+          <div class="col-md-2">
+            <button type="button" 
+                    [disabled]="_buscandoFacturas"
+                    class="btn btn-primary mx-1 br25" 
+                    (click)="buscarFacturas()">
+                    <span *ngIf="!_buscandoFacturas" class="text-center"><i class="fa fa-magnifying-glass" aria-hidden="true"></i> Buscar</span>
+                    <span *ngIf="_buscandoFacturas" class="text-center"><i class="fa fa-sync fa-spin"></i> Buscando...</span>
+            </button>
+        </div>
+          <div class="col-md-3 text-end">
+                <label class="text-primary">Total de facturas: <strong>{{_paginadoDetalle.TotalRegistros}}</strong></label>
+          </div>
+      </div>
+    </form>
+
+    <table class="table table-sm text-primary table-striped table-bordered border-primary color-table">
+        <thead>
+          <tr>
+            <th width="auto" class="text-primary text-center">Id_Factura</th>
+            <th width="auto" class="text-primary text-center">Id_Cliente</th>
+            <th width="auto" class="text-primary text-center">Status</th>
+            <th width="auto" class="text-primary text-center">Email</th>
+            <th width="auto" class="text-primary text-center px-2">Message</th>
+            <th width="auto" class="text-primary text-center px-2">MessageDetail</th>
+            <th class="text-primary text-center px-2">UUID</th>
+            <th width="auto" class="text-primary text-center">Fecha Facturación</th>
+            <th class="text-primary text-center">Cancelar factura</th>
+            <th class="text-primary text-center">Reenviar factura</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let facturaExterna of _facturasExternas; let i = index;">
+            <td class="text-primary text-center" scope="row">{{facturaExterna.Id_Factura}}</td>
+            <td width="auto" class="text-primary text-center">{{facturaExterna.Id_Cliente}}</td>
+            <td class="text-primary text-center">{{facturaExterna.Status}}</td>
+            <td width="auto" class="text-primary text-center text-truncate">{{facturaExterna.Email}}</td>
+            <td style="max-width:100px;" class="text-primary text-center text-truncate">{{facturaExterna.Message}}</td>
+            <td style="max-width:100px;" class="text-primary text-center text-truncate">{{facturaExterna.MessageDetail}}</td>
+            <td width="auto" class="text-primary text-center text-truncate">{{facturaExterna.UUID}}</td>
+            <td width="auto" class="text-primary text-center">{{facturaExterna.FechaAltaFactura | date:'yyyy-MM-dd HH:mm'}}</td>
+            <td width="90px" class="p-1">
+                <div class="col-auto p-0 m-0 text-center" >
+                    <button class="btn btn-sm btn-outline-danger br25" (click)="enviarFacturaExterna(facturaExterna);">
+                      <span *ngIf="!facturaExterna.Enviando" class="col-md-1 text-center"><i class="fa fa-xmark" aria-hidden="true"></i></span>
+                      <span *ngIf="facturaExterna.Enviando" class="col-md-1 text-center"><i class="fa fa-sync fa-spin"></i></span>
+                    </button>
+                </div>
+            </td>
+            <td width="90px" class="p-1">
+                <div class="col-auto p-0 m-0 text-center" >
+                    <button class="btn btn-sm btn-primary br25" (click)="enviarFacturaExterna(facturaExterna);">
+                      <span *ngIf="!facturaExterna.Enviando" class="col-md-1 text-center"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+                      <span *ngIf="facturaExterna.Enviando" class="col-md-1 text-center"><i class="fa fa-sync fa-spin"></i></span>
+                    </button>
+                </div>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="14">
+              <div *ngIf="_seRealizaBusqueda" class="d-flex justify-content-center">
+                <nav aria-label="Page navigation py-0 m-0">
+                  <ul class="pagination my-2">
+                    <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaAnterior ? 'auto' : 'none', 'visibility': _mostrarPaginaAnterior && _paginadoDetalle.TotalPaginas > _numeroPaginasMostrar ? 'visible' : 'hidden'}" >
+                      <button id="btnPaginador" class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaAnterior()" aria-label="Previous">
+                        <span><i class="fa-solid fa-arrow-left"></i></span>
+                      </button>
+                    </li>
+                    <li *ngFor="let pagina of _paginas" class="page-item mx-2">
+                      <button id="btnPaginador" class="page-link color-text-box br25" style="width:40px; height:40px;" [ngStyle]="{'border': pagina.Activa ? '1px solid #bf4080' : '', 'background-color': pagina.Activa ? 'rgba(223, 126, 137, .4)' : ''}" (click)="obtenerPagina(pagina.Pagina)" [disabled]="pagina.Activa">
+                        <span style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%)">{{pagina.Pagina+1}}</span>
+                      </button>
+                    </li>
+                    <li class="page-item px-2" [ngStyle]="{'pointer-events': _mostrarPaginaSiguiente ? 'auto' : 'none', 'visibility': _mostrarPaginaSiguiente && _paginadoDetalle.TotalPaginas > _numeroPaginasMostrar ? 'visible' : 'hidden'}" >
+                      <button id="btnPaginador" class="page-link color-text-box" style="border-radius: 30px;" (click)="obtenerPaginaSiguiente()" aria-label="Next">
+                        <span><i class="fa-solid fa-arrow-right"></i></span>
+                      </button>
+                    </li>
+                    <li class="page-item mx-1">
+                      <form [formGroup]="formaNumeroPagina">
+                        <div class="row">
+                          <div class="col-md-5">
+                            <input type="number" 
+                                    class="form-control text-primary color-text-box br25"
+                                    formControlName="numeroPagina">
+                          </div>
+                          <div class="col p-0">
+                            <button type="submit" class="btn btn-sm btn-primary br25" style="position: relative; top: 50%;transform: translateY(-50%);" (click)="obtenerPagina(null)">
+                              <span><i class="fa-solid fa-angles-right"></i></span></button>
+                          </div>
+                        </div>
+                      </form>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+</div>
+
+</div>
+  
+  <div class="modal fade" id="modalAgregarProducto" tabindex="-1" aria-labelledby="gridModalLabel" aria-modal="true" role="dialog">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content color-modal">
+          <div class="modal-header">
+            <h5 class="modal-title text-primary" id="gridModalLabel">{{_textoAccion}} Producto externo</h5>
+            <button type="button" class="btn-close bg-color-5" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid bd-example-row">
+              <div class="row">
+                  <div class="form-group row mb-3">
+                    <table class="table table-sm text-primary table-striped table-bordered border-primary color-table">
+                        <thead>
+                          <tr>
+                            <th width="50px" class="text-primary text-center" scope="col">Id</th>
+                            <th width="100px" class="text-primary text-center" scope="col">Clave</th>
+                            <th width="100px" class="text-primary text-center" scope="col">Clave SAT</th>
+                            <th width="300px" class="text-primary text-center" scope="col">Descripción</th>
+                            <th width="100px" class="text-primary text-center" scope="col">Precio</th>
+                            <th width="150px" class="text-primary text-center" scope="col">Fecha de Alta</th>
+                            <th width="150px" class="text-primary text-center" scope="col">Fecha de Modificación</th>
+                            <th class="text-primary text-center" scope="col">Agregar</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let producto of _productosExternos; let i = index;">
+                            <td class="text-primary text-center" scope="row">{{producto.Id_Producto}}</td>
+                            <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{producto.Clave}}" style="max-width: 150px;">{{producto.Clave}}</td>
+                            <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{producto.ClaveProdServ}}" style="max-width: 150px;">{{producto.ClaveProdServ}}</td>
+                            <td class="text-primary text-truncate" data-toggle="tooltip" data-placement="top" title="{{producto.Descripcion}}" style="max-width: 150px;">{{producto.Descripcion}}</td>
+                            <td class="text-primary text-truncate text-end" data-toggle="tooltip" data-placement="top" title="$ {{producto.Precio | number : '1.2-2'}}" style="max-width: 150px;">$ {{producto.Precio | number : '1.2-2'}}</td>
+                            <td class="text-primary text-center">{{producto.FechaAlta | date:'yyyy-MM-dd HH:mm'}}</td>
+                            <td class="text-primary text-center">{{producto.FechaModificacion | date:'yyyy-MM-dd HH:mm'}}</td>
+                            <td width="90px" class="p-1">
+                              <div class="col-auto p-0 m-0 text-center">
+                                  <button class="btn btn-sm btn-outline-primary br25" heigth="auto" (click)="agregarProductoExterno(producto);" >
+                                    <span class="col-md-1 col-md-offset-2 text-center">
+                                      <i class="fa fa-add"></i>
+                                    </span>
+                                  </button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="modal-footer">
+            <button type="button" #myModalClose (click)="limpiarFormulario()" class="btn btn-secondary text-light br25" data-bs-dismiss="modal" >Cancelar</button>
+            <button type="button" class="btn btn-primary br25" (click)="guardarProducto();">{{_textoAccion}}</button>
+          </div> -->
+        </div>
+      </div>
+    </div>  

@@ -13,13 +13,9 @@ import { ContactoService } from 'src/app/Services/Procesos/contacto.service';
 })
 export class ContactoComponent implements OnInit {
 
-  formaContacto = this.fb.group({
-    nombre  : ['', [ Validators.required, Validators.minLength(5) ]  ],
-    correo  : ['', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')] ],
-    telefono : ['', Validators.required ],
-    asunto   : ['', Validators.required ],
-    mensaje   : ['', Validators.required ]
-  });
+  formaContacto = this.fb.group({ });
+
+  _enviandoMensaje = false;
 
   constructor(private fb: FormBuilder,
               private _contactoService: ContactoService) {
@@ -32,11 +28,11 @@ export class ContactoComponent implements OnInit {
   crearFormulario() {
 
     this.formaContacto = this.fb.group({
-      nombre  : ['', [ Validators.required, Validators.minLength(5) ]  ],
-      correo  : ['', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')] ],
+      nombre   : ['', Validators.required ],
+      correo   : ['', [ Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')] ],
       telefono : ['', Validators.required ],
       asunto   : ['', Validators.required ],
-      mensaje   : ['', Validators.required ]
+      mensaje  : ['', Validators.required ]
     });
 
   }
@@ -53,7 +49,6 @@ export class ContactoComponent implements OnInit {
         } else {
           control.markAsTouched();
         }
-        
         
       });
      
@@ -74,34 +69,46 @@ export class ContactoComponent implements OnInit {
         1
       );
   
-      //console.log(this.formLogin);
+      this._enviandoMensaje = true;
 
       this._contactoService.postContacto(_contacto).subscribe(
         (data) => {
           //Next callback
           //console.log('datos: ',data);
 
-          Swal.fire({
-            icon: 'success',
-            title: 'Gracias por mensaje',
-            text: 'Se revisara el mensaje y si es necesario nos pondremos en contacto con usted.',
-            showCancelButton: false,
-            showDenyButton: false,
+          // Swal.fire({
+          //   icon: 'success',
+          //   title: 'Gracias por mensaje',
+          //   text: 'Se revisara el mensaje y si es necesario nos pondremos en contacto con usted.',
+          //   showCancelButton: false,
+          //   showDenyButton: false,
+          // });
+
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
           });
+          
+          Toast.fire({
+            icon: 'success',
+            title: 'Se revisara el mensaje y si es necesario nos pondremos en contacto con usted.'
+          });
+
+          this._enviandoMensaje = false;
 
           this.limpiarFormulario();
         },
         (error: HttpErrorResponse) => {
           //Error callback
-          //console.log('Error del servicio: ', error.error['Descripcion']);
 
-          Swal.fire({
-            icon: 'error',
-            title: error.error['Descripcion'],
-            text: 'Ha ocurrio un error, intentelo de nuevo por favor.',
-            showCancelButton: false,
-            showDenyButton: false,
-          });
+          this._enviandoMensaje = false;
           
           switch (error.status) {
             case 401:

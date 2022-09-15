@@ -1,4 +1,4 @@
-<div class="card px-0 color-card" style="width: 20rem; border-radius: 15px; box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
+<div id="tarjetaPaquetes" class="card px-0 color-card" style="width: 20rem; border-radius: 15px; box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);">
     <div class="card-header text-center bg-color-3 py-0" style="border-radius: 15px 15px 0px 0px;">
       <div class="row">
         <div class="col">
@@ -68,8 +68,12 @@
               <tr *ngFor="let planPaquete of _paqueteCliente.Detalle; let i = index;">
                 <td class="py-1 px-0">
                   <div class="col d-grid text-start p-0" >
-                    <button type="button" class="btn btn-outline-primary m-0 p-0 br25" (click)="elegirPlanCliente(planPaquete)" [ngClass]="{' btn-primary': planPaquete.Seleccionado === true, ' btn-outline-primary': planPaquete.Seleccionado === false}" >
-                      <span class="col-md-1 text-start"><i class="fa fa-check" ></i></span>
+                    <button type="button" 
+                            class="btn btn-outline-primary m-0 p-0 br25" 
+                            [disabled]="(_esDesarrollo && planPaquete.Descripcion != 'Premium') || planPaquete.Restantes === 0"
+                            (click)="elegirPlanCliente(planPaquete)" [ngClass]="{' btn-primary': planPaquete.Seleccionado === true, ' btn-outline-primary': planPaquete.Seleccionado === false}" >
+                      <span *ngIf="!planPaquete.Seleccionado" class="col-md-1 text-start"><i class="fa fa-check" ></i></span>
+                      <span *ngIf="planPaquete.Seleccionado" class="col-md-1 text-start"><i class="fa fa-check-double" ></i></span>
                     </button>
                   </div>
                 </td>

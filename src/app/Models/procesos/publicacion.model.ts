@@ -17,6 +17,7 @@ export class publicacion {
       public Direccion                 : string | null,
       public PrecioDesde               : number | null,
       public PrecioHasta               : number | null,
+      public PrecioDescuento           : number | null,
       public PrecioNegociable          : number | null,
       public RecamarasDesde            : number | null,
       public RecamarasHasta            : number | null,
@@ -33,8 +34,6 @@ export class publicacion {
       public Longitud                  : number | null,
       public UnidadesDisponibles       : number | null,
       public PosibleEstafa             : number | null,
-      public Vistas                    : number | null,
-      public VideoUrl                  : string | null,
       public MostrarDireccionExacta    : number | null,
       public Antiguedad                : number | null,
       public CuotaMantenimiento        : number | null,
@@ -51,7 +50,8 @@ export class publicacion {
       public Id_Estatus                : number,
       public DescripcionEstatus        : string,
       public DescripcionPlan           : string,
-      public PerteneceADesarrollo      : number,
+      public Id_PublicacionDesarrollo  : number | null,
+      public TituloPublicacionDesarrollo  : string | null,
       public DiasPublicado             : number
     ) {
     }
@@ -76,6 +76,8 @@ export class publicacion {
       public Direccion              : string | null,
       public PrecioDesde            : number | null,
       public PrecioHasta            : number | null,
+      public PrecioDescuento        : number | null,
+      public PrecioNegociable       : number | null,
       public RecamarasDesde         : number | null,
       public RecamarasHasta         : number | null,
       public BaniosCompDesde        : number | null,
@@ -86,6 +88,8 @@ export class publicacion {
       public UnidadesDisponibles    : number | null,
       public Vistas                 : number | null,
       public Url                    : string | null,
+      public NombreCliente          : string | null,
+      public ApellidosCliente       : string | null,
       public UrlFotoPerfil          : string | null,
       public FechaInicioPublicacion : Date   | null,
       public FechaFinPublicacion    : Date   | null,
@@ -95,35 +99,6 @@ export class publicacion {
       public EsFavorito             : number,
       public PerteneceADesarrollo   : number,
       public lstMultimedia          : publicacionMultimedia[] | null
-    ) {
-    }
-  }
-
-  // Usada para las vistas en el resultado de busquedas del usuario final
-  export class publicacionInfoNormal {
-    constructor(
-      public Id_Publicacion         : number,
-      public Id_Cliente             : number,
-      public PlanCliente            : string | null,
-      public TipoOperacion          : string | null,
-      public TipoPropiedad          : string | null,
-      public SubtipoPropiedad       : string | null,
-      public Estado                 : string | null,
-      public Municipio              : string | null,
-      public Asentamiento           : string | null,
-      public TituloPublicacion      : string | null,
-      public Descripcion            : string | null,
-      public Direccion              : string | null,
-      public PrecioDesde            : number | null,
-      public PrecioHasta            : number | null,
-      public ClaveMoneda            : string | null,
-      public UnidadesDisponibles    : number | null,
-      public Vistas                 : number | null,
-      public FechaInicioPublicacion : Date | null,
-      public FechaFinPublicacion    : Date | null,
-      public FechaAlta              : Date,
-      public FechaModificacion      : Date,
-      public Estatus                : string
     ) {
     }
   }

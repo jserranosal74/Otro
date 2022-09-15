@@ -79,6 +79,7 @@ export class LoginComponent implements OnInit {
       let _cliente = new cliente(
         0,
         null,
+        1,    //1 = InmueblesMeza, 2 = Externo
         1,
         tipoCliente,
         null,
@@ -97,7 +98,9 @@ export class LoginComponent implements OnInit {
         '',
         new Date(),
         new Date(),
+        new Date(),
         1,
+        '',
         1,
         ''
       );
@@ -119,7 +122,7 @@ export class LoginComponent implements OnInit {
 
           this.limpiarFormulario();
 
-          this.router.navigateByUrl('/usuario/iniciarsesion');
+          this.router.navigateByUrl('/inmobiliaria/iniciarsesion');
 
         },
         (error: HttpErrorResponse) => {

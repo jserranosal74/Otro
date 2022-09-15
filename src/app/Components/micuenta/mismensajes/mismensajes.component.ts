@@ -23,6 +23,7 @@ export class MisMensajesComponent implements OnInit {
   _mostrarFiltros : boolean = sessionStorage.getItem('mf') === '1'? true : false;
   _collapseFiltros = false;
   _mensajeSeleccionado : publicacionMensaje = new publicacionMensaje(0,0,0,'',null,0,'','','','','','',new Date(), new Date(),0,0,'');
+  _cargandoInformacion : boolean = false;
 
   _publicacionMensajesFiltros : publicacionMensajesFiltros = new publicacionMensajesFiltros([],[],[],[],[]);
   _verFiltros : verFiltros = new verFiltros(true,true,true,true,true);
@@ -58,11 +59,10 @@ export class MisMensajesComponent implements OnInit {
                private _publicacionMensajesService: PublicacionMensajesService,
                private _publicacionMensajesFiltrosService : PublicacionMensajesFiltrosService
   ) {
+    this._cargandoInformacion = true;
     this.crearFormularioNumeroPagina();
     this.ejecutarConsulta(0);
-    //this.CargarDetallePaginador();
     this.obtenerFiltrosMensajes(null,null);
-    //this.CargarPaginador(0);
     this._mostrarFiltros = sessionStorage.getItem('mf') === '1'? true : false;
   }
 
@@ -170,9 +170,9 @@ export class MisMensajesComponent implements OnInit {
     //window.open('https://api.whatsapp.com/send/?phone=52' + objMensaje.Telefono + '&text=Hola vi que estas interesado en esta propiedad: ' + objMensaje.TituloPublicacion + '. ¿Te puedo ayudar en algo?');
   }
 
-  verPublicacionCliente(objMensaje : publicacionMensaje){
-    window.open('propiedad/' + (objMensaje.TituloPublicacion)?.replaceAll(' ','-') + '-' + objMensaje.Id_Publicacion);
-  }
+  // verPublicacionCliente(objMensaje : publicacionMensaje){
+  //   window.open('propiedad/' + (objMensaje.TituloPublicacion)?.replaceAll(' ','-') + '-' + objMensaje.Id_Publicacion);
+  // }
 
   eliminarMensaje(objMensaje : publicacionMensaje){
 
@@ -200,6 +200,12 @@ export class MisMensajesComponent implements OnInit {
         this._publicacionMensajesService.deletePublicacionMensaje(objMensaje.Id_PublicacionMensaje, objMensaje.Id_Publicacion, this._loginService.obtenerIdCliente()!).subscribe(
           (data) => {
             //Next callback
+
+            this._mensajesUsuarios.forEach((item,index) => {
+              if (item.Id_PublicacionMensaje === objMensaje.Id_PublicacionMensaje){
+                this._mensajesUsuarios.splice(index,1); 
+              }
+            });
     
             const Toast = Swal.mixin({
               toast: true,
@@ -218,9 +224,9 @@ export class MisMensajesComponent implements OnInit {
               title: 'El mensaje se eliminó de manera satisfactoria'
             });
     
-            this.ejecutarConsulta(0);
+            //this.ejecutarConsulta(0);
             //this.CargarDetallePaginador();
-            this.obtenerFiltrosMensajes(null,null);
+            //this.obtenerFiltrosMensajes(null,null);
     
           },
           (error: HttpErrorResponse) => {
@@ -270,14 +276,14 @@ export class MisMensajesComponent implements OnInit {
         (error: HttpErrorResponse) => {
 
         switch (error.status) {
-        case 401:
-        break;
-        case 403:
-        break;
-        case 404:
-        break;
-        case 409:
-        break;
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
         }
 
         //throw error;   //You can also throw the error to a global error handler
@@ -396,6 +402,14 @@ export class MisMensajesComponent implements OnInit {
         
         switch (error.status) {
           case 401:
+            Swal.fire({
+              icon: 'error',
+              title: 'Acceso no autorizado',
+              text: 'debera autenticarse',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            this._loginService.cerarSesion();
             break;
           case 403:
             break;
@@ -674,20 +688,22 @@ export class MisMensajesComponent implements OnInit {
         //Next callback
         //console.log('data',data);
         this._publicacionMensajesFiltros = data;
-        //console.log('_publicacionMensajesFiltros',this._publicacionMensajesFiltros);
+        
+        this._cargandoInformacion = false;
         
       },
       (error: HttpErrorResponse) => {
-        Swal.fire({
-          icon: 'error',
-          title: error.error['Descripcion'],
-          text: '',
-          showCancelButton: false,
-          showDenyButton: false,
-        });
-
+        this._cargandoInformacion = false;
         switch (error.status) {
           case 401:
+            Swal.fire({
+              icon: 'error',
+              title: 'Acceso no autorizado',
+              text: 'debera autenticarse',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            this._loginService.cerarSesion();
             break;
           case 403:
             break;

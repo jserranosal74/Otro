@@ -2,9 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { InicioComponent } from './Components/inicio/inicio.component';
-import { ComprarComponent } from './Components/comprar/comprar.component';
-import { RentarComponent } from './Components/rentar/rentar.component';
-import { BuscarComponent } from './Components/buscar/buscar.component';
+import { BuscarComponent } from './Components/buscadores/buscador-inicial/buscador-inicial.component';
 import { LoginComponent } from './Components/login/login.component';
 import { PublicarComponent } from './Components/publicar/publicar.component';
 import { AyudaComponent } from './Components/ayuda/ayuda.component';
@@ -29,14 +27,12 @@ import { USUARIO_CHILD_ROUTES } from './Components/cliente/cliente.routes';
 const routes: Routes = [
   { path: '', component: InicioComponent },
   { path: ':filtros', component: InicioComponent },
-  { path: 'comprar/:tipo', component: ComprarComponent },
-  { path: 'rentar/:tipo', component: RentarComponent },
   { path: 'desarrollos/:tipo', component: DesarrollosComponent },
   { path: 'buscar', component: BuscarComponent },
   { path: 'login', component: LoginComponent },
   { path: 'recuperarpassword', component: RecuperarpasswordComponent },
   { path: 'restablecerpassword', component: RestablecerpasswordComponent },
-  { path: 'loadtk/:info/:Id_Publicacion', component: LoadtkComponent },
+  { path: 'loadtk/:info/:Id_Publicacion/:urlRedirect', component: LoadtkComponent },
   // { path: 'cliente', component: ActivarclienteComponent, children: [
   //   {
   //     path: 'activar',
@@ -67,7 +63,7 @@ const routes: Routes = [
     children: ANUNCIOS_CHILD_ROUTES
   },
   {
-    path: 'usuario',
+    path: 'inmobiliaria',
     children: USUARIO_CHILD_ROUTES
   },
   {

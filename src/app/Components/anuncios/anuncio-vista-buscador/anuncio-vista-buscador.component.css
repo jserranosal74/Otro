@@ -1,0 +1,15 @@
+.carousel-control-prev,
+.carousel-control-next {
+  background-color: #c3365e;
+  width: 6vh;
+  height: 6vh;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.8 !important;
+}
+
+#tarjetaBuscador:hover {
+    /* box-shadow: 2px 6px 8px 0 rgba(195, 54, 94) !important; */
+    box-shadow: 2px 6px 8px 0 rgba(0, 0, 0) !important;
+}

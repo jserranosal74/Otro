@@ -17,12 +17,16 @@ h1 {
   width: 100%;
   align-items: center;
   justify-content: center;
-  background-image: url('https://i.ibb.co/dt5rP3y/e9a505e0312e.png');
   box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);
   background-size: cover;
+  background-repeat: no-repeat;
   z-index: 1;
-  border-radius: 15px;
+  border-radius: 0px;
+  transition: all 1s ease-in-out;
+  margin:auto;
 }
+
+/* .fondoInicio:hover {filter: sepia(50%);} */
 
 .fondoInicio::before {
   content: "";
@@ -32,4 +36,9 @@ h1 {
   bottom: 0px;
   left: 0px;
   background-color: rgba(0, 0, 0, 0.3);
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
 }

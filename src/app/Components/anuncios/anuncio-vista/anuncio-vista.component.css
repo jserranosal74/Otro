@@ -19,12 +19,14 @@ ul {
     margin: 0;
     padding: 0;
   }
+
   ul li {display: inline-block;}
   ul li:hover {
     -webkit-transition: background-color 200ms linear;
     -ms-transition: background-color 200ms linear;
     transition: background-color 200ms linear;
   }
+
   ul li:hover ul {
     display: block;
     border: 1px solid rgba(191,64,128,1);
@@ -32,6 +34,7 @@ ul {
     -webkit-transition: background-color 200ms linear;
     -ms-transition: background-color 200ms linear;
     transition: background-color 200ms linear;}
+
   ul li ul {
     position: absolute;
     width: 150px;
@@ -39,6 +42,7 @@ ul {
     left:100px;
     top:35px;
   }
+
   ul li ul li { 
     background-color: rgb(255, 199, 206);
     display: block;
@@ -46,5 +50,16 @@ ul {
     -ms-transition: background-color 200ms linear;
     transition: background-color 200ms linear;
   }
+
   ul li ul li a {display:block !important;} 
   
+  .carousel-control-prev,
+  .carousel-control-next {
+    background-color: #c3365e;
+    width: 6vh;
+    height: 6vh;
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.8 !important;
+  }

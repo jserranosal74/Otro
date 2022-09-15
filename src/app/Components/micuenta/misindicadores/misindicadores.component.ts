@@ -21,6 +21,7 @@ export class MisIndicadoresComponent implements OnInit {
   _estadisticasCliente : estadisticasCliente[] = [];
   _mostrarFiltros : boolean = sessionStorage.getItem('mf') === '1'? true : false;
   _mostrarIndicadores : boolean = true;
+  _cargandoInformacion : boolean = false;
 
   _estadisticasClienteFiltros : estadisticasClienteFiltros = new estadisticasClienteFiltros([],[],[],[]);
   _indicadoresColumnas : indicadoresColumnas = new indicadoresColumnas([]);
@@ -57,7 +58,7 @@ export class MisIndicadoresComponent implements OnInit {
                private _indicadoresService : IndicadoresService,
                private fb: FormBuilder,
                private _loginService : LoginService ) { 
-
+    this._cargandoInformacion = true;
     this.crearFormularioNumeroPagina();
     this.ejecutarConsulta(0);
     this.obtenerFiltrosEstadisticas(null,null);
@@ -79,15 +80,23 @@ export class MisIndicadoresComponent implements OnInit {
 
     this._indicadoresService.getIndicadores(null, 1).subscribe(
       (data) => {
-        console.log('getIndicadores antes: ', data);
+        //console.log('getIndicadores antes: ', data);
         this._indicadoresColumnas.lstIndicadores = data;
-        console.log('getIndicadores despues: ', data);
+        //console.log('getIndicadores despues: ', data);
 
       },
       (error: HttpErrorResponse) => {
 
         switch (error.status) {
           case 401:
+            Swal.fire({
+              icon: 'error',
+              title: 'Acceso no autorizado',
+              text: 'debera autenticarse',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            this._loginService.cerarSesion();
             break;
           case 403:
             break;
@@ -157,16 +166,24 @@ export class MisIndicadoresComponent implements OnInit {
         
       },
       (error: HttpErrorResponse) => {
-        Swal.fire({
-          icon: 'error',
-          title: error.error['Descripcion'],
-          text: '',
-          showCancelButton: false,
-          showDenyButton: false,
-        });
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: error.error['Descripcion'],
+        //   text: '',
+        //   showCancelButton: false,
+        //   showDenyButton: false,
+        // });
 
         switch (error.status) {
           case 401:
+            Swal.fire({
+              icon: 'error',
+              title: 'Acceso no autorizado',
+              text: 'debera autenticarse',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            this._loginService.cerarSesion();
             break;
           case 403:
             break;
@@ -200,18 +217,22 @@ export class MisIndicadoresComponent implements OnInit {
 
         this.CargarPaginador(0);
 
+        this._cargandoInformacion = false;
+
         },
         (error: HttpErrorResponse) => {
 
+          this._cargandoInformacion = false;
+
         switch (error.status) {
-        case 401:
-        break;
-        case 403:
-        break;
-        case 404:
-        break;
-        case 409:
-        break;
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
         }
 
         //throw error;   //You can also throw the error to a global error handler
@@ -322,6 +343,14 @@ export class MisIndicadoresComponent implements OnInit {
         
         switch (error.status) {
           case 401:
+            Swal.fire({
+              icon: 'error',
+              title: 'Acceso no autorizado',
+              text: 'debera autenticarse',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            this._loginService.cerarSesion();
             break;
           case 403:
             break;

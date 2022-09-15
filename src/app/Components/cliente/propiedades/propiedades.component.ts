@@ -9,12 +9,19 @@ import { publicacionInfoMini } from 'src/app/Models/procesos/publicacion.model';
 import { PublicacionesService } from '../../../Services/Procesos/publicaciones.service';
 import { LoginService } from '../../../Services/Catalogos/login.service';
 import { ClientesService } from 'src/app/Services/Catalogos/clientes.service';
-import { clienteVista } from 'src/app/Models/catalogos/cliente.model';
+import { cliente, clienteVista } from 'src/app/Models/catalogos/cliente.model';
 import { favoritoClienteParams } from 'src/app/Models/procesos/favoritoCliente.model';
 import { FavoritosClienteService } from 'src/app/Services/Procesos/misFavoritos.service';
 import { login } from 'src/app/Models/Auxiliares/login.model';
 import { PublicacionMensajesService } from 'src/app/Services/Procesos/publicacionMensajes.service';
 import { publicacionMensaje } from 'src/app/Models/procesos/publicacionMensaje.model';
+import { SocialAuthService, SocialUser } from "angularx-social-login";
+import { FacebookLoginProvider } from "angularx-social-login";
+
+const fbLoginOptions = {
+  // scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
+  scope: 'email'
+}; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
 
 @Component({
   selector: 'app-propiedades',
@@ -46,11 +53,15 @@ export class PropiedadesComponent implements OnInit {
   obtenerTipo = 'password';
   _tipoContactoVendedor : number = 0;
   _Id_Usuario_Actual = this._loginService.obtenerIdCliente();
+  _modoObscuro = ( localStorage.getItem('mo') === "true" ? true : false );
+  _tipoAutenticacion : number = 0;
+  _direccionPagina : string = '';
 
   @ViewChild('myModalIniciarSesion') modalIniciarSesion : any;
   @ViewChild('myModalDatosUsuario') modalDatosUsuario : any;
 
   constructor(  private fb: FormBuilder,
+                private authService : SocialAuthService,
                 private router: Router,
                 private _activatedRoute: ActivatedRoute,
                 private _publicacionesService : PublicacionesService,
@@ -69,10 +80,13 @@ export class PropiedadesComponent implements OnInit {
     }
   });
 
+  this._direccionPagina = 'https://' + window.location.host + '/api/clientes/autenticargoogle?Id_Publicacion=0&urlRedirect=' + encodeURIComponent(window.location.href);
+
     this.crearFormularioInicioSesion();
     this.crearFormularioDatosUsuario();
     this.ObtenerPublicaciones();
     this.CargarCliente();
+    this.validarAutenticacion();
 
   }
 
@@ -112,7 +126,7 @@ export class PropiedadesComponent implements OnInit {
   }
 
   ObtenerPublicaciones(){
-    //debugger;
+    debugger;
     this._publicacionesService.getPublicacionesMiniCliente(this._Id_Cliente!, this._loginService.obtenerIdCliente(), 0, 10, 13,null,null,null,null,null,null).subscribe(
       (data) => {
 
@@ -371,12 +385,17 @@ export class PropiedadesComponent implements OnInit {
 
   abrirVentanaContacto(objPubCliente : publicacionInfoMini, tipoContacto : number){
     //debugger;
-    this.limpiarFormularioDatosUsuario();
+    //this.limpiarFormularioDatosUsuario();
     this._tipoContactoVendedor = tipoContacto;
+    this._pubClienteSeleccionada = objPubCliente;
 
     if (this._loginService.obtenerIdCliente() === null){
+      this.limpiarFormularioDatosUsuario();
       this.validarAutenticacion();
-      this._pubClienteSeleccionada = objPubCliente;
+      this.modalDatosUsuario.nativeElement.click();
+      return;
+    }
+    else if(tipoContacto === 2){
       this.modalDatosUsuario.nativeElement.click();
       return;
     }
@@ -522,11 +541,11 @@ export class PropiedadesComponent implements OnInit {
           }
         });
 
-        this.formaMensajeVendedor.patchValue({
-          nombre   : this._usuarioVista.Nombre + ' ' + this._usuarioVista.Apellidos,
-          telefono : telefono,
-          email    : this._usuarioVista.Email,
-          mensaje  : 'Hola, me interesa este inmueble que vi en Inmuebles MZ y quiero que me contacten. Gracias.'
+        this.formaMensajeVendedor.reset({
+          nombreDU   : this._usuarioVista.Nombre + ' ' + this._usuarioVista.Apellidos,
+          telefonoDU : telefono,
+          emailDU    : this._usuarioVista.Email,
+          mensajeDU  : 'Hola, me interesa esta propiedad que vi en Inmuebles Meza y quiero que me contacten. Gracias.'
         });
 
       },
@@ -619,6 +638,89 @@ export class PropiedadesComponent implements OnInit {
 
   get mensajeDUNoValido() {
     return ( this.formaMensajeVendedor.get('mensajeDU')?.invalid && this.formaMensajeVendedor.get('mensajeDU')?.touched );
+  }
+
+  iniciarSesionFacebook(){
+    debugger;
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID, fbLoginOptions).then( datosUsuario => { 
+      this._tipoAutenticacion = 3; // Facebook
+      this.AgregarUsuario(datosUsuario);
+    });
+  }
+
+  AgregarUsuario(datosUsuario : SocialUser) {
+  
+    let _cliente = new cliente(0,null,1,1,2,null,this._tipoAutenticacion,datosUsuario.email,'',datosUsuario.firstName,datosUsuario.lastName,'',[],datosUsuario.photoUrl,0,0,0,'','',new Date(),new Date(),new Date(),1,'',1,'');
+
+    debugger;
+
+    this._clienteService.postCliente(_cliente).subscribe(
+      (data) => {
+        //Next callback
+        console.log('Id_cliente',data);
+        
+        this._loginService.iniciarSesion(new login(_cliente.Email, _cliente.Password)).subscribe(
+          (data) => {
+            //debugger;
+            console.log('datos: ', data);
+  
+            localStorage.setItem('usuario', JSON.stringify(data));
+            
+            window.location.reload();
+  
+            //this.limpiarFormulario();
+          },
+          (error: HttpErrorResponse) => {
+            //Error callback
+            //console.log('Error del servicio: ', error);
+  
+            switch (error.status) {
+              case 401:
+                break;
+              case 403:
+                break;
+              case 404:
+                break;
+              case 409:
+                break;
+            }
+  
+          }
+        );
+
+        //this.iniciarSesion();
+
+        this.limpiarFormularioInicioSesion();
+
+        //this.router.navigateByUrl('/iniciarsesion');
+        //window.location.reload();
+
+      },
+      (error: HttpErrorResponse) => {
+        //Error callback
+
+        Swal.fire({
+          icon: 'error',
+          title: error.error,
+          text: '',
+          showCancelButton: false,
+          showDenyButton: false,
+        });
+        
+        switch (error.status) {
+          case 401:
+              break;
+          case 403:
+              break;
+          case 404:
+              break;
+          case 409:
+              break;
+      }
+
+        //throw error;   //You can also throw the error to a global error handler
+      }
+    );
   }
 
 }

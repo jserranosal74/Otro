@@ -1,21 +1,35 @@
+import { ActivatedRoute, Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 import { publicacionInfoMini } from 'src/app/Models/procesos/publicacion.model';
 import { PublicacionesService } from 'src/app/Services/Procesos/publicaciones.service';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
 import { FavoritosClienteService } from 'src/app/Services/Procesos/misFavoritos.service';
 import { favoritoClienteParams } from 'src/app/Models/procesos/favoritoCliente.model';
 import { ClientesService } from 'src/app/Services/Catalogos/clientes.service';
-import { clienteVista } from 'src/app/Models/catalogos/cliente.model';
+import { cliente, clienteVista } from 'src/app/Models/catalogos/cliente.model';
 import { PublicacionMensajesService } from 'src/app/Services/Procesos/publicacionMensajes.service';
 import { publicacionMensaje } from 'src/app/Models/procesos/publicacionMensaje.model';
 import { login } from 'src/app/Models/Auxiliares/login.model';
 import { usuario } from '../../Models/Auxiliares/cliente.model';
-import { pagina, paginadoDetalle } from 'src/app/Models/catalogos/asentamiento.model';
+import { asentamiento, pagina, paginadoDetalle } from 'src/app/Models/catalogos/asentamiento.model';
+import { ImagenesService } from 'src/app/Services/Catalogos/imagenes.service';
+import { SocialAuthService, SocialUser } from "angularx-social-login";
+import { FacebookLoginProvider } from "angularx-social-login";
+import { ConfiguracionService } from '../../Services/Catalogos/configuracion.service';
+import { estado } from 'src/app/Models/catalogos/estado.model';
+import { municipio } from 'src/app/Models/catalogos/municipio.model';
+import { EstadosService } from 'src/app/Services/Catalogos/estados.service';
+import { MunicipiosService } from 'src/app/Services/Catalogos/municipios.service';
+import { AsentamientosService } from 'src/app/Services/Catalogos/asentamientos.service';
+
+const fbLoginOptions = {
+  // scope: 'pages_messaging,pages_messaging_subscriptions,email,pages_show_list,manage_pages',
+  scope: 'email'
+}; // https://developers.facebook.com/docs/reference/javascript/FB.login/v2.11
 
 @Component({
   selector: 'app-inicio',
@@ -25,8 +39,10 @@ import { pagina, paginadoDetalle } from 'src/app/Models/catalogos/asentamiento.m
 export class InicioComponent implements OnInit {
   formIniciarsesion = this.fb.group([]);
   formaMensajeVendedor = this.fb.group([]);
+  formaUbicacion = this.fb.group({});
   
   _filtros : string = '';
+  _filtrosSinPagina : string = '';
   _publicaciones : publicacionInfoMini[] = [];
   _usuarioAutenticado : boolean = false;
   _clienteVista : clienteVista = new clienteVista(0,'','','','',[]);
@@ -35,8 +51,14 @@ export class InicioComponent implements OnInit {
   _publicacionesLMB : publicacionInfoMini[] = [];
   _publicacionesRPT : publicacionInfoMini[] = [];
   _publicacionesDD : publicacionInfoMini[] = [];
+  _publicacionesBP : publicacionInfoMini[] = [];
   obtenerTipo = 'password';
   _tipoContactoVendedor : number = 0;
+  _imagenInicio : string = '';
+  _modoObscuro = ( localStorage.getItem('mo') === "true" ? true : false );
+  _tipoAutenticacion : number = 0;
+  _direccionPagina : string = '';
+  _tiempoTransicion : number = 60 * 1000;  // en segundos
 
   // Paginador
   _paginadoDetalle : paginadoDetalle = new paginadoDetalle(0,0);
@@ -47,41 +69,84 @@ export class InicioComponent implements OnInit {
   _paginaFinal = 4;
   _mostrarPaginaAnterior = true;
   _mostrarPaginaSiguiente = true;
-  _seRealizaBusqueda = false;
+  _ejecutandoBusqueda = false;
+  _imagenesCargadas = false;
+  _busquedaRealizada = false;
+
+  // Ubicacion
+  _estados       : estado[] = [];
+  _municipios    : municipio[] = [];
+  _asentamientos : asentamiento[] = [];
+  _cargandoEstados = false;
+  _cargandoMunicipios = false;
+  _cargandoAsentamientos = false;
+  _cadenaBusqueda = '';
+  _cadenaBusquedaEstado = '';
+  _cadenaBusquedaMunicipio = '';
+  _cadenaBusquedaAsentamiento = '';
 
   @ViewChild('myModalIniciarSesion') modalIniciarSesion : any;
   @ViewChild('myModalDatosUsuario') modalDatosUsuario : any;
+  @ViewChild('myModalCloseDatosUsuario') cerrarModalDatosUsuario : any;
+
+  @ViewChild('myModalUbicacion') modalUbicacion : any;
+  @ViewChild('myModalCloseUbicacion') modalClose : any;
 
   constructor( private fb: FormBuilder,
+               private authService : SocialAuthService,
                private router : Router,
+               private _estadosService: EstadosService,
+               private _municipiosService: MunicipiosService,
+               private _asentamientosService: AsentamientosService,
                private _activatedRoute : ActivatedRoute,
                private _publicacionesService : PublicacionesService,
                private _favoritosClienteService : FavoritosClienteService,
                private _clienteService : ClientesService,
                private _publicacionMensajeService : PublicacionMensajesService,
+               private _imagenesService : ImagenesService,
+               private _configuracionesService : ConfiguracionService,
                private _loginService : LoginService ) { 
-    debugger;
     this._activatedRoute.queryParams.subscribe((params) => {
+      debugger;
       this._filtros = this._activatedRoute.snapshot.params['filtros'];
+      if ((this._filtros != undefined) && (this._filtros.length > 0))
+        this._filtrosSinPagina = this._filtros.substring(0,this._filtros.indexOf('-pagina-') === -1 ? this._filtros.length : this._filtros.indexOf('-pagina-'))
     });
+    //debugger;
+    this._direccionPagina = 'https://' + window.location.host + '/api/clientes/autenticargoogle?Id_Publicacion=0&urlRedirect=' + encodeURIComponent(window.location.href);
+    
+    this._cargandoEstados = false;
+    this._cargandoMunicipios = false;
+    this._cargandoAsentamientos = false;
 
-    //console.log('this._filtros', this._filtros);
+    this.obtenerConfiguracion();
+    this.crearFormularioUbicacion();
+    this.crearFormularioInicioSesion();
+    this.crearFormularioDatosUsuario();
 
     if (this._filtros != '' && this._filtros !== undefined) {
-      this.crearFormularioInicioSesion();
-      this.crearFormularioDatosUsuario();
+      this.obtenerEstados();
       this.ejecutarConsulta();
-      this.CargarDetallePaginador();
+      this.validarAutenticacion();
     }
     
     this.ejecutarBusquedaEspecial('RPT');
     this.ejecutarBusquedaEspecial('LMB');
     this.ejecutarBusquedaEspecial('DD');
+    this.ejecutarBusquedaEspecial('BP');
 
   }
 
   ngOnInit(): void {
-    //this.ejecutarConsulta();
+    //this.router.navigateByUrl('/' + this._filtros);
+  }
+
+  crearFormularioUbicacion(){
+    this.formaUbicacion = this.fb.group({
+      estado       : [ '' ],
+      municipio    : [ '' ],
+      asentamiento : [ '' ]
+    });
   }
 
   crearFormularioInicioSesion() {
@@ -164,11 +229,11 @@ export class InicioComponent implements OnInit {
           }
         });
 
-        this.formaMensajeVendedor.patchValue({
-          nombre   : this._usuarioVista.Nombre + ' ' + this._usuarioVista.Apellidos,
-          telefono : telefono,
-          email    : this._usuarioVista.Email,
-          mensaje  : 'Hola, me interesa este inmueble que vi en Inmuebles MZ y quiero que me contacten. Gracias.'
+        this.formaMensajeVendedor.reset({
+          nombreDU   : this._usuarioVista.Nombre + ' ' + this._usuarioVista.Apellidos,
+          telefonoDU : telefono,
+          emailDU    : this._usuarioVista.Email,
+          mensajeDU  : 'Hola, me interesa esta propiedad que vi en Inmuebles Meza y quiero que me contacten. Gracias.'
         });
 
       },
@@ -198,20 +263,30 @@ export class InicioComponent implements OnInit {
         console.log('getPublicacionesBuscarPagDet', data);
         this._paginadoDetalle = data;
 
-        this.CargarPaginador(0);
+        console.log('this._filtros', this._filtros);
+        
+        if (this._filtros.indexOf('-pagina-') > -1 ){
+          let _pagina = this._filtros.indexOf('-pagina-') + 8;
+          let _numeroPagina = parseInt(this._filtros.substring(_pagina,_pagina + 10));
+          console.log('_numeroPagina',_numeroPagina);
+          this.CargarPaginador(_numeroPagina - 1);
+        }
+        else{
+          this.CargarPaginador(0);
+        }
 
         },
         (error: HttpErrorResponse) => {
 
         switch (error.status) {
-        case 401:
-        break;
-        case 403:
-        break;
-        case 404:
-        break;
-        case 409:
-        break;
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
         }
 
         //throw error;   //You can also throw the error to a global error handler
@@ -224,37 +299,35 @@ export class InicioComponent implements OnInit {
     
     if (this._filtros === undefined)
       return;
+
+    this._ejecutandoBusqueda = true;
+
+    this._busquedaRealizada = false;
     
     let Id_Usuario = this._loginService.obtenerIdCliente()!;
 
     this._publicacionesService.postPublicacionesBuscar(this._filtros, new usuario(Id_Usuario,null,'','','','')).subscribe(
       (data) => {
 
-        //console.log('obtenerPublicacionesBusqueda',data);
+        console.log('postPublicacionesBuscar',data);
         this._publicaciones = data;
 
-        this._seRealizaBusqueda = true;
-        
-        if (this._filtros.indexOf('-pagina-') > 0 ){
-          let _pagina = this._filtros.indexOf('-pagina-') + 8;
-          let _numeroPagina = parseInt(this._filtros.substring(_pagina,_pagina + 10));
-          this.CargarPaginador(_numeroPagina - 1);
-        }
-        else{
-          this.CargarPaginador(0);
-        }
+        this._ejecutandoBusqueda = false;
+        this._busquedaRealizada = true;
+
+        this.CargarDetallePaginador();
 
       },
       (error: HttpErrorResponse) => {
         //Error callback
-
+        this._busquedaRealizada = true;
         switch (error.status) {
           case 401:
             break;
           case 403:
             break;
           case 404:
-            this._seRealizaBusqueda = true;
+            this._ejecutandoBusqueda = false;
             this._publicaciones = [];
             break;
           case 409:
@@ -270,27 +343,38 @@ export class InicioComponent implements OnInit {
     if (this._filtros.indexOf('-pagina-') > 0 ){
       let _textoPagina = this._filtros.substring(this._filtros.indexOf('-pagina-'),this._filtros.indexOf('-pagina-') + 10);
       this._filtros = this._filtros.replace(_textoPagina,'');
-      this._filtros = this._filtros + '-pagina-' + (numPagina + 1);
-      this.router.onSameUrlNavigation = 'reload';
-      this.router.navigateByUrl('/' + this._filtros);
-      this.ngOnInit();
+      //this._filtros = this._filtros + '-pagina-' + (numPagina + 1);
+      //this.router.routeReuseStrategy.shouldReuseRoute = () => true;
+      //this.router.onSameUrlNavigation = 'reload';
+      this.router.navigate(['/' + this._filtros]);
+      //this.router.navigateByUrl('/' + this._filtros);
+      //this.router.navigate(['/', this._filtros]);
+      //this.ngOnInit();
     }
     else{
       this._filtros = this._filtros + '-pagina-' + (numPagina + 1);
-      this.router.onSameUrlNavigation = 'reload';
-      this.router.navigateByUrl('/' + this._filtros);
-      this.ngOnInit();
+      //this.router.routeReuseStrategy.shouldReuseRoute = () => true;
+      //this.router.onSameUrlNavigation = 'reload';
+      this.router.navigate(['/' + this._filtros]);
+      //this.router.navigateByUrl('/' + this._filtros);
+      //this.router.navigate(['/', this._filtros]);
+      ///this.ngOnInit();
     }
   }
 
   abrirVentanaContacto(objPubCliente : publicacionInfoMini, tipoContacto : number){
     //debugger;
-    this.limpiarFormularioDatosUsuario();
+    //this.limpiarFormularioDatosUsuario();
     this._tipoContactoVendedor = tipoContacto;
+    this._pubClienteSeleccionada = objPubCliente;
 
     if (this._loginService.obtenerIdCliente() === null){
+      this.limpiarFormularioDatosUsuario();
       this.validarAutenticacion();
-      this._pubClienteSeleccionada = objPubCliente;
+      this.modalDatosUsuario.nativeElement.click();
+      return;
+    }
+    else if(tipoContacto === 2){
       this.modalDatosUsuario.nativeElement.click();
       return;
     }
@@ -365,6 +449,7 @@ export class InicioComponent implements OnInit {
   }
 
   contactarVendedor(){
+    debugger;
     if (this.formaMensajeVendedor.invalid) {
       return Object.values(this.formaMensajeVendedor.controls).forEach((control) => {
         if (control instanceof FormGroup) {
@@ -392,10 +477,27 @@ export class InicioComponent implements OnInit {
       }
       else {
 
-        this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._pubClienteSeleccionada.Id_Publicacion, this._pubClienteSeleccionada.Id_Cliente, this._loginService.obtenerIdCliente()!, this._loginService.obtenerIdCliente() === null ? null : this._loginService.obtenerIdCliente(),2,'anuncio-vista','',this.formaMensajeVendedor.get('nombreDU')?.value, this.formaMensajeVendedor.get('emailDU')?.value, this.formaMensajeVendedor.get('telefonoDU')?.value, this.formaMensajeVendedor.get('mensajeDU')?.value, new Date(),new Date(),0,0,'')).subscribe(
+        this._publicacionMensajeService.postPublicacionMensaje(new publicacionMensaje(null,this._pubClienteSeleccionada.Id_Publicacion, this._pubClienteSeleccionada.Id_Cliente, this._loginService.obtenerIdCliente()!, this._loginService.obtenerIdCliente() === null ? null : this._loginService.obtenerIdCliente(),2,'inicio','',this.formaMensajeVendedor.get('nombreDU')?.value, this.formaMensajeVendedor.get('emailDU')?.value, this.formaMensajeVendedor.get('telefonoDU')?.value, this.formaMensajeVendedor.get('mensajeDU')?.value, new Date(),new Date(),0,0,'')).subscribe(
           (dataVista) => {
+
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 2000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            });
     
-            //console.log(dataVista);
+            Toast.fire({
+              icon: 'success',
+              title: 'Su mensaje ha sido enviado de manera satisfactoria'
+            });
+    
+            this.cerrarModalDatosUsuario.nativeElement.click();
     
           },
           (error: HttpErrorResponse) => {
@@ -510,7 +612,7 @@ export class InicioComponent implements OnInit {
   }
 
   CargarPaginador(paginaActual : number){
-    debugger;
+    //debugger;
     this._paginas = [];
 
     if ( this._paginadoDetalle.TotalPaginas <= this._numeroPaginasMostrar ){
@@ -605,6 +707,9 @@ export class InicioComponent implements OnInit {
           case 'DD':
             this._publicacionesDD = data;
             break;
+          case 'BP':
+            this._publicacionesBP = data;
+            break;
         }
 
       },
@@ -624,6 +729,350 @@ export class InicioComponent implements OnInit {
 
       }
     );
+  }
+
+  obtenerConfiguracion(){
+
+    // Id del TiempoTransicion
+    this._configuracionesService.getConfiguracion(7).subscribe(
+      (data) => {
+
+        this._tiempoTransicion = data[0].Valor * 1000;    // En segundos
+
+        this.obtenerImagenesInicio();
+
+      },
+      (error: HttpErrorResponse) => {
+        //Error callback
+
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+
+      }
+    );
+  }
+
+  obtenerImagenesInicio(){
+
+    var images = new Array();
+
+    this._imagenesService.getImagenes(null).subscribe(
+      (data) => {
+
+        //console.log('obtenerImagenesInicio',data);
+        for (var i = 0; i < data.length; i++) {
+          images[i] = new Image();
+          images[i].Id_Imagen = data[i].Id_Imagen;
+          images[i].src = data[i].UrlImagen;
+        }
+
+        this._imagenInicio = images[Math.floor(Math.random() * (images[images.length-1].Id_Imagen))].src;
+
+        setInterval(() => { 
+          //this._imagenInicio = data[Math.floor(Math.random() * (data[data.length-1].Id_Imagen))].UrlImagen;
+          // Se cambia cada minuto
+          this._imagenInicio = images[Math.floor(Math.random() * (images[images.length-1].Id_Imagen))].src;
+        }, this._tiempoTransicion);
+
+        this._imagenesCargadas = true;
+
+      },
+      (error: HttpErrorResponse) => {
+        //Error callback
+
+        switch (error.status) {
+          case 401:
+            break;
+          case 403:
+            break;
+          case 404:
+            break;
+          case 409:
+            break;
+        }
+
+      }
+    );
+  }
+
+  iniciarSesionFacebook(){
+    debugger;
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID, fbLoginOptions).then( datosUsuario => { 
+      this._tipoAutenticacion = 3; // Facebook
+      this.AgregarUsuario(datosUsuario);
+    });
+  }
+
+  AgregarUsuario(datosUsuario : SocialUser) {
+  
+    let _cliente = new cliente(0,null,1,1,2,null,this._tipoAutenticacion,datosUsuario.email,'',datosUsuario.firstName,datosUsuario.lastName,'',[],datosUsuario.photoUrl,0,0,0,'','',new Date(),new Date(),new Date(),1,'',1,'');
+
+    debugger;
+
+    this._clienteService.postCliente(_cliente).subscribe(
+      (data) => {
+        //Next callback
+        console.log('Id_cliente',data);
+        
+        this._loginService.iniciarSesion(new login(_cliente.Email, _cliente.Password)).subscribe(
+          (data) => {
+            //debugger;
+            console.log('datos: ', data);
+  
+            localStorage.setItem('usuario', JSON.stringify(data));
+            
+            window.location.reload();
+  
+            //this.limpiarFormulario();
+          },
+          (error: HttpErrorResponse) => {
+            //Error callback
+            //console.log('Error del servicio: ', error);
+  
+            switch (error.status) {
+              case 401:
+                break;
+              case 403:
+                break;
+              case 404:
+                break;
+              case 409:
+                break;
+            }
+  
+          }
+        );
+
+        //this.iniciarSesion();
+
+        this.limpiarFormularioInicioSesion();
+
+        //this.router.navigateByUrl('/iniciarsesion');
+        //window.location.reload();
+
+      },
+      (error: HttpErrorResponse) => {
+        //Error callback
+
+        Swal.fire({
+          icon: 'error',
+          title: error.error,
+          text: '',
+          showCancelButton: false,
+          showDenyButton: false,
+        });
+        
+        switch (error.status) {
+          case 401:
+              break;
+          case 403:
+              break;
+          case 404:
+              break;
+          case 409:
+              break;
+      }
+
+        //throw error;   //You can also throw the error to a global error handler
+      }
+    );
+  }
+
+  obtenerEstados(){
+    debugger;
+
+    // this._verTiposOperacion = false;
+    // this._verTiposPropiedad = false;
+    // this._verRangosRecamaras = false;
+    // this._verRangosPrecios = false;
+
+    this._municipios = [];
+    this._asentamientos = [];
+
+    this._cargandoEstados = true;
+
+    this._estadosService.getEstados(1).subscribe(
+      (data) => {
+        //Next callback
+        //console.log(data);
+        this._estados = data;
+
+        this._cargandoEstados = false;
+
+      },
+      (error: HttpErrorResponse) => {
+        
+        this._cargandoEstados = false;
+
+        switch (error.status) {
+          case 401:
+            //console.log('error 401');
+            break;
+          case 403:
+            //console.log('error 403');
+            break;
+          case 404:
+            //console.log('error 404');
+            break;
+          case 409:
+            //console.log('error 409');
+            break;
+        }
+
+        //throw error;   //You can also throw the error to a global error handler
+      }
+    );
+  }
+
+  obtenerMunicipios(objEstado : estado) {
+    debugger;
+
+    this._asentamientos = [];
+    this._cargandoMunicipios = true;
+
+    this.formaUbicacion.patchValue({
+      estado       : objEstado.Nombre,
+      municipio    : '',
+      asentamiento : ''
+    });
+
+    this._cadenaBusquedaEstado = 'en el estado de ' + objEstado.Nombre;
+
+    this._cadenaBusqueda = this._cadenaBusquedaEstado;
+
+    this._municipiosService.getMunicipios(objEstado.Id_Estado).subscribe(
+      (data) => {
+        //Next callback
+        // console.log('datos: ', data);
+
+        this._municipios = data;
+
+        this._cargandoMunicipios = false;
+
+      },
+      (error: HttpErrorResponse) => {
+
+        this._cargandoMunicipios = false;
+
+        switch (error.status) {
+          case 401:
+            //console.log('error 401');
+            break;
+          case 403:
+            //console.log('error 403');
+            break;
+          case 404:
+            //console.log('error 404');
+            break;
+          case 409:
+            //console.log('error 409');
+            break;
+        }
+
+        //throw error;   //You can also throw the error to a global error handler
+      }
+    );
+  }
+
+  obtenerAsentamientos(objMunicipio : municipio) {
+    debugger;
+
+    this._cargandoAsentamientos = true;
+
+    this.formaUbicacion.patchValue({
+      municipio    : objMunicipio.Municipio,
+      asentamiento : ''
+    });
+
+    this._cadenaBusquedaMunicipio = ' y municipio de ' + objMunicipio.Municipio;
+
+    this._cadenaBusqueda = this._cadenaBusquedaEstado + this._cadenaBusquedaMunicipio;
+
+    this._asentamientosService.getAsentamientos(objMunicipio.Id_Estado, objMunicipio.Id_Municipio).subscribe(
+      (data) => {
+        //Next callback
+        // console.log('datos: ', data);
+
+        this._asentamientos = data;
+
+        this._cargandoAsentamientos = false;
+
+      },
+      (error: HttpErrorResponse) => {
+
+        this._cargandoAsentamientos = false;
+
+        switch (error.status) {
+          case 401:
+            //console.log('error 401');
+            break;
+          case 403:
+            //console.log('error 403');
+            break;
+          case 404:
+            //console.log('error 404');
+            break;
+          case 409:
+            //console.log('error 409');
+            break;
+        }
+
+        //throw error;   //You can also throw the error to a global error handler
+      }
+    );
+  }
+
+  verModal(){
+    //this.modalUbicacion.nativeElement.click();
+    this.limpiarBusqueda();
+  }
+
+  limpiarBusqueda(){
+    this._cadenaBusqueda = '';
+    this._cadenaBusquedaEstado = '';
+    this._cadenaBusquedaMunicipio = '';
+    this._cadenaBusquedaAsentamiento = '';
+    this._municipios = [];
+    this._asentamientos = [];
+    
+    this.formaUbicacion.reset({
+      estado       : '',
+      municipio    : '',
+      asentamiento : ''
+    });
+  }
+
+  seleccionarAsentamiento(objAsentamiento : asentamiento){
+
+    objAsentamiento.Seleccionado = !objAsentamiento.Seleccionado;
+
+    let asentamientos = '';
+    let asentamientosSeleccionados = false;
+
+    this._asentamientos.forEach(item => {
+      if (item.Seleccionado === true)
+        asentamientos += item.Asentamiento + ' o ';
+    });
+
+    this.formaUbicacion.patchValue({
+      asentamiento : asentamientos
+    });
+
+    if (asentamientos.length > 0)
+      this._cadenaBusquedaAsentamiento = ' en la colonia de ' + asentamientos.substring(0,asentamientos.length-3);
+    else
+    this._cadenaBusquedaAsentamiento = '';
+
+    this._cadenaBusqueda = this._cadenaBusquedaEstado + this._cadenaBusquedaMunicipio + this._cadenaBusquedaAsentamiento;
+
   }
 
 }

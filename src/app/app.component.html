@@ -1,7 +1,7 @@
 <div [ngClass]="{' Dark': _modoObscuro, ' Ligth': !_modoObscuro}" >
   <app-navbar (_seCambiaModo)="cambiarModo($event)"></app-navbar>
 
-  <div class="container-fluid" style="padding-top: 70px;">
+  <div class="container-fluid px-0" style="padding-top: 0px;">
       <router-outlet></router-outlet>
     </div>
     <div>

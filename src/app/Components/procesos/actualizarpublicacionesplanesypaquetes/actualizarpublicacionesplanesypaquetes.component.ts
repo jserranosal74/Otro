@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { LoginService } from 'src/app/Services/Catalogos/login.service';
 
 import { PublicacionesService } from '../../../Services/Procesos/publicaciones.service';
+import { throwError } from 'rxjs/internal/observable/throwError';
 
 @Component({
   selector: 'app-actualizarpublicacionesplanesypaquetes',
@@ -39,15 +40,23 @@ export class ActualizarPublicacionesPlanesYPaquetesComponent implements OnInit {
       (error: HttpErrorResponse) => {
         switch (error.status) {
           case 401:
+            Swal.fire({
+              icon: 'error',
+              title: 'Acceso no autorizado',
+              text: 'debera autenticarse',
+              showCancelButton: false,
+              showDenyButton: false,
+            });
+            this._loginService.cerarSesion();
             break;
           case 403:
-            break;
+            return throwError(() => new Error)
           case 404:
-            break;
+            return throwError(() => new Error)
           case 409:
-            break;
+            return throwError(() => new Error)
         }
-
+        return throwError(() => new Error)
       }
     );
   }

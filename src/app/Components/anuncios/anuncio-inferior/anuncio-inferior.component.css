@@ -1,20 +1,25 @@
 .carousel-inner {
     padding: 1em;
   }
+
   .card {
     margin: 0 0.5em;
     box-shadow: 2px 6px 8px 0 rgba(22, 22, 26, 0.5);
     /* border: none; */
     /* border-radius: 15px solid red !important; */
   }
+
+  .card:hover {filter: drop-shadow(2px 6px 8px black);}
+
   .carousel-control-prev,
   .carousel-control-next {
-    background-color: #e1e1e1;
+    background-color: #c3365e;
     width: 6vh;
     height: 6vh;
     border-radius: 50%;
     top: 50%;
     transform: translateY(-50%);
+    opacity: 0.8 !important;
   }
 
   .card .img-wrapper {
@@ -33,3 +38,11 @@
       height: 17em;
     }
   }
+
+  /* .carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E") !important;
+   }
+   
+   .carousel-control-next-icon {
+     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23fff' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E") !important;
+   } */
